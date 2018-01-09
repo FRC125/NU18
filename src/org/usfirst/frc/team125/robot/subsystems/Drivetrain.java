@@ -58,8 +58,8 @@ public class Drivetrain extends Subsystem {
         this.rightDriveSlave.configPeakOutputReverse(0.0, 0);
 
         //Encoder
-        this.leftDrive.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative, 1, 0);
-        this.rightDrive.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative, 1, 0);
+        this.leftDrive.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative, 0, 0);
+        this.rightDrive.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative, 0, 0);
 
         disableBreakMode();
 
@@ -74,18 +74,18 @@ public class Drivetrain extends Subsystem {
     }
 
     public double getLeftVelocity() {
-        return (leftDrive.getSelectedSensorVelocity(1) * Math.PI * DrivetrainProfiling.wheel_diameter) / (DrivetrainProfiling.ticks_per_rev  * 10);
+        return (leftDrive.getSelectedSensorVelocity(0) * Math.PI * DrivetrainProfiling.wheel_diameter) / (DrivetrainProfiling.ticks_per_rev)  * 10;
     }
 
     public double getRightVelocity() {
-        return (rightDrive.getSelectedSensorVelocity(1) * Math.PI * DrivetrainProfiling.wheel_diameter) / (DrivetrainProfiling.ticks_per_rev * 10);
+        return (rightDrive.getSelectedSensorVelocity(0) * Math.PI * DrivetrainProfiling.wheel_diameter) / (DrivetrainProfiling.ticks_per_rev) * 10;
     }
 
     public double getLeftAcceleration(double lastTime, double lastVelocity) {
         double deltaTime = timer.get() - lastTime;
         double deltaVelocity = getLeftVelocity() - lastVelocity;
 
-        return 12;
+        return deltaVelocity / deltaTime;
     }
 
     public double getRightAcceleration(double lastTime, double lastVelocity) {
@@ -106,24 +106,24 @@ public class Drivetrain extends Subsystem {
     }
 
     public void resetEncoders() {
-        this.leftDrive.setSelectedSensorPosition(0, 1, 0);
-        this.rightDrive.setSelectedSensorPosition(0, 1, 0);
+        this.leftDrive.setSelectedSensorPosition(0, 0, 0);
+        this.rightDrive.setSelectedSensorPosition(0, 0, 0);
     }
 
     public double getEncoderDistanceMetersRight() {
-        return (rightDrive.getSelectedSensorPosition(1) * Math.PI * DrivetrainProfiling.wheel_diameter) / DrivetrainProfiling.ticks_per_rev;
+        return (rightDrive.getSelectedSensorPosition(0) * Math.PI * DrivetrainProfiling.wheel_diameter) / DrivetrainProfiling.ticks_per_rev;
     }
 
     public double getEncoderDistanceMetersLeft() {
-        return (leftDrive.getSelectedSensorPosition(1) * Math.PI * DrivetrainProfiling.wheel_diameter) / DrivetrainProfiling.ticks_per_rev;
+        return (leftDrive.getSelectedSensorPosition(0) * Math.PI * DrivetrainProfiling.wheel_diameter) / DrivetrainProfiling.ticks_per_rev;
     }
     
     public double getEncoderRawLeft() {
-        return leftDrive.getSelectedSensorPosition(1);
+        return leftDrive.getSelectedSensorPosition(0);
     }
 
     public double getEncoderRawRight() {
-        return rightDrive.getSelectedSensorPosition(1);
+        return rightDrive.getSelectedSensorPosition(0);
     }
 
     public double getAngle() {
@@ -139,15 +139,15 @@ public class Drivetrain extends Subsystem {
         DrivetrainProfiling.last_gyro_error = 0.0;
         left = new EncoderFollower(modifier.getLeftTrajectory());
         right = new EncoderFollower(modifier.getRightTrajectory());
-        left.configureEncoder(leftDrive.getSelectedSensorPosition(1), DrivetrainProfiling.ticks_per_rev, DrivetrainProfiling.wheel_diameter);
-        right.configureEncoder(rightDrive.getSelectedSensorPosition(1), DrivetrainProfiling.ticks_per_rev, DrivetrainProfiling.wheel_diameter);
+        left.configureEncoder(leftDrive.getSelectedSensorPosition(0), DrivetrainProfiling.ticks_per_rev, DrivetrainProfiling.wheel_diameter);
+        right.configureEncoder(rightDrive.getSelectedSensorPosition(0), DrivetrainProfiling.ticks_per_rev, DrivetrainProfiling.wheel_diameter);
         left.configurePIDVA(DrivetrainProfiling.kp, DrivetrainProfiling.ki, DrivetrainProfiling.kd, DrivetrainProfiling.kv, DrivetrainProfiling.ka);
         right.configurePIDVA(DrivetrainProfiling.kp, DrivetrainProfiling.ki, DrivetrainProfiling.kd, DrivetrainProfiling.kv, DrivetrainProfiling.ka);
     }
 
     public void PathFollow() {
-        double l = left.calculate(leftDrive.getSelectedSensorPosition(1));
-        double r = right.calculate(rightDrive.getSelectedSensorPosition(1));
+        double l = left.calculate(leftDrive.getSelectedSensorPosition(0));
+        double r = right.calculate(rightDrive.getSelectedSensorPosition(0));
 
         double gyro_heading = gyro.getAngle();
         double angle_setpoint = Pathfinder.r2d(left.getHeading());
