@@ -42,20 +42,20 @@ public class Drivetrain extends Subsystem {
         this.leftDrive.configPeakOutputForward(1.0, 0);
         this.leftDrive.configPeakOutputReverse(-1.0, 0);
         this.leftDrive.configNominalOutputForward(0.0, 0);
-        this.leftDrive.configPeakOutputReverse(0.0, 0);
+        this.leftDrive.configNominalOutputReverse(0.0, 0);
         this.leftDriveSlave.configPeakOutputForward(1.0, 0);
         this.leftDriveSlave.configPeakOutputReverse(-1.0, 0);
         this.leftDriveSlave.configNominalOutputForward(0.0, 0);
-        this.leftDriveSlave.configPeakOutputReverse(0.0, 0);
+        this.leftDriveSlave.configNominalOutputReverse(0.0, 0);
 
         this.rightDrive.configPeakOutputForward(1.0, 0);
         this.rightDrive.configPeakOutputReverse(-1.0, 0);
         this.rightDrive.configNominalOutputForward(0.0, 0);
-        this.rightDrive.configPeakOutputReverse(0.0, 0);
+        this.rightDrive.configNominalOutputReverse(0.0, 0);
         this.rightDriveSlave.configPeakOutputForward(1.0, 0);
         this.rightDriveSlave.configPeakOutputReverse(-1.0, 0);
         this.rightDriveSlave.configNominalOutputForward(0.0, 0);
-        this.rightDriveSlave.configPeakOutputReverse(0.0, 0);
+        this.rightDriveSlave.configNominalOutputReverse(0.0, 0);
 
         //Encoder
         this.leftDrive.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative, 0, 0);
@@ -172,7 +172,6 @@ public class Drivetrain extends Subsystem {
         public static double gp = 0.06; // 0.06
         public static double gd = 0.03; // 0.03
         public static double ki = 0.0; // Not Used
-
 
         //gyro logging
         public static double last_gyro_error = 0.0;
