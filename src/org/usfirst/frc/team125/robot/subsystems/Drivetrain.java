@@ -12,6 +12,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import jaci.pathfinder.Pathfinder;
 import jaci.pathfinder.followers.EncoderFollower;
 import jaci.pathfinder.modifiers.TankModifier;
+import org.usfirst.frc.team125.robot.commands.DriveArcade;
 import org.usfirst.frc.team125.robot.commands.DriveTank;
 
 /**
@@ -70,7 +71,12 @@ public class Drivetrain extends Subsystem {
 
     public void drive(double powLeft, double powRight) {
         this.leftDrive.set(ControlMode.PercentOutput, powLeft);
-        this.rightDrive.set(ControlMode.PercentOutput, powRight);
+        this.rightDrive.set(ControlMode.PercentOutput, -powRight);
+    }
+
+    public void driveArcade(double throttle, double turn) {
+        this.leftDrive.set(ControlMode.PercentOutput, throttle + turn);
+        this.rightDrive.set(ControlMode.PercentOutput, throttle - turn);
     }
 
     public double getLeftVelocity() {
@@ -162,7 +168,7 @@ public class Drivetrain extends Subsystem {
     }
 
     public void initDefaultCommand() {
-        setDefaultCommand(new DriveTank());
+        setDefaultCommand(new DriveArcade());
     }
 
     public static class DrivetrainProfiling {
