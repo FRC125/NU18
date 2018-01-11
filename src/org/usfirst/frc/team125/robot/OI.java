@@ -31,4 +31,8 @@ public class OI {
         return stickDeadband(this.driverPad.getRawAxis(4), 0.005, 0.0);
     }
 
+    public double getDriverTriggerSum() {
+        return this.driverPad.getRawAxis(3) - this.driverPad.getRawAxis(2); //TODO: Check Axis (Right - Left)
+    }
+
 }
