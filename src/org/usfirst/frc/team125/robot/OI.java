@@ -26,8 +26,10 @@ public class OI {
 	//OpPad Buttons
 	
 	//Intake Controls
-	private Button forwardIntakeButton = new JoystickButton(opPad, 2);
-	private Button reverseIntakeButton = new JoystickButton(opPad, 3);
+	private Button forwardIntakeButton = new JoystickButton(opPad, 1);
+	private Button reverseIntakeButton = new JoystickButton(opPad, 2);
+	private Button releaseCarrierButton = new JoystickButton(opPad, 3);
+	private Button retractCarrierButton = new JoystickButton(opPad, 4);
 	
 	
 	public OI() {
@@ -35,6 +37,10 @@ public class OI {
 		//intake
 		this.forwardIntakeButton.whileHeld(new RunIntakeForward());
 		this.reverseIntakeButton.whileHeld(new RunIntakeReverse());
+		
+		//Carrier
+		this.releaseCarrierButton.whenPressed(new ReleaseCarrier());
+		this.retractCarrierButton.whenPressed(new RetractCarrier());
 	}
 	
 }

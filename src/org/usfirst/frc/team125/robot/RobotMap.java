@@ -14,6 +14,10 @@ public class RobotMap {
 	
 	//intake Motors
 	public static int INTAKE_RIGHT = 0;
-	public static int INTAKE_LEFT = 1;
+	public static int INTAKE_LEFT = 0;
+	
+	//Carrier Solenoids
+	public static int CARRIER_SOLENOID_LEFT = 0;
+	public static int CARRIER_SOLENOID_RIGHT = 1;
 	
 }
