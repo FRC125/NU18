@@ -5,10 +5,10 @@ public class RobotMap {
     // TODO: Make sure these are right
 
     //CAN Devices
-    public static final int ELEVATOR = 4;
+    public static final int ELEVATOR = 0;
 
     //Pneumatics
-    public static final int SHIFT_FORWARD = 0;
-    public static final int SHIFT_BACKWARD = 0;
+    public static final int SHIFT = 59;
+    public static final int GRABBERS = 60;
 
 }

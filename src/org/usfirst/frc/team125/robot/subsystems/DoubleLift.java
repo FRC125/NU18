@@ -4,10 +4,10 @@ import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.FeedbackDevice;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
-import edu.wpi.first.wpilibj.DoubleSolenoid;
+import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj.command.Subsystem;
-import org.usfirst.frc.team125.robot.Robot;
 import org.usfirst.frc.team125.robot.RobotMap;
+import org.usfirst.frc.team125.robot.commands.ElevatorDrive;
 
 /**
  * DoubleLift's DoubleLift for DoubleLifting
@@ -16,9 +16,10 @@ public class DoubleLift extends Subsystem {
 
     //Motor Controllers TODO: Add possible slaves?
     private TalonSRX elevator = new TalonSRX(RobotMap.ELEVATOR);
-    private DoubleSolenoid shifter = new DoubleSolenoid(RobotMap.SHIFT_FORWARD, RobotMap.SHIFT_BACKWARD);
+    private Solenoid shifter = new Solenoid(RobotMap.SHIFT);
+    private Solenoid grabbers = new Solenoid(RobotMap.GRABBERS);
 
-    public void initDefaultCommand() {
+    public DoubleLift() {
         this.elevator.configPeakOutputForward(1.0, 0);
         this.elevator.configPeakOutputReverse(-1.0, 0);
         this.elevator.configNominalOutputForward(0.0, 0);
@@ -38,15 +39,23 @@ public class DoubleLift extends Subsystem {
     }
 
     public void shiftForward() {
-        shifter.set(DoubleSolenoid.Value.kForward);
+        shifter.set(true);
     }
 
     public void shiftBackward() {
-        shifter.set(DoubleSolenoid.Value.kReverse);
+        shifter.set(false);
     }
 
     public void runToPosition(int pos) {
         elevator.set(ControlMode.Position, pos);
+    }
+
+    public void openGrabbers() {
+        grabbers.set(true);
+    }
+
+    public void closeGrabbers() {
+        grabbers.set(false);
     }
 
     public void directElevate(double pow) {
@@ -58,6 +67,14 @@ public class DoubleLift extends Subsystem {
         elevator.config_kI(0, kI, 0);
         elevator.config_kD(0, kD, 0);
         elevator.config_kF(0, kF, 0);
+    }
+
+    public void initDefaultCommand() {
+        setDefaultCommand(new ElevatorDrive());
+    }
+
+    public int getEncPos() {
+        return elevator.getSelectedSensorPosition(0);
     }
 
 }

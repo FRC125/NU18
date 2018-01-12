@@ -9,7 +9,6 @@ public class OI {
     public Joystick operatorPad = new Joystick(1);
 
     public OI() {
-
     }
 
     public static double stickDeadband(double value, double deadband, double center) {

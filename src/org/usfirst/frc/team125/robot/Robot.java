@@ -6,9 +6,11 @@ import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import org.usfirst.frc.team125.robot.subsystems.DoubleLift;
 
 public class Robot extends IterativeRobot{
 
+	public static DoubleLift boyfriend = new DoubleLift();
 	public static OI oi;
 
 	@Override
@@ -23,6 +25,7 @@ public class Robot extends IterativeRobot{
 	@Override
 	public void disabledPeriodic() {
 		Scheduler.getInstance().run();
+		SmartDashboard.putNumber("Elevator Encoder Value", boyfriend.getEncPos());
 	}
 
 	@Override
@@ -41,6 +44,7 @@ public class Robot extends IterativeRobot{
 	@Override
 	public void teleopPeriodic() {
 		Scheduler.getInstance().run();
+		SmartDashboard.putNumber("Elevator Encoder Value", boyfriend.getEncPos());
 	}
 
 	@Override
