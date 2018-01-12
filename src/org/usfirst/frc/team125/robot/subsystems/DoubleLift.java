@@ -16,14 +16,20 @@ public class DoubleLift extends Subsystem {
 
     //Motor Controllers TODO: Add possible slaves?
     private TalonSRX elevator = new TalonSRX(RobotMap.ELEVATOR);
+    private TalonSRX elevatorSlave = new TalonSRX(RobotMap.ELEVATOR_SLAVE);
     private Solenoid shifter = new Solenoid(RobotMap.SHIFT);
     private Solenoid grabbers = new Solenoid(RobotMap.GRABBERS);
 
     public DoubleLift() {
+        elevatorSlave.follow(elevator);
         this.elevator.configPeakOutputForward(1.0, 0);
         this.elevator.configPeakOutputReverse(-1.0, 0);
         this.elevator.configNominalOutputForward(0.0, 0);
         this.elevator.configNominalOutputReverse(0.0, 0);
+        this.elevatorSlave.configPeakOutputForward(1.0, 0);
+        this.elevatorSlave.configPeakOutputReverse(-1.0, 0);
+        this.elevatorSlave.configNominalOutputForward(0.0, 0);
+        this.elevatorSlave.configNominalOutputReverse(0.0, 0);
 
         //Encoder
         this.elevator.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative, 0, 0);
