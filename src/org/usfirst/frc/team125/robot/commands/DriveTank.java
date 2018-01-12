@@ -18,7 +18,6 @@ public class DriveTank extends Command {
     }
 
     protected void execute() {
-
         Robot.dt.drive(Robot.oi.getDriverLeftStickY(), Robot.oi.getDriverRightStickY());
     }
 
