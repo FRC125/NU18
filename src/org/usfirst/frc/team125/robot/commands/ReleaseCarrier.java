@@ -10,18 +10,18 @@ public class ReleaseCarrier extends Command{
 	}
 	
 	protected void initialize() {
-		
+		Robot.carrier.releaseCarrier();
 	}
 	
 	protected void excecute() {
-		Robot.carrier.releaseCarrier();
+
 	}
 	
 	
 	@Override
 	protected boolean isFinished() {
-		// TODO Auto-generated method stub
-		return false;
+		
+		return true;
 	}
 	
 	protected void end() {

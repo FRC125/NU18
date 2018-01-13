@@ -10,18 +10,18 @@ public class RetractCarrier extends Command {
 		}
 		
 		protected void initialize() {
-			
+			Robot.carrier.retractCarrier();
 		}
 		
 		protected void excecute() {
-			Robot.carrier.retractCarrier();
+
 		}
 		
 		
 		@Override
 		protected boolean isFinished() {
 			// TODO Auto-generated method stub
-			return false;
+			return true;
 		}
 		
 		protected void end() {
