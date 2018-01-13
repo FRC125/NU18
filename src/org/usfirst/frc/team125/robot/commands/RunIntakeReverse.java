@@ -20,7 +20,7 @@ public class RunIntakeReverse extends Command{
 
 	@Override
 	protected boolean isFinished() {
-		// TODO Auto-generated method stub
+	
 		return false;
 	}
 	

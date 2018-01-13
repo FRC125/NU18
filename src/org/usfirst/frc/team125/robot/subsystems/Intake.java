@@ -4,6 +4,7 @@ import org.usfirst.frc.team125.robot.RobotMap;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
+import com.ctre.phoenix.motorcontrol.can.VictorSPX;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 
 import edu.wpi.first.wpilibj.DoubleSolenoid;
@@ -13,8 +14,8 @@ import edu.wpi.first.wpilibj.command.Subsystem;
 public class Intake extends Subsystem {
 	
 	//intake motors
-	private TalonSRX intakeL = new TalonSRX(RobotMap.INTAKE_LEFT);
-	private TalonSRX intakeR = new TalonSRX(RobotMap.INTAKE_RIGHT);
+	private VictorSPX intakeL = new VictorSPX(RobotMap.INTAKE_LEFT);
+	private VictorSPX intakeR = new VictorSPX(RobotMap.INTAKE_RIGHT);
 	private DoubleSolenoid intakePiston = new DoubleSolenoid(1,1);
 	private Solenoid leftClampPiston =  new Solenoid(RobotMap.CLAMP_SOLENOID_LEFT);
 	private Solenoid rightClampPiston = new Solenoid(RobotMap.CLAMP_SOLENOID_RIGHT);
@@ -29,7 +30,7 @@ public class Intake extends Subsystem {
 		this.intakeR.configPeakOutputReverse(-1.0, 0);
 		this.intakeR.configNominalOutputForward(0.0, 0);
 		this.intakeR.configNominalOutputReverse(0.0, 0);
-		
+
 		this.intakePiston.set(DoubleSolenoid.Value.kOff);
 		this.intakePiston.set(DoubleSolenoid.Value.kForward);
 		this.intakePiston.set(DoubleSolenoid.Value.kReverse);
@@ -51,13 +52,23 @@ public class Intake extends Subsystem {
 		this.intakeL.set(ControlMode.PercentOutput, 0);
 		this.intakeR.set(ControlMode.PercentOutput, 0);
 	}
+	
 	public void openClamp(){
 		this.leftClampPiston.set(true);
 		this.rightClampPiston.set(true);
 	}
+	
 	public void closeClamp(){
 		this.leftClampPiston.set(false);
 		this.rightClampPiston.set(false);
+	}
+	
+	public void pistonIn() {
+		this.intakePiston.set(DoubleSolenoid.Value.kReverse);
+	}
+	
+	public void pistonOut() {
+		this.intakePiston.set(DoubleSolenoid.Value.kForward);
 	}
 
 	@Override
