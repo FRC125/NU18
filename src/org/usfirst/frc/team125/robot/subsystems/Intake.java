@@ -4,6 +4,7 @@ import org.usfirst.frc.team125.robot.RobotMap;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
+import com.ctre.phoenix.motorcontrol.can.VictorSPX;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 
 import edu.wpi.first.wpilibj.DoubleSolenoid;
@@ -12,8 +13,8 @@ import edu.wpi.first.wpilibj.command.Subsystem;
 public class Intake extends Subsystem {
 	
 	//intake motors
-	private TalonSRX intakeL = new TalonSRX(RobotMap.INTAKE_LEFT);
-	private TalonSRX intakeR = new TalonSRX(RobotMap.INTAKE_RIGHT);
+	private VictorSPX intakeL = new VictorSPX(RobotMap.INTAKE_LEFT);
+	private VictorSPX intakeR = new VictorSPX(RobotMap.INTAKE_RIGHT);
 	private DoubleSolenoid intakePiston = new DoubleSolenoid(1,1);
 	
 	public Intake(){
