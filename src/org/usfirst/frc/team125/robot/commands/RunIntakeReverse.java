@@ -3,24 +3,24 @@ package org.usfirst.frc.team125.robot.commands;
 import org.usfirst.frc.team125.robot.Robot;
 
 import edu.wpi.first.wpilibj.command.Command;
+import org.usfirst.frc.team125.robot.subsystems.Intake;
 
 public class RunIntakeReverse extends Command{
+
 	public RunIntakeReverse() {
 		requires(Robot.intake);
 	}
 	
 	@Override
 	protected void initialize() {
-		
 	}
 	
 	protected void excecute() {
-		Robot.intake.runIntakeReversed(0.5);
+		Robot.intake.runIntakeReversed(Intake.INTAKE_POWER);
 	}
 
 	@Override
 	protected boolean isFinished() {
-	
 		return false;
 	}
 	
@@ -29,8 +29,8 @@ public class RunIntakeReverse extends Command{
 		Robot.intake.stopIntake();
 	}
 	
-	protected void inturrupted() {
-		
+	protected void interrupted() {
+		end();
 	}
 
 }

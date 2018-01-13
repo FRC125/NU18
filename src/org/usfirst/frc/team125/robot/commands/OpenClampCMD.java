@@ -13,7 +13,6 @@ public class OpenClampCMD extends Command {
         requires(Robot.intake);
     }
 
-
     protected void initialize() {
     }
 
@@ -21,12 +20,10 @@ public class OpenClampCMD extends Command {
     	Robot.intake.openClamp();
     }
 
-  
     protected boolean isFinished() {
-        return false;
+        return true;
     }
 
-    
     protected void end() {
     }
 

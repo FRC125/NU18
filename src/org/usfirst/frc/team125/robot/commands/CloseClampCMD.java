@@ -13,23 +13,19 @@ public class CloseClampCMD extends Command {
         requires(Robot.intake);
     }
 
-
     protected void initialize() {
     }
 
-   
     protected void execute() {
     	Robot.intake.closeClamp();
     }
 
     protected boolean isFinished() {
-        return false;
+        return true;
     }
-
 
     protected void end() {
     }
-
     
     protected void interrupted() {
     }

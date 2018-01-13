@@ -15,25 +15,24 @@ import org.usfirst.frc.team125.robot.subsystems.Intake;
  * An example command.  You can replace me with your own command.
  */
 public class RunIntakeForward extends Command {
+
 	public RunIntakeForward() {
 		requires(Robot.intake);
 	}
 
 	@Override
 	protected void initialize() {
-		
 	}
 
 	@Override
 	protected void execute() {
-		Robot.intake.runIntake(.5);
+		Robot.intake.runIntake(Intake.INTAKE_POWER);
 	}
 
 	@Override
 	protected boolean isFinished() {
 		return false;
 	}
-
 
 	@Override
 	protected void end() {
@@ -42,5 +41,6 @@ public class RunIntakeForward extends Command {
 
 	@Override
 	protected void interrupted() {
+		end();
 	}
 }

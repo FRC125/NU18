@@ -7,11 +7,9 @@
 
 package org.usfirst.frc.team125.robot;
 
+import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.TimedRobot;
-import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
-import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 import org.usfirst.frc.team125.robot.subsystems.DoubleLift;
 import org.usfirst.frc.team125.robot.subsystems.Intake;
@@ -23,10 +21,10 @@ import org.usfirst.frc.team125.robot.subsystems.Intake;
  * creating this project, you must also update the build.properties file in the
  * project.
  */
-public class Robot extends TimedRobot {
+public class Robot extends IterativeRobot {
 	
 	public static Intake intake;
-	public static DoubleLift carrier;
+	public static DoubleLift doubleLift;
 			
 	public static OI oi;
 
@@ -35,26 +33,21 @@ public class Robot extends TimedRobot {
 		oi = new OI();
 		
 		intake = new Intake();
-		carrier = new DoubleLift();
-		
+		doubleLift = new DoubleLift();
 	}
+
 	@Override
 	public void disabledInit() {
-
 	}
 
 	@Override
 	public void disabledPeriodic() {
 		Scheduler.getInstance().run();
-		
 	}
 
-	
 	@Override
 	public void autonomousInit() {
-		
 	}
-
 	
 	@Override
 	public void autonomousPeriodic() {
@@ -63,7 +56,6 @@ public class Robot extends TimedRobot {
 
 	@Override
 	public void teleopInit() {
-		
 	}
 
 	@Override
@@ -71,8 +63,8 @@ public class Robot extends TimedRobot {
 		Scheduler.getInstance().run();
 	}
 
-
 	@Override
 	public void testPeriodic() {
 	}
+
 }

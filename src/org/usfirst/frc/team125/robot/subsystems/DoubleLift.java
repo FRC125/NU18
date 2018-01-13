@@ -6,39 +6,30 @@ import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj.command.Subsystem;
 
-
 /**
  * 
  * The mechansim to lift another robot (including a seperate release)
  */
 public class DoubleLift extends Subsystem{
 
-	private Solenoid leftPlatformSolenoid = new Solenoid(0, 0);
+	private Solenoid lift = new Solenoid(RobotMap.DOUBLELIFT_LIFTER);
+	private Solenoid release = new Solenoid(RobotMap.DOUBLELIFT_RELEASE);
 	
 	public DoubleLift() {
-		
-		//Left side of Solenoid
-		//true = out
-		//false = in
-		this.leftPlatformSolenoid.set(true);
-		this.leftPlatformSolenoid.set(false);
-		
-	
+		this.lift.set(false);
+		this.release.set(false);
 	}
 	
 	public void releaseCarrier() {
-		this.leftPlatformSolenoid.set(true);
-	}
+		this.release.set(true);
+	} // TODO: Check the .set()
 	
-	public void retractCarrier() {
-		this.leftPlatformSolenoid.set(false);
-	}
-	
+	public void lift() {
+		this.lift.set(true);
+	} // TODO: Check the .set()
 	
 	@Override
 	protected void initDefaultCommand() {
-		// TODO Auto-generated method stub
-		
 	}
 
 }

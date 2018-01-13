@@ -17,12 +17,12 @@ public class RobotMap {
 	public static final int INTAKE_LEFT = 0;
 	
 	//Carrier Solenoids
-	public static final int CARRIER_SOLENOID_LEFT = 0;
-	public static final int CARRIER_SOLENOID_RIGHT = 1;
-	
-	// Intake Solenoids
-	public static final int CLAMP_SOLENOID_LEFT = 2;
-	public static final int CLAMP_SOLENOID_RIGHT =  3;
+	public static final int DOUBLELIFT_LIFTER = 0;
+	public static final int DOUBLELIFT_RELEASE = 0;
 
-	
+	// Intake Solenoids
+	public static final int INTAKE_CLAMP = 0;
+	public static final int INTAKE_RETRACT_FORWARD = 0;
+	public static final int INTAKE_RETRACT_REVERSE = 0;
+
 }

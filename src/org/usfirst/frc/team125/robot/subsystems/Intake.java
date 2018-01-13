@@ -1,5 +1,7 @@
 package org.usfirst.frc.team125.robot.subsystems;
 
+import com.ctre.phoenix.motorcontrol.NeutralMode;
+import org.usfirst.frc.team125.robot.Robot;
 import org.usfirst.frc.team125.robot.RobotMap;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
@@ -16,11 +18,12 @@ public class Intake extends Subsystem {
 	//intake motors
 	private VictorSPX intakeL = new VictorSPX(RobotMap.INTAKE_LEFT);
 	private VictorSPX intakeR = new VictorSPX(RobotMap.INTAKE_RIGHT);
-	private DoubleSolenoid intakePiston = new DoubleSolenoid(1,1);
-	private Solenoid leftClampPiston =  new Solenoid(RobotMap.CLAMP_SOLENOID_LEFT);
-	private Solenoid rightClampPiston = new Solenoid(RobotMap.CLAMP_SOLENOID_RIGHT);
-	public Intake(){
-		
+	private DoubleSolenoid intakePiston = new DoubleSolenoid(RobotMap.INTAKE_RETRACT_FORWARD, RobotMap.INTAKE_RETRACT_REVERSE);
+	private Solenoid clamp = new Solenoid(RobotMap.INTAKE_CLAMP);
+
+	public static final double INTAKE_POWER = 1.0;
+
+	public Intake() {
 		this.intakeL.configPeakOutputForward(1.0, 0);
 		this.intakeL.configPeakOutputReverse(-1.0, 0);
 		this.intakeL.configNominalOutputForward(0.0, 0);
@@ -31,11 +34,11 @@ public class Intake extends Subsystem {
 		this.intakeR.configNominalOutputForward(0.0, 0);
 		this.intakeR.configNominalOutputReverse(0.0, 0);
 
-		this.intakePiston.set(DoubleSolenoid.Value.kOff);
-		this.intakePiston.set(DoubleSolenoid.Value.kForward);
-		this.intakePiston.set(DoubleSolenoid.Value.kReverse);
-		this.leftClampPiston.set(false);
-		this.rightClampPiston.set(false);
+		this.intakeL.setNeutralMode(NeutralMode.Coast);
+		this.intakeR.setNeutralMode(NeutralMode.Coast);
+
+		this.intakePiston.set(DoubleSolenoid.Value.kReverse); // TODO: Check if this is right...
+		this.clamp.set(false); // TODO: Check .set()
 	}
 	
 	public void runIntake(double power) {
@@ -54,28 +57,23 @@ public class Intake extends Subsystem {
 	}
 	
 	public void openClamp(){
-		this.leftClampPiston.set(true);
-		this.rightClampPiston.set(true);
+		this.clamp.set(false);
 	}
 	
 	public void closeClamp(){
-		this.leftClampPiston.set(false);
-		this.rightClampPiston.set(false);
+		this.clamp.set(true);
 	}
 	
 	public void pistonIn() {
-		this.intakePiston.set(DoubleSolenoid.Value.kReverse);
+		this.intakePiston.set(DoubleSolenoid.Value.kForward);
 	}
 	
 	public void pistonOut() {
-		this.intakePiston.set(DoubleSolenoid.Value.kForward);
+		this.intakePiston.set(DoubleSolenoid.Value.kReverse);
 	}
 
 	@Override
 	protected void initDefaultCommand() {
-		// TODO Auto-generated method stub
-		
 	}
-	
 
 }

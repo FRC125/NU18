@@ -22,18 +22,14 @@ public class OI {
 	//Controllers
 	public Joystick opPad = new Joystick(1);
 	public Joystick driverPad = new Joystick(0);
-	
-	//OpPad Buttons
-	
+
 	//Intake Controls
 	private Button forwardIntakeButton = new JoystickButton(opPad, 1);
 	private Button reverseIntakeButton = new JoystickButton(opPad, 2);
 	private Button releaseCarrierButton = new JoystickButton(opPad, 3);
 	private Button retractCarrierButton = new JoystickButton(opPad, 4);
-	
-	
+
 	public OI() {
-		
 		//intake
 		this.forwardIntakeButton.whileHeld(new RunIntakeForward());
 		this.reverseIntakeButton.whileHeld(new RunIntakeReverse());
