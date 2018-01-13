@@ -4,6 +4,7 @@ import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.FeedbackDevice;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
+import com.ctre.phoenix.motorcontrol.can.VictorSPX;
 import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import org.usfirst.frc.team125.robot.RobotMap;
@@ -14,22 +15,27 @@ import org.usfirst.frc.team125.robot.commands.ElevatorDrive;
  */
 public class DoubleLift extends Subsystem {
 
-    //Motor Controllers TODO: Add possible slaves?
     private TalonSRX elevator = new TalonSRX(RobotMap.ELEVATOR);
-    private TalonSRX elevatorSlave = new TalonSRX(RobotMap.ELEVATOR_SLAVE);
-    private Solenoid shifter = new Solenoid(RobotMap.SHIFT);
+    private VictorSPX elevatorSlaveA = new VictorSPX(RobotMap.ELEVATOR_SLAVE_A);
+    private VictorSPX elevatorSlaveB = new VictorSPX(RobotMap.ELEVATOR_SLAVE_B);
     private Solenoid grabbers = new Solenoid(RobotMap.GRABBERS);
+    private Solenoid elevatorRelease = new Solenoid(RobotMap.ELEVATOR_RELEASE);
 
     public DoubleLift() {
-        elevatorSlave.follow(elevator);
+        this.elevatorSlaveA.follow(elevator);
+        this.elevatorSlaveB.follow(elevator);
         this.elevator.configPeakOutputForward(1.0, 0);
         this.elevator.configPeakOutputReverse(-1.0, 0);
         this.elevator.configNominalOutputForward(0.0, 0);
         this.elevator.configNominalOutputReverse(0.0, 0);
-        this.elevatorSlave.configPeakOutputForward(1.0, 0);
-        this.elevatorSlave.configPeakOutputReverse(-1.0, 0);
-        this.elevatorSlave.configNominalOutputForward(0.0, 0);
-        this.elevatorSlave.configNominalOutputReverse(0.0, 0);
+        this.elevatorSlaveA.configPeakOutputForward(1.0, 0);
+        this.elevatorSlaveA.configPeakOutputReverse(-1.0, 0);
+        this.elevatorSlaveA.configNominalOutputForward(0.0, 0);
+        this.elevatorSlaveA.configNominalOutputReverse(0.0, 0);
+        this.elevatorSlaveB.configPeakOutputForward(1.0, 0);
+        this.elevatorSlaveB.configPeakOutputReverse(-1.0, 0);
+        this.elevatorSlaveB.configNominalOutputForward(0.0, 0);
+        this.elevatorSlaveB.configNominalOutputReverse(0.0, 0);
 
         //Encoder
         this.elevator.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative, 0, 0);
@@ -44,14 +50,6 @@ public class DoubleLift extends Subsystem {
         this.elevator.setSelectedSensorPosition(0, 0, 0);
     }
 
-    public void shiftForward() {
-        shifter.set(true);
-    }
-
-    public void shiftBackward() {
-        shifter.set(false);
-    }
-
     public void runToPosition(int pos) {
         elevator.set(ControlMode.Position, pos);
     }
@@ -62,6 +60,18 @@ public class DoubleLift extends Subsystem {
 
     public void closeGrabbers() {
         grabbers.set(false);
+    }
+
+    public void releasePin() {
+        elevatorRelease.set(true);
+    }
+
+    public void reinsertPin() {
+        elevatorRelease.set(false);
+    }
+
+    public void stopElevator() {
+        elevator.set(ControlMode.PercentOutput, 0.0);
     }
 
     public void directElevate(double pow) {
