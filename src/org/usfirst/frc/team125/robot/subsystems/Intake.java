@@ -28,9 +28,6 @@ public class Intake extends Subsystem {
 		this.intakeR.configNominalOutputForward(0.0, 0);
 		this.intakeR.configNominalOutputReverse(0.0, 0);
 		
-		this.intakePiston.set(DoubleSolenoid.Value.kOff);
-		this.intakePiston.set(DoubleSolenoid.Value.kForward);
-		this.intakePiston.set(DoubleSolenoid.Value.kReverse);
 	}
 	
 	public void runIntake(double power) {
@@ -48,6 +45,13 @@ public class Intake extends Subsystem {
 		this.intakeR.set(ControlMode.PercentOutput, 0);
 	}
 	
+	public void pistonIn() {
+		this.intakePiston.set(DoubleSolenoid.Value.kReverse);
+	}
+	
+	public void pistonOut() {
+		this.intakePiston.set(DoubleSolenoid.Value.kForward);
+	}
 
 	@Override
 	protected void initDefaultCommand() {
