@@ -13,11 +13,16 @@ package org.usfirst.frc.team125.robot;
 public class RobotMap {
 	
 	//intake Motors
-	public static int INTAKE_RIGHT = 0;
-	public static int INTAKE_LEFT = 0;
+	public static final int INTAKE_RIGHT = 0;
+	public static final int INTAKE_LEFT = 0;
 	
 	//Carrier Solenoids
-	public static int CARRIER_SOLENOID_LEFT = 0;
-	public static int CARRIER_SOLENOID_RIGHT = 1;
+	public static final int CARRIER_SOLENOID_LEFT = 0;
+	public static final int CARRIER_SOLENOID_RIGHT = 1;
+	
+	// Intake Solenoids
+	public static final int CLAMP_SOLENOID_LEFT = 2;
+	public static final int CLAMP_SOLENOID_RIGHT =  3;
+
 	
 }

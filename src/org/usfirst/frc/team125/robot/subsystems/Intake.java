@@ -7,6 +7,7 @@ import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 
 import edu.wpi.first.wpilibj.DoubleSolenoid;
+import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj.command.Subsystem;
 
 public class Intake extends Subsystem {
@@ -15,7 +16,8 @@ public class Intake extends Subsystem {
 	private TalonSRX intakeL = new TalonSRX(RobotMap.INTAKE_LEFT);
 	private TalonSRX intakeR = new TalonSRX(RobotMap.INTAKE_RIGHT);
 	private DoubleSolenoid intakePiston = new DoubleSolenoid(1,1);
-	
+	private Solenoid leftClampPiston =  new Solenoid(RobotMap.CLAMP_SOLENOID_LEFT);
+	private Solenoid rightClampPiston = new Solenoid(RobotMap.CLAMP_SOLENOID_RIGHT);
 	public Intake(){
 		
 		this.intakeL.configPeakOutputForward(1.0, 0);
@@ -31,6 +33,8 @@ public class Intake extends Subsystem {
 		this.intakePiston.set(DoubleSolenoid.Value.kOff);
 		this.intakePiston.set(DoubleSolenoid.Value.kForward);
 		this.intakePiston.set(DoubleSolenoid.Value.kReverse);
+		this.leftClampPiston.set(false);
+		this.rightClampPiston.set(false);
 	}
 	
 	public void runIntake(double power) {
@@ -47,7 +51,14 @@ public class Intake extends Subsystem {
 		this.intakeL.set(ControlMode.PercentOutput, 0);
 		this.intakeR.set(ControlMode.PercentOutput, 0);
 	}
-	
+	public void openClamp(){
+		this.leftClampPiston.set(true);
+		this.rightClampPiston.set(true);
+	}
+	public void closeClamp(){
+		this.leftClampPiston.set(false);
+		this.rightClampPiston.set(false);
+	}
 
 	@Override
 	protected void initDefaultCommand() {
