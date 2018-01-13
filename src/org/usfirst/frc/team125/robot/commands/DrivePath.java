@@ -13,11 +13,11 @@ public class DrivePath extends Command {
     }
 
     protected void initialize() {
-        Robot.dt.PathFollow();
+        Robot.dt.pathFollow();
     }
 
     protected void execute() {
-        Robot.dt.PathFollow();
+        Robot.dt.pathFollow();
     }
 
     protected boolean isFinished() {

@@ -17,11 +17,11 @@ public class SetupPath extends Command {
     }
 
     protected void initialize() {
-        Robot.dt.PathSetup(modifier, true);
+        Robot.dt.pathSetup(modifier, true);
     }
 
     protected void execute() {
-        Robot.dt.PathSetup(modifier, true);
+        Robot.dt.pathSetup(modifier, true);
     }
 
     protected boolean isFinished() {

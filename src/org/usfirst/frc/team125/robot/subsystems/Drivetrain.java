@@ -4,6 +4,7 @@ import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.FeedbackDevice;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
+import com.ctre.phoenix.motorcontrol.can.VictorSPX;
 import org.usfirst.frc.team125.robot.RobotMap;
 import edu.wpi.first.wpilibj.ADXRS450_Gyro;
 import edu.wpi.first.wpilibj.Timer;
@@ -13,7 +14,6 @@ import jaci.pathfinder.Pathfinder;
 import jaci.pathfinder.followers.EncoderFollower;
 import jaci.pathfinder.modifiers.TankModifier;
 import org.usfirst.frc.team125.robot.commands.DriveArcade;
-import org.usfirst.frc.team125.robot.commands.DriveTank;
 
 /**
  * 4 Motor Drivetrain Subclass
@@ -21,10 +21,12 @@ import org.usfirst.frc.team125.robot.commands.DriveTank;
 public class Drivetrain extends Subsystem {
 
     //Controllers
-    private TalonSRX leftDrive = new TalonSRX(RobotMap.LEFT_DRIVE_B);
-    private TalonSRX leftDriveSlave = new TalonSRX(RobotMap.LEFT_DRIVE_A);
-    private TalonSRX rightDrive = new TalonSRX(RobotMap.RIGHT_DRIVE_B);
-    private TalonSRX rightDriveSlave = new TalonSRX(RobotMap.RIGHT_DRIVE_A);
+    private TalonSRX leftDriveMain = new TalonSRX(RobotMap.LEFT_DRIVE_MAIN);
+    private VictorSPX leftDriveSlaveA = new VictorSPX(RobotMap.LEFT_DRIVE_SLAVE_A);
+    private VictorSPX leftDriveSlaveB = new VictorSPX(RobotMap.LEFT_DRIVE_SLAVE_B);
+    private TalonSRX rightDriveMain = new TalonSRX(RobotMap.RIGHT_DRIVE_MAIN);
+    private VictorSPX rightDriveSlaveA = new VictorSPX(RobotMap.RIGHT_DRIVE_SLAVE_A);
+    private VictorSPX rightDriveSlaveB = new VictorSPX(RobotMap.RIGHT_DRIVE_SLAVE_B);
 
     ADXRS450_Gyro gyro = new ADXRS450_Gyro();
 
@@ -37,30 +39,40 @@ public class Drivetrain extends Subsystem {
 
     public Drivetrain() {
         //Slave Control
-        this.leftDriveSlave.follow(leftDrive);
-        this.rightDriveSlave.follow(rightDrive);
+        this.leftDriveSlaveA.follow(leftDriveMain);
+        this.rightDriveSlaveA.follow(rightDriveMain);
+        this.leftDriveSlaveB.follow(leftDriveMain);
+        this.rightDriveSlaveB.follow(rightDriveMain);
 
-        this.leftDrive.configPeakOutputForward(1.0, 0);
-        this.leftDrive.configPeakOutputReverse(-1.0, 0);
-        this.leftDrive.configNominalOutputForward(0.0, 0);
-        this.leftDrive.configNominalOutputReverse(0.0, 0);
-        this.leftDriveSlave.configPeakOutputForward(1.0, 0);
-        this.leftDriveSlave.configPeakOutputReverse(-1.0, 0);
-        this.leftDriveSlave.configNominalOutputForward(0.0, 0);
-        this.leftDriveSlave.configNominalOutputReverse(0.0, 0);
+        this.leftDriveMain.configPeakOutputForward(1.0, 0);
+        this.leftDriveMain.configPeakOutputReverse(-1.0, 0);
+        this.leftDriveMain.configNominalOutputForward(0.0, 0);
+        this.leftDriveMain.configNominalOutputReverse(0.0, 0);
+        this.leftDriveSlaveA.configPeakOutputForward(1.0, 0);
+        this.leftDriveSlaveA.configPeakOutputReverse(-1.0, 0);
+        this.leftDriveSlaveA.configNominalOutputForward(0.0, 0);
+        this.leftDriveSlaveA.configNominalOutputReverse(0.0, 0);
+        this.leftDriveSlaveB.configPeakOutputForward(1.0, 0);
+        this.leftDriveSlaveB.configPeakOutputReverse(-1.0, 0);
+        this.leftDriveSlaveB.configNominalOutputForward(0.0, 0);
+        this.leftDriveSlaveB.configNominalOutputReverse(0.0, 0);
 
-        this.rightDrive.configPeakOutputForward(1.0, 0);
-        this.rightDrive.configPeakOutputReverse(-1.0, 0);
-        this.rightDrive.configNominalOutputForward(0.0, 0);
-        this.rightDrive.configNominalOutputReverse(0.0, 0);
-        this.rightDriveSlave.configPeakOutputForward(1.0, 0);
-        this.rightDriveSlave.configPeakOutputReverse(-1.0, 0);
-        this.rightDriveSlave.configNominalOutputForward(0.0, 0);
-        this.rightDriveSlave.configNominalOutputReverse(0.0, 0);
+        this.rightDriveMain.configPeakOutputForward(1.0, 0);
+        this.rightDriveMain.configPeakOutputReverse(-1.0, 0);
+        this.rightDriveMain.configNominalOutputForward(0.0, 0);
+        this.rightDriveMain.configNominalOutputReverse(0.0, 0);
+        this.rightDriveSlaveA.configPeakOutputForward(1.0, 0);
+        this.rightDriveSlaveA.configPeakOutputReverse(-1.0, 0);
+        this.rightDriveSlaveA.configNominalOutputForward(0.0, 0);
+        this.rightDriveSlaveA.configNominalOutputReverse(0.0, 0);
+        this.rightDriveSlaveB.configPeakOutputForward(1.0, 0);
+        this.rightDriveSlaveB.configPeakOutputReverse(-1.0, 0);
+        this.rightDriveSlaveB.configNominalOutputForward(0.0, 0);
+        this.rightDriveSlaveB.configNominalOutputReverse(0.0, 0);
 
         //Encoder
-        this.leftDrive.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative, 0, 0);
-        this.rightDrive.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative, 0, 0);
+        this.leftDriveMain.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative, 0, 0);
+        this.rightDriveMain.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative, 0, 0);
 
         disableBreakMode();
 
@@ -70,21 +82,21 @@ public class Drivetrain extends Subsystem {
     }
 
     public void drive(double powLeft, double powRight) {
-        this.leftDrive.set(ControlMode.PercentOutput, powLeft);
-        this.rightDrive.set(ControlMode.PercentOutput, -powRight);
+        this.leftDriveMain.set(ControlMode.PercentOutput, powLeft);
+        this.rightDriveMain.set(ControlMode.PercentOutput, -powRight);
     }
 
     public void driveArcade(double throttle, double turn) {
-        this.leftDrive.set(ControlMode.PercentOutput, throttle + turn);
-        this.rightDrive.set(ControlMode.PercentOutput, throttle - turn);
+        this.leftDriveMain.set(ControlMode.PercentOutput, throttle + turn);
+        this.rightDriveMain.set(ControlMode.PercentOutput, throttle - turn);
     }
 
     public double getLeftVelocity() {
-        return (leftDrive.getSelectedSensorVelocity(0) * Math.PI * DrivetrainProfiling.wheel_diameter) / (DrivetrainProfiling.ticks_per_rev)  * 10;
+        return (leftDriveMain.getSelectedSensorVelocity(0) * Math.PI * DrivetrainProfiling.wheel_diameter) / (DrivetrainProfiling.ticks_per_rev)  * 10;
     }
 
     public double getRightVelocity() {
-        return (rightDrive.getSelectedSensorVelocity(0) * Math.PI * DrivetrainProfiling.wheel_diameter) / (DrivetrainProfiling.ticks_per_rev) * 10;
+        return (rightDriveMain.getSelectedSensorVelocity(0) * Math.PI * DrivetrainProfiling.wheel_diameter) / (DrivetrainProfiling.ticks_per_rev) * 10;
     }
 
     public double getLeftAcceleration(double lastTime, double lastVelocity) {
@@ -102,41 +114,41 @@ public class Drivetrain extends Subsystem {
     }
 
     public void enableBreakMode() {
-        this.leftDrive.setNeutralMode(NeutralMode.Brake);
-        this.rightDrive.setNeutralMode(NeutralMode.Brake);
+        this.leftDriveMain.setNeutralMode(NeutralMode.Brake);
+        this.rightDriveMain.setNeutralMode(NeutralMode.Brake);
     }
 
     public void disableBreakMode() {
-        this.leftDrive.setNeutralMode(NeutralMode.Coast);
-        this.rightDrive.setNeutralMode(NeutralMode.Coast);
+        this.leftDriveMain.setNeutralMode(NeutralMode.Coast);
+        this.rightDriveMain.setNeutralMode(NeutralMode.Coast);
     }
 
     public void resetEncoders() {
-        this.leftDrive.setSelectedSensorPosition(0, 0, 0);
-        this.rightDrive.setSelectedSensorPosition(0, 0, 0);
+        this.leftDriveMain.setSelectedSensorPosition(0, 0, 0);
+        this.rightDriveMain.setSelectedSensorPosition(0, 0, 0);
     }
 
     public double getEncoderDistanceMetersRight() {
-        return (rightDrive.getSelectedSensorPosition(0) * Math.PI * DrivetrainProfiling.wheel_diameter) / DrivetrainProfiling.ticks_per_rev;
+        return (rightDriveMain.getSelectedSensorPosition(0) * Math.PI * DrivetrainProfiling.wheel_diameter) / DrivetrainProfiling.ticks_per_rev;
     }
 
     public double getEncoderDistanceMetersLeft() {
-        return (leftDrive.getSelectedSensorPosition(0) * Math.PI * DrivetrainProfiling.wheel_diameter) / DrivetrainProfiling.ticks_per_rev;
+        return (leftDriveMain.getSelectedSensorPosition(0) * Math.PI * DrivetrainProfiling.wheel_diameter) / DrivetrainProfiling.ticks_per_rev;
     }
     
     public double getEncoderRawLeft() {
-        return leftDrive.getSelectedSensorPosition(0);
+        return leftDriveMain.getSelectedSensorPosition(0);
     }
 
     public double getEncoderRawRight() {
-        return rightDrive.getSelectedSensorPosition(0);
+        return rightDriveMain.getSelectedSensorPosition(0);
     }
 
     public double getAngle() {
         return gyro.getAngle();
     }
 
-    public void PathSetup(TankModifier modifier, boolean relative) {
+    public void pathSetup(TankModifier modifier, boolean relative) {
         if(relative) {
             resetEncoders();
             gyro.reset();
@@ -145,15 +157,15 @@ public class Drivetrain extends Subsystem {
         DrivetrainProfiling.last_gyro_error = 0.0;
         left = new EncoderFollower(modifier.getLeftTrajectory());
         right = new EncoderFollower(modifier.getRightTrajectory());
-        left.configureEncoder(leftDrive.getSelectedSensorPosition(0), DrivetrainProfiling.ticks_per_rev, DrivetrainProfiling.wheel_diameter);
-        right.configureEncoder(rightDrive.getSelectedSensorPosition(0), DrivetrainProfiling.ticks_per_rev, DrivetrainProfiling.wheel_diameter);
+        left.configureEncoder(leftDriveMain.getSelectedSensorPosition(0), DrivetrainProfiling.ticks_per_rev, DrivetrainProfiling.wheel_diameter);
+        right.configureEncoder(rightDriveMain.getSelectedSensorPosition(0), DrivetrainProfiling.ticks_per_rev, DrivetrainProfiling.wheel_diameter);
         left.configurePIDVA(DrivetrainProfiling.kp, DrivetrainProfiling.ki, DrivetrainProfiling.kd, DrivetrainProfiling.kv, DrivetrainProfiling.ka);
         right.configurePIDVA(DrivetrainProfiling.kp, DrivetrainProfiling.ki, DrivetrainProfiling.kd, DrivetrainProfiling.kv, DrivetrainProfiling.ka);
     }
 
-    public void PathFollow() {
-        double l = left.calculate(leftDrive.getSelectedSensorPosition(0));
-        double r = right.calculate(rightDrive.getSelectedSensorPosition(0));
+    public void pathFollow() {
+        double l = left.calculate(leftDriveMain.getSelectedSensorPosition(0));
+        double r = right.calculate(rightDriveMain.getSelectedSensorPosition(0));
 
         double gyro_heading = gyro.getAngle();
         double angle_setpoint = Pathfinder.r2d(left.getHeading());
