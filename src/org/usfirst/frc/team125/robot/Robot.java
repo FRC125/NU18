@@ -13,7 +13,7 @@ import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
-import org.usfirst.frc.team125.robot.subsystems.Carrier;
+import org.usfirst.frc.team125.robot.subsystems.DoubleLift;
 import org.usfirst.frc.team125.robot.subsystems.Intake;
 
 /**
@@ -26,7 +26,7 @@ import org.usfirst.frc.team125.robot.subsystems.Intake;
 public class Robot extends TimedRobot {
 	
 	public static Intake intake;
-	public static Carrier carrier;
+	public static DoubleLift carrier;
 			
 	public static OI oi;
 
@@ -35,7 +35,7 @@ public class Robot extends TimedRobot {
 		oi = new OI();
 		
 		intake = new Intake();
-		carrier = new Carrier();
+		carrier = new DoubleLift();
 		
 	}
 	@Override
