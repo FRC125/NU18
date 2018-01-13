@@ -13,7 +13,7 @@ import org.usfirst.frc.team125.robot.commands.ElevatorDrive;
 /**
  * DoubleLift's DoubleLift for DoubleLifting
  */
-public class DoubleLift extends Subsystem {
+public class CubeLift extends Subsystem {
 
     private TalonSRX elevator = new TalonSRX(RobotMap.ELEVATOR);
     private VictorSPX elevatorSlaveA = new VictorSPX(RobotMap.ELEVATOR_SLAVE_A);
@@ -21,7 +21,7 @@ public class DoubleLift extends Subsystem {
     private Solenoid grabbers = new Solenoid(RobotMap.GRABBERS);
     private Solenoid elevatorRelease = new Solenoid(RobotMap.ELEVATOR_RELEASE);
 
-    public DoubleLift() {
+    public CubeLift() {
         this.elevatorSlaveA.follow(elevator);
         this.elevatorSlaveB.follow(elevator);
         this.elevator.configPeakOutputForward(1.0, 0);
