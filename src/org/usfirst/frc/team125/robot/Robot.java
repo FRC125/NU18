@@ -7,9 +7,12 @@
 
 package org.usfirst.frc.team125.robot;
 
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.command.Scheduler;
+
+import java.lang.reflect.Array;
 
 import org.usfirst.frc.team125.robot.subsystems.DoubleLift;
 import org.usfirst.frc.team125.robot.subsystems.Intake;
@@ -23,10 +26,12 @@ import org.usfirst.frc.team125.robot.subsystems.Intake;
  */
 public class Robot extends IterativeRobot {
 	
+	public static OI oi;
+	
 	public static Intake intake;
 	public static DoubleLift doubleLift;
-			
-	public static OI oi;
+	
+	public char[] autoData = new char[3];
 
 	@Override
 	public void robotInit() {
@@ -47,7 +52,30 @@ public class Robot extends IterativeRobot {
 
 	@Override
 	public void autonomousInit() {
-	}
+		String gameData;
+		gameData = DriverStation.getInstance().getGameSpecificMessage();
+		
+		//1st switch position
+		if(gameData.charAt(0) == 'L' ) {
+			//Auto Code for left side
+		} else {
+			//Auto Code for right side
+		}
+		
+		//scale position
+		if (gameData.charAt(1) == 'L') {
+			//Auto Code for left side
+		} else {
+			//Auto code for right side	
+		}
+		
+		//2nd switch position
+		if (gameData.charAt(2) == 'L') {
+			//Auto code for left side
+		} else {
+			//Auto code for right side
+		}
+ 	}
 	
 	@Override
 	public void autonomousPeriodic() {
