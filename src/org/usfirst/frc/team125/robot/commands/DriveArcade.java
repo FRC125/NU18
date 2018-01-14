@@ -17,7 +17,6 @@ public class DriveArcade extends Command {
     }
 
     protected void execute() {
-
         Robot.dt.driveArcade(Robot.oi.getDriverTriggerSum(), Robot.oi.getDriverLeftStickX());
     }
 
