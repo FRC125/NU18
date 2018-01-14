@@ -1,9 +1,0 @@
-<component name="libraryTable">
-  <library name="CTRE_Phoenix">
-    <CLASSES>
-      <root url="jar://$USER_HOME$/wpilib/user/java/lib/CTRE_Phoenix.jar!/" />
-    </CLASSES>
-    <JAVADOC />
-    <SOURCES />
-  </library>
-</component>

@@ -10,7 +10,6 @@ public class RobotMap {
     public static final int ELEVATOR_SLAVE_B = 2;
 
     //Pneumatics
-    public static final int SHIFT = 4;
     public static final int GRABBERS = 5;
     public static final int ELEVATOR_RELEASE = 6;
 

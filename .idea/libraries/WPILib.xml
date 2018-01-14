@@ -1,9 +1,0 @@
-<component name="libraryTable">
-  <library name="WPILib">
-    <CLASSES>
-      <root url="jar://$USER_HOME$/libs/WPILib.jar!/" />
-    </CLASSES>
-    <JAVADOC />
-    <SOURCES />
-  </library>
-</component>
