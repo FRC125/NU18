@@ -14,18 +14,18 @@ public class RobotMap {
 	
 	//Intake Motors
 	public static final int INTAKE_RIGHT = 0;
-	public static final int INTAKE_LEFT = 0;
+	public static final int INTAKE_LEFT = 1;
 	
 	//Carrier Solenoids
-	public static final int DOUBLELIFT_LIFTER = 0;
-	public static final int DOUBLELIFT_RELEASE = 0;
+	public static final int DOUBLELIFT_LIFTER = 2;
+	public static final int DOUBLELIFT_RELEASE = 3;
 
 	//Intake Solenoids
-	public static final int INTAKE_CLAMP = 0;
+	public static final int INTAKE_CLAMP = 4;
 	public static final int INTAKE_RETRACT_FORWARD = 0;
-	public static final int INTAKE_RETRACT_REVERSE = 0;
+	public static final int INTAKE_RETRACT_REVERSE = 1;
 
 	//Digital Inpute
-	public static final int INTAKE_LIMIT_SWITCH = 0;
+	public static final int INTAKE_LIMIT_SWITCH = 5;
 
 }

@@ -29,6 +29,8 @@ public class OI {
 	private Button releaseCarrierButton = new JoystickButton(opPad, 3);
 	private Button retractCarrierButton = new JoystickButton(opPad, 4);
 
+	private Button checkSmartIntake = new JoystickButton(driverPad, 1);
+
 	public OI() {
 		//intake
 		this.forwardIntakeButton.whileHeld(new RunIntakeForward());
@@ -37,6 +39,8 @@ public class OI {
 		//Carrier
 		this.releaseCarrierButton.whenPressed(new ReleaseCarrier());
 		this.retractCarrierButton.whenPressed(new RetractCarrier());
+
+		this.checkSmartIntake.whileHeld(new UpdateCubeSwitchCmd());
 	}
 	
 }

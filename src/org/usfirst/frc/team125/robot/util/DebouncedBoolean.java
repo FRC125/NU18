@@ -1,6 +1,6 @@
 package org.usfirst.frc.team125.robot.util;
 
-import com.sun.glass.ui.SystemClipboard;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class DebouncedBoolean {
 
@@ -21,15 +21,7 @@ public class DebouncedBoolean {
         } else {
             loopCounter = 0;
         }
+        SmartDashboard.putNumber("Loop Counter", loopCounter);
     }
-
-    public static void main(String[] args){
-        DebouncedBoolean b = new DebouncedBoolean(2.0);
-
-        for(int j = 0; j <= b.minimumLoops; j++) {
-            b.update(true);
-        }
-        assert(b.get());
-    }
-
+    
 }

@@ -69,9 +69,13 @@ public class Intake extends Subsystem {
 		this.clamp.set(true);
 	}
 
-	public boolean updateCubeSwitch() { // Its going to have to be called during all robot periodic...
-		b.update(smartIntake.get());
-		return b.get();
+	public void updateCubeSwitch(boolean val) { // Its going to have to be called during all robot periodic...
+		b.update(val);
+		if(b.get()){
+			this.pistonIn();
+		} else {
+			this.pistonOut();
+		}
 	}
 	
 	public void pistonIn() {

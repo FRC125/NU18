@@ -7,6 +7,7 @@
 
 package org.usfirst.frc.team125.robot;
 
+import edu.wpi.first.wpilibj.Compressor;
 import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.command.Scheduler;
@@ -23,17 +24,15 @@ import org.usfirst.frc.team125.robot.subsystems.Intake;
  */
 public class Robot extends IterativeRobot {
 	
-	public static Intake intake;
-	public static DoubleLift doubleLift;
-			
+	public static Intake intake = new Intake();
+	public static DoubleLift doubleLift = new DoubleLift();
+
 	public static OI oi;
 
 	@Override
 	public void robotInit() {
 		oi = new OI();
-		
-		intake = new Intake();
-		doubleLift = new DoubleLift();
+
 	}
 
 	@Override
