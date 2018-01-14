@@ -44,7 +44,7 @@ public class Robot extends IterativeRobot{
 	@Override
 	public void teleopPeriodic() {
 		Scheduler.getInstance().run();
-//		SmartDashboard.putNumber("Elevator Encoder Value", boyfriend.getEncPos());
+		SmartDashboard.putNumber("Elevator Encoder Value", boyfriend.getEncPos());
 	}
 
 	@Override
