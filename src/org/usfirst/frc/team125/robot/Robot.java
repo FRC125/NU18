@@ -36,7 +36,7 @@ public class Robot extends IterativeRobot {
 	@Override
 	public void robotInit() {
 		oi = new OI();
-
+		
 	}
 
 	@Override
@@ -67,12 +67,6 @@ public class Robot extends IterativeRobot {
 			//Auto code for right side	
 		}
 		
-		//2nd switch position
-		if (gameData.charAt(2) == 'L') {
-			//Auto code for left side
-		} else {
-			//Auto code for right side
-		}
  	}
 	
 	@Override
