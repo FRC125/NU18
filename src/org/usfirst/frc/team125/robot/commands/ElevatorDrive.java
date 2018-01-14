@@ -10,7 +10,7 @@ public class ElevatorDrive extends Command {
 
     public ElevatorDrive() {
         requires(Robot.boyfriend);
-    }
+    }   
 
     protected void initialize() {
     }
