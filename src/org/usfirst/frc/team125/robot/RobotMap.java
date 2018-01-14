@@ -12,7 +12,7 @@ package org.usfirst.frc.team125.robot;
 
 public class RobotMap {
 	
-	//intake Motors
+	//Intake Motors
 	public static final int INTAKE_RIGHT = 0;
 	public static final int INTAKE_LEFT = 0;
 	
@@ -20,9 +20,12 @@ public class RobotMap {
 	public static final int DOUBLELIFT_LIFTER = 0;
 	public static final int DOUBLELIFT_RELEASE = 0;
 
-	// Intake Solenoids
+	//Intake Solenoids
 	public static final int INTAKE_CLAMP = 0;
 	public static final int INTAKE_RETRACT_FORWARD = 0;
 	public static final int INTAKE_RETRACT_REVERSE = 0;
+
+	//Digital Inpute
+	public static final int INTAKE_LIMIT_SWITCH = 0;
 
 }
