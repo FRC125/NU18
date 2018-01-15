@@ -6,9 +6,9 @@ import org.usfirst.frc.team125.robot.Robot;
 /**
  *
  */
-public class UpdateCubeSwitchCmd extends Command {
+public class UpdateCubeSwitchCMD extends Command {
 
-    public UpdateCubeSwitchCmd() {
+    public UpdateCubeSwitchCMD() {
         requires(Robot.intake);
     }
 

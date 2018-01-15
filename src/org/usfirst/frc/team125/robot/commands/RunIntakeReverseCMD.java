@@ -5,9 +5,9 @@ import org.usfirst.frc.team125.robot.Robot;
 import edu.wpi.first.wpilibj.command.Command;
 import org.usfirst.frc.team125.robot.subsystems.Intake;
 
-public class RunIntakeReverse extends Command{
+public class RunIntakeReverseCMD extends Command{
 
-	public RunIntakeReverse() {
+	public RunIntakeReverseCMD() {
 		requires(Robot.intake);
 	}
 	

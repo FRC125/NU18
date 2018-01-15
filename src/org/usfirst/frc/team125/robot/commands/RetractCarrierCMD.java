@@ -3,9 +3,9 @@ package org.usfirst.frc.team125.robot.commands;
 import edu.wpi.first.wpilibj.command.Command;
 import org.usfirst.frc.team125.robot.Robot;
 
-public class RetractCarrier extends Command {
+public class RetractCarrierCMD extends Command {
 
-	public RetractCarrier() {
+	public RetractCarrierCMD() {
 			requires(Robot.doubleLift);
 		}
 		

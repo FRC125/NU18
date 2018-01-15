@@ -4,9 +4,9 @@ import org.usfirst.frc.team125.robot.Robot;
 
 import edu.wpi.first.wpilibj.command.Command;
 
-public class ReleaseCarrier extends Command{
+public class ReleaseCarrierCMD extends Command{
 
-	public ReleaseCarrier() {
+	public ReleaseCarrierCMD() {
 		requires(Robot.doubleLift);
 	}
 	
