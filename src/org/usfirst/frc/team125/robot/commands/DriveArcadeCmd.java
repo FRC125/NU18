@@ -6,9 +6,9 @@ import org.usfirst.frc.team125.robot.Robot;
 /**
  *
  */
-public class DriveArcade extends Command {
+public class DriveArcadeCmd extends Command {
 
-    public DriveArcade() {
+    public DriveArcadeCmd() {
         requires(Robot.dt);
     }
 

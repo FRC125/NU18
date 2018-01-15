@@ -6,9 +6,9 @@ import edu.wpi.first.wpilibj.command.Command;
 /**
  *
  */
-public class DrivePath extends Command {
+public class DrivePathCmd extends Command {
 
-    public DrivePath() {
+    public DrivePathCmd() {
         requires(Robot.dt);
     }
 

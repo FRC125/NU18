@@ -13,7 +13,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import jaci.pathfinder.Pathfinder;
 import jaci.pathfinder.followers.EncoderFollower;
 import jaci.pathfinder.modifiers.TankModifier;
-import org.usfirst.frc.team125.robot.commands.DriveArcade;
+import org.usfirst.frc.team125.robot.commands.DriveArcadeCmd;
 
 /**
  * 4 Motor Drivetrain Subclass
@@ -180,7 +180,7 @@ public class Drivetrain extends Subsystem {
     }
 
     public void initDefaultCommand() {
-        setDefaultCommand(new DriveArcade());
+        setDefaultCommand(new DriveArcadeCmd());
     }
 
     public static class DrivetrainProfiling {

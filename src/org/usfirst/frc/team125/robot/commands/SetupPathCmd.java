@@ -7,11 +7,11 @@ import jaci.pathfinder.modifiers.TankModifier;
 /**
  *
  */
-public class SetupPath extends Command {
+public class SetupPathCmd extends Command {
 
     TankModifier modifier;
 
-    public SetupPath(TankModifier modifier) {
+    public SetupPathCmd(TankModifier modifier) {
         requires(Robot.dt);
         this.modifier = modifier;
     }

@@ -7,9 +7,9 @@ import edu.wpi.first.wpilibj.command.Command;
 /**
  *
  */
-public class DriveTank extends Command {
+public class DriveTankCmd extends Command {
 
-    public DriveTank() {
+    public DriveTankCmd() {
         requires(Robot.dt);
     }
 
