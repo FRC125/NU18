@@ -33,14 +33,14 @@ public class OI {
 
 	public OI() {
 		//intake
-		this.forwardIntakeButton.whileHeld(new RunIntakeForward());
-		this.reverseIntakeButton.whileHeld(new RunIntakeReverse());
+		this.forwardIntakeButton.whileHeld(new RunIntakeForwardCMD());
+		this.reverseIntakeButton.whileHeld(new RunIntakeReverseCMD());
 		
 		//Carrier
-		this.releaseCarrierButton.whenPressed(new ReleaseCarrier());
-		this.retractCarrierButton.whenPressed(new RetractCarrier());
+		this.releaseCarrierButton.whenPressed(new ReleaseCarrierCMD());
+		this.retractCarrierButton.whenPressed(new RetractCarrierCMD());
 
-		this.checkSmartIntake.whileHeld(new UpdateCubeSwitchCmd());
+		this.checkSmartIntake.whileHeld(new UpdateCubeSwitchCMD());
 	}
 	
 }
