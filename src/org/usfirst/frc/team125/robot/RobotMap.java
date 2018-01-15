@@ -21,8 +21,8 @@ public class RobotMap {
 	public static final int DOUBLELIFT_RELEASE = 3;
 
 	//Intake Solenoids
-	public static final int INTAKE_CLAMP = 4;
-	public static final int INTAKE_RETRACT_FORWARD = 0;
+	public static final int INTAKE_CLAMP = 0;
+	public static final int INTAKE_RETRACT_FORWARD = 4;
 	public static final int INTAKE_RETRACT_REVERSE = 1;
 
 	//Digital Inpute

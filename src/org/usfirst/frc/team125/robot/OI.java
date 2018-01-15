@@ -28,19 +28,25 @@ public class OI {
 	private Button reverseIntakeButton = new JoystickButton(opPad, 2);
 	private Button releaseCarrierButton = new JoystickButton(opPad, 3);
 	private Button retractCarrierButton = new JoystickButton(opPad, 4);
-
+	private Button openClampButton = new JoystickButton(opPad, 5);
+	private Button closeClampButton = new JoystickButton(opPad, 6);
+	
 	private Button checkSmartIntake = new JoystickButton(driverPad, 1);
 
 	public OI() {
 		//intake
 		this.forwardIntakeButton.whileHeld(new RunIntakeForwardCMD());
-		this.reverseIntakeButton.whileHeld(new RunIntakeReverseCMD());
+        this.reverseIntakeButton.whileHeld(new RunIntakeReverseCMD());
+		
+		this.openClampButton.whenPressed(new OpenClampCMD());
+		this.closeClampButton.whenPressed(new CloseClampCMD());
+		
+		this.checkSmartIntake.whileHeld(new UpdateCubeSwitchCMD());
 		
 		//Carrier
 		this.releaseCarrierButton.whenPressed(new ReleaseCarrierCMD());
 		this.retractCarrierButton.whenPressed(new RetractCarrierCMD());
 
-		this.checkSmartIntake.whileHeld(new UpdateCubeSwitchCMD());
 	}
 	
 }
