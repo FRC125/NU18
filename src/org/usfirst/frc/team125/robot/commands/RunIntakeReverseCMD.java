@@ -15,8 +15,9 @@ public class RunIntakeReverseCMD extends Command{
 	protected void initialize() {
 	}
 	
-	protected void excecute() {
-		Robot.intake.runIntakeReversed(Intake.INTAKE_POWER);
+	@Override
+	public void execute() {
+		Robot.intake.runIntake(-.75);
 	}
 
 	@Override

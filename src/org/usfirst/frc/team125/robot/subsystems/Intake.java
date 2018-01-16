@@ -16,8 +16,10 @@ import org.usfirst.frc.team125.robot.util.DebouncedBoolean;
 public class Intake extends Subsystem {
 	
 	//intake motors
-	private VictorSPX intakeL = new VictorSPX(RobotMap.INTAKE_LEFT);
-	private VictorSPX intakeR = new VictorSPX(RobotMap.INTAKE_RIGHT);
+	private TalonSRX intakeL = new TalonSRX(RobotMap.INTAKE_LEFT);
+	private TalonSRX intakeR = new TalonSRX(RobotMap.INTAKE_RIGHT);
+	//switch to TalonSRX  when using protoBoard
+	
 	private DoubleSolenoid intakePiston = new DoubleSolenoid(RobotMap.INTAKE_RETRACT_FORWARD, RobotMap.INTAKE_RETRACT_REVERSE);
 	private Solenoid clamp = new Solenoid(RobotMap.INTAKE_CLAMP);
 
@@ -30,10 +32,14 @@ public class Intake extends Subsystem {
 	public static final double INTAKE_POWER = 1.0;
 
 	public Intake() {
+		
+		//Left side
 		this.intakeL.configPeakOutputForward(1.0, 0);
 		this.intakeL.configPeakOutputReverse(-1.0, 0);
 		this.intakeL.configNominalOutputForward(0.0, 0);
 		this.intakeL.configNominalOutputReverse(0.0, 0);
+		
+		//Right side
 		this.intakeR.configPeakOutputForward(1.0, 0);
 		this.intakeR.configPeakOutputReverse(-1.0, 0);
 		this.intakeR.configNominalOutputForward(0.0, 0);
@@ -48,11 +54,11 @@ public class Intake extends Subsystem {
 
 	public void runIntake(double power) {
 		this.intakeL.set(ControlMode.PercentOutput, power);
-		this.intakeR.set(ControlMode.PercentOutput, -power);
+		this.intakeR.set(ControlMode.PercentOutput, power);
 	}
 	
 	public void runIntakeReversed(double power) {
-		this.intakeL.set(ControlMode.PercentOutput, -power);
+		this.intakeL.set(ControlMode.PercentOutput, power);
 		this.intakeR.set(ControlMode.PercentOutput, power);
 	}
 	
