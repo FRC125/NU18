@@ -2,13 +2,10 @@ package org.usfirst.frc.team125.robot.subsystems;
 
 import com.ctre.phoenix.motorcontrol.NeutralMode;
 import edu.wpi.first.wpilibj.*;
-import org.usfirst.frc.team125.robot.Robot;
 import org.usfirst.frc.team125.robot.RobotMap;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
-import com.ctre.phoenix.motorcontrol.can.VictorSPX;
-import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 
 import edu.wpi.first.wpilibj.command.Subsystem;
 import org.usfirst.frc.team125.robot.util.DebouncedBoolean;
@@ -25,7 +22,7 @@ public class Intake extends Subsystem {
 
 	private DigitalInput smartIntake = new DigitalInput(RobotMap.INTAKE_LIMIT_SWITCH);
 	private static final double minimumSmartIntakeTime = 2.0; // Is 2 seconds too long???
-	private DebouncedBoolean b = new DebouncedBoolean(minimumSmartIntakeTime);
+	private DebouncedBoolean smartIntakeDebouncer = new DebouncedBoolean(minimumSmartIntakeTime);
 
 
 
@@ -76,8 +73,8 @@ public class Intake extends Subsystem {
 	}
 
 	public void updateCubeSwitch(boolean val) { // Its going to have to be called during all robot periodic...
-		b.update(val);
-		if(b.get()){
+		smartIntakeDebouncer.update(val);
+		if(smartIntakeDebouncer.get()){
 			this.pistonIn();
 		} else {
 			this.pistonOut();
