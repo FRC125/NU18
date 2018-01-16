@@ -14,7 +14,7 @@ public class ReleaseCarrierCMD extends Command{
 		Robot.doubleLift.releaseCarrier();
 	}
 	
-	protected void excecute() {
+	protected void execute() {
 	}
 
 	@Override

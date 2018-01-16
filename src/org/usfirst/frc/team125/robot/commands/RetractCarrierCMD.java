@@ -13,7 +13,7 @@ public class RetractCarrierCMD extends Command {
 		Robot.doubleLift.lift();
 	}
 		
-	protected void excecute() {
+	protected void execute() {
 	}
 		
     @Override

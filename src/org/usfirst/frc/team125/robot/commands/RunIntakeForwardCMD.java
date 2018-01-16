@@ -26,7 +26,7 @@ public class RunIntakeForwardCMD extends Command {
 
 	@Override
 	protected void execute() {
-		Robot.intake.runIntake(.75);
+		Robot.intake.runIntake(1.0);
 	}
 
 	@Override

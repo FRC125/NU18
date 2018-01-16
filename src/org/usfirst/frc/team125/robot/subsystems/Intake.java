@@ -24,6 +24,8 @@ public class Intake extends Subsystem {
 	private static final double minimumSmartIntakeTime = 2.0; // Is 2 seconds too long???
 	private DebouncedBoolean smartIntakeDebouncer = new DebouncedBoolean(minimumSmartIntakeTime);
 
+	private static final double RIGHT_INTAKE_SPEED = 1.0;
+
 
 
 	public static final double INTAKE_POWER = 1.0;
@@ -37,8 +39,8 @@ public class Intake extends Subsystem {
 		this.intakeL.configNominalOutputReverse(0.0, 0);
 		
 		//Right side
-		this.intakeR.configPeakOutputForward(1.0, 0);
-		this.intakeR.configPeakOutputReverse(-1.0, 0);
+		this.intakeR.configPeakOutputForward(RIGHT_INTAKE_SPEED, 0);
+		this.intakeR.configPeakOutputReverse(-RIGHT_INTAKE_SPEED, 0);
 		this.intakeR.configNominalOutputForward(0.0, 0);
 		this.intakeR.configNominalOutputReverse(0.0, 0);
 

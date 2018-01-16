@@ -17,7 +17,7 @@ public class RunIntakeReverseCMD extends Command{
 	
 	@Override
 	public void execute() {
-		Robot.intake.runIntake(-.75);
+		Robot.intake.runIntake(-1.0);
 	}
 
 	@Override
