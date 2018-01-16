@@ -12,7 +12,7 @@
 
 # IntelliJ files
 *.idea
-/.idea/
+.idea/*
 
 # Package Files #
 *.jar

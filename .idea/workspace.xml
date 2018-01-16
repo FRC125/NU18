@@ -3,12 +3,6 @@
   <component name="ChangeListManager">
     <list default="true" id="b0eb0637-6b7d-4f31-a1e4-f1f67e995b7d" name="Default" comment="">
       <change beforePath="$PROJECT_DIR$/.gitignore" afterPath="$PROJECT_DIR$/.gitignore" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change beforePath="$PROJECT_DIR$/src/org/usfirst/frc/team125/robot/commands/ReleaseCarrierCMD.java" afterPath="$PROJECT_DIR$/src/org/usfirst/frc/team125/robot/commands/ReleaseCarrierCMD.java" />
-      <change beforePath="$PROJECT_DIR$/src/org/usfirst/frc/team125/robot/commands/RetractCarrierCMD.java" afterPath="$PROJECT_DIR$/src/org/usfirst/frc/team125/robot/commands/RetractCarrierCMD.java" />
-      <change beforePath="$PROJECT_DIR$/src/org/usfirst/frc/team125/robot/commands/RunIntakeForwardCMD.java" afterPath="$PROJECT_DIR$/src/org/usfirst/frc/team125/robot/commands/RunIntakeForwardCMD.java" />
-      <change beforePath="$PROJECT_DIR$/src/org/usfirst/frc/team125/robot/commands/RunIntakeReverseCMD.java" afterPath="$PROJECT_DIR$/src/org/usfirst/frc/team125/robot/commands/RunIntakeReverseCMD.java" />
-      <change beforePath="$PROJECT_DIR$/src/org/usfirst/frc/team125/robot/subsystems/Intake.java" afterPath="$PROJECT_DIR$/src/org/usfirst/frc/team125/robot/subsystems/Intake.java" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -160,9 +154,9 @@
         <option value="$PROJECT_DIR$/src/org/usfirst/frc/team125/robot/subsystems/Intake.java" />
         <option value="$PROJECT_DIR$/src/org/usfirst/frc/team125/robot/commands/RunIntakeForwardCMD.java" />
         <option value="$PROJECT_DIR$/src/org/usfirst/frc/team125/robot/commands/RunIntakeReverseCMD.java" />
-        <option value="$PROJECT_DIR$/.gitignore" />
         <option value="$PROJECT_DIR$/src/org/usfirst/frc/team125/robot/commands/ReleaseCarrierCMD.java" />
         <option value="$PROJECT_DIR$/src/org/usfirst/frc/team125/robot/commands/RetractCarrierCMD.java" />
+        <option value="$PROJECT_DIR$/.gitignore" />
       </list>
     </option>
   </component>
@@ -381,7 +375,7 @@
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="9991000" />
+    <option name="totallyTimeSpent" value="10303000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="0" width="2560" height="1600" extended-state="0" />
