@@ -6,11 +6,11 @@ import org.usfirst.frc.team125.robot.Robot;
 /**
  *
  */
-public class RunToPosition extends Command {
+public class RunToPositionMotionMagicCmd extends Command {
 
     private int position;
 
-    public RunToPosition(int pos) {
+    public RunToPositionMotionMagicCmd(int pos) {
         requires(Robot.boyfriend);
         this.position = pos;
     }
@@ -20,7 +20,7 @@ public class RunToPosition extends Command {
     }
 
     protected void execute() {
-        Robot.boyfriend.runToPosition(position);
+        Robot.boyfriend.runToPositionMotionMagic(position);
     }
 
     protected boolean isFinished() {

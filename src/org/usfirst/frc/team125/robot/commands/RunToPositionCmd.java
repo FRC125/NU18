@@ -6,17 +6,21 @@ import org.usfirst.frc.team125.robot.Robot;
 /**
  *
  */
-public class ElevatorDrive extends Command {
+public class RunToPositionCmd extends Command {
 
-    public ElevatorDrive() {
+    private int position;
+
+    public RunToPositionCmd(int pos) {
         requires(Robot.boyfriend);
-    }   
+        this.position = pos;
+    }
 
     protected void initialize() {
+        Robot.boyfriend.stopElevator();
     }
 
     protected void execute() {
-        Robot.boyfriend.directElevate(Robot.oi.getDriverLeftStickY());
+        Robot.boyfriend.runToPosition(position);
     }
 
     protected boolean isFinished() {
@@ -24,9 +28,10 @@ public class ElevatorDrive extends Command {
     }
 
     protected void end() {
+        Robot.boyfriend.stopElevator();
     }
 
     protected void interrupted() {
+        end();
     }
-
 }

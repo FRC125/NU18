@@ -6,10 +6,9 @@ import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 import com.ctre.phoenix.motorcontrol.can.VictorSPX;
 import edu.wpi.first.wpilibj.Solenoid;
-import edu.wpi.first.wpilibj.Talon;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import org.usfirst.frc.team125.robot.RobotMap;
-import org.usfirst.frc.team125.robot.commands.ElevatorDrive;
+import org.usfirst.frc.team125.robot.commands.ElevatorDriveCmd;
 
 /**
  * DoubleLift's DoubleLift for DoubleLifting
@@ -55,6 +54,10 @@ public class CubeLift extends Subsystem {
         elevator.set(ControlMode.Position, pos);
     }
 
+    public void runToPositionMotionMagic(int pos) {
+        elevator.set(ControlMode.MotionMagic, pos);
+    }
+
     public void openGrabbers() {
         grabbers.set(true);
     }
@@ -86,8 +89,18 @@ public class CubeLift extends Subsystem {
         elevator.config_kF(0, kF, 0);
     }
 
+    /**
+     * Set parameters for motion magic control
+     * @param cruiseVelocity cruise velocity in sensorUnits per 100ms
+     * @param acceleration cruise acceleration in sensorUnits per 100ms
+     */
+    public void configMotionMagic(int cruiseVelocity, int acceleration) {
+        elevator.configMotionCruiseVelocity(cruiseVelocity, 0);
+        elevator.configMotionAcceleration(acceleration, 0);
+    }
+
     public void initDefaultCommand() {
-        setDefaultCommand(new ElevatorDrive());
+        setDefaultCommand(new ElevatorDriveCmd());
     }
 
     public int getEncPos() {
