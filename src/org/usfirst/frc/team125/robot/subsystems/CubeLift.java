@@ -5,6 +5,8 @@ import com.ctre.phoenix.motorcontrol.FeedbackDevice;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 import com.ctre.phoenix.motorcontrol.can.VictorSPX;
+
+import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import org.usfirst.frc.team125.robot.RobotMap;
@@ -18,8 +20,10 @@ public class CubeLift extends Subsystem {
     private TalonSRX elevator = new TalonSRX(RobotMap.ELEVATOR);
     private VictorSPX elevatorSlaveA = new VictorSPX(RobotMap.ELEVATOR_SLAVE_A);
     private VictorSPX elevatorSlaveB = new VictorSPX(RobotMap.ELEVATOR_SLAVE_B);
-    private Solenoid grabbers = new Solenoid(RobotMap.GRABBERS);
+    private DoubleSolenoid grabbers = new DoubleSolenoid( 0, 1);
     private Solenoid elevatorRelease = new Solenoid(RobotMap.ELEVATOR_RELEASE);
+    
+    private boolean grabberPosition = true;
 
     public CubeLift() {
         this.elevatorSlaveA.follow(elevator);
@@ -36,7 +40,11 @@ public class CubeLift extends Subsystem {
         this.elevatorSlaveB.configPeakOutputReverse(-1.0, 0);
         this.elevatorSlaveB.configNominalOutputForward(0.0, 0);
         this.elevatorSlaveB.configNominalOutputReverse(0.0, 0);
-
+        
+        this.grabbers.set(DoubleSolenoid.Value.kOff);
+        this.grabbers.set(DoubleSolenoid.Value.kForward);
+        this.grabbers.set(DoubleSolenoid.Value.kReverse);
+        
         //Encoder
         this.elevator.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative, 0, 0);
 
@@ -59,11 +67,17 @@ public class CubeLift extends Subsystem {
     }
 
     public void openGrabbers() {
-        grabbers.set(true);
+        grabbers.set(DoubleSolenoid.Value.kForward);
     }
 
     public void closeGrabbers() {
-        grabbers.set(false);
+        grabbers.set(DoubleSolenoid.Value.kReverse);
+    }
+    
+    public void changeGrabberPosition() {
+    	grabberPosition = !grabberPosition;
+    	
+    	//Fix this issue with the change position
     }
 
     public void releasePin() {

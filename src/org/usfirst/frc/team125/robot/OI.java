@@ -1,14 +1,28 @@
 package org.usfirst.frc.team125.robot;
 
+import org.usfirst.frc.team125.robot.commands.ChangeGrabberPositionCMD;
+import org.usfirst.frc.team125.robot.commands.CloseGrabberCMD;
+import org.usfirst.frc.team125.robot.commands.OpenGrabberCMD;
+
 import edu.wpi.first.wpilibj.Joystick;
+import edu.wpi.first.wpilibj.buttons.Button;
+import edu.wpi.first.wpilibj.buttons.JoystickButton;
 
 public class OI {
 
     // Controllers
     public Joystick driverPad = new Joystick(0);
     public Joystick operatorPad = new Joystick(1);
+    
+	private Button changeGrabberButton = new JoystickButton(operatorPad, 1);
+	private Button openGrabberButton = new JoystickButton(operatorPad, 2);
+	private Button closeGrabberButton = new JoystickButton(operatorPad, 3);
 
     public OI() {
+    	this.changeGrabberButton.whenPressed(new ChangeGrabberPositionCMD());
+    	this.openGrabberButton.whenPressed(new OpenGrabberCMD());
+    	this.closeGrabberButton.whenPressed(new CloseGrabberCMD());
+
     }
 
     public static double stickDeadband(double value, double deadband, double center) {
