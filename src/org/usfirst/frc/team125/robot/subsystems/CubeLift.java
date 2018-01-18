@@ -22,6 +22,8 @@ public class CubeLift extends Subsystem {
     private Solenoid grabbers = new Solenoid(RobotMap.GRABBERS);
     private Solenoid elevatorRelease = new Solenoid(RobotMap.ELEVATOR_RELEASE);
 
+    private boolean grabberPosition = true;
+    
     public CubeLift() {
         this.elevatorSlaveA.follow(elevator);
         this.elevatorSlaveB.follow(elevator);
@@ -61,6 +63,12 @@ public class CubeLift extends Subsystem {
 
     public void closeGrabbers() {
         grabbers.set(false);
+    }
+    
+    public void changeGrabberPosition() {
+    	grabberPosition = !grabberPosition;
+    	
+    	grabbers.set(grabberPosition);
     }
 
     public void releasePin() {

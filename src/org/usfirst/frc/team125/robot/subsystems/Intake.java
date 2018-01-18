@@ -23,10 +23,10 @@ public class Intake extends Subsystem {
 	private DigitalInput smartIntake = new DigitalInput(RobotMap.INTAKE_LIMIT_SWITCH);
 	private static final double minimumSmartIntakeTime = 2.0; // Is 2 seconds too long???
 	private DebouncedBoolean smartIntakeDebouncer = new DebouncedBoolean(minimumSmartIntakeTime);
+	
+	private boolean clampPosition = true;
 
 	private static final double RIGHT_INTAKE_SPEED = 1.0;
-
-
 
 	public static final double INTAKE_POWER = 1.0;
 
@@ -72,6 +72,12 @@ public class Intake extends Subsystem {
 	
 	public void closeClamp(){
 		this.clamp.set(true);
+	}
+	
+	public void changeClampPosition() {
+		clampPosition =  !clampPosition;
+		
+		clamp.set(clampPosition);
 	}
 
 	public void updateCubeSwitch(boolean val) { // Its going to have to be called during all robot periodic...
