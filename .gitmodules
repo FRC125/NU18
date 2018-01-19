@@ -1,0 +1,4 @@
+[submodule "Pathfinder"]
+	path = Pathfinder
+	url = https://github.com/JacisNonsense/Pathfinder.git
+	branch = 8d11e74590f3d3119c93ab34d0a35c8c1310c53c

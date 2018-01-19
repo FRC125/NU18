@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<project name="WPILib Installation" default="doInstall">
+    <property name="wpilib" value="wpilib"/>
+    <mkdir dir="wpilib" />
+    <property name="userLibs.dir" value="${wpilib}/user/java/lib"/>
+    <property file="build.properties"/>
+    <target name="installWpi" >
+    <!-- Make the WPILib directory. -->
+    <mkdir dir="${wpilib}"/>
+
+    <!-- Get the WPILib Eclipse Java Plugin - the URL should be in build.properties. -->
+    <get src="${wpilib.pluginURL}" dest="${wpilib}/plugin.jar"/>
+
+    <!-- Unzip the Plugin, extracting only the java.zip file contained in it. This file has the
+         WPILib libraries and ANT scripts in it. Delete the plugin when done. -->
+    <unzip src="${wpilib}/plugin.jar" dest="${wpilib}">
+        <patternset>
+            <include name="resources/java.zip"/>
+        </patternset>
+        <mapper type="flatten"/>
+    </unzip>
+    <delete file="${wpilib}/plugin.jar"/>
+
+    <!-- Unzip the java.zip file from the plugin to the WPILib directory, deleting when done. -->
+    <unzip src="${wpilib}/java.zip" dest="${wpilib}"/>
+    <delete file="${wpilib}/java.zip"/>
+
+    <!-- Make the user library and docs directories. -->
+    <mkdir dir="${userLibs.dir}"/>
+    <mkdir dir="${userLibs.dir}/docs"/>
+
+    <echo>WPILib Installed</echo>
+    </target>
+
+    <target name="installCtre" depends="installWpi">
+    <!-- Get the CTRE Library - the URL should be in build.properties. -->
+    <get src="${userLibInstallCtre.URL}" dest="${wpilib}/CTRE.zip"/>
+
+    <!-- Unzip the java portion of the library only, and delete when done. -->
+    <unzip src="${wpilib}/CTRE.zip" dest="${userLibs.dir}">
+        <patternset>
+            <include name="java/lib/*"/>
+        </patternset>
+        <mapper type="flatten"/>
+    </unzip>
+    <delete file="${wpilib}/CTRE.zip"/>
+
+    <!-- Get the CTRE Documentation - the URL should be in build.properties. -->
+    <get src="${userLibInstallCtre.docURL}" dest="${wpilib}/CTRE_docs.zip"/>
+
+    <!-- Create the CTRE documentation directory, and unzip the java docs into it, deleting when done. -->
+    <mkdir dir="${userLibs.dir}/docs/ctre"/>
+    <unzip src="${wpilib}/CTRE_docs.zip" dest="${userLibs.dir}/docs/ctre">
+    <patternset>
+        <include name="CTRE Toolsuite API Documentation/java/**"/>
+    </patternset>
+    <cutdirsmapper dirs="2"/>
+    </unzip>
+    <delete file="${wpilib}/CTRE_docs.zip"/>
+
+        <echo>CTRE Library and Documentation Installed</echo>
+    </target>
+    <target name="doInstall" depends="installCtre" />
+    <target name="wpilib.check">
+        <condition property="wpilib.exists">
+            <available file="${wpilib}" type="dir"/>
+        </condition>
+        <condition property="wpilib.installCtre">
+            <istrue value="${userLibInstallCtre}"/>
+        </condition>
+    </target>
+</project>
