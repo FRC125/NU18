@@ -44,6 +44,4 @@ public class RobotMap {
     //Digital Input
     public static final int INTAKE_LIMIT_SWITCH = 5;
 
-
-
 }

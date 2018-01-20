@@ -4,7 +4,7 @@
     <property name="wpilib" value="wpilib"/>
     <mkdir dir="wpilib" />
     <property name="userLibs.dir" value="${wpilib}/user/java/lib"/>
-    <property file="build.properties"/>
+    <property file="buildTravis.properties"/>
     <target name="installWpi" >
     <!-- Make the WPILib directory. -->
     <mkdir dir="${wpilib}"/>

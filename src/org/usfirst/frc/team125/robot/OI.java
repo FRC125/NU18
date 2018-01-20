@@ -1,15 +1,7 @@
 package org.usfirst.frc.team125.robot;
 
 
-import org.usfirst.frc.team125.robot.commands.CubeLift.CloseGrabberCmd;
-import org.usfirst.frc.team125.robot.commands.DoubleLift.ReleaseCarrierCmd;
-import org.usfirst.frc.team125.robot.commands.DoubleLift.RetractCarrierCmd;
-import org.usfirst.frc.team125.robot.commands.Intake.*;
-import org.usfirst.frc.team125.robot.commands.CubeLift.OpenGrabberCmd;
-
 import edu.wpi.first.wpilibj.Joystick;
-import edu.wpi.first.wpilibj.buttons.Button;
-import edu.wpi.first.wpilibj.buttons.JoystickButton;
 
 
 /**
@@ -21,8 +13,6 @@ public class OI {
 	//Controllers
 	public Joystick driverPad = new Joystick(0);
     public Joystick opPad = new Joystick(1);
-
-
 
 	public OI() {
 
