@@ -23,7 +23,7 @@ public class Intake extends Subsystem {
 	private static final double minimumSmartIntakeTime = 2.0; // Is 2 seconds too long???
 	private DebouncedBoolean smartIntakeDebouncer = new DebouncedBoolean(minimumSmartIntakeTime);
 
-	private static final double RIGHT_INTAKE_SPEED = 1.0;
+	private static final double RIGHT_INTAKE_SPEED = 0.75;
 
 	public Intake() {
 		

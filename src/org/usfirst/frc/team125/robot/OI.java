@@ -2,6 +2,10 @@ package org.usfirst.frc.team125.robot;
 
 
 import edu.wpi.first.wpilibj.Joystick;
+import edu.wpi.first.wpilibj.buttons.Button;
+import edu.wpi.first.wpilibj.buttons.JoystickButton;
+import org.usfirst.frc.team125.robot.commands.Intake.RunIntakeForwardCmd;
+import org.usfirst.frc.team125.robot.commands.Intake.RunIntakeReverseCmd;
 
 
 /**
@@ -14,8 +18,12 @@ public class OI {
 	public Joystick driverPad = new Joystick(0);
     public Joystick opPad = new Joystick(1);
 
-	public OI() {
+    public Button runIntakeForward = new JoystickButton(opPad, 1);
+    public Button runIntakeBackward = new JoystickButton(opPad, 2);
 
+	public OI() {
+	    runIntakeForward.whileHeld(new RunIntakeForwardCmd());
+	    runIntakeBackward.whileHeld(new RunIntakeReverseCmd());
 	}
 
     private static final double STICK_DEADBAND = 0.005;
