@@ -1,55 +1,30 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <project name="FRC Deployment" default="deploy">
-  <property file="build.properties"/>
-  <property name="wpilib" value="wpilib"/>
-  <property name="userLibs.dir" value="${wpilib}/user/java/lib"/>
-  <property file="wpilib/wpilib.properties"/>
-  <property file="wpilib/java/${version}/ant/build.properties"/>
-  <property name="wpilib" value="wpilib"/>
-  <property file="${wpilib}/ant/build.properties"/>
-  <property file="${wpilib}/ant/ni_image.properties"/>
-  <import file="${wpilib.ant.dir}/build.xml"/>
-  <target name="compile" description="Try to override WPILib's compile step">
-    <mkdir dir="${build.dir}"/>
 
-    <mkdir dir="${userLibs.dir}" />
-    <path id="classpath.path">
-      <fileset dir="${userLibs.dir}" includes="*.jar"/>
-      <fileset file="${wpilib.jar}"/>
-      <fileset file="${networktables.jar}"/>
-      <fileset file="${opencv.jar}"/>
-      <fileset file="${cscore.jar}"/>
-      <fileset dir="${userLibs}" erroronmissingdir="false"/>
-    </path>
-    
-    <pathconvert property="classpathProp" refid="classpath.path"/>
-    <echo>[athena-compile] Compiling ${src.dir} with classpath=${classpathProp} to ${build.dir}
-    </echo>
-    <javac srcdir="${src.dir}"
-      destdir="${build.dir}"
-      includeAntRuntime="no"
-      includeJavaRuntime="no"
-      classpathref="classpath.path"
-      target="${ant.java.version}"
-      source="${ant.java.version}"
-      compiler="javac${ant.java.version}"
-      debug="true">
-      <src path="${src.dir}" />
-      <src path="${pathsrc.dir}" />
-    </javac>
-  </target>
+    <!--
+    The following properties can be defined to override system level
+    settings. These should not be touched unless you know what you're
+    doing. The primary use is to override the wpilib version when
+    working with older robots that can't compile with the latest
+    libraries.
+    -->
 
-  <target name="wpilib.check">
-    <condition property="wpilib.exists">
-      <available file="${wpilib}" type="dir"/>
-    </condition>
-    <condition property="wpilib.installCtre">
-      <istrue value="${userLibInstallCtre}"/>
-    </condition>
-  </target>
+    <!-- By default the system version of WPI is used -->
+    <!-- <property name="version" value=""/> -->
 
-  <target name="test">
-    <echo message="Hello" />
-  </target>
+    <!-- By default the system team number is used -->
+    <!-- <property name="team-number" value=""/> -->
+
+    <!-- By default the target is set to 10.TE.AM.2 -->
+    <!-- <property name="target" value=""/> -->
+
+    <!-- Any other property in build.properties can also be overridden. -->
+
+    <property file="${user.home}/wpilib/wpilib.properties"/>
+    <property file="build.properties"/>
+    <property file="${user.home}/wpilib/java/${version}/ant/build.properties"/>
+
+    <import file="${wpilib.ant.dir}/build.xml"/>
+
 </project>
