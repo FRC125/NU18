@@ -13,7 +13,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import jaci.pathfinder.Pathfinder;
 import jaci.pathfinder.followers.EncoderFollower;
 import jaci.pathfinder.modifiers.TankModifier;
-import org.usfirst.frc.team125.robot.commands.DriveArcadeCmd;
+import org.usfirst.frc.team125.robot.commands.Drivetrain.DriveArcadeCmd;
 
 /**
  * 4 Motor Drivetrain Subclass
@@ -70,6 +70,14 @@ public class Drivetrain extends Subsystem {
         this.rightDriveSlaveB.configNominalOutputForward(0.0, 0);
         this.rightDriveSlaveB.configNominalOutputReverse(0.0, 0);
 
+        //Inverted or Not...
+        this.leftDriveMain.setInverted(false);
+        this.leftDriveSlaveA.setInverted(false);
+        this.leftDriveSlaveB.setInverted(false);
+        this.rightDriveMain.setInverted(true);
+        this.rightDriveSlaveA.setInverted(true);
+        this.rightDriveSlaveB.setInverted(true);
+
         //Encoder
         this.leftDriveMain.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative, 0, 0);
         this.rightDriveMain.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative, 0, 0);
@@ -83,7 +91,7 @@ public class Drivetrain extends Subsystem {
 
     public void drive(double powLeft, double powRight) {
         this.leftDriveMain.set(ControlMode.PercentOutput, powLeft);
-        this.rightDriveMain.set(ControlMode.PercentOutput, -powRight);
+        this.rightDriveMain.set(ControlMode.PercentOutput, powRight);
     }
 
     public void driveArcade(double throttle, double turn) {
@@ -185,11 +193,11 @@ public class Drivetrain extends Subsystem {
 
     public static class DrivetrainProfiling {
         //TODO: TUNE CONSTANTS
-        public static double kp = 0.0; // 1.5
-        public static double kd = 0.0; // 0.775
-        public static double gp = 0.0; // 0.06
-        public static double gd = 0.0; // 0.03
-        public static double ki = 0.0; // Not Used
+        public static double kp = 0.0;
+        public static double kd = 0.0;
+        public static double gp = 0.0;
+        public static double gd = 0.0;
+        public static double ki = 0.0;
 
         //gyro logging
         public static double last_gyro_error = 0.0;
