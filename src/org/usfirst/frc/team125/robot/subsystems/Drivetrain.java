@@ -30,7 +30,7 @@ public class Drivetrain extends Subsystem {
     private TalonSRX rightDriveSlaveA = new TalonSRX(RobotMap.RIGHT_DRIVE_SLAVE_A);
     private TalonSRX rightDriveSlaveB = new TalonSRX(RobotMap.RIGHT_DRIVE_SLAVE_B);
 
-    AHRS gyro = new AHRS(I2C.Port.kMXP, ) ;
+    AHRS gyro = new AHRS(I2C.Port.kOnboard) ;
 
     //Encoder Stuff
     EncoderFollower left;
@@ -89,7 +89,6 @@ public class Drivetrain extends Subsystem {
 
         //Gyro
         gyro.reset();
-        gyro.calibrate();
     }
 
     public void drive(double powLeft, double powRight) {
