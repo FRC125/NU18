@@ -40,6 +40,7 @@ public class Robot extends IterativeRobot{
 	public void robotInit() {
 		oi = new OI();
 		dt.timer.start();
+		Robot.dt.pathSetup(modifier, true);
 	}
 
 	@Override
@@ -52,17 +53,16 @@ public class Robot extends IterativeRobot{
 		Scheduler.getInstance().run();
 	}
 
+	Command autoCommand;
 	@Override
 	public void autonomousInit() {
-		Command autoInit = new SetupPathCmd(modifier);
-		autoInit.start();
+		autoCommand = new DrivePathCmd();
+		autoCommand.start();
 	}
 
 	@Override
 	public void autonomousPeriodic() {
 		updateSmartdashboard();
-		Command autoPeriodic = new DrivePathCmd();
-		autoPeriodic.start();
 		Scheduler.getInstance().run();
 	}
 

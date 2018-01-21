@@ -195,7 +195,7 @@ public class Drivetrain extends Subsystem {
 
     public static class DrivetrainProfiling {
         //TODO: TUNE CONSTANTS
-        public static double kp = 0.0;
+        public static double kp = 1.0;
         public static double kd = 0.0;
         public static double gp = 0.0;
         public static double gd = 0.0;
@@ -207,7 +207,7 @@ public class Drivetrain extends Subsystem {
         //hard constants TODO: UPDATE FOR 2018 CONSTANTS ARE OLD FOR 2017
         public static final double max_velocity = 3.9; // Max is 3.2
         public static final double kv = 1. / max_velocity;
-        public static final double max_acceleration = 1.9;
+        public static final double max_acceleration = 2.5; // 1.0;
         public static final double ka = 0.05;
         public static final double max_jerk = 9.114;
         public static final double wheel_diameter = 0.126;
