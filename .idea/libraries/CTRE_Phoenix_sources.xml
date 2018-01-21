@@ -3,8 +3,11 @@
     <CLASSES>
       <root url="jar://$USER_HOME$/wpilib/java/lib/CTRE_Phoenix.jar!/" />
       <root url="jar://$USER_HOME$/wpilib/java/lib/Pathfinder-Java.jar!/" />
+      <root url="jar://$USER_HOME$/wpilib/user/java/lib/navx_frc.jar!/" />
     </CLASSES>
-    <JAVADOC />
+    <JAVADOC>
+      <root url="jar://$USER_HOME$/wpilib/user/java/lib/navx_frc.jar!/docs" />
+    </JAVADOC>
     <NATIVE>
       <root url="file://$USER_HOME$/wpilib/java/lib" />
     </NATIVE>

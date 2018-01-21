@@ -5,6 +5,8 @@ import com.ctre.phoenix.motorcontrol.FeedbackDevice;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 import com.ctre.phoenix.motorcontrol.can.VictorSPX;
+import com.kauailabs.navx.frc.AHRS;
+import edu.wpi.first.wpilibj.I2C;
 import org.usfirst.frc.team125.robot.RobotMap;
 import edu.wpi.first.wpilibj.ADXRS450_Gyro;
 import edu.wpi.first.wpilibj.Timer;
@@ -22,13 +24,13 @@ public class Drivetrain extends Subsystem {
 
     //Controllers
     private TalonSRX leftDriveMain = new TalonSRX(RobotMap.LEFT_DRIVE_MAIN);
-    private VictorSPX leftDriveSlaveA = new VictorSPX(RobotMap.LEFT_DRIVE_SLAVE_A);
-    private VictorSPX leftDriveSlaveB = new VictorSPX(RobotMap.LEFT_DRIVE_SLAVE_B);
+    private TalonSRX leftDriveSlaveA = new TalonSRX(RobotMap.LEFT_DRIVE_SLAVE_A);
+    private TalonSRX leftDriveSlaveB = new TalonSRX(RobotMap.LEFT_DRIVE_SLAVE_B);
     private TalonSRX rightDriveMain = new TalonSRX(RobotMap.RIGHT_DRIVE_MAIN);
-    private VictorSPX rightDriveSlaveA = new VictorSPX(RobotMap.RIGHT_DRIVE_SLAVE_A);
-    private VictorSPX rightDriveSlaveB = new VictorSPX(RobotMap.RIGHT_DRIVE_SLAVE_B);
+    private TalonSRX rightDriveSlaveA = new TalonSRX(RobotMap.RIGHT_DRIVE_SLAVE_A);
+    private TalonSRX rightDriveSlaveB = new TalonSRX(RobotMap.RIGHT_DRIVE_SLAVE_B);
 
-    ADXRS450_Gyro gyro = new ADXRS450_Gyro();
+    AHRS gyro = new AHRS(I2C.Port.kMXP, ) ;
 
     //Encoder Stuff
     EncoderFollower left;
@@ -70,10 +72,19 @@ public class Drivetrain extends Subsystem {
         this.rightDriveSlaveB.configNominalOutputForward(0.0, 0);
         this.rightDriveSlaveB.configNominalOutputReverse(0.0, 0);
 
+        //Inverted or Not...
+        this.leftDriveMain.setInverted(false);
+        this.leftDriveSlaveA.setInverted(false);
+        this.leftDriveSlaveB.setInverted(false);
+        this.rightDriveMain.setInverted(true);
+        this.rightDriveSlaveA.setInverted(true);
+        this.rightDriveSlaveB.setInverted(true);
+
         //Encoder
         this.leftDriveMain.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative, 0, 0);
         this.rightDriveMain.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative, 0, 0);
 
+        resetEncoders();
         disableBreakMode();
 
         //Gyro
@@ -83,7 +94,7 @@ public class Drivetrain extends Subsystem {
 
     public void drive(double powLeft, double powRight) {
         this.leftDriveMain.set(ControlMode.PercentOutput, powLeft);
-        this.rightDriveMain.set(ControlMode.PercentOutput, -powRight);
+        this.rightDriveMain.set(ControlMode.PercentOutput, powRight);
     }
 
     public void driveArcade(double throttle, double turn) {
@@ -185,23 +196,23 @@ public class Drivetrain extends Subsystem {
 
     public static class DrivetrainProfiling {
         //TODO: TUNE CONSTANTS
-        public static double kp = 0.0; // 1.5
-        public static double kd = 0.0; // 0.775
-        public static double gp = 0.0; // 0.06
-        public static double gd = 0.0; // 0.03
-        public static double ki = 0.0; // Not Used
+        public static double kp = 0.0;
+        public static double kd = 0.0;
+        public static double gp = 0.0;
+        public static double gd = 0.0;
+        public static double ki = 0.0;
 
         //gyro logging
         public static double last_gyro_error = 0.0;
 
         //hard constants TODO: UPDATE FOR 2018 CONSTANTS ARE OLD FOR 2017
-        public static final double max_velocity = 0.0; // Max is 3.2
-        public static final double kv = 1 / max_velocity;
-        public static final double max_acceleration = 0.0;
-        public static final double ka = 0.0;
-        public static final double max_jerk = 0.0;
-        public static final double wheel_diameter = 0.0;
-        public static final double wheel_base_width = 0.0;
+        public static final double max_velocity = 3.9; // Max is 3.2
+        public static final double kv = 1. / max_velocity;
+        public static final double max_acceleration = 1.9;
+        public static final double ka = 0.05;
+        public static final double max_jerk = 9.114;
+        public static final double wheel_diameter = 0.126;
+        public static final double wheel_base_width = 0.6223;
         public static final int ticks_per_rev = 4096; // CTRE Mag Encoder
         public static final double dt = 0.02; // Calculated - Confirmed
 

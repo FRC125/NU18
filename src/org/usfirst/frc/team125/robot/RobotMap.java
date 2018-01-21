@@ -9,10 +9,10 @@ package org.usfirst.frc.team125.robot;
 
 public class RobotMap {
     //Drivetrain CAN Devices TODO: Make sure these are correspondant to the actual drivetrain motors on webdash
-    public static final int LEFT_DRIVE_MAIN = 0;
-    public static final int LEFT_DRIVE_SLAVE_A = 1;
-    public static final int LEFT_DRIVE_SLAVE_B = 2;
-    public static final int RIGHT_DRIVE_MAIN = 3;
-    public static final int RIGHT_DRIVE_SLAVE_A = 4;
+    public static final int LEFT_DRIVE_MAIN = 1;
+    public static final int LEFT_DRIVE_SLAVE_A = 2;
+    public static final int LEFT_DRIVE_SLAVE_B = 3;
+    public static final int RIGHT_DRIVE_MAIN = 4;
+    public static final int RIGHT_DRIVE_SLAVE_A = 5;
     public static final int RIGHT_DRIVE_SLAVE_B = 6;
 }
