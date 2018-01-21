@@ -30,7 +30,7 @@ public class Drivetrain extends Subsystem {
     private TalonSRX rightDriveSlaveA = new TalonSRX(RobotMap.RIGHT_DRIVE_SLAVE_A);
     private TalonSRX rightDriveSlaveB = new TalonSRX(RobotMap.RIGHT_DRIVE_SLAVE_B);
 
-    AHRS gyro = new AHRS(I2C.Port.kOnboard) ;
+    AHRS gyro = new AHRS(I2C.Port.kMXP) ;
 
     //Encoder Stuff
     EncoderFollower left;
@@ -38,6 +38,9 @@ public class Drivetrain extends Subsystem {
 
     //Timing
     public Timer timer = new Timer();
+
+    //Gyro
+    double lastHeadingError = 0.0;
 
     public Drivetrain() {
         //Slave Control
@@ -88,7 +91,7 @@ public class Drivetrain extends Subsystem {
         disableBreakMode();
 
         //Gyro
-        gyro.reset();
+        resetGyro();
     }
 
     public void drive(double powLeft, double powRight) {
@@ -101,6 +104,16 @@ public class Drivetrain extends Subsystem {
         this.rightDriveMain.set(ControlMode.PercentOutput, throttle - turn);
     }
 
+    public void driveHoldHeading(double throttle) {
+        double turn = (DrivetrainProfiling.gp * gyro.getAngle()) + (DrivetrainProfiling.gd * (gyro.getAngle() - lastHeadingError));
+        this.lastHeadingError = gyro.getAngle();
+        this.leftDriveMain.set(ControlMode.PercentOutput, throttle - turn);
+        this.rightDriveMain.set(ControlMode.PercentOutput, throttle + turn);
+    }
+
+    public void resetLastHeadingError() {
+        this.lastHeadingError = 0.0;
+    }
     public double getLeftVelocity() {
         return (leftDriveMain.getSelectedSensorVelocity(0) * Math.PI * DrivetrainProfiling.wheel_diameter) / (DrivetrainProfiling.ticks_per_rev)  * 10;
     }
@@ -158,10 +171,14 @@ public class Drivetrain extends Subsystem {
         return gyro.getAngle();
     }
 
+    public void resetGyro() {
+        this.gyro.reset();
+    }
+
     public void pathSetup(TankModifier modifier, boolean relative) {
         if(relative) {
             resetEncoders();
-            gyro.reset();
+            resetGyro();
         }
 
         DrivetrainProfiling.last_gyro_error = 0.0;
@@ -195,9 +212,9 @@ public class Drivetrain extends Subsystem {
 
     public static class DrivetrainProfiling {
         //TODO: TUNE CONSTANTS
-        public static double kp = 1.0;
+        public static double kp = 0.01;
         public static double kd = 0.0;
-        public static double gp = 0.0;
+        public static double gp = 0.05;
         public static double gd = 0.0;
         public static double ki = 0.0;
 

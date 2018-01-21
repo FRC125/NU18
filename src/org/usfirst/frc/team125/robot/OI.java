@@ -1,6 +1,12 @@
 package org.usfirst.frc.team125.robot;
 
 import edu.wpi.first.wpilibj.Joystick;
+import edu.wpi.first.wpilibj.buttons.Button;
+import edu.wpi.first.wpilibj.buttons.JoystickButton;
+
+import org.usfirst.frc.team125.robot.commands.DriveArcadeCmd;
+import org.usfirst.frc.team125.robot.commands.DriveArcadeWithHoldHeadingCmd;
+import org.usfirst.frc.team125.robot.commands.DrivePathCmd;
 
 public class OI {
     private static final double STICK_DEADBAND = 0.005;
@@ -9,9 +15,11 @@ public class OI {
     private Joystick driverPad = new Joystick(0);
     private Joystick operatorPad = new Joystick(1);
 
+    private Button driveHoldHeading = new JoystickButton(driverPad, 5);
 
     public OI() {
-
+        driveHoldHeading.whileHeld(new DriveArcadeWithHoldHeadingCmd());
+        driveHoldHeading.whenReleased(new DriveArcadeCmd());
     }
 
     private static double stickDeadband(double value, double deadband, double center) {
