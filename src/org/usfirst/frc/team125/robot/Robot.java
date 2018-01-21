@@ -24,6 +24,7 @@ public class Robot extends IterativeRobot {
     @Override
     public void robotInit() {
         oi = new OI();
+       SmartDashboard.getNumber("Right Drive Encoder", drivetrain.getEncoderRawLeft());
     }
 
     @Override
