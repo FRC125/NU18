@@ -24,42 +24,54 @@ public class Robot extends IterativeRobot {
     @Override
     public void robotInit() {
         oi = new OI();
-       SmartDashboard.getNumber("Right Drive Encoder", drivetrain.getEncoderRawLeft());
+       
     }
 
     @Override
     public void disabledInit() {
+    	
 
     }
 
     @Override
     public void disabledPeriodic() {
         Scheduler.getInstance().run();
+        updateShuffle();
+        
     }
 
     @Override
     public void autonomousInit() {
          /* String gameData = DriverStation.getInstance().getGameSpecificMessage(); */ // HOW TO GET GAME DATA
+    	 updateShuffle();
     }
 
     @Override
     public void autonomousPeriodic() {
         Scheduler.getInstance().run();
+        updateShuffle();
     }
 
     @Override
     public void teleopInit() {
-
+    	 
     }
 
     @Override
     public void teleopPeriodic() {
         Scheduler.getInstance().run();
+        updateShuffle();
     }
 
     @Override
     public void testPeriodic() {
 
+    }
+    public void updateShuffle() {
+    	SmartDashboard.putNumber("Right Drive Encoder", drivetrain.getEncoderRawRight());
+        SmartDashboard.putNumber("Left Drive Encoder", drivetrain.getEncoderRawLeft());
+        SmartDashboard.putNumber("Left Distance Meters",drivetrain.getEncoderDistanceMetersLeft());
+        SmartDashboard.putNumber("Right distance meters", drivetrain.getEncoderDistanceMetersRight());
     }
         
 }
