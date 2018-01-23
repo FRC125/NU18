@@ -215,7 +215,7 @@ public class Drivetrain extends Subsystem {
         public static double kp = 0.035;
         public static double kd = 0.0;
         public static double gp = 0.02;
-        public static double gd = 0.00;
+        public static double gd = 0.0025;
         public static double ki = 0.0;
 
         //gyro logging
