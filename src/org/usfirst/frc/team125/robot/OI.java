@@ -1,12 +1,12 @@
 package org.usfirst.frc.team125.robot;
 
-
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.buttons.Button;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
 import org.usfirst.frc.team125.robot.commands.Intake.RunIntakeForwardCmd;
 import org.usfirst.frc.team125.robot.commands.Intake.RunIntakeReverseCmd;
-
+import org.usfirst.frc.team125.robot.commands.Drivetrain.*;
+import org.usfirst.frc.team125.robot.commands.Drivetrain.DriveArcadeWithHoldHeadingCmd;
 
 /**
  * This class is the glue that binds the controls on the physical operator
@@ -20,10 +20,13 @@ public class OI {
 
     public Button runIntakeForward = new JoystickButton(opPad, 1);
     public Button runIntakeBackward = new JoystickButton(opPad, 2);
+	private Button driveHoldHeading = new JoystickButton(driverPad, 5);
 
 	public OI() {
 	    runIntakeForward.whileHeld(new RunIntakeForwardCmd());
 	    runIntakeBackward.whileHeld(new RunIntakeReverseCmd());
+		driveHoldHeading.whileHeld(new DriveArcadeWithHoldHeadingCmd());
+		driveHoldHeading.whenReleased(new DriveArcadeCmd());
 	}
 
     private static final double STICK_DEADBAND = 0.005;

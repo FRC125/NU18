@@ -136,6 +136,6 @@
         <jarDirectory url="file://$USER_HOME$/wpilib/java/current/lib" recursive="true" type="SOURCES" />
       </library>
     </orderEntry>
-    <orderEntry type="library" name="CTRE_Phoenix-sources" level="project" />
+    <orderEntry type="library" name="lib" level="project" />
   </component>
 </module>
