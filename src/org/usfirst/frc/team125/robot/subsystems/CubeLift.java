@@ -6,7 +6,6 @@ import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 import com.ctre.phoenix.motorcontrol.can.VictorSPX;
 
-import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import org.usfirst.frc.team125.robot.RobotMap;
@@ -21,10 +20,13 @@ public class CubeLift extends Subsystem {
     private VictorSPX elevatorSlaveA = new VictorSPX(RobotMap.ELEVATOR_SLAVE_A);
     private VictorSPX elevatorSlaveB = new VictorSPX(RobotMap.ELEVATOR_SLAVE_B);
 
-    private Solenoid grabbers = new Solenoid(RobotMap.CLAMP);
+    private Solenoid elevatorClamp = new Solenoid(RobotMap.ELEVATOR_CLAMP);
     private Solenoid elevatorRelease = new Solenoid(RobotMap.ELEVATOR_RELEASE);
-    
-    private boolean grabberPosition = true;
+
+    private static final boolean CLAMP_SET = true;
+    private static final boolean UNCLAMP_SET = false;
+    private static final boolean RELEASE_SET = true;
+    private static final boolean UNRELEASE_SET = false;
 
     public CubeLift() {
         this.elevatorSlaveA.follow(elevator);
@@ -42,7 +44,7 @@ public class CubeLift extends Subsystem {
         this.elevatorSlaveB.configNominalOutputForward(0.0, 0);
         this.elevatorSlaveB.configNominalOutputReverse(0.0, 0);
         
-        this.grabbers.set(false); // TODO: Check what double solenoid value is open
+        openClamp();
 
         //Encoder
         this.elevator.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative, 0, 0);
@@ -59,6 +61,10 @@ public class CubeLift extends Subsystem {
         this.elevator.setSelectedSensorPosition(0, 0, 0);
     }
 
+    public int getEncPos() {
+        return elevator.getSelectedSensorPosition(0);
+    }
+
     public void runToPosition(int pos) {
         elevator.set(ControlMode.Position, pos);
     }
@@ -67,20 +73,20 @@ public class CubeLift extends Subsystem {
         elevator.set(ControlMode.MotionMagic, pos);
     }
 
-    public void openGrabbers() {
-        grabbers.set(false);
+    public void openClamp() {
+        elevatorClamp.set(UNCLAMP_SET);
     }
 
-    public void closeGrabbers() {
-        grabbers.set(true);
+    public void closeClamp() {
+        elevatorClamp.set(CLAMP_SET);
     }
 
     public void releasePin() {
-        elevatorRelease.set(true);
+        elevatorRelease.set(RELEASE_SET);
     }
 
     public void reinsertPin() {
-        elevatorRelease.set(false);
+        elevatorRelease.set(UNRELEASE_SET);
     }
 
     public void stopElevator() {
@@ -112,9 +118,7 @@ public class CubeLift extends Subsystem {
         setDefaultCommand(new ElevatorDriveCmd());
     }
 
-    public int getEncPos() {
-        return elevator.getSelectedSensorPosition(0);
-    }
+
 
 }
 

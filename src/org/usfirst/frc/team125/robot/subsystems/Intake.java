@@ -24,6 +24,10 @@ public class Intake extends Subsystem {
 	private DebouncedBoolean smartIntakeDebouncer = new DebouncedBoolean(minimumSmartIntakeTime);
 
 	private static final double RIGHT_INTAKE_SPEED = 0.75;
+	private static final DoubleSolenoid.Value INTAKE_FORWARD_VALUE = DoubleSolenoid.Value.kForward;
+	private static final DoubleSolenoid.Value INTAKE_REVERSE_VALUE = DoubleSolenoid.Value.kReverse;
+	private static final Boolean CLAMP_SET = true;
+	private static final Boolean UNCLAMP_SET = false;
 
 	public Intake() {
 		
@@ -42,8 +46,8 @@ public class Intake extends Subsystem {
 		this.intakeL.setNeutralMode(NeutralMode.Coast);
 		this.intakeR.setNeutralMode(NeutralMode.Coast);
 
-		this.intakePiston.set(DoubleSolenoid.Value.kReverse); // TODO: Check if this is right...
-		this.intakeClamp.set(false); // TODO: Check .set()
+		this.intakePiston.set(INTAKE_REVERSE_VALUE); // TODO: Check if this is right...
+		this.intakeClamp.set(UNCLAMP_SET); // TODO: Check .set()
 	}
 
 	public void runIntake(double power) {
@@ -62,29 +66,29 @@ public class Intake extends Subsystem {
 	}
 	
 	public void openClamp(){
-		this.intakeClamp.set(false);
+		this.intakeClamp.set(UNCLAMP_SET);
 	}
 	
 	public void closeClamp(){
-		this.intakeClamp.set(true);
+		this.intakeClamp.set(CLAMP_SET);
+	}
+	
+	public void intakePistonForward() {
+		this.intakePiston.set(INTAKE_FORWARD_VALUE);
+	}
+	
+	public void intakePistonReverse() {
+		this.intakePiston.set(INTAKE_REVERSE_VALUE);
 	}
 
-	public void updateCubeSwitch(boolean val) { // Its going to have to be called during all robot periodic...
-		smartIntakeDebouncer.update(val);
-		if(smartIntakeDebouncer.get()){
-			this.intakePistonIn();
-		} else {
-			this.intakePistonOut();
-		}
-	}
-	
-	public void intakePistonIn() {
-		this.intakePiston.set(DoubleSolenoid.Value.kForward);
-	}
-	
-	public void intakePistonOut() {
-		this.intakePiston.set(DoubleSolenoid.Value.kReverse);
-	}
+    public void updateCubeSwitch(boolean val) { // Its going to have to be called during all robot periodic...
+        smartIntakeDebouncer.update(val);
+        if(smartIntakeDebouncer.get()){
+            this.intakePistonForward();
+        } else {
+            this.intakePistonReverse();
+        }
+    }
 
 	@Override
 	protected void initDefaultCommand() {
