@@ -27,10 +27,10 @@ public class Robot extends IterativeRobot{
 
 	Waypoint[] curvedPath = new Waypoint[] {
 			new Waypoint(0., 0., Pathfinder.d2r(0.0)),
-			new Waypoint(6.3, 2.125, Pathfinder.d2r(90)),
+			new Waypoint(2.4384, -1.22, Pathfinder.d2r(-90.0)),
 	};
 
-	Waypoint[] autoPathing = straightPath;
+	Waypoint[] autoPathing = curvedPath;
 	Trajectory.Config cfg = new Trajectory.Config(Trajectory.FitMethod.HERMITE_QUINTIC, Trajectory.Config.SAMPLES_HIGH,
 			Drivetrain.DrivetrainProfiling.dt, Drivetrain.DrivetrainProfiling.max_velocity, Drivetrain.DrivetrainProfiling.max_acceleration, Drivetrain.DrivetrainProfiling.max_jerk);
 	Trajectory toFollow = Pathfinder.generate(autoPathing, cfg);
@@ -39,8 +39,7 @@ public class Robot extends IterativeRobot{
 	@Override
 	public void robotInit() {
 		oi = new OI();
-		dt.timer.start();
-		Robot.dt.pathSetup(modifier, true);
+		dt.timer.start();	
 	}
 
 	@Override
@@ -56,6 +55,7 @@ public class Robot extends IterativeRobot{
 	Command autoCommand;
 	@Override
 	public void autonomousInit() {
+		Robot.dt.pathSetup(modifier, true);
 		autoCommand = new DrivePathCmd();
 		autoCommand.start();
 	}

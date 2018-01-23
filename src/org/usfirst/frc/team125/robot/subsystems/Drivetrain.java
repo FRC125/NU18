@@ -212,10 +212,10 @@ public class Drivetrain extends Subsystem {
 
     public static class DrivetrainProfiling {
         //TODO: TUNE CONSTANTS
-        public static double kp = 0.01;
+        public static double kp = 0.035;
         public static double kd = 0.0;
-        public static double gp = 0.05;
-        public static double gd = 0.0;
+        public static double gp = 0.02;
+        public static double gd = 0.00;
         public static double ki = 0.0;
 
         //gyro logging
