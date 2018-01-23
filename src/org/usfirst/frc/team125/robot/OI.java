@@ -7,6 +7,7 @@ import org.usfirst.frc.team125.robot.commands.Intake.RunIntakeForwardCmd;
 import org.usfirst.frc.team125.robot.commands.Intake.RunIntakeReverseCmd;
 import org.usfirst.frc.team125.robot.commands.Drivetrain.*;
 import org.usfirst.frc.team125.robot.commands.Drivetrain.DriveArcadeWithHoldHeadingCmd;
+import org.usfirst.frc.team125.robot.util.*;
 
 /**
  * This class is the glue that binds the controls on the physical operator
@@ -18,9 +19,13 @@ public class OI {
 	public Joystick driverPad = new Joystick(0);
     public Joystick opPad = new Joystick(1);
 
-    public Button runIntakeForward = new JoystickButton(opPad, 1);
-    public Button runIntakeBackward = new JoystickButton(opPad, 2);
-	private Button driveHoldHeading = new JoystickButton(driverPad, 5);
+	/* Operator Control */
+    public Button runIntakeForward = new JoystickButton(opPad, joystickMap.RB);
+    public Button runIntakeBackward = new JoystickButton(opPad, joystickMap.LB);
+
+
+    /* Driver Control */
+	private Button driveHoldHeading = new JoystickButton(driverPad, joystickMap.LB);
 
 	public OI() {
 	    runIntakeForward.whileHeld(new RunIntakeForwardCmd());

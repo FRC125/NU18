@@ -7,9 +7,9 @@ import edu.wpi.first.wpilibj.command.Command;
 /**
  *
  */
-public class OpenClampCmd extends Command {
+public class CloseIntakeClampCmd extends Command {
 
-    public OpenClampCmd() {
+    public CloseIntakeClampCmd() {
         requires(Robot.intake);
     }
 
@@ -17,7 +17,7 @@ public class OpenClampCmd extends Command {
     }
 
     protected void execute() {
-    	Robot.intake.openClamp();
+    	Robot.intake.closeClamp();
     }
 
     protected boolean isFinished() {
@@ -26,7 +26,7 @@ public class OpenClampCmd extends Command {
 
     protected void end() {
     }
-
+    
     protected void interrupted() {
     }
 }

@@ -7,9 +7,9 @@ import edu.wpi.first.wpilibj.command.Command;
 /**
  *
  */
-public class OpenGrabberCmd extends Command {
+public class CloseElevatorClampCmd extends Command {
 
-    public OpenGrabberCmd() {
+    public CloseElevatorClampCmd() {
     	requires(Robot.cubeLift);
     }
 
@@ -19,7 +19,7 @@ public class OpenGrabberCmd extends Command {
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-    	Robot.cubeLift.openClamp();
+    	Robot.cubeLift.closeClamp();
     }
 
     // Make this return true when this Command no longer needs to run execute()
