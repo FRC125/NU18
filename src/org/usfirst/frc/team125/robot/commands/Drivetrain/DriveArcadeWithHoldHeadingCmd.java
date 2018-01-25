@@ -13,7 +13,7 @@ public class DriveArcadeWithHoldHeadingCmd extends Command {
     }
 
     protected void initialize() {
-        Robot.drivetrain.disableBreakMode();
+        Robot.drivetrain.enableBreakMode();
         Robot.drivetrain.resetGyro();
     }
 

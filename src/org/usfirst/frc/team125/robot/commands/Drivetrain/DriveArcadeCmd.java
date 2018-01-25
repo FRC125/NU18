@@ -13,7 +13,7 @@ public class DriveArcadeCmd extends Command {
     }
 
     protected void initialize() {
-        Robot.drivetrain.disableBreakMode();
+        Robot.drivetrain.enableBreakMode();
     }
 
     protected void execute() {

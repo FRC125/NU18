@@ -18,7 +18,7 @@ public class AutoPaths {
 
     public static Waypoint[] wallToSwitch = new Waypoint[] {
             new Waypoint(0.0, 0.0, Pathfinder.d2r(0.0)),
-            new Waypoint(2.68, 0.0, Pathfinder.d2r(0.0)),
+            new Waypoint(2.75, 0.0, Pathfinder.d2r(0.0)),
     };
 
 }

@@ -30,6 +30,9 @@ public class Drivetrain extends Subsystem {
     private TalonSRX rightDriveSlaveA = new TalonSRX(RobotMap.RIGHT_DRIVE_SLAVE_A);
     private TalonSRX rightDriveSlaveB = new TalonSRX(RobotMap.RIGHT_DRIVE_SLAVE_B);
 
+    private static final double HIGH_POW = 0.5;
+    private static final double LOW_POW = -1.0 * HIGH_POW;
+
     AHRS gyro = new AHRS(I2C.Port.kMXP);
 
     //Encoder Stuff
@@ -49,29 +52,29 @@ public class Drivetrain extends Subsystem {
         this.leftDriveSlaveB.follow(leftDriveMain);
         this.rightDriveSlaveB.follow(rightDriveMain);
 
-        this.leftDriveMain.configPeakOutputForward(1.0, 0);
-        this.leftDriveMain.configPeakOutputReverse(-1.0, 0);
+        this.leftDriveMain.configPeakOutputForward(HIGH_POW, 0);
+        this.leftDriveMain.configPeakOutputReverse(LOW_POW, 0);
         this.leftDriveMain.configNominalOutputForward(0.0, 0);
         this.leftDriveMain.configNominalOutputReverse(0.0, 0);
-        this.leftDriveSlaveA.configPeakOutputForward(1.0, 0);
-        this.leftDriveSlaveA.configPeakOutputReverse(-1.0, 0);
+        this.leftDriveSlaveA.configPeakOutputForward(HIGH_POW, 0);
+        this.leftDriveSlaveA.configPeakOutputReverse(LOW_POW, 0);
         this.leftDriveSlaveA.configNominalOutputForward(0.0, 0);
         this.leftDriveSlaveA.configNominalOutputReverse(0.0, 0);
-        this.leftDriveSlaveB.configPeakOutputForward(1.0, 0);
-        this.leftDriveSlaveB.configPeakOutputReverse(-1.0, 0);
+        this.leftDriveSlaveB.configPeakOutputForward(HIGH_POW, 0);
+        this.leftDriveSlaveB.configPeakOutputReverse(LOW_POW, 0);
         this.leftDriveSlaveB.configNominalOutputForward(0.0, 0);
         this.leftDriveSlaveB.configNominalOutputReverse(0.0, 0);
 
-        this.rightDriveMain.configPeakOutputForward(1.0, 0);
-        this.rightDriveMain.configPeakOutputReverse(-1.0, 0);
+        this.rightDriveMain.configPeakOutputForward(HIGH_POW, 0);
+        this.rightDriveMain.configPeakOutputReverse(LOW_POW, 0);
         this.rightDriveMain.configNominalOutputForward(0.0, 0);
         this.rightDriveMain.configNominalOutputReverse(0.0, 0);
-        this.rightDriveSlaveA.configPeakOutputForward(1.0, 0);
-        this.rightDriveSlaveA.configPeakOutputReverse(-1.0, 0);
+        this.rightDriveSlaveA.configPeakOutputForward(HIGH_POW, 0);
+        this.rightDriveSlaveA.configPeakOutputReverse(LOW_POW, 0);
         this.rightDriveSlaveA.configNominalOutputForward(0.0, 0);
         this.rightDriveSlaveA.configNominalOutputReverse(0.0, 0);
-        this.rightDriveSlaveB.configPeakOutputForward(1.0, 0);
-        this.rightDriveSlaveB.configPeakOutputReverse(-1.0, 0);
+        this.rightDriveSlaveB.configPeakOutputForward(HIGH_POW, 0);
+        this.rightDriveSlaveB.configPeakOutputReverse(LOW_POW, 0);
         this.rightDriveSlaveB.configNominalOutputForward(0.0, 0);
         this.rightDriveSlaveB.configNominalOutputReverse(0.0, 0);
 
@@ -88,7 +91,7 @@ public class Drivetrain extends Subsystem {
         this.rightDriveMain.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative, 0, 0);
 
         resetEncoders();
-        disableBreakMode();
+        enableBreakMode();
 
         //Gyro
         resetGyro();
@@ -193,7 +196,7 @@ public class Drivetrain extends Subsystem {
     public void pathFollow() {
         double l = left.calculate(leftDriveMain.getSelectedSensorPosition(0));
         double r = right.calculate(rightDriveMain.getSelectedSensorPosition(0));
-
+        
         double gyro_heading = gyro.getAngle();
         double angle_setpoint = Pathfinder.r2d(left.getHeading());
         double angleDifference = Pathfinder.boundHalfDegrees(angle_setpoint - gyro_heading);
@@ -212,7 +215,7 @@ public class Drivetrain extends Subsystem {
 
     public static class DrivetrainProfiling {
         //TODO: TUNE CONSTANTS
-        public static double kp = 0.035;
+        public static double kp = 0.0;
         public static double kd = 0.0;
         public static double gp = 0.02;
         public static double gd = 0.0025;
@@ -221,11 +224,11 @@ public class Drivetrain extends Subsystem {
         //gyro logging
         public static double last_gyro_error = 0.0;
 
-        public static final double max_velocity = 3.5; // Max is 13fps
+        public static final double max_velocity = 3.9; // Max is 13fps
         public static final double kv = 1.0 / max_velocity;
-        public static final double max_acceleration = 1.75; // Estimated #
-        public static final double ka = 0.05;
-        public static final double max_jerk = 9.5;
+        public static final double max_acceleration = 1.0; // Estimated #
+        public static final double ka = 0.2;
+        public static final double max_jerk = 9.0;
         public static final double wheel_diameter = 0.126;
         public static final double wheel_base_width = 0.6223;
         public static final int ticks_per_rev = 4096; // CTRE Mag Encoder

@@ -43,7 +43,7 @@ public class Robot extends IterativeRobot {
 
     @Override
     public void disabledInit() {
-
+		SmartDashboard.putNumber("Diff", 0.0);
     }
 
     @Override

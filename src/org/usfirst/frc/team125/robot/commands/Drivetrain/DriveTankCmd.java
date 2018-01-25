@@ -13,7 +13,7 @@ public class DriveTankCmd extends Command {
     }
 
     protected void initialize() {
-        Robot.drivetrain.disableBreakMode();
+        Robot.drivetrain.enableBreakMode();
     }
 
     protected void execute() {
