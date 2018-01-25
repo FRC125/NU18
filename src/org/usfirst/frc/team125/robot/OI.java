@@ -20,12 +20,12 @@ public class OI {
     public Joystick opPad = new Joystick(1);
 
 	/* Operator Control */
-    public Button runIntakeForward = new JoystickButton(opPad, joystickMap.RB);
-    public Button runIntakeBackward = new JoystickButton(opPad, joystickMap.LB);
+    public Button runIntakeForward = new JoystickButton(opPad, JoystickMap.RB);
+    public Button runIntakeBackward = new JoystickButton(opPad, JoystickMap.LB);
 
 
     /* Driver Control */
-	private Button driveHoldHeading = new JoystickButton(driverPad, joystickMap.LB);
+	private Button driveHoldHeading = new JoystickButton(driverPad, JoystickMap.LB);
 
 	public OI() {
 	    runIntakeForward.whileHeld(new RunIntakeForwardCmd());

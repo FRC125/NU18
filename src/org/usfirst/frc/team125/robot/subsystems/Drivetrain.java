@@ -30,7 +30,7 @@ public class Drivetrain extends Subsystem {
     private TalonSRX rightDriveSlaveA = new TalonSRX(RobotMap.RIGHT_DRIVE_SLAVE_A);
     private TalonSRX rightDriveSlaveB = new TalonSRX(RobotMap.RIGHT_DRIVE_SLAVE_B);
 
-    AHRS gyro = new AHRS(I2C.Port.kMXP) ;
+    AHRS gyro = new AHRS(I2C.Port.kMXP);
 
     //Encoder Stuff
     EncoderFollower left;
@@ -221,11 +221,11 @@ public class Drivetrain extends Subsystem {
         //gyro logging
         public static double last_gyro_error = 0.0;
 
-        public static final double max_velocity = 3.9; // Max is 13fps
-        public static final double kv = 1. / max_velocity;
-        public static final double max_acceleration = 2.5; // guessed #
+        public static final double max_velocity = 3.5; // Max is 13fps
+        public static final double kv = 1.0 / max_velocity;
+        public static final double max_acceleration = 1.75; // Estimated #
         public static final double ka = 0.05;
-        public static final double max_jerk = 9.114;
+        public static final double max_jerk = 9.5;
         public static final double wheel_diameter = 0.126;
         public static final double wheel_base_width = 0.6223;
         public static final int ticks_per_rev = 4096; // CTRE Mag Encoder

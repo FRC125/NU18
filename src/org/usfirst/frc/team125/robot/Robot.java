@@ -17,6 +17,7 @@ import jaci.pathfinder.Waypoint;
 import jaci.pathfinder.modifiers.TankModifier;
 import org.usfirst.frc.team125.robot.commands.Drivetrain.*;
 import org.usfirst.frc.team125.robot.subsystems.Drivetrain;
+import org.usfirst.frc.team125.robot.util.AutoPaths;
 
 public class Robot extends IterativeRobot {
 
@@ -27,17 +28,8 @@ public class Robot extends IterativeRobot {
 
     public static OI oi;
 
-	Waypoint[] straightPath = new Waypoint[] {
-			new Waypoint(0.0, 0.0, Pathfinder.d2r(0.0)),
-			new Waypoint(2.4384, 0.0, Pathfinder.d2r(0.0)),
-	};
 
-	Waypoint[] curvedPath = new Waypoint[] {
-			new Waypoint(0., 0., Pathfinder.d2r(0.0)),
-			new Waypoint(2.4384, -1.22, Pathfinder.d2r(-90.0)),
-	};
-
-	Waypoint[] autoPathing = curvedPath;
+	Waypoint[] autoPathing = AutoPaths.wallToSwitch;
 	Trajectory.Config cfg = new Trajectory.Config(Trajectory.FitMethod.HERMITE_QUINTIC, Trajectory.Config.SAMPLES_HIGH,
 			Drivetrain.DrivetrainProfiling.dt, Drivetrain.DrivetrainProfiling.max_velocity, Drivetrain.DrivetrainProfiling.max_acceleration, Drivetrain.DrivetrainProfiling.max_jerk);
 	Trajectory toFollow = Pathfinder.generate(autoPathing, cfg);
@@ -94,6 +86,10 @@ public class Robot extends IterativeRobot {
 	public void updateSmartdashboard() {
 		SmartDashboard.putNumber("left Enc", this.drivetrain.getEncoderRawLeft());
 		SmartDashboard.putNumber("right Enc", this.drivetrain.getEncoderRawRight());
+		SmartDashboard.putNumber("left Meters", this.drivetrain.getEncoderDistanceMetersLeft());
+		SmartDashboard.putNumber("right Meters", this.drivetrain.getEncoderDistanceMetersRight());
+		SmartDashboard.putNumber("left Speed", this.drivetrain.getLeftVelocity());
+		SmartDashboard.putNumber("right Speed", this.drivetrain.getRightVelocity());
 		SmartDashboard.putNumber("angle", this.drivetrain.getAngle());
 	}
 

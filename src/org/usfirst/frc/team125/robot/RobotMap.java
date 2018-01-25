@@ -6,12 +6,12 @@ public class RobotMap {
     CTRE Can Devices
      */
     //Drivetrain Motors TODO: Make sure these are correspondant to the actual drivetrain motors on webdash
-    public static final int LEFT_DRIVE_MAIN = 60;
-    public static final int LEFT_DRIVE_SLAVE_A = 59;
-    public static final int LEFT_DRIVE_SLAVE_B = 58;
-    public static final int RIGHT_DRIVE_MAIN = 57;
-    public static final int RIGHT_DRIVE_SLAVE_A = 56;
-    public static final int RIGHT_DRIVE_SLAVE_B =55;
+    public static final int LEFT_DRIVE_MAIN = 1;
+    public static final int LEFT_DRIVE_SLAVE_A = 2;
+    public static final int LEFT_DRIVE_SLAVE_B = 3;
+    public static final int RIGHT_DRIVE_MAIN = 4;
+    public static final int RIGHT_DRIVE_SLAVE_A = 5;
+    public static final int RIGHT_DRIVE_SLAVE_B = 6;
 
     //Intake Motors
     public static final int INTAKE_RIGHT = 54;
@@ -27,18 +27,18 @@ public class RobotMap {
     PCM Devices
      */
     //Double Lift
-    public static final int DOUBLELIFT_LIFTER_FORWARD = 8;
-    public static final int DOUBLELIFT_LIFTER_REVERSE = 7;
-    public static final int DOUBLELIFT_RELEASE = 6;
+    public static final int DOUBLELIFT_LIFTER_FORWARD = 7;
+    public static final int DOUBLELIFT_LIFTER_REVERSE = 6;
+    public static final int DOUBLELIFT_RELEASE = 5;
 
     //Intake Solenoids
-    public static final int INTAKE_CLAMP = 5;
-    public static final int INTAKE_RETRACT_FORWARD = 4;
-    public static final int INTAKE_RETRACT_REVERSE = 3;
+    public static final int INTAKE_CLAMP = 4;
+    public static final int INTAKE_RETRACT_FORWARD = 3;
+    public static final int INTAKE_RETRACT_REVERSE = 2;
 
     //Cube Lift
-    public static final int ELEVATOR_CLAMP = 2;
-    public static final int ELEVATOR_RELEASE = 1;
+    public static final int ELEVATOR_CLAMP = 1;
+    public static final int ELEVATOR_RELEASE = 0;
 
 
     //Digital Input
