@@ -28,7 +28,7 @@ public class CubeLift extends Subsystem {
     private Solenoid elevatorRelease = new Solenoid(RobotMap.ELEVATOR_RELEASE);
     
     private boolean grabberPosition = true;
-
+    
     public CubeLift() {
         this.elevatorSlaveA.follow(elevator);
         this.elevatorSlaveB.follow(elevator);

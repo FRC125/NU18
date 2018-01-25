@@ -1,24 +1,27 @@
 package org.usfirst.frc.team125.robot.commands;
 
 import org.usfirst.frc.team125.robot.Robot;
-
 import edu.wpi.first.wpilibj.command.Command;
+import jaci.pathfinder.modifiers.TankModifier;
 
 /**
  *
  */
-public class CloseGrabberCMD extends Command {
+public class SetupPathCmd extends Command {
 
-    public CloseGrabberCMD() {
-    	requires(Robot.boyfriend);
+    TankModifier modifier;
+
+    public SetupPathCmd(TankModifier modifier) {
+        requires(Robot.dt);
+        this.modifier = modifier;
     }
 
     protected void initialize() {
+        Robot.dt.pathSetup(modifier, true);
     }
 
-
     protected void execute() {
-    	Robot.boyfriend.closeGrabbers();
+        Robot.dt.pathSetup(modifier, true);
     }
 
     protected boolean isFinished() {
@@ -30,4 +33,5 @@ public class CloseGrabberCMD extends Command {
 
     protected void interrupted() {
     }
+
 }

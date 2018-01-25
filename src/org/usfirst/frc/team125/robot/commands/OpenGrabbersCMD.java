@@ -7,18 +7,16 @@ import edu.wpi.first.wpilibj.command.Command;
 /**
  *
  */
-public class CloseGrabberCMD extends Command {
+public class OpenGrabbersCMD extends Command {
 
-    public CloseGrabberCMD() {
+    public OpenGrabbersCMD() {
     	requires(Robot.boyfriend);
     }
 
     protected void initialize() {
     }
 
-
     protected void execute() {
-    	Robot.boyfriend.closeGrabbers();
     }
 
     protected boolean isFinished() {

@@ -7,18 +7,17 @@ import edu.wpi.first.wpilibj.command.Command;
 /**
  *
  */
-public class CloseGrabberCMD extends Command {
+public class ChangeClampPositionCMD extends Command {
 
-    public CloseGrabberCMD() {
-    	requires(Robot.boyfriend);
+    public ChangeClampPositionCMD() {
+    	requires(Robot.intake);
     }
 
     protected void initialize() {
     }
 
-
     protected void execute() {
-    	Robot.boyfriend.closeGrabbers();
+    	Robot.intake.changeClampPosition();
     }
 
     protected boolean isFinished() {

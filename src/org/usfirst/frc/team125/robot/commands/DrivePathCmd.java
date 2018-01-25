@@ -1,24 +1,23 @@
 package org.usfirst.frc.team125.robot.commands;
 
 import org.usfirst.frc.team125.robot.Robot;
-
 import edu.wpi.first.wpilibj.command.Command;
 
 /**
  *
  */
-public class CloseGrabberCMD extends Command {
+public class DrivePathCmd extends Command {
 
-    public CloseGrabberCMD() {
-    	requires(Robot.boyfriend);
+    public DrivePathCmd() {
+        requires(Robot.dt);
     }
 
     protected void initialize() {
+        Robot.dt.pathFollow();
     }
 
-
     protected void execute() {
-    	Robot.boyfriend.closeGrabbers();
+        Robot.dt.pathFollow();
     }
 
     protected boolean isFinished() {
@@ -30,4 +29,5 @@ public class CloseGrabberCMD extends Command {
 
     protected void interrupted() {
     }
+
 }

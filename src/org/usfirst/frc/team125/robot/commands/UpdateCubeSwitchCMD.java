@@ -1,24 +1,23 @@
 package org.usfirst.frc.team125.robot.commands;
 
-import org.usfirst.frc.team125.robot.Robot;
-
 import edu.wpi.first.wpilibj.command.Command;
+import org.usfirst.frc.team125.robot.Robot;
 
 /**
  *
  */
-public class CloseGrabberCMD extends Command {
+public class UpdateCubeSwitchCMD extends Command {
 
-    public CloseGrabberCMD() {
-    	requires(Robot.boyfriend);
+    public UpdateCubeSwitchCMD() {
+        requires(Robot.intake);
     }
 
     protected void initialize() {
+
     }
 
-
     protected void execute() {
-    	Robot.boyfriend.closeGrabbers();
+        Robot.intake.updateCubeSwitch(true);
     }
 
     protected boolean isFinished() {
@@ -26,8 +25,10 @@ public class CloseGrabberCMD extends Command {
     }
 
     protected void end() {
+        Robot.intake.updateCubeSwitch(false);
     }
 
     protected void interrupted() {
+        end();
     }
 }
