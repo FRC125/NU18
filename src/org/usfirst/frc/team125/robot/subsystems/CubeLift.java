@@ -20,7 +20,11 @@ public class CubeLift extends Subsystem {
     private TalonSRX elevator = new TalonSRX(RobotMap.ELEVATOR);
     private VictorSPX elevatorSlaveA = new VictorSPX(RobotMap.ELEVATOR_SLAVE_A);
     private VictorSPX elevatorSlaveB = new VictorSPX(RobotMap.ELEVATOR_SLAVE_B);
-    private DoubleSolenoid grabbers = new DoubleSolenoid( 0, 1);
+    
+    //Change from double to single
+    //private DoubleSolenoid grabbers = new DoubleSolenoid( 0, 1);
+    private Solenoid grabbers = new Solenoid(RobotMap.GRABBERS);
+    
     private Solenoid elevatorRelease = new Solenoid(RobotMap.ELEVATOR_RELEASE);
     
     private boolean grabberPosition = true;
@@ -41,9 +45,9 @@ public class CubeLift extends Subsystem {
         this.elevatorSlaveB.configNominalOutputForward(0.0, 0);
         this.elevatorSlaveB.configNominalOutputReverse(0.0, 0);
         
-        this.grabbers.set(DoubleSolenoid.Value.kOff);
-        this.grabbers.set(DoubleSolenoid.Value.kForward);
-        this.grabbers.set(DoubleSolenoid.Value.kReverse);
+        //this.grabbers.set(DoubleSolenoid.Value.kOff);
+        //this.grabbers.set(DoubleSolenoid.Value.kForward);
+        //this.grabbers.set(DoubleSolenoid.Value.kReverse);
         
         //Encoder
         this.elevator.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative, 0, 0);
@@ -67,17 +71,17 @@ public class CubeLift extends Subsystem {
     }
 
     public void openGrabbers() {
-        grabbers.set(DoubleSolenoid.Value.kForward);
+        grabbers.set(false);
     }
 
     public void closeGrabbers() {
-        grabbers.set(DoubleSolenoid.Value.kReverse);
+        grabbers.set(true);
     }
     
     public void changeGrabberPosition() {
     	grabberPosition = !grabberPosition;
     	
-    	//Fix this issue with the change position
+    	grabbers.set(grabberPosition);
     }
 
     public void releasePin() {
