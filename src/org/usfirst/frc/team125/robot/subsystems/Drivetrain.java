@@ -5,6 +5,8 @@ import com.ctre.phoenix.motorcontrol.FeedbackDevice;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 import com.ctre.phoenix.motorcontrol.can.VictorSPX;
+import com.kauailabs.navx.frc.AHRS;
+import edu.wpi.first.wpilibj.I2C;
 import org.usfirst.frc.team125.robot.RobotMap;
 import edu.wpi.first.wpilibj.ADXRS450_Gyro;
 import edu.wpi.first.wpilibj.Timer;
@@ -22,13 +24,13 @@ public class Drivetrain extends Subsystem {
 
     //Controllers
     private TalonSRX leftDriveMain = new TalonSRX(RobotMap.LEFT_DRIVE_MAIN);
-    private VictorSPX leftDriveSlaveA = new VictorSPX(RobotMap.LEFT_DRIVE_SLAVE_A);
-    private VictorSPX leftDriveSlaveB = new VictorSPX(RobotMap.LEFT_DRIVE_SLAVE_B);
+    private TalonSRX leftDriveSlaveA = new TalonSRX(RobotMap.LEFT_DRIVE_SLAVE_A);
+    private TalonSRX leftDriveSlaveB = new TalonSRX(RobotMap.LEFT_DRIVE_SLAVE_B);
     private TalonSRX rightDriveMain = new TalonSRX(RobotMap.RIGHT_DRIVE_MAIN);
-    private VictorSPX rightDriveSlaveA = new VictorSPX(RobotMap.RIGHT_DRIVE_SLAVE_A);
-    private VictorSPX rightDriveSlaveB = new VictorSPX(RobotMap.RIGHT_DRIVE_SLAVE_B);
+    private TalonSRX rightDriveSlaveA = new TalonSRX(RobotMap.RIGHT_DRIVE_SLAVE_A);
+    private TalonSRX rightDriveSlaveB = new TalonSRX(RobotMap.RIGHT_DRIVE_SLAVE_B);
 
-    ADXRS450_Gyro gyro = new ADXRS450_Gyro();
+    AHRS gyro = new AHRS(I2C.Port.kMXP) ;
 
     //Encoder Stuff
     EncoderFollower left;
@@ -36,6 +38,9 @@ public class Drivetrain extends Subsystem {
 
     //Timing
     public Timer timer = new Timer();
+
+    //Gyro
+    double lastHeadingError = 0.0;
 
     public Drivetrain() {
         //Slave Control
@@ -82,11 +87,11 @@ public class Drivetrain extends Subsystem {
         this.leftDriveMain.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative, 0, 0);
         this.rightDriveMain.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative, 0, 0);
 
+        resetEncoders();
         disableBreakMode();
 
         //Gyro
-        gyro.reset();
-        gyro.calibrate();
+        resetGyro();
     }
 
     public void drive(double powLeft, double powRight) {
@@ -99,6 +104,16 @@ public class Drivetrain extends Subsystem {
         this.rightDriveMain.set(ControlMode.PercentOutput, throttle - turn);
     }
 
+    public void driveHoldHeading(double throttle) {
+        double turn = (DrivetrainProfiling.gp * gyro.getAngle()) + (DrivetrainProfiling.gd * (gyro.getAngle() - lastHeadingError));
+        this.lastHeadingError = gyro.getAngle();
+        this.leftDriveMain.set(ControlMode.PercentOutput, throttle - turn);
+        this.rightDriveMain.set(ControlMode.PercentOutput, throttle + turn);
+    }
+
+    public void resetLastHeadingError() {
+        this.lastHeadingError = 0.0;
+    }
     public double getLeftVelocity() {
         return (leftDriveMain.getSelectedSensorVelocity(0) * Math.PI * DrivetrainProfiling.wheel_diameter) / (DrivetrainProfiling.ticks_per_rev)  * 10;
     }
@@ -156,10 +171,14 @@ public class Drivetrain extends Subsystem {
         return gyro.getAngle();
     }
 
+    public void resetGyro() {
+        this.gyro.reset();
+    }
+
     public void pathSetup(TankModifier modifier, boolean relative) {
         if(relative) {
             resetEncoders();
-            gyro.reset();
+            resetGyro();
         }
 
         DrivetrainProfiling.last_gyro_error = 0.0;
@@ -190,26 +209,50 @@ public class Drivetrain extends Subsystem {
     public void initDefaultCommand() {
         setDefaultCommand(new DriveArcadeCmd());
     }
+    // to output Stuff current valeus of the robot to ShuffleBoard
+    public void debugDrivetrain(){
+    	// put numbers to Shuffle board
+        SmartDashboard.putNumber("Gryo angle Degree", gyro.getAngle());
+        // Raw values
+        SmartDashboard.putNumber("Left Drive Raw output",getEncoderRawLeft());
+        SmartDashboard.putNumber("Right Drive Raw Output", getEncoderRawRight());
+        //Distance
+        SmartDashboard.putNumber("Right Distance Output ", getEncoderDistanceMetersRight ());
+        SmartDashboard.putNumber("Left Distance output", getEncoderDistanceMetersLeft());
+        // Speed
+        SmartDashboard.putNumber("Right Speed M/S" , getRightVelocity());
+        SmartDashboard.putNumber("Left Speed M/S" , getLeftVelocity());
+
+
+        // get numbers from the dash
+        DrivetrainProfiling.updatePIDG();
+        SmartDashboard.getNumber("Gryo angle Degree", 0);
+        SmartDashboard.getNumber("Left Drive Raw output",0);
+        SmartDashboard.getNumber("Right Drive Raw Output",0);
+        SmartDashboard.getNumber("Right Distance Output ",0);
+        SmartDashboard.getNumber("Left Distance output",0);
+        SmartDashboard.getNumber("Right Speed M/S",0);
+        SmartDashboard.getNumber("Left Speed M/S",0);
+    }
 
     public static class DrivetrainProfiling {
         //TODO: TUNE CONSTANTS
-        public static double kp = 0.0;
+        public static double kp = 0.035;
         public static double kd = 0.0;
-        public static double gp = 0.0;
-        public static double gd = 0.0;
+        public static double gp = 0.02;
+        public static double gd = 0.0025;
         public static double ki = 0.0;
 
         //gyro logging
         public static double last_gyro_error = 0.0;
 
-        //hard constants TODO: UPDATE FOR 2018 CONSTANTS ARE OLD FOR 2017
-        public static final double max_velocity = 0.0; // Max is 3.2
-        public static final double kv = 1 / max_velocity;
-        public static final double max_acceleration = 0.0;
-        public static final double ka = 0.0;
-        public static final double max_jerk = 0.0;
-        public static final double wheel_diameter = 0.0;
-        public static final double wheel_base_width = 0.0;
+        public static final double max_velocity = 3.9; // Max is 13fps
+        public static final double kv = 1. / max_velocity;
+        public static final double max_acceleration = 2.5; // guessed #
+        public static final double ka = 0.05;
+        public static final double max_jerk = 9.114;
+        public static final double wheel_diameter = 0.126;
+        public static final double wheel_base_width = 0.6223;
         public static final int ticks_per_rev = 4096; // CTRE Mag Encoder
         public static final double dt = 0.02; // Calculated - Confirmed
 
@@ -228,6 +271,7 @@ public class Drivetrain extends Subsystem {
             gp = SmartDashboard.getNumber("gP", 0.0);
             gd = SmartDashboard.getNumber("gD", 0.0);
         }
+
     }
 
 }
