@@ -13,7 +13,8 @@ public class IntakeAndClamp extends CommandGroup {
     	
       addSequential(new RunIntakeForwardCMD());
       addSequential(new CloseClampCMD());
-      addSequential(new ElevatorDriveCmd());
+      //position is currently zero because it isn't tested yet.
+      addSequential(new RunToPositionCmd(0));
       
     }
 }
