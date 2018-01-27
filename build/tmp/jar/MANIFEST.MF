@@ -1,0 +1,4 @@
+Manifest-Version: 1.0
+Robot-Class: org.usfirst.frc.team125.robot.Robot
+Main-Class: edu.wpi.first.wpilibj.RobotBase
+
