@@ -224,8 +224,8 @@ public class Drivetrain extends Subsystem {
 
     public static class DrivetrainProfiling {
         //TODO: TUNE CONSTANTS
-        public static double kp = 0.0217055; //0.0217055
-        public static double kd = 0.0; 
+        public static double kp = 0.0; //0.0217055
+        public static double kd = 0.0;
         public static double gp = 0.02;
         public static double gd = 0.0025;
         public static double ki = 0.0;
@@ -233,13 +233,13 @@ public class Drivetrain extends Subsystem {
         //gyro logging
         public static double last_gyro_error = 0.0;
 
-        public static final double max_velocity = 4.513;
+        public static final double max_velocity = 3.6;
         public static final double kv = 1.0 / max_velocity; // Calculated for test Drivetrain
         public static final double max_acceleration = 2.2565; // Estimated #
-        public static final double ka = 0.071622; //0.071622
+        public static final double ka = 0.015; //0.071622
         public static final double max_jerk = 7.62;
-        public static final double wheel_diameter = 0.126;
-        public static final double wheel_base_width = 0.6223;
+        public static final double wheel_diameter = 0.13;
+        public static final double wheel_base_width = 0.65;
         public static final int ticks_per_rev = 4096; // CTRE Mag Encoder
         public static final double dt = 0.02; // Calculated - Confirmed
 
