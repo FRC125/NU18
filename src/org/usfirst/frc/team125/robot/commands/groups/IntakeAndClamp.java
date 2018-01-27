@@ -4,9 +4,6 @@ import org.usfirst.frc.team125.robot.commands.*;
 
 import edu.wpi.first.wpilibj.command.CommandGroup;
 
-/**
- *
- */
 public class IntakeAndClamp extends CommandGroup {
 
     public IntakeAndClamp() {
