@@ -5,6 +5,8 @@ import com.ctre.phoenix.motorcontrol.FeedbackDevice;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 import com.ctre.phoenix.motorcontrol.can.VictorSPX;
+import com.kauailabs.navx.frc.AHRS;
+import edu.wpi.first.wpilibj.I2C;
 import org.usfirst.frc.team125.robot.RobotMap;
 import edu.wpi.first.wpilibj.ADXRS450_Gyro;
 import edu.wpi.first.wpilibj.Timer;
@@ -13,7 +15,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import jaci.pathfinder.Pathfinder;
 import jaci.pathfinder.followers.EncoderFollower;
 import jaci.pathfinder.modifiers.TankModifier;
-import org.usfirst.frc.team125.robot.commands.DriveArcadeCmd;
+import org.usfirst.frc.team125.robot.commands.Drivetrain.DriveArcadeCmd;
 
 /**
  * 4 Motor Drivetrain Subclass
@@ -22,13 +24,16 @@ public class Drivetrain extends Subsystem {
 
     //Controllers
     private TalonSRX leftDriveMain = new TalonSRX(RobotMap.LEFT_DRIVE_MAIN);
-    private VictorSPX leftDriveSlaveA = new VictorSPX(RobotMap.LEFT_DRIVE_SLAVE_A);
-    private VictorSPX leftDriveSlaveB = new VictorSPX(RobotMap.LEFT_DRIVE_SLAVE_B);
+    private TalonSRX leftDriveSlaveA = new TalonSRX(RobotMap.LEFT_DRIVE_SLAVE_A);
+    private TalonSRX leftDriveSlaveB = new TalonSRX(RobotMap.LEFT_DRIVE_SLAVE_B);
     private TalonSRX rightDriveMain = new TalonSRX(RobotMap.RIGHT_DRIVE_MAIN);
-    private VictorSPX rightDriveSlaveA = new VictorSPX(RobotMap.RIGHT_DRIVE_SLAVE_A);
-    private VictorSPX rightDriveSlaveB = new VictorSPX(RobotMap.RIGHT_DRIVE_SLAVE_B);
+    private TalonSRX rightDriveSlaveA = new TalonSRX(RobotMap.RIGHT_DRIVE_SLAVE_A);
+    private TalonSRX rightDriveSlaveB = new TalonSRX(RobotMap.RIGHT_DRIVE_SLAVE_B);
 
-    ADXRS450_Gyro gyro = new ADXRS450_Gyro();
+    private static final double HIGH_POW = 1.0;
+    private static final double LOW_POW = -HIGH_POW;
+
+    AHRS gyro = new AHRS(I2C.Port.kMXP);
 
     //Encoder Stuff
     EncoderFollower left;
@@ -37,6 +42,9 @@ public class Drivetrain extends Subsystem {
     //Timing
     public Timer timer = new Timer();
 
+    //Gyro
+    double lastHeadingError = 0.0;
+
     public Drivetrain() {
         //Slave Control
         this.leftDriveSlaveA.follow(leftDriveMain);
@@ -44,46 +52,54 @@ public class Drivetrain extends Subsystem {
         this.leftDriveSlaveB.follow(leftDriveMain);
         this.rightDriveSlaveB.follow(rightDriveMain);
 
-        this.leftDriveMain.configPeakOutputForward(1.0, 0);
-        this.leftDriveMain.configPeakOutputReverse(-1.0, 0);
+        this.leftDriveMain.configPeakOutputForward(HIGH_POW, 0);
+        this.leftDriveMain.configPeakOutputReverse(LOW_POW, 0);
         this.leftDriveMain.configNominalOutputForward(0.0, 0);
         this.leftDriveMain.configNominalOutputReverse(0.0, 0);
-        this.leftDriveSlaveA.configPeakOutputForward(1.0, 0);
-        this.leftDriveSlaveA.configPeakOutputReverse(-1.0, 0);
+        this.leftDriveSlaveA.configPeakOutputForward(HIGH_POW, 0);
+        this.leftDriveSlaveA.configPeakOutputReverse(LOW_POW, 0);
         this.leftDriveSlaveA.configNominalOutputForward(0.0, 0);
         this.leftDriveSlaveA.configNominalOutputReverse(0.0, 0);
-        this.leftDriveSlaveB.configPeakOutputForward(1.0, 0);
-        this.leftDriveSlaveB.configPeakOutputReverse(-1.0, 0);
+        this.leftDriveSlaveB.configPeakOutputForward(HIGH_POW, 0);
+        this.leftDriveSlaveB.configPeakOutputReverse(LOW_POW, 0);
         this.leftDriveSlaveB.configNominalOutputForward(0.0, 0);
         this.leftDriveSlaveB.configNominalOutputReverse(0.0, 0);
 
-        this.rightDriveMain.configPeakOutputForward(1.0, 0);
-        this.rightDriveMain.configPeakOutputReverse(-1.0, 0);
+        this.rightDriveMain.configPeakOutputForward(HIGH_POW, 0);
+        this.rightDriveMain.configPeakOutputReverse(LOW_POW, 0);
         this.rightDriveMain.configNominalOutputForward(0.0, 0);
         this.rightDriveMain.configNominalOutputReverse(0.0, 0);
-        this.rightDriveSlaveA.configPeakOutputForward(1.0, 0);
-        this.rightDriveSlaveA.configPeakOutputReverse(-1.0, 0);
+        this.rightDriveSlaveA.configPeakOutputForward(HIGH_POW, 0);
+        this.rightDriveSlaveA.configPeakOutputReverse(LOW_POW, 0);
         this.rightDriveSlaveA.configNominalOutputForward(0.0, 0);
         this.rightDriveSlaveA.configNominalOutputReverse(0.0, 0);
-        this.rightDriveSlaveB.configPeakOutputForward(1.0, 0);
-        this.rightDriveSlaveB.configPeakOutputReverse(-1.0, 0);
+        this.rightDriveSlaveB.configPeakOutputForward(HIGH_POW, 0);
+        this.rightDriveSlaveB.configPeakOutputReverse(LOW_POW, 0);
         this.rightDriveSlaveB.configNominalOutputForward(0.0, 0);
         this.rightDriveSlaveB.configNominalOutputReverse(0.0, 0);
+
+        //Inverted or Not...
+        this.leftDriveMain.setInverted(false);
+        this.leftDriveSlaveA.setInverted(false);
+        this.leftDriveSlaveB.setInverted(false);
+        this.rightDriveMain.setInverted(true);
+        this.rightDriveSlaveA.setInverted(true);
+        this.rightDriveSlaveB.setInverted(true);
 
         //Encoder
         this.leftDriveMain.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative, 0, 0);
         this.rightDriveMain.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative, 0, 0);
 
-        disableBreakMode();
+        resetEncoders();
+        enableBreakMode();
 
         //Gyro
-        gyro.reset();
-        gyro.calibrate();
+        resetGyro();
     }
 
     public void drive(double powLeft, double powRight) {
         this.leftDriveMain.set(ControlMode.PercentOutput, powLeft);
-        this.rightDriveMain.set(ControlMode.PercentOutput, -powRight);
+        this.rightDriveMain.set(ControlMode.PercentOutput, powRight);
     }
 
     public void driveArcade(double throttle, double turn) {
@@ -91,6 +107,16 @@ public class Drivetrain extends Subsystem {
         this.rightDriveMain.set(ControlMode.PercentOutput, throttle - turn);
     }
 
+    public void driveHoldHeading(double throttle) {
+        double turn = (DrivetrainProfiling.gp * gyro.getAngle()) + (DrivetrainProfiling.gd * (gyro.getAngle() - lastHeadingError));
+        this.lastHeadingError = gyro.getAngle();
+        this.leftDriveMain.set(ControlMode.PercentOutput, throttle - turn);
+        this.rightDriveMain.set(ControlMode.PercentOutput, throttle + turn);
+    }
+
+    public void resetLastHeadingError() {
+        this.lastHeadingError = 0.0;
+    }
     public double getLeftVelocity() {
         return (leftDriveMain.getSelectedSensorVelocity(0) * Math.PI * DrivetrainProfiling.wheel_diameter) / (DrivetrainProfiling.ticks_per_rev)  * 10;
     }
@@ -148,10 +174,14 @@ public class Drivetrain extends Subsystem {
         return gyro.getAngle();
     }
 
+    public void resetGyro() {
+        this.gyro.reset();
+    }
+
     public void pathSetup(TankModifier modifier, boolean relative) {
         if(relative) {
             resetEncoders();
-            gyro.reset();
+            resetGyro();
         }
 
         DrivetrainProfiling.last_gyro_error = 0.0;
@@ -164,9 +194,10 @@ public class Drivetrain extends Subsystem {
     }
 
     public void pathFollow() {
+
         double l = left.calculate(leftDriveMain.getSelectedSensorPosition(0));
         double r = right.calculate(rightDriveMain.getSelectedSensorPosition(0));
-
+        
         double gyro_heading = gyro.getAngle();
         double angle_setpoint = Pathfinder.r2d(left.getHeading());
         double angleDifference = Pathfinder.boundHalfDegrees(angle_setpoint - gyro_heading);
@@ -175,6 +206,14 @@ public class Drivetrain extends Subsystem {
                 ((angleDifference - DrivetrainProfiling.last_gyro_error) / DrivetrainProfiling.dt));
 
         DrivetrainProfiling.last_gyro_error = angleDifference;
+
+        if(left != null && !left.isFinished()) {
+            SmartDashboard.putNumber("Left set vel", left.getSegment().velocity);
+            SmartDashboard.putNumber("Left calc voltage", l);
+            SmartDashboard.putNumber("Commanded heading", left.getHeading());
+            SmartDashboard.putNumber("Left + turn", l + turn);
+            SmartDashboard.putNumber("Left accel (command)", left.getSegment().acceleration);
+        }
 
         drive(l + turn, r - turn);
     }
@@ -185,23 +224,22 @@ public class Drivetrain extends Subsystem {
 
     public static class DrivetrainProfiling {
         //TODO: TUNE CONSTANTS
-        public static double kp = 0.0; // 1.5
-        public static double kd = 0.0; // 0.775
-        public static double gp = 0.0; // 0.06
-        public static double gd = 0.0; // 0.03
-        public static double ki = 0.0; // Not Used
+        public static double kp = 0.0; //0.0217055
+        public static double kd = 0.0;
+        public static double gp = 0.02;
+        public static double gd = 0.0025;
+        public static double ki = 0.0;
 
         //gyro logging
         public static double last_gyro_error = 0.0;
 
-        //hard constants TODO: UPDATE FOR 2018 CONSTANTS ARE OLD FOR 2017
-        public static final double max_velocity = 0.0; // Max is 3.2
-        public static final double kv = 1 / max_velocity;
-        public static final double max_acceleration = 0.0;
-        public static final double ka = 0.0;
-        public static final double max_jerk = 0.0;
-        public static final double wheel_diameter = 0.0;
-        public static final double wheel_base_width = 0.0;
+        public static final double max_velocity = 3.6;
+        public static final double kv = 1.0 / max_velocity; // Calculated for test Drivetrain
+        public static final double max_acceleration = 2.2565; // Estimated #
+        public static final double ka = 0.015; //0.071622
+        public static final double max_jerk = 7.62;
+        public static final double wheel_diameter = 0.13;
+        public static final double wheel_base_width = 0.65;
         public static final int ticks_per_rev = 4096; // CTRE Mag Encoder
         public static final double dt = 0.02; // Calculated - Confirmed
 

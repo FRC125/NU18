@@ -1,4 +1,4 @@
-package org.usfirst.frc.team125.robot.commands;
+package org.usfirst.frc.team125.robot.commands.CubeLift;
 
 import edu.wpi.first.wpilibj.command.Command;
 import org.usfirst.frc.team125.robot.Robot;
@@ -9,14 +9,14 @@ import org.usfirst.frc.team125.robot.Robot;
 public class ElevatorDriveCmd extends Command {
 
     public ElevatorDriveCmd() {
-        requires(Robot.boyfriend);
+        requires(Robot.cubeLift);
     }   
 
     protected void initialize() {
     }
 
     protected void execute() {
-        Robot.boyfriend.directElevate(Robot.oi.getDriverLeftStickY());
+        Robot.cubeLift.directElevate(Robot.oi.getDriverLeftStickY());
     }
 
     protected boolean isFinished() {

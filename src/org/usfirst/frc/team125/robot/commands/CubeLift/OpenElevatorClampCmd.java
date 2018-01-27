@@ -1,4 +1,4 @@
-package org.usfirst.frc.team125.robot.commands;
+package org.usfirst.frc.team125.robot.commands.CubeLift;
 
 import org.usfirst.frc.team125.robot.Robot;
 
@@ -7,10 +7,10 @@ import edu.wpi.first.wpilibj.command.Command;
 /**
  *
  */
-public class OpenGrabberCMD extends Command {
+public class OpenElevatorClampCmd extends Command {
 
-    public OpenGrabberCMD() {
-    	requires(Robot.boyfriend);
+    public OpenElevatorClampCmd() {
+    	requires(Robot.cubeLift);
     }
 
     // Called just before this Command runs the first time
@@ -19,7 +19,7 @@ public class OpenGrabberCMD extends Command {
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-    	Robot.boyfriend.openGrabbers();
+    	Robot.cubeLift.openClamp();
     }
 
     // Make this return true when this Command no longer needs to run execute()

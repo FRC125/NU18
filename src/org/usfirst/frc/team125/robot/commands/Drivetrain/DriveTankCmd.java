@@ -1,7 +1,6 @@
-package org.usfirst.frc.team125.robot.commands;
+package org.usfirst.frc.team125.robot.commands.Drivetrain;
 
 import org.usfirst.frc.team125.robot.Robot;
-import org.usfirst.frc.team125.robot.OI;
 import edu.wpi.first.wpilibj.command.Command;
 
 /**
@@ -10,15 +9,15 @@ import edu.wpi.first.wpilibj.command.Command;
 public class DriveTankCmd extends Command {
 
     public DriveTankCmd() {
-        requires(Robot.dt);
+        requires(Robot.drivetrain);
     }
 
     protected void initialize() {
-        Robot.dt.disableBreakMode();
+        Robot.drivetrain.enableBreakMode();
     }
 
     protected void execute() {
-        Robot.dt.drive(Robot.oi.getDriverLeftStickY(), Robot.oi.getDriverRightStickY());
+        Robot.drivetrain.drive(Robot.oi.getDriverLeftStickY(), Robot.oi.getDriverRightStickY());
     }
 
     protected boolean isFinished() { return false; }

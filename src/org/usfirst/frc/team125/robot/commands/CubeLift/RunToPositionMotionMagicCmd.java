@@ -1,4 +1,4 @@
-package org.usfirst.frc.team125.robot.commands;
+package org.usfirst.frc.team125.robot.commands.CubeLift;
 
 import edu.wpi.first.wpilibj.command.Command;
 import org.usfirst.frc.team125.robot.Robot;
@@ -6,21 +6,21 @@ import org.usfirst.frc.team125.robot.Robot;
 /**
  *
  */
-public class RunToPositionCmd extends Command {
+public class RunToPositionMotionMagicCmd extends Command {
 
     private int position;
 
-    public RunToPositionCmd(int pos) {
-        requires(Robot.boyfriend);
+    public RunToPositionMotionMagicCmd(int pos) {
+        requires(Robot.cubeLift);
         this.position = pos;
     }
 
     protected void initialize() {
-        Robot.boyfriend.stopElevator();
+        Robot.cubeLift.stopElevator();
     }
 
     protected void execute() {
-        Robot.boyfriend.runToPosition(position);
+        Robot.cubeLift.runToPositionMotionMagic(position);
     }
 
     protected boolean isFinished() {
@@ -28,7 +28,7 @@ public class RunToPositionCmd extends Command {
     }
 
     protected void end() {
-        Robot.boyfriend.stopElevator();
+        Robot.cubeLift.stopElevator();
     }
 
     protected void interrupted() {

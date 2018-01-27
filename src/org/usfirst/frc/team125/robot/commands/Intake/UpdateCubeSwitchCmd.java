@@ -1,4 +1,4 @@
-package org.usfirst.frc.team125.robot.commands;
+package org.usfirst.frc.team125.robot.commands.Intake;
 
 import edu.wpi.first.wpilibj.command.Command;
 import org.usfirst.frc.team125.robot.Robot;
@@ -6,9 +6,9 @@ import org.usfirst.frc.team125.robot.Robot;
 /**
  *
  */
-public class UpdateCubeSwitchCMD extends Command {
+public class UpdateCubeSwitchCmd extends Command {
 
-    public UpdateCubeSwitchCMD() {
+    public UpdateCubeSwitchCmd() {
         requires(Robot.intake);
     }
 

@@ -1,33 +1,32 @@
-package org.usfirst.frc.team125.robot.commands;
+package org.usfirst.frc.team125.robot.commands.Intake;
 
 import org.usfirst.frc.team125.robot.Robot;
+
 import edu.wpi.first.wpilibj.command.Command;
 
 /**
  *
  */
-public class DrivePathCmd extends Command {
+public class CloseIntakeClampCmd extends Command {
 
-    public DrivePathCmd() {
-        requires(Robot.dt);
+    public CloseIntakeClampCmd() {
+        requires(Robot.intake);
     }
 
     protected void initialize() {
-        Robot.dt.pathFollow();
     }
 
     protected void execute() {
-        Robot.dt.pathFollow();
+    	Robot.intake.closeClamp();
     }
 
     protected boolean isFinished() {
-        return false;
+        return true;
     }
 
     protected void end() {
     }
-
+    
     protected void interrupted() {
     }
-
 }

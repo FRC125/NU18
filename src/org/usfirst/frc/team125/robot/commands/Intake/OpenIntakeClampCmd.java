@@ -1,4 +1,4 @@
-package org.usfirst.frc.team125.robot.commands;
+package org.usfirst.frc.team125.robot.commands.Intake;
 
 import org.usfirst.frc.team125.robot.Robot;
 
@@ -7,21 +7,21 @@ import edu.wpi.first.wpilibj.command.Command;
 /**
  *
  */
-public class ChangeGrabberPositionCMD extends Command {
+public class OpenIntakeClampCmd extends Command {
 
-    public ChangeGrabberPositionCMD() {
-    	requires(Robot.boyfriend);
+    public OpenIntakeClampCmd() {
+        requires(Robot.intake);
     }
 
     protected void initialize() {
     }
 
     protected void execute() {
-    	Robot.boyfriend.changeGrabberPosition();
+    	Robot.intake.openClamp();
     }
 
     protected boolean isFinished() {
-        return false;
+        return true;
     }
 
     protected void end() {
