@@ -21,7 +21,9 @@ public class DriveArcadeWithHoldHeadingCmd extends Command {
         Robot.drivetrain.driveHoldHeading(Robot.oi.getDriverTriggerSum());
     }
 
-    protected boolean isFinished() { return false; }
+    protected boolean isFinished() {
+        return false;
+    }
 
     protected void end() {
         Robot.drivetrain.resetLastHeadingError();

@@ -8,11 +8,11 @@ import org.usfirst.frc.team125.robot.commands.Intake.RunIntakeForwardCmd;
 public class IntakeAndClamp extends CommandGroup {
 
     public IntakeAndClamp() {
-    	
-      addSequential(new RunIntakeForwardCmd());
-      addSequential(new CloseClampCmd());
-      //position is currently zero because it isn't tested yet.
-      addSequential(new RunToPositionCmd(0));
-      
+
+        addSequential(new RunIntakeForwardCmd());
+        addSequential(new CloseClampCmd());
+        //position is currently zero because it isn't tested yet.
+        addSequential(new RunToPositionCmd(0));
+
     }
 }

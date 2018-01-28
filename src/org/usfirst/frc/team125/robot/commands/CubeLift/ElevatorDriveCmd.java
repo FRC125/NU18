@@ -10,7 +10,7 @@ public class ElevatorDriveCmd extends Command {
 
     public ElevatorDriveCmd() {
         requires(Robot.cubeLift);
-    }   
+    }
 
     protected void initialize() {
     }

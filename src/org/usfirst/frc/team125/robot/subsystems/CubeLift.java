@@ -19,13 +19,13 @@ public class CubeLift extends Subsystem {
     private TalonSRX elevator = new TalonSRX(RobotMap.ELEVATOR);
     private VictorSPX elevatorSlaveA = new VictorSPX(RobotMap.ELEVATOR_SLAVE_A);
     private VictorSPX elevatorSlaveB = new VictorSPX(RobotMap.ELEVATOR_SLAVE_B);
-    
+
     //Change from double to single
     //private DoubleSolenoid grabbers = new DoubleSolenoid( 0, 1);
     private Solenoid grabbers = new Solenoid(RobotMap.GRABBERS);
-    
+
     private Solenoid elevatorRelease = new Solenoid(RobotMap.ELEVATOR_RELEASE);
-    
+
     private boolean grabberPosition = true;
 
     private static final boolean CLAMP_SET = true;
@@ -88,7 +88,7 @@ public class CubeLift extends Subsystem {
         grabbers.set(CLAMP_SET);
     }
 
-    public void changeGrabberPosition(){
+    public void changeGrabberPosition() {
         grabberPosition = !grabberPosition;
 
         grabbers.set(grabberPosition);
@@ -119,8 +119,9 @@ public class CubeLift extends Subsystem {
 
     /**
      * Set parameters for motion magic control
+     *
      * @param cruiseVelocity cruise velocity in sensorUnits per 100ms
-     * @param acceleration cruise acceleration in sensorUnits per 100ms
+     * @param acceleration   cruise acceleration in sensorUnits per 100ms
      */
     public void configMotionMagic(int cruiseVelocity, int acceleration) {
         elevator.configMotionCruiseVelocity(cruiseVelocity, 0);
@@ -130,7 +131,6 @@ public class CubeLift extends Subsystem {
     public void initDefaultCommand() {
         setDefaultCommand(new ElevatorDriveCmd());
     }
-
 
 
 }

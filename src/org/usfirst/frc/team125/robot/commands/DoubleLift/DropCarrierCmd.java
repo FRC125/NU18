@@ -5,25 +5,25 @@ import org.usfirst.frc.team125.robot.Robot;
 
 public class DropCarrierCmd extends Command {
 
-	public DropCarrierCmd() {
-			requires(Robot.doubleLift);
-		}
-		
-	protected void initialize() {
-		Robot.doubleLift.dropLift();
-	}
-		
-	protected void execute() {
-	}
-		
+    public DropCarrierCmd() {
+        requires(Robot.doubleLift);
+    }
+
+    protected void initialize() {
+        Robot.doubleLift.dropLift();
+    }
+
+    protected void execute() {
+    }
+
     @Override
     protected boolean isFinished() {
-			return true;
-		}
+        return true;
+    }
 
     protected void end() {
     }
-		
+
     protected void inturrupted() {
     }
 }

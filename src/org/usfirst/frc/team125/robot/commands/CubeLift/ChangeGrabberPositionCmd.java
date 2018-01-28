@@ -3,17 +3,17 @@ package org.usfirst.frc.team125.robot.commands.CubeLift;
 import edu.wpi.first.wpilibj.command.Command;
 import org.usfirst.frc.team125.robot.Robot;
 
-public class changeGrabberPositionCmd extends Command {
+public class ChangeGrabberPositionCmd extends Command {
 
-    public changeGrabberPositionCmd(){
+    public ChangeGrabberPositionCmd() {
         requires(Robot.cubeLift);
     }
 
-    protected void initialize(){
+    protected void initialize() {
 
     }
 
-    protected void execute(){
+    protected void execute() {
         Robot.cubeLift.changeGrabberPosition();
     }
 
@@ -22,11 +22,11 @@ public class changeGrabberPositionCmd extends Command {
         return true;
     }
 
-    protected void end(){
+    protected void end() {
 
     }
 
-    protected void interrupted(){
-        
+    protected void interrupted() {
+
     }
 }

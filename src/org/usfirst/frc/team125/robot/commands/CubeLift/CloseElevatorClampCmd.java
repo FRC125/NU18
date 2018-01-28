@@ -10,14 +10,14 @@ import edu.wpi.first.wpilibj.command.Command;
 public class CloseElevatorClampCmd extends Command {
 
     public CloseElevatorClampCmd() {
-    	requires(Robot.cubeLift);
+        requires(Robot.cubeLift);
     }
 
     protected void initialize() {
     }
 
     protected void execute() {
-    	Robot.cubeLift.closeClamp();
+        Robot.cubeLift.closeClamp();
     }
 
     protected boolean isFinished() {

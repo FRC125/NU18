@@ -5,15 +5,15 @@ import org.usfirst.frc.team125.robot.Robot;
 
 public class ReleasePinCmd extends Command {
 
-    public ReleasePinCmd(){
+    public ReleasePinCmd() {
         requires(Robot.cubeLift);
     }
 
-    protected void initialize(){
+    protected void initialize() {
 
     }
 
-    protected void execute(){
+    protected void execute() {
         Robot.cubeLift.releasePin();
     }
 
@@ -22,11 +22,11 @@ public class ReleasePinCmd extends Command {
         return true;
     }
 
-    protected void end(){
+    protected void end() {
 
     }
 
-    protected void interrupted(){
+    protected void interrupted() {
 
     }
 

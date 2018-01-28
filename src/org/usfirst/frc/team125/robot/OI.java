@@ -16,69 +16,69 @@ import org.usfirst.frc.team125.robot.util.*;
  */
 public class OI {
 
-	//Controllers
-	public Joystick driverPad = new Joystick(0);
+    //Controllers
+    public Joystick driverPad = new Joystick(0);
     public Joystick opPad = new Joystick(1);
 
-	/* Operator Control */
+    /* Operator Control */
     public Button runIntakeForward = new JoystickButton(opPad, JoystickMap.RB);
     public Button runIntakeBackward = new JoystickButton(opPad, JoystickMap.LB);
-    public Button openClamp = new JoystickButton(opPad, JoystickMap.A);
-    public Button closeClamp = new JoystickButton(opPad, JoystickMap.B);
-	public Button readyCarrier = new JoystickButton(opPad, JoystickMap.X);
-	public Button liftCarrier = new JoystickButton(opPad, JoystickMap.Y);
+    public Button changeClampPosition = new JoystickButton(opPad, JoystickMap.A);
+    public Button readyCarrier = new JoystickButton(opPad, JoystickMap.B);
+    public Button liftCarrier = new JoystickButton(opPad, JoystickMap.Y);
+    public Button releasePin = new JoystickButton(opPad, JoystickMap.X);
 
-	private Button checkSmartIntake = new JoystickButton(driverPad, 4);
+    private Button checkSmartIntake = new JoystickButton(driverPad, 4);
 
     /* Driver Control */
-	private Button driveHoldHeading = new JoystickButton(driverPad, JoystickMap.LB);
+    private Button driveHoldHeading = new JoystickButton(driverPad, JoystickMap.LB);
 
-	private static final double STICK_DEADBAND = 0.005;
-	
-	public OI() {
+    private static final double STICK_DEADBAND = 0.005;
 
-		//Intake
-		runIntakeForward.whileHeld(new RunIntakeForwardCmd());
-		runIntakeBackward.whileHeld(new RunIntakeReverseCmd());
-        
-		//Clamp
-		checkSmartIntake.whileHeld(new UpdateCubeSwitchCmd());
-		openClamp.whileHeld(new OpenClampCmd());
-		closeClamp.whileHeld(new CloseClampCmd());
+    public OI() {
 
-		//Carrier
-		readyCarrier.whenPressed(new DropAndReleaseCarrier());
-		liftCarrier.whenPressed(new LiftCarrierCmd());
+        //Intake
+        runIntakeForward.whileHeld(new RunIntakeForwardCmd());
+        runIntakeBackward.whileHeld(new RunIntakeReverseCmd());
 
-	    //Hold heading
-		driveHoldHeading.whileHeld(new DriveArcadeWithHoldHeadingCmd());
-		driveHoldHeading.whenReleased(new DriveArcadeCmd());
-	}
+        //Clamp
+        checkSmartIntake.whileHeld(new UpdateCubeSwitchCmd());
+        changeClampPosition.whenPressed(new ChangeGrabberPositionCmd());
+
+        //Carrier
+        readyCarrier.whenPressed(new DropAndReleaseCarrier());
+        liftCarrier.whenPressed(new LiftCarrierCmd());
+        releasePin.whenPressed(new ReleasePinCmd());
+
+        //Hold heading
+        driveHoldHeading.whileHeld(new DriveArcadeWithHoldHeadingCmd());
+        driveHoldHeading.whenReleased(new DriveArcadeCmd());
+    }
 
 
-	private static double stickDeadband(double value, double deadband, double center) {
-		return (value < (center + deadband) && value > (center - deadband)) ? center : value;
-	}
+    private static double stickDeadband(double value, double deadband, double center) {
+        return (value < (center + deadband) && value > (center - deadband)) ? center : value;
+    }
 
-	public double getDriverLeftStickY() {
-		return stickDeadband(this.driverPad.getRawAxis(1), STICK_DEADBAND, 0.0);
-	}
+    public double getDriverLeftStickY() {
+        return stickDeadband(this.driverPad.getRawAxis(1), STICK_DEADBAND, 0.0);
+    }
 
-	public double getDriverLeftStickX() {
-		return stickDeadband(this.driverPad.getRawAxis(0), STICK_DEADBAND, 0.0);
-	}
+    public double getDriverLeftStickX() {
+        return stickDeadband(this.driverPad.getRawAxis(0), STICK_DEADBAND, 0.0);
+    }
 
-	public double getDriverRightStickY() {
-		return stickDeadband(this.driverPad.getRawAxis(5), STICK_DEADBAND, 0.0);
-	}
+    public double getDriverRightStickY() {
+        return stickDeadband(this.driverPad.getRawAxis(5), STICK_DEADBAND, 0.0);
+    }
 
-	public double getDriverRightStickX() {
-		return stickDeadband(this.driverPad.getRawAxis(4), STICK_DEADBAND, 0.0);
-	}
+    public double getDriverRightStickX() {
+        return stickDeadband(this.driverPad.getRawAxis(4), STICK_DEADBAND, 0.0);
+    }
 
-	public double getDriverTriggerSum() {
-		return this.driverPad.getRawAxis(3) - this.driverPad.getRawAxis(2); //TODO: Check Axis (Right - Left)
-	}
+    public double getDriverTriggerSum() {
+        return this.driverPad.getRawAxis(3) - this.driverPad.getRawAxis(2); //TODO: Check Axis (Right - Left)
+    }
 
 }
 

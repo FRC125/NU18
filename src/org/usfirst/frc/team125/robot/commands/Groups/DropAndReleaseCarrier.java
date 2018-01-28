@@ -8,7 +8,7 @@ import javax.activation.CommandObject;
 
 public class DropAndReleaseCarrier extends CommandGroup {
 
-    public DropAndReleaseCarrier(){
+    public DropAndReleaseCarrier() {
         addSequential(new DropCarrierCmd());
         addSequential(new ReleaseCarrierCmd());
     }

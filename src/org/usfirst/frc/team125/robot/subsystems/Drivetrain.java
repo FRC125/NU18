@@ -117,8 +117,9 @@ public class Drivetrain extends Subsystem {
     public void resetLastHeadingError() {
         this.lastHeadingError = 0.0;
     }
+
     public double getLeftVelocity() {
-        return (leftDriveMain.getSelectedSensorVelocity(0) * Math.PI * DrivetrainProfiling.wheel_diameter) / (DrivetrainProfiling.ticks_per_rev)  * 10;
+        return (leftDriveMain.getSelectedSensorVelocity(0) * Math.PI * DrivetrainProfiling.wheel_diameter) / (DrivetrainProfiling.ticks_per_rev) * 10;
     }
 
     public double getRightVelocity() {
@@ -161,7 +162,7 @@ public class Drivetrain extends Subsystem {
     public double getEncoderDistanceMetersLeft() {
         return (leftDriveMain.getSelectedSensorPosition(0) * Math.PI * DrivetrainProfiling.wheel_diameter) / DrivetrainProfiling.ticks_per_rev;
     }
-    
+
     public double getEncoderRawLeft() {
         return leftDriveMain.getSelectedSensorPosition(0);
     }
@@ -179,7 +180,7 @@ public class Drivetrain extends Subsystem {
     }
 
     public void pathSetup(TankModifier modifier, boolean relative) {
-        if(relative) {
+        if (relative) {
             resetEncoders();
             resetGyro();
         }
@@ -197,7 +198,7 @@ public class Drivetrain extends Subsystem {
 
         double l = left.calculate(leftDriveMain.getSelectedSensorPosition(0));
         double r = right.calculate(rightDriveMain.getSelectedSensorPosition(0));
-        
+
         double gyro_heading = gyro.getAngle();
         double angle_setpoint = Pathfinder.r2d(left.getHeading());
         double angleDifference = Pathfinder.boundHalfDegrees(angle_setpoint - gyro_heading);
@@ -207,7 +208,7 @@ public class Drivetrain extends Subsystem {
 
         DrivetrainProfiling.last_gyro_error = angleDifference;
 
-        if(left != null && !left.isFinished()) {
+        if (left != null && !left.isFinished()) {
             SmartDashboard.putNumber("Left set vel", left.getSegment().velocity);
             SmartDashboard.putNumber("Left calc voltage", l);
             SmartDashboard.putNumber("Commanded heading", left.getHeading());

@@ -10,7 +10,7 @@ import edu.wpi.first.wpilibj.command.Command;
 public class OpenClampCmd extends Command {
 
     public OpenClampCmd() {
-    	requires(Robot.cubeLift);
+        requires(Robot.cubeLift);
     }
 
     // Called just before this Command runs the first time
@@ -19,7 +19,7 @@ public class OpenClampCmd extends Command {
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-    	Robot.cubeLift.openClamp();
+        Robot.cubeLift.openClamp();
     }
 
     // Make this return true when this Command no longer needs to run execute()

@@ -5,25 +5,25 @@ import org.usfirst.frc.team125.robot.Robot;
 
 public class LiftCarrierCmd extends Command {
 
-	public LiftCarrierCmd() {
-			requires(Robot.doubleLift);
-		}
-		
-	protected void initialize() {
-		Robot.doubleLift.liftLift();
-	}
-		
-	protected void execute() {
-	}
-		
+    public LiftCarrierCmd() {
+        requires(Robot.doubleLift);
+    }
+
+    protected void initialize() {
+        Robot.doubleLift.liftLift();
+    }
+
+    protected void execute() {
+    }
+
     @Override
     protected boolean isFinished() {
-			return true;
-		}
+        return true;
+    }
 
     protected void end() {
     }
-		
+
     protected void interrupted() {
     }
 }

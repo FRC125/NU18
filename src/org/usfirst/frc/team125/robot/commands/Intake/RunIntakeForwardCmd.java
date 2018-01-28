@@ -16,31 +16,31 @@ import org.usfirst.frc.team125.robot.subsystems.Intake;
  */
 public class RunIntakeForwardCmd extends Command {
 
-	public RunIntakeForwardCmd() {
-		requires(Robot.intake);
-	}
+    public RunIntakeForwardCmd() {
+        requires(Robot.intake);
+    }
 
-	@Override
-	protected void initialize() {
-	}
+    @Override
+    protected void initialize() {
+    }
 
-	@Override
-	protected void execute() {
-		Robot.intake.runIntake(1.0);
-	}
+    @Override
+    protected void execute() {
+        Robot.intake.runIntake(1.0);
+    }
 
-	@Override
-	protected boolean isFinished() {
-		return false;
-	}
+    @Override
+    protected boolean isFinished() {
+        return false;
+    }
 
-	@Override
-	protected void end() {
-		Robot.intake.stopIntake();
-	}
+    @Override
+    protected void end() {
+        Robot.intake.stopIntake();
+    }
 
-	@Override
-	protected void interrupted() {
-		end();
-	}
+    @Override
+    protected void interrupted() {
+        end();
+    }
 }
