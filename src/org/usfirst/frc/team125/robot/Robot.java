@@ -30,8 +30,12 @@ public class Robot extends IterativeRobot {
 
 
 	Waypoint[] autoPathing = AutoPaths.wallToSwitch;
-	Trajectory.Config cfg = new Trajectory.Config(Trajectory.FitMethod.HERMITE_QUINTIC, Trajectory.Config.SAMPLES_HIGH,
-			Drivetrain.DrivetrainProfiling.dt, Drivetrain.DrivetrainProfiling.max_velocity, Drivetrain.DrivetrainProfiling.max_acceleration, Drivetrain.DrivetrainProfiling.max_jerk);
+	Trajectory.Config cfg = new Trajectory.Config(Trajectory.FitMethod.HERMITE_QUINTIC,
+			Trajectory.Config.SAMPLES_HIGH,
+			Drivetrain.DrivetrainProfiling.dt,
+			Drivetrain.DrivetrainProfiling.max_velocity,
+			Drivetrain.DrivetrainProfiling.max_acceleration,
+			Drivetrain.DrivetrainProfiling.max_jerk);
 	Trajectory toFollow = Pathfinder.generate(autoPathing, cfg);
 	TankModifier modifier = new TankModifier(toFollow).modify((Drivetrain.DrivetrainProfiling.wheel_base_width));
 
@@ -91,6 +95,7 @@ public class Robot extends IterativeRobot {
 		SmartDashboard.putNumber("left Speed", this.drivetrain.getLeftVelocity());
 		SmartDashboard.putNumber("right Speed", this.drivetrain.getRightVelocity());
 		SmartDashboard.putNumber("angle", this.drivetrain.getAngle());
+		this.drivetrain.updateAccelDashboard();
 	}
 
 }

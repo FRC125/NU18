@@ -195,8 +195,8 @@ public class Drivetrain extends Subsystem {
 
     public void pathFollow() {
 
-        double l = left.calculate(leftDriveMain.getSelectedSensorPosition(0));
-        double r = right.calculate(rightDriveMain.getSelectedSensorPosition(0));
+        double l = left.calculate(-leftDriveMain.getSelectedSensorPosition(0));
+        double r = right.calculate(-rightDriveMain.getSelectedSensorPosition(0));
         
         double gyro_heading = gyro.getAngle();
         double angle_setpoint = Pathfinder.r2d(left.getHeading());
@@ -208,7 +208,9 @@ public class Drivetrain extends Subsystem {
         DrivetrainProfiling.last_gyro_error = angleDifference;
 
         if(left != null && !left.isFinished()) {
+            SmartDashboard.putNumber("Left diff", left.getSegment().x + this.getEncoderDistanceMetersLeft());
             SmartDashboard.putNumber("Left set vel", left.getSegment().velocity);
+            SmartDashboard.putNumber("Left set pos", left.getSegment().x);
             SmartDashboard.putNumber("Left calc voltage", l);
             SmartDashboard.putNumber("Commanded heading", left.getHeading());
             SmartDashboard.putNumber("Left + turn", l + turn);
@@ -218,13 +220,19 @@ public class Drivetrain extends Subsystem {
         drive(l + turn, r - turn);
     }
 
+    public void updateAccelDashboard() {
+        SmartDashboard.putNumber("Accel X", gyro.getWorldLinearAccelX());
+        SmartDashboard.putNumber("Accel Y", gyro.getWorldLinearAccelY());
+        SmartDashboard.putNumber("Accel Z", gyro.getWorldLinearAccelZ());
+    }
+
     public void initDefaultCommand() {
         setDefaultCommand(new DriveArcadeCmd());
     }
 
     public static class DrivetrainProfiling {
         //TODO: TUNE CONSTANTS
-        public static double kp = 0.0; //0.0217055
+        public static double kp = 1.2; //0.0217055
         public static double kd = 0.0;
         public static double gp = 0.02;
         public static double gd = 0.0025;
@@ -233,10 +241,10 @@ public class Drivetrain extends Subsystem {
         //gyro logging
         public static double last_gyro_error = 0.0;
 
-        public static final double max_velocity = 3.6;
+        public static final double max_velocity = 4.0; //4 is real
         public static final double kv = 1.0 / max_velocity; // Calculated for test Drivetrain
-        public static final double max_acceleration = 2.2565; // Estimated #
-        public static final double ka = 0.015; //0.071622
+        public static final double max_acceleration = 3.61; // Estimated #
+        public static final double ka = 0.0; //0.015
         public static final double max_jerk = 7.62;
         public static final double wheel_diameter = 0.13;
         public static final double wheel_base_width = 0.65;
