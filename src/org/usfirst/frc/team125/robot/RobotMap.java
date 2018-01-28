@@ -14,7 +14,7 @@ public class RobotMap {
 
     //Pneumatics
     public static final int GRABBERS = 99;
-    public static final int ELEVATOR_RELEASE = 99;
+    public static final int RELEASE_PIN = 99;
 
     //Intake Motors
     public static final int INTAKE_RIGHT = 99;
@@ -31,6 +31,7 @@ public class RobotMap {
 
     //Digital Input
     public static final int INTAKE_LIMIT_SWITCH = 99;
+    public static final int CUBELIFT_LIMIT_SWITCH = 99;
 
     //Drivetrain CAN Devices TODO: Make sure these are correspondant to the actual drivetrain motors on webdash
     public static final int LEFT_DRIVE_MAIN = 99;

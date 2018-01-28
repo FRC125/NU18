@@ -41,6 +41,7 @@ public class Robot extends IterativeRobot {
     public void robotInit() {
         oi = new OI();
         drivetrain.timer.start();
+        cubeLift.calibrateElevator();
     }
 
     @Override

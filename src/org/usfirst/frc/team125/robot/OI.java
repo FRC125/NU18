@@ -21,8 +21,8 @@ public class OI {
     public Joystick opPad = new Joystick(1);
 
     /* Operator Control */
-    public Button runIntakeForward = new JoystickButton(opPad, JoystickMap.RB);
-    public Button runIntakeBackward = new JoystickButton(opPad, JoystickMap.LB);
+    public Button outtake = new JoystickButton(opPad, JoystickMap.RB);
+    public Button intake = new JoystickButton(opPad, JoystickMap.LB);
     public Button changeClampPosition = new JoystickButton(opPad, JoystickMap.A);
     public Button readyCarrier = new JoystickButton(opPad, JoystickMap.B);
     public Button liftCarrier = new JoystickButton(opPad, JoystickMap.Y);
@@ -37,8 +37,8 @@ public class OI {
     public OI() {
 
         //Intake
-        runIntakeForward.whileHeld(new OutakeCmd());
-        runIntakeBackward.whileHeld(new IntakeCmd());
+        outtake.whileHeld(new OuttakeCmd());
+        intake.whileHeld(new IntakeCmd());
 
         //Clamp
         changeClampPosition.whenPressed(new ChangeGrabberPositionCmd());

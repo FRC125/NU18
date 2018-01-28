@@ -22,8 +22,6 @@ public class Intake extends Subsystem {
     private static final double minimumSmartIntakeTime = 2.0; // Is 2 seconds too long???
     private DebouncedBoolean smartIntakeDebouncer = new DebouncedBoolean(minimumSmartIntakeTime);
 
-    private boolean clampPosition = true;
-
     public static final double INTAKE_POWER = 1.0;
 
     private static final DoubleSolenoid.Value INTAKE_FORWARD_VALUE = DoubleSolenoid.Value.kForward;

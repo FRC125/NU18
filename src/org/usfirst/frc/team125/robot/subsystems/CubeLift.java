@@ -6,10 +6,12 @@ import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 import com.ctre.phoenix.motorcontrol.can.VictorSPX;
 
+import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import org.usfirst.frc.team125.robot.RobotMap;
 import org.usfirst.frc.team125.robot.commands.CubeLift.ElevatorDriveCmd;
+import org.usfirst.frc.team125.robot.util.DebouncedBoolean;
 
 /**
  * DoubleLift's DoubleLift for DoubleLifting
@@ -25,9 +27,16 @@ public class CubeLift extends Subsystem {
     //private DoubleSolenoid grabbers = new DoubleSolenoid( 0, 1);
     private Solenoid grabbers = new Solenoid(RobotMap.GRABBERS);
 
-    private Solenoid elevatorRelease = new Solenoid(RobotMap.ELEVATOR_RELEASE);
+    private Solenoid releasePin = new Solenoid(RobotMap.RELEASE_PIN);
+
+    private DigitalInput limitSwitch = new DigitalInput(RobotMap.CUBELIFT_LIMIT_SWITCH);
+    private static final double calibrationMinTime = 1.5;
+    private DebouncedBoolean calibrationDebouncer = new DebouncedBoolean(calibrationMinTime);
 
     private boolean grabberPosition = true;
+
+    private static final int ELEVATOR_TOP = 1;
+    private static final int ELEVATOR_BOTTOM = 0;
 
     private static final boolean CLAMP_SET = true;
     private static final boolean UNCLAMP_SET = false;
@@ -102,11 +111,11 @@ public class CubeLift extends Subsystem {
     }
 
     public void releasePin() {
-        elevatorRelease.set(RELEASE_SET);
+        releasePin.set(RELEASE_SET);
     }
 
     public void reinsertPin() {
-        elevatorRelease.set(UNRELEASE_SET);
+        releasePin.set(UNRELEASE_SET);
     }
 
     public void stopElevator() {
@@ -115,6 +124,13 @@ public class CubeLift extends Subsystem {
 
     public void directElevate(double pow) {
         elevator.set(ControlMode.PercentOutput, pow);
+    }
+
+    public void calibrateElevator() {
+        calibrationDebouncer.update(limitSwitch.get());
+        if (calibrationDebouncer.get()) {
+            resetEncoders();
+        }
     }
 
     public void configPIDF(double kP, double kI, double kD, double kF) {
