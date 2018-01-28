@@ -88,6 +88,12 @@ public class CubeLift extends Subsystem {
         grabbers.set(CLAMP_SET);
     }
 
+    public void changeGrabberPosition(){
+        grabberPosition = !grabberPosition;
+
+        grabbers.set(grabberPosition);
+    }
+
     public void releasePin() {
         elevatorRelease.set(RELEASE_SET);
     }
