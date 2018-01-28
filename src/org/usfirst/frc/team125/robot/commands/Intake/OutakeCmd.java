@@ -14,9 +14,9 @@ import org.usfirst.frc.team125.robot.subsystems.Intake;
 /**
  * An example command.  You can replace me with your own command.
  */
-public class RunIntakeForwardCmd extends Command {
+public class OutakeCmd extends Command {
 
-    public RunIntakeForwardCmd() {
+    public OutakeCmd() {
         requires(Robot.intake);
     }
 

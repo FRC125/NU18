@@ -28,7 +28,6 @@ public class OI {
     public Button liftCarrier = new JoystickButton(opPad, JoystickMap.Y);
     public Button releasePin = new JoystickButton(opPad, JoystickMap.X);
 
-    private Button checkSmartIntake = new JoystickButton(driverPad, 4);
 
     /* Driver Control */
     private Button driveHoldHeading = new JoystickButton(driverPad, JoystickMap.LB);
@@ -38,11 +37,10 @@ public class OI {
     public OI() {
 
         //Intake
-        runIntakeForward.whileHeld(new RunIntakeForwardCmd());
-        runIntakeBackward.whileHeld(new RunIntakeReverseCmd());
+        runIntakeForward.whileHeld(new OutakeCmd());
+        runIntakeBackward.whileHeld(new IntakeCmd());
 
         //Clamp
-        checkSmartIntake.whileHeld(new UpdateCubeSwitchCmd());
         changeClampPosition.whenPressed(new ChangeGrabberPositionCmd());
 
         //Carrier

@@ -19,6 +19,7 @@ public class CubeLift extends Subsystem {
     private TalonSRX elevator = new TalonSRX(RobotMap.ELEVATOR);
     private VictorSPX elevatorSlaveA = new VictorSPX(RobotMap.ELEVATOR_SLAVE_A);
     private VictorSPX elevatorSlaveB = new VictorSPX(RobotMap.ELEVATOR_SLAVE_B);
+    private VictorSPX elevatorSlaveC = new VictorSPX(RobotMap.ELEVATOR_SLAVE_C);
 
     //Change from double to single
     //private DoubleSolenoid grabbers = new DoubleSolenoid( 0, 1);
@@ -36,6 +37,7 @@ public class CubeLift extends Subsystem {
     public CubeLift() {
         this.elevatorSlaveA.follow(elevator);
         this.elevatorSlaveB.follow(elevator);
+        this.elevatorSlaveC.follow(elevator);
         this.elevator.configPeakOutputForward(1.0, 0);
         this.elevator.configPeakOutputReverse(-1.0, 0);
         this.elevator.configNominalOutputForward(0.0, 0);
@@ -48,6 +50,10 @@ public class CubeLift extends Subsystem {
         this.elevatorSlaveB.configPeakOutputReverse(-1.0, 0);
         this.elevatorSlaveB.configNominalOutputForward(0.0, 0);
         this.elevatorSlaveB.configNominalOutputReverse(0.0, 0);
+        this.elevatorSlaveC.configPeakOutputForward(1.0, 0);
+        this.elevatorSlaveC.configPeakOutputReverse(-1.0, 0);
+        this.elevatorSlaveC.configNominalOutputForward(0.0, 0);
+        this.elevatorSlaveC.configNominalOutputReverse(0.0, 0);
 
         //this.grabbers.set(DoubleSolenoid.Value.kOff);
         //this.grabbers.set(DoubleSolenoid.Value.kForward);
@@ -60,6 +66,7 @@ public class CubeLift extends Subsystem {
         this.elevator.setNeutralMode(NeutralMode.Brake);
         this.elevatorSlaveA.setNeutralMode(NeutralMode.Brake);
         this.elevatorSlaveB.setNeutralMode(NeutralMode.Brake);
+        this.elevatorSlaveC.setNeutralMode(NeutralMode.Brake);
 
         configPIDF(0, 0, 0, 0); // TODO: Tune lol
     }

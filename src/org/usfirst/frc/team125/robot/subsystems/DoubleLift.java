@@ -20,7 +20,7 @@ public class DoubleLift extends Subsystem {
     private static final DoubleSolenoid.Value LIFT_LIFT_VALUE = DoubleSolenoid.Value.kForward;
 
     public DoubleLift() {
-        this.doubleLifter.set(DoubleSolenoid.Value.kForward);
+        this.doubleLifter.set(LIFT_LIFT_VALUE);
         this.release.set(UNRELEASE_CARRIER_SET);
     }
 

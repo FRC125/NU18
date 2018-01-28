@@ -54,10 +54,6 @@ public class Intake extends Subsystem {
         this.intakeR.set(ControlMode.PercentOutput, -power);
     }
 
-    public void runIntakeReversed(double power) {
-        this.intakeL.set(ControlMode.PercentOutput, -power);
-        this.intakeR.set(ControlMode.PercentOutput, power);
-    }
 
     public void stopIntake() {
         this.intakeL.set(ControlMode.PercentOutput, 0);
