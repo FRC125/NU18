@@ -7,10 +7,10 @@ public class RobotMap {
     //Set to 99 so that they dont match up with anything currently and can be changed later
 
     //CAN Devices
-    public static final int ELEVATOR = 99;
-    public static final int ELEVATOR_SLAVE_A = 99;
-    public static final int ELEVATOR_SLAVE_B = 99;
-    public static final int ELEVATOR_SLAVE_C = 99;
+    public static final int LEFT_ELEVATOR_LEADER = 99;
+    public static final int LEFT_ELEVATOR_SLAVE_A = 99;
+    public static final int RIGHT_ELEVATOR_SLAVE_A = 99;
+    public static final int RIGHT_ELEVATOR_SLAVE_B = 99;
 
     //Pneumatics
     public static final int GRABBERS = 99;
