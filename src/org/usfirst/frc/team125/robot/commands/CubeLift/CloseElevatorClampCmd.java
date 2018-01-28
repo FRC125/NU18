@@ -16,7 +16,6 @@ public class CloseElevatorClampCmd extends Command {
     protected void initialize() {
     }
 
-
     protected void execute() {
     	Robot.cubeLift.closeClamp();
     }

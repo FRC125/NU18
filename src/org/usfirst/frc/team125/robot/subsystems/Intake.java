@@ -17,7 +17,6 @@ public class Intake extends Subsystem {
 	private TalonSRX intakeR = new TalonSRX(RobotMap.INTAKE_RIGHT);
 
 	private DoubleSolenoid intakePiston = new DoubleSolenoid(RobotMap.INTAKE_RETRACT_FORWARD, RobotMap.INTAKE_RETRACT_REVERSE);
-	private Solenoid intakeClamp = new Solenoid(RobotMap.INTAKE_CLAMP);
 
 	private DigitalInput smartIntake = new DigitalInput(RobotMap.INTAKE_LIMIT_SWITCH);
 	private static final double minimumSmartIntakeTime = 2.0; // Is 2 seconds too long???
@@ -29,8 +28,6 @@ public class Intake extends Subsystem {
 
 	private static final DoubleSolenoid.Value INTAKE_FORWARD_VALUE = DoubleSolenoid.Value.kForward;
 	private static final DoubleSolenoid.Value INTAKE_REVERSE_VALUE = DoubleSolenoid.Value.kReverse;
-	private static final Boolean CLAMP_SET = true;
-	private static final Boolean UNCLAMP_SET = false;
 
 	public Intake() {
 
@@ -50,7 +47,6 @@ public class Intake extends Subsystem {
 		this.intakeR.setNeutralMode(NeutralMode.Coast);
 
 		this.intakePiston.set(INTAKE_REVERSE_VALUE); // TODO: Check if this is right...
-		this.intakeClamp.set(UNCLAMP_SET); // TODO: Check .set()
 	}
 
 	public void runIntake(double power) {
@@ -66,14 +62,6 @@ public class Intake extends Subsystem {
 	public void stopIntake() {
 		this.intakeL.set(ControlMode.PercentOutput, 0);
 		this.intakeR.set(ControlMode.PercentOutput, 0);
-	}
-
-	public void openClamp() {
-		this.intakeClamp.set(UNCLAMP_SET);
-	}
-
-	public void closeClamp() {
-		this.intakeClamp.set(true);
 	}
 
 	

@@ -3,6 +3,7 @@ package org.usfirst.frc.team125.robot;
 import org.usfirst.frc.team125.robot.commands.CubeLift.*;
 import org.usfirst.frc.team125.robot.commands.Drivetrain.*;
 import org.usfirst.frc.team125.robot.commands.DoubleLift.*;
+import org.usfirst.frc.team125.robot.commands.Groups.DropAndReleaseCarrier;
 import org.usfirst.frc.team125.robot.commands.Intake.*;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.buttons.Button;
@@ -11,7 +12,7 @@ import org.usfirst.frc.team125.robot.util.*;
 
 /**
  * This class is the glue that binds the controls on the physical operator
- * interface to the commands and command groups that allow control of the robot.
+ * interface to the commands and command Groups that allow control of the robot.
  */
 public class OI {
 
@@ -22,16 +23,10 @@ public class OI {
 	/* Operator Control */
     public Button runIntakeForward = new JoystickButton(opPad, JoystickMap.RB);
     public Button runIntakeBackward = new JoystickButton(opPad, JoystickMap.LB);
-
-	//Intake Controls
-	private Button forwardIntakeButton = new JoystickButton(opPad, 1);
-	private Button reverseIntakeButton = new JoystickButton(opPad, 2);
-	private Button releaseCarrierButton = new JoystickButton(opPad, 3);
-	private Button retractCarrierButton = new JoystickButton(opPad, 4);
-	private Button changeClampButton = new JoystickButton(opPad, 5);
-	private Button changeGrabberButton = new JoystickButton(driverPad, 1);
-	private Button openGrabberButton = new JoystickButton(driverPad, 2);
-	private Button closeGrabberButton = new JoystickButton(driverPad, 3);
+    public Button openClamp = new JoystickButton(opPad, JoystickMap.A);
+    public Button closeClamp = new JoystickButton(opPad, JoystickMap.B);
+	public Button readyCarrier = new JoystickButton(opPad, JoystickMap.X);
+	public Button liftCarrier = new JoystickButton(opPad, JoystickMap.Y);
 
 	private Button checkSmartIntake = new JoystickButton(driverPad, 4);
 
@@ -47,10 +42,13 @@ public class OI {
 		runIntakeBackward.whileHeld(new RunIntakeReverseCmd());
         
 		//Clamp
-		this.checkSmartIntake.whileHeld(new UpdateCubeSwitchCmd());
-		
+		checkSmartIntake.whileHeld(new UpdateCubeSwitchCmd());
+		openClamp.whileHeld(new OpenClampCmd());
+		closeClamp.whileHeld(new CloseClampCmd());
+
 		//Carrier
-		this.releaseCarrierButton.whenPressed(new ReleaseCarrierCmd());
+		readyCarrier.whenPressed(new DropAndReleaseCarrier());
+		liftCarrier.whenPressed(new LiftCarrierCmd());
 
 	    //Hold heading
 		driveHoldHeading.whileHeld(new DriveArcadeWithHoldHeadingCmd());

@@ -7,9 +7,9 @@ import edu.wpi.first.wpilibj.command.Command;
 /**
  *
  */
-public class OpenElevatorClampCmd extends Command {
+public class OpenClampCmd extends Command {
 
-    public OpenElevatorClampCmd() {
+    public OpenClampCmd() {
     	requires(Robot.cubeLift);
     }
 
