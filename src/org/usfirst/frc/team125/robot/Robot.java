@@ -28,17 +28,6 @@ public class Robot extends IterativeRobot {
 
     public static OI oi;
 
-
-	Waypoint[] autoPathing = AutoPaths.wallToSwitch;
-	Trajectory.Config cfg = new Trajectory.Config(Trajectory.FitMethod.HERMITE_QUINTIC,
-			Trajectory.Config.SAMPLES_HIGH,
-			Drivetrain.DrivetrainProfiling.dt,
-			Drivetrain.DrivetrainProfiling.max_velocity,
-			Drivetrain.DrivetrainProfiling.max_acceleration,
-			Drivetrain.DrivetrainProfiling.max_jerk);
-	Trajectory toFollow = Pathfinder.generate(autoPathing, cfg);
-	TankModifier modifier = new TankModifier(toFollow).modify((Drivetrain.DrivetrainProfiling.wheel_base_width));
-
 	@Override
 	public void robotInit() {
 		oi = new OI();
@@ -57,11 +46,11 @@ public class Robot extends IterativeRobot {
 	}
 
 	Command autoCommand;
+
 	@Override
 	public void autonomousInit() {
         /* String gameData = DriverStation.getInstance().getGameSpecificMessage(); */ // HOW TO GET GAME DATA
-		Robot.drivetrain.pathSetup(modifier, true);
-		autoCommand = new DrivePathCmd();
+		autoCommand = new DrivePathCmd(AutoPaths.toSwitch);
 		autoCommand.start();
 	}
 
@@ -95,6 +84,7 @@ public class Robot extends IterativeRobot {
 		SmartDashboard.putNumber("left Speed", this.drivetrain.getLeftVelocity());
 		SmartDashboard.putNumber("right Speed", this.drivetrain.getRightVelocity());
 		SmartDashboard.putNumber("angle", this.drivetrain.getAngle());
+		SmartDashboard.putBoolean("Is path finished", this.drivetrain.isPathFinished());
 		this.drivetrain.updateAccelDashboard();
 	}
 

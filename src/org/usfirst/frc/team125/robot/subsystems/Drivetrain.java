@@ -179,6 +179,7 @@ public class Drivetrain extends Subsystem {
     }
 
     public void pathSetup(TankModifier modifier, boolean relative) {
+        isPathFinished = false;
         if(relative) {
             resetEncoders();
             resetGyro();
@@ -193,11 +194,23 @@ public class Drivetrain extends Subsystem {
         right.configurePIDVA(DrivetrainProfiling.kp, DrivetrainProfiling.ki, DrivetrainProfiling.kd, DrivetrainProfiling.kv, DrivetrainProfiling.ka);
     }
 
-    public void pathFollow() {
+    private boolean isPathFinished = false;
 
-        double l = left.calculate(-leftDriveMain.getSelectedSensorPosition(0));
-        double r = right.calculate(-rightDriveMain.getSelectedSensorPosition(0));
-        
+    public boolean isPathFinished() {
+        return isPathFinished;
+    }
+
+
+    public void pathFollow(boolean reverse) {
+        double l;
+        double r;
+        if (!reverse) {
+            l = left.calculate(-leftDriveMain.getSelectedSensorPosition(0));
+            r = right.calculate(-rightDriveMain.getSelectedSensorPosition(0));
+        } else {
+            l = left.calculate(leftDriveMain.getSelectedSensorPosition(0));
+            r = right.calculate(rightDriveMain.getSelectedSensorPosition(0));
+        }
         double gyro_heading = gyro.getAngle();
         double angle_setpoint = Pathfinder.r2d(left.getHeading());
         double angleDifference = Pathfinder.boundHalfDegrees(angle_setpoint - gyro_heading);
@@ -216,9 +229,18 @@ public class Drivetrain extends Subsystem {
             SmartDashboard.putNumber("Left + turn", l + turn);
             SmartDashboard.putNumber("Left accel (command)", left.getSegment().acceleration);
         }
+        if(!reverse) {
+            drive(l + turn, r - turn);
+        }
+        else {
+            drive(-l + turn, -r - turn);
+        }
 
-        drive(l + turn, r - turn);
+        if(left.isFinished() && right.isFinished()) {
+            this.isPathFinished = true;
+        }
     }
+
 
     public void updateAccelDashboard() {
         SmartDashboard.putNumber("Accel X", gyro.getWorldLinearAccelX());
@@ -232,8 +254,8 @@ public class Drivetrain extends Subsystem {
 
     public static class DrivetrainProfiling {
         //TODO: TUNE CONSTANTS
-        public static double kp = 1.2; //0.0217055
-        public static double kd = 0.0;
+        public static double kp = 0.8; // 1.2
+        public static double kd = 0.0; // 0.35
         public static double gp = 0.02;
         public static double gd = 0.0025;
         public static double ki = 0.0;
@@ -243,11 +265,11 @@ public class Drivetrain extends Subsystem {
 
         public static final double max_velocity = 4.0; //4 is real
         public static final double kv = 1.0 / max_velocity; // Calculated for test Drivetrain
-        public static final double max_acceleration = 3.61; // Estimated #
+        public static final double max_acceleration = 1.62; // Estimated #
         public static final double ka = 0.0; //0.015
         public static final double max_jerk = 7.62;
         public static final double wheel_diameter = 0.13;
-        public static final double wheel_base_width = 0.65;
+        public static final double wheel_base_width = 0.72;
         public static final int ticks_per_rev = 4096; // CTRE Mag Encoder
         public static final double dt = 0.02; // Calculated - Confirmed
 
