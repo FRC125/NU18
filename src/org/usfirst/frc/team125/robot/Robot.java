@@ -28,6 +28,8 @@ public class Robot extends IterativeRobot {
 
     public static OI oi;
 
+	Command autoCommand = new AutoCommand();
+
 	@Override
 	public void robotInit() {
 		oi = new OI();
@@ -45,12 +47,9 @@ public class Robot extends IterativeRobot {
 		Scheduler.getInstance().run();
 	}
 
-	Command autoCommand;
-
 	@Override
 	public void autonomousInit() {
-        /* String gameData = DriverStation.getInstance().getGameSpecificMessage(); */ // HOW TO GET GAME DATA
-		autoCommand = new DrivePathCmd(AutoPaths.toSwitch);
+		/* String gameData = DriverStation.getInstance().getGameSpecificMessage(); */ // HOW TO GET GAME DATA
 		autoCommand.start();
 	}
 
@@ -60,16 +59,16 @@ public class Robot extends IterativeRobot {
 		Scheduler.getInstance().run();
 	}
 
-    @Override
-    public void teleopInit() {
+	@Override
+	public void teleopInit() {
 
-    }
+	}
 
-    @Override
-    public void testPeriodic() {
+	@Override
+	public void testPeriodic() {
 
-    }
-        
+	}
+
 	@Override
 	public void teleopPeriodic() {
 		updateSmartdashboard();
@@ -84,7 +83,6 @@ public class Robot extends IterativeRobot {
 		SmartDashboard.putNumber("left Speed", this.drivetrain.getLeftVelocity());
 		SmartDashboard.putNumber("right Speed", this.drivetrain.getRightVelocity());
 		SmartDashboard.putNumber("angle", this.drivetrain.getAngle());
-		SmartDashboard.putBoolean("Is path finished", this.drivetrain.isPathFinished());
 		this.drivetrain.updateAccelDashboard();
 	}
 

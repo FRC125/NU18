@@ -7,6 +7,8 @@ import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 import com.ctre.phoenix.motorcontrol.can.VictorSPX;
 import com.kauailabs.navx.frc.AHRS;
 import edu.wpi.first.wpilibj.I2C;
+import jaci.pathfinder.Trajectory;
+import jaci.pathfinder.Waypoint;
 import org.usfirst.frc.team125.robot.RobotMap;
 import edu.wpi.first.wpilibj.ADXRS450_Gyro;
 import edu.wpi.first.wpilibj.Timer;
@@ -34,10 +36,6 @@ public class Drivetrain extends Subsystem {
     private static final double LOW_POW = -HIGH_POW;
 
     AHRS gyro = new AHRS(I2C.Port.kMXP);
-
-    //Encoder Stuff
-    EncoderFollower left;
-    EncoderFollower right;
 
     //Timing
     public Timer timer = new Timer();
@@ -178,13 +176,17 @@ public class Drivetrain extends Subsystem {
         this.gyro.reset();
     }
 
-    public void pathSetup(TankModifier modifier, boolean relative) {
-        isPathFinished = false;
+    public EncoderFollower[] pathSetup(Waypoint[] path, boolean relative) {
+        EncoderFollower left = new EncoderFollower();
+        EncoderFollower right = new EncoderFollower();
+        Trajectory.Config cfg = new Trajectory.Config(Trajectory.FitMethod.HERMITE_QUINTIC, Trajectory.Config.SAMPLES_HIGH,
+                Drivetrain.DrivetrainProfiling.dt, Drivetrain.DrivetrainProfiling.max_velocity, Drivetrain.DrivetrainProfiling.max_acceleration, Drivetrain.DrivetrainProfiling.max_jerk);
+        Trajectory toFollow = Pathfinder.generate(path, cfg);
+        TankModifier modifier = new TankModifier(toFollow).modify((Drivetrain.DrivetrainProfiling.wheel_base_width));
         if(relative) {
             resetEncoders();
             resetGyro();
         }
-
         DrivetrainProfiling.last_gyro_error = 0.0;
         left = new EncoderFollower(modifier.getLeftTrajectory());
         right = new EncoderFollower(modifier.getRightTrajectory());
@@ -192,16 +194,21 @@ public class Drivetrain extends Subsystem {
         right.configureEncoder(rightDriveMain.getSelectedSensorPosition(0), DrivetrainProfiling.ticks_per_rev, DrivetrainProfiling.wheel_diameter);
         left.configurePIDVA(DrivetrainProfiling.kp, DrivetrainProfiling.ki, DrivetrainProfiling.kd, DrivetrainProfiling.kv, DrivetrainProfiling.ka);
         right.configurePIDVA(DrivetrainProfiling.kp, DrivetrainProfiling.ki, DrivetrainProfiling.kd, DrivetrainProfiling.kv, DrivetrainProfiling.ka);
+        return new EncoderFollower[] {
+                left, // 0
+                right, // 1
+        };
     }
 
-    private boolean isPathFinished = false;
+    private boolean isProfileFinished = false;
 
-    public boolean isPathFinished() {
-        return isPathFinished;
+    public boolean getIsProfileFinished() {
+        return isProfileFinished;
     }
 
-
-    public void pathFollow(boolean reverse) {
+    public void pathFollow(EncoderFollower[] followers,boolean reverse) {
+        EncoderFollower left = followers[0];
+        EncoderFollower right = followers[1];
         double l;
         double r;
         if (!reverse) {
@@ -235,9 +242,8 @@ public class Drivetrain extends Subsystem {
         else {
             drive(-l + turn, -r - turn);
         }
-
         if(left.isFinished() && right.isFinished()) {
-            this.isPathFinished = true;
+            isProfileFinished = true;
         }
     }
 

@@ -13,35 +13,23 @@ import org.usfirst.frc.team125.robot.subsystems.Drivetrain;
  */
 public class DrivePathCmd extends Command {
 
-
     Waypoint[] path;
-
-    public DrivePathCmd(Waypoint[] waypoints) {
+    public DrivePathCmd(Waypoint[] path) {
         requires(Robot.drivetrain);
-
-        this.path = waypoints;
+        this.path = path;
+        setInterruptible(false);
     }
 
     protected void initialize() {
-        TankModifier modifier;
-        Trajectory.Config cfg = new Trajectory.Config(Trajectory.FitMethod.HERMITE_QUINTIC,
-                Trajectory.Config.SAMPLES_HIGH,
-                Drivetrain.DrivetrainProfiling.dt,
-                Drivetrain.DrivetrainProfiling.max_velocity,
-                Drivetrain.DrivetrainProfiling.max_acceleration,
-                Drivetrain.DrivetrainProfiling.max_jerk);
-        Trajectory toFollow = Pathfinder.generate(path, cfg);
-        modifier = new TankModifier(toFollow).modify((Drivetrain.DrivetrainProfiling.wheel_base_width));
-        Robot.drivetrain.pathSetup(modifier, true);
-        Robot.drivetrain.pathFollow(false);
+        Robot.drivetrain.pathFollow(Robot.drivetrain.pathSetup(path, true), false);
     }
 
     protected void execute() {
-        Robot.drivetrain.pathFollow(false);
+        Robot.drivetrain.pathFollow(Robot.drivetrain.pathSetup(path, true), false);
     }
 
     protected boolean isFinished() {
-        return Robot.drivetrain.isPathFinished();
+        return Robot.drivetrain.getIsProfileFinished();
     }
 
     protected void end() {
