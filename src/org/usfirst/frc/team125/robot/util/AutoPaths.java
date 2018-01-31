@@ -25,4 +25,14 @@ public class AutoPaths {
             new Waypoint(1.0, 0.0, Pathfinder.d2r(0.0)),
     };
 
+    public static Waypoint[] oneMeter = new Waypoint[] {
+            new Waypoint(0.0,0.0, Pathfinder.d2r(0.0)),
+            new Waypoint(1.0, 0.0, Pathfinder.d2r(0.0)),
+    };
+
+    public static Waypoint[] sPath = new Waypoint[] {
+            new Waypoint(0.0,0.0, Pathfinder.d2r(0.0)),
+            new Waypoint(1.0, 1.0, Pathfinder.d2r(0.0)),
+    };
+
 }

@@ -176,17 +176,13 @@ public class Drivetrain extends Subsystem {
         this.gyro.reset();
     }
 
-    public EncoderFollower[] pathSetup(Waypoint[] path, boolean relative) {
+    public EncoderFollower[] pathSetup(Waypoint[] path) {
         EncoderFollower left = new EncoderFollower();
         EncoderFollower right = new EncoderFollower();
         Trajectory.Config cfg = new Trajectory.Config(Trajectory.FitMethod.HERMITE_QUINTIC, Trajectory.Config.SAMPLES_HIGH,
                 Drivetrain.DrivetrainProfiling.dt, Drivetrain.DrivetrainProfiling.max_velocity, Drivetrain.DrivetrainProfiling.max_acceleration, Drivetrain.DrivetrainProfiling.max_jerk);
         Trajectory toFollow = Pathfinder.generate(path, cfg);
         TankModifier modifier = new TankModifier(toFollow).modify((Drivetrain.DrivetrainProfiling.wheel_base_width));
-        if(relative) {
-            resetEncoders();
-            resetGyro();
-        }
         DrivetrainProfiling.last_gyro_error = 0.0;
         left = new EncoderFollower(modifier.getLeftTrajectory());
         right = new EncoderFollower(modifier.getRightTrajectory());
@@ -198,6 +194,12 @@ public class Drivetrain extends Subsystem {
                 left, // 0
                 right, // 1
         };
+    }
+
+    public void resetForPath() {
+        isProfileFinished = false;
+        resetEncoders();
+        resetGyro();
     }
 
     private boolean isProfileFinished = false;
