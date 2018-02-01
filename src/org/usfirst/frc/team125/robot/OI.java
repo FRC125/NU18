@@ -24,9 +24,13 @@ public class OI {
     public Button outtake = new JoystickButton(opPad, JoystickMap.RB);
     public Button intake = new JoystickButton(opPad, JoystickMap.LB);
     public Button changeClampPosition = new JoystickButton(opPad, JoystickMap.A);
-    public Button readyCarrier = new JoystickButton(opPad, JoystickMap.B);
-    public Button liftCarrier = new JoystickButton(opPad, JoystickMap.Y);
-    public Button releasePin = new JoystickButton(opPad, JoystickMap.X);
+    public Button clampOut = new JoystickButton(opPad, JoystickMap.X);
+    public Button clampIn = new JoystickButton(opPad, JoystickMap.Y);
+
+    //commented out these buttons since they aren't being used rn.
+    //public Button readyCarrier = new JoystickButton(opPad, JoystickMap.B);
+    //public Button liftCarrier = new JoystickButton(opPad, JoystickMap.Y);
+    //public Button releasePin = new JoystickButton(opPad, JoystickMap.X);
 
 
     /* Driver Control */
@@ -42,11 +46,13 @@ public class OI {
 
         //Clamp
         changeClampPosition.whenPressed(new ChangeGrabberPositionCmd());
+        clampIn.whenPressed(new CloseClampCmd());
+        clampOut.whenPressed(new OpenClampCmd());
 
         //Carrier
-        readyCarrier.whenPressed(new DropAndReleaseCarrier());
-        liftCarrier.whenPressed(new LiftCarrierCmd());
-        releasePin.whenPressed(new ReleasePinCmd());
+        //readyCarrier.whenPressed(new DropAndReleaseCarrier());
+        //liftCarrier.whenPressed(new LiftCarrierCmd());
+        //releasePin.whenPressed(new ReleasePinCmd());
 
         //Hold heading
         driveHoldHeading.whileHeld(new DriveArcadeWithHoldHeadingCmd());

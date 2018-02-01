@@ -29,9 +29,8 @@ public class CubeLift extends Subsystem {
 
     private Solenoid releasePin = new Solenoid(RobotMap.RELEASE_PIN);
 
-    private DigitalInput limitSwitch = new DigitalInput(RobotMap.CUBELIFT_LIMIT_SWITCH);
-    private static final double calibrationMinTime = 1.5;
-    private DebouncedBoolean calibrationDebouncer = new DebouncedBoolean(calibrationMinTime);
+    //private static final double calibrationMinTime = 1.5;
+    //private DebouncedBoolean calibrationDebouncer = new DebouncedBoolean(calibrationMinTime);
 
     private boolean grabberPosition = true;
 
@@ -128,12 +127,13 @@ public class CubeLift extends Subsystem {
         leftElevatorLeader.set(ControlMode.PercentOutput, pow);
     }
 
-    public void calibrateElevator() {
+    //Will use later once we get hall effect sensor.
+    /*public void calibrateElevator() {
         calibrationDebouncer.update(limitSwitch.get());
         if (calibrationDebouncer.get()) {
             resetEncoders();
         }
-    }
+    }*/
 
     public void configPIDF(double kP, double kI, double kD, double kF) {
         leftElevatorLeader.config_kP(0, kP, 0);

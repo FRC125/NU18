@@ -17,7 +17,7 @@ public class IntakeCmd extends Command {
 
     @Override
     public void execute() {
-        Robot.intake.runIntake(-1.0);
+        Robot.intake.intake();
     }
 
     @Override

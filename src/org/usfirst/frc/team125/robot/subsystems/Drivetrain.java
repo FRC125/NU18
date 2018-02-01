@@ -23,12 +23,12 @@ import org.usfirst.frc.team125.robot.commands.Drivetrain.DriveArcadeCmd;
 public class Drivetrain extends Subsystem {
 
     //Controllers
-    private TalonSRX leftDriveMain = new TalonSRX(RobotMap.LEFT_DRIVE_MAIN);
-    private TalonSRX leftDriveSlaveA = new TalonSRX(RobotMap.LEFT_DRIVE_SLAVE_A);
-    private TalonSRX leftDriveSlaveB = new TalonSRX(RobotMap.LEFT_DRIVE_SLAVE_B);
-    private TalonSRX rightDriveMain = new TalonSRX(RobotMap.RIGHT_DRIVE_MAIN);
-    private TalonSRX rightDriveSlaveA = new TalonSRX(RobotMap.RIGHT_DRIVE_SLAVE_A);
-    private TalonSRX rightDriveSlaveB = new TalonSRX(RobotMap.RIGHT_DRIVE_SLAVE_B);
+    private VictorSPX leftDriveMain = new VictorSPX(RobotMap.LEFT_DRIVE_MAIN);
+    private VictorSPX leftDriveSlaveA = new VictorSPX(RobotMap.LEFT_DRIVE_SLAVE_A);
+    private VictorSPX leftDriveSlaveB = new VictorSPX(RobotMap.LEFT_DRIVE_SLAVE_B);
+    private VictorSPX rightDriveMain = new VictorSPX(RobotMap.RIGHT_DRIVE_MAIN);
+    private VictorSPX rightDriveSlaveA = new VictorSPX(RobotMap.RIGHT_DRIVE_SLAVE_A);
+    private VictorSPX rightDriveSlaveB = new VictorSPX(RobotMap.RIGHT_DRIVE_SLAVE_B);
 
     private static final double HIGH_POW = 1.0;
     private static final double LOW_POW = -HIGH_POW;

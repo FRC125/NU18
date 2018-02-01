@@ -26,7 +26,7 @@ public class OuttakeCmd extends Command {
 
     @Override
     protected void execute() {
-        Robot.intake.runIntake(1.0);
+        Robot.intake.outtake();
     }
 
     @Override

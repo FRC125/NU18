@@ -47,11 +47,15 @@ public class Intake extends Subsystem {
         this.intakePiston.set(INTAKE_REVERSE_VALUE); // TODO: Check if this is right...
     }
 
-    public void runIntake(double power) {
-        this.intakeL.set(ControlMode.PercentOutput, power);
-        this.intakeR.set(ControlMode.PercentOutput, -power);
+    public void intake() {
+        this.intakeL.set(ControlMode.PercentOutput, INTAKE_POWER);
+        this.intakeR.set(ControlMode.PercentOutput, -INTAKE_POWER);
     }
 
+    public void outtake() {
+        this.intakeL.set(ControlMode.PercentOutput, -INTAKE_POWER);
+        this.intakeR.set(ControlMode.PercentOutput, INTAKE_POWER);
+    }
 
     public void stopIntake() {
         this.intakeL.set(ControlMode.PercentOutput, 0);
