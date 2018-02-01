@@ -8,7 +8,6 @@ import org.usfirst.frc.team125.robot.commands.Intake.IntakeCmd;
 public class IntakeAndClamp extends CommandGroup {
 
     public IntakeAndClamp() {
-
         addSequential(new IntakeCmd());
         addSequential(new CloseClampCmd());
         //position is currently zero because it isn't tested yet.
