@@ -1,13 +1,13 @@
-package org.usfirst.frc.team125.robot.commands;
+package org.usfirst.frc.team125.robot.commands.Intake;
 
 import org.usfirst.frc.team125.robot.Robot;
 
 import edu.wpi.first.wpilibj.command.Command;
 import org.usfirst.frc.team125.robot.subsystems.Intake;
 
-public class RunIntakeReverseCMD extends Command{
+public class RunIntakeReverseCmd extends Command{
 
-	public RunIntakeReverseCMD() {
+	public RunIntakeReverseCmd() {
 		requires(Robot.intake);
 	}
 	

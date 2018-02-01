@@ -1,16 +1,16 @@
-package org.usfirst.frc.team125.robot.commands;
+package org.usfirst.frc.team125.robot.commands.DoubleLift;
 
 import edu.wpi.first.wpilibj.command.Command;
 import org.usfirst.frc.team125.robot.Robot;
 
-public class RetractCarrierCMD extends Command {
+public class DropCarrierCmd extends Command {
 
-	public RetractCarrierCMD() {
+	public DropCarrierCmd() {
 			requires(Robot.doubleLift);
 		}
 		
 	protected void initialize() {
-		Robot.doubleLift.lift();
+		Robot.doubleLift.dropLift();
 	}
 		
 	protected void execute() {
@@ -24,6 +24,6 @@ public class RetractCarrierCMD extends Command {
     protected void end() {
     }
 		
-    protected void inturrupted() {
+    protected void interrupted() {
     }
 }

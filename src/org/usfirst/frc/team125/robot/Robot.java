@@ -3,80 +3,87 @@ package org.usfirst.frc.team125.robot;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.TimedRobot;
+import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
 import java.lang.reflect.Array;
+import org.usfirst.frc.team125.robot.subsystems.CubeLift;
 import org.usfirst.frc.team125.robot.subsystems.DoubleLift;
 import org.usfirst.frc.team125.robot.subsystems.Intake;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import jaci.pathfinder.Pathfinder;
+import jaci.pathfinder.Trajectory;
+import jaci.pathfinder.Waypoint;
+import jaci.pathfinder.modifiers.TankModifier;
+import org.usfirst.frc.team125.robot.commands.Drivetrain.*;
 import org.usfirst.frc.team125.robot.subsystems.Drivetrain;
+import org.usfirst.frc.team125.robot.util.AutoPaths;
 
-/**
- * The VM is configured to automatically run this class, and to call the
- * functions corresponding to each mode, as described in the TimedRobot
- * documentation. If you change the name of this class or the package after
- * creating this project, you must also update the build.properties file in the
- * project.
- */
 public class Robot extends IterativeRobot {
 
-    public static Drivetrain dt = new Drivetrain();
+    public static Drivetrain drivetrain = new Drivetrain();
     public static Intake intake = new Intake();
     public static DoubleLift doubleLift = new DoubleLift();
-
-    public char[] autoData = new char[3];
+    public static CubeLift cubeLift = new CubeLift();
 
     public static OI oi;
 
-    @Override
-    public void robotInit() {
-        oi = new OI();
-    }
+	Command autoCommand = new AutoCommand();
+
+	@Override
+	public void robotInit() {
+		oi = new OI();
+		drivetrain.timer.start();
+	}
 
     @Override
     public void disabledInit() {
+		SmartDashboard.putNumber("Diff", 0.0);
     }
 
     @Override
-    public void disabledPeriodic() {
-        Scheduler.getInstance().run();
-    }
+	public void disabledPeriodic() {
+		updateSmartdashboard();
+		Scheduler.getInstance().run();
+	}
 
-    @Override
-    public void autonomousInit() {
-        String gameData = DriverStation.getInstance().getGameSpecificMessage();
-        //1st switch position
-        if (gameData.charAt(0) == 'L') {
-            //Auto Code for left side
-        } else {
-            //Auto Code for right side
-        }
+	@Override
+	public void autonomousInit() {
+		/* String gameData = DriverStation.getInstance().getGameSpecificMessage(); */ // HOW TO GET GAME DATA
+		autoCommand.start();
+	}
 
-        //scale position
-        if (gameData.charAt(1) == 'L') {
-            //Auto Code for left side
-        } else {
-            //Auto code for right side
-        }
-    }
+	@Override
+	public void autonomousPeriodic() {
+		updateSmartdashboard();
+		Scheduler.getInstance().run();
+	}
 
-        @Override
-        public void autonomousPeriodic() {
-            Scheduler.getInstance().run();
-        }
+	@Override
+	public void teleopInit() {
 
-        @Override
-        public void teleopInit() {
-        }
+	}
 
-        @Override
-        public void teleopPeriodic() {
-            Scheduler.getInstance().run();
-        }
+	@Override
+	public void testPeriodic() {
 
-        @Override
-        public void testPeriodic() {
-        }
-        
+	}
+
+	@Override
+	public void teleopPeriodic() {
+		updateSmartdashboard();
+		Scheduler.getInstance().run();
+	}
+
+	public void updateSmartdashboard() {
+		SmartDashboard.putNumber("left Enc", this.drivetrain.getEncoderRawLeft());
+		SmartDashboard.putNumber("right Enc", this.drivetrain.getEncoderRawRight());
+		SmartDashboard.putNumber("left Meters", this.drivetrain.getEncoderDistanceMetersLeft());
+		SmartDashboard.putNumber("right Meters", this.drivetrain.getEncoderDistanceMetersRight());
+		SmartDashboard.putNumber("left Speed", this.drivetrain.getLeftVelocity());
+		SmartDashboard.putNumber("right Speed", this.drivetrain.getRightVelocity());
+		SmartDashboard.putNumber("angle", this.drivetrain.getAngle());
+		this.drivetrain.updateAccelDashboard();
+	}
+
 }
-

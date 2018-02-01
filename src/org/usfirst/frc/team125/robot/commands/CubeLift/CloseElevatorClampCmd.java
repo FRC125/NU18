@@ -1,4 +1,4 @@
-package org.usfirst.frc.team125.robot.commands;
+package org.usfirst.frc.team125.robot.commands.CubeLift;
 
 import org.usfirst.frc.team125.robot.Robot;
 
@@ -7,17 +7,17 @@ import edu.wpi.first.wpilibj.command.Command;
 /**
  *
  */
-public class CloseClampCMD extends Command {
+public class CloseElevatorClampCmd extends Command {
 
-    public CloseClampCMD() {
-        requires(Robot.intake);
+    public CloseElevatorClampCmd() {
+    	requires(Robot.cubeLift);
     }
 
     protected void initialize() {
     }
 
     protected void execute() {
-    	Robot.intake.closeClamp();
+    	Robot.cubeLift.closeClamp();
     }
 
     protected boolean isFinished() {
@@ -26,7 +26,7 @@ public class CloseClampCMD extends Command {
 
     protected void end() {
     }
-    
+
     protected void interrupted() {
     }
 }

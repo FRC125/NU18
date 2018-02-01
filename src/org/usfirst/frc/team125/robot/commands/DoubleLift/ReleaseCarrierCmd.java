@@ -1,12 +1,12 @@
-package org.usfirst.frc.team125.robot.commands;
+package org.usfirst.frc.team125.robot.commands.DoubleLift;
 
 import org.usfirst.frc.team125.robot.Robot;
 
 import edu.wpi.first.wpilibj.command.Command;
 
-public class ReleaseCarrierCMD extends Command{
+public class ReleaseCarrierCmd extends Command{
 
-	public ReleaseCarrierCMD() {
+	public ReleaseCarrierCmd() {
 		requires(Robot.doubleLift);
 	}
 	
@@ -24,7 +24,7 @@ public class ReleaseCarrierCMD extends Command{
 	
 	protected void end() {
 	}
-	
-	protected void inturrupted() {
+
+	protected void interrupted() {
 	}
 }

@@ -1,4 +1,4 @@
-package org.usfirst.frc.team125.robot.commands;
+package org.usfirst.frc.team125.robot.commands.Drivetrain;
 
 import edu.wpi.first.wpilibj.command.Command;
 import org.usfirst.frc.team125.robot.Robot;
@@ -9,15 +9,15 @@ import org.usfirst.frc.team125.robot.Robot;
 public class DriveArcadeCmd extends Command {
 
     public DriveArcadeCmd() {
-        requires(Robot.dt);
+        requires(Robot.drivetrain);
     }
 
     protected void initialize() {
-        Robot.dt.disableBreakMode();
+        Robot.drivetrain.enableBreakMode();
     }
 
     protected void execute() {
-        Robot.dt.driveArcade(Robot.oi.getDriverTriggerSum(), Robot.oi.getDriverLeftStickX());
+        Robot.drivetrain.driveArcade(Robot.oi.getDriverTriggerSum(), Robot.oi.getDriverLeftStickX());
     }
 
     protected boolean isFinished() { return false; }

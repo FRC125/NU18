@@ -12,23 +12,22 @@ import org.usfirst.frc.team125.robot.util.DebouncedBoolean;
 
 public class Intake extends Subsystem {
 	
-	//intake motors
+	//Intake motors
 	private TalonSRX intakeL = new TalonSRX(RobotMap.INTAKE_LEFT);
 	private TalonSRX intakeR = new TalonSRX(RobotMap.INTAKE_RIGHT);
-	//switch to TalonSRX  when using protoBoard
 	
 	private DoubleSolenoid intakePiston = new DoubleSolenoid(RobotMap.INTAKE_RETRACT_FORWARD, RobotMap.INTAKE_RETRACT_REVERSE);
-	private Solenoid clamp = new Solenoid(RobotMap.INTAKE_CLAMP);
+	private Solenoid intakeClamp = new Solenoid(RobotMap.INTAKE_CLAMP);
 
 	private DigitalInput smartIntake = new DigitalInput(RobotMap.INTAKE_LIMIT_SWITCH);
 	private static final double minimumSmartIntakeTime = 2.0; // Is 2 seconds too long???
 	private DebouncedBoolean smartIntakeDebouncer = new DebouncedBoolean(minimumSmartIntakeTime);
 
-	private static final double RIGHT_INTAKE_SPEED = 1.0;
-
-
-
-	public static final double INTAKE_POWER = 1.0;
+	private static final double RIGHT_INTAKE_SPEED = 0.75;
+	private static final DoubleSolenoid.Value INTAKE_FORWARD_VALUE = DoubleSolenoid.Value.kForward;
+	private static final DoubleSolenoid.Value INTAKE_REVERSE_VALUE = DoubleSolenoid.Value.kReverse;
+	private static final Boolean CLAMP_SET = true;
+	private static final Boolean UNCLAMP_SET = false;
 
 	public Intake() {
 		
@@ -47,17 +46,17 @@ public class Intake extends Subsystem {
 		this.intakeL.setNeutralMode(NeutralMode.Coast);
 		this.intakeR.setNeutralMode(NeutralMode.Coast);
 
-		this.intakePiston.set(DoubleSolenoid.Value.kReverse); // TODO: Check if this is right...
-		this.clamp.set(false); // TODO: Check .set()
+		this.intakePiston.set(INTAKE_REVERSE_VALUE); // TODO: Check if this is right...
+		this.intakeClamp.set(UNCLAMP_SET); // TODO: Check .set()
 	}
 
 	public void runIntake(double power) {
 		this.intakeL.set(ControlMode.PercentOutput, power);
-		this.intakeR.set(ControlMode.PercentOutput, power);
+		this.intakeR.set(ControlMode.PercentOutput, -power);
 	}
 	
 	public void runIntakeReversed(double power) {
-		this.intakeL.set(ControlMode.PercentOutput, power);
+		this.intakeL.set(ControlMode.PercentOutput, -power);
 		this.intakeR.set(ControlMode.PercentOutput, power);
 	}
 	
@@ -67,29 +66,29 @@ public class Intake extends Subsystem {
 	}
 	
 	public void openClamp(){
-		this.clamp.set(false);
+		this.intakeClamp.set(UNCLAMP_SET);
 	}
 	
 	public void closeClamp(){
-		this.clamp.set(true);
+		this.intakeClamp.set(CLAMP_SET);
+	}
+	
+	public void intakePistonForward() {
+		this.intakePiston.set(INTAKE_FORWARD_VALUE);
+	}
+	
+	public void intakePistonReverse() {
+		this.intakePiston.set(INTAKE_REVERSE_VALUE);
 	}
 
-	public void updateCubeSwitch(boolean val) { // Its going to have to be called during all robot periodic...
-		smartIntakeDebouncer.update(val);
-		if(smartIntakeDebouncer.get()){
-			this.pistonIn();
-		} else {
-			this.pistonOut();
-		}
-	}
-	
-	public void pistonIn() {
-		this.intakePiston.set(DoubleSolenoid.Value.kForward);
-	}
-	
-	public void pistonOut() {
-		this.intakePiston.set(DoubleSolenoid.Value.kReverse);
-	}
+    public void updateCubeSwitch(boolean val) { // Its going to have to be called during all robot periodic...
+        smartIntakeDebouncer.update(val);
+        if(smartIntakeDebouncer.get()){
+            this.intakePistonForward();
+        } else {
+            this.intakePistonReverse();
+        }
+    }
 
 	@Override
 	protected void initDefaultCommand() {

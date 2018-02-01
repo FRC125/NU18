@@ -1,4 +1,4 @@
-package org.usfirst.frc.team125.robot.commands;
+package org.usfirst.frc.team125.robot.commands.Intake;
 
 import org.usfirst.frc.team125.robot.Robot;
 
@@ -7,9 +7,9 @@ import edu.wpi.first.wpilibj.command.Command;
 /**
  *
  */
-public class OpenClampCMD extends Command {
+public class CloseIntakeClampCmd extends Command {
 
-    public OpenClampCMD() {
+    public CloseIntakeClampCmd() {
         requires(Robot.intake);
     }
 
@@ -17,7 +17,7 @@ public class OpenClampCMD extends Command {
     }
 
     protected void execute() {
-    	Robot.intake.openClamp();
+    	Robot.intake.closeClamp();
     }
 
     protected boolean isFinished() {
@@ -26,7 +26,7 @@ public class OpenClampCMD extends Command {
 
     protected void end() {
     }
-
+    
     protected void interrupted() {
     }
 }
