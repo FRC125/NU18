@@ -6,7 +6,9 @@ import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 import com.ctre.phoenix.motorcontrol.can.VictorSPX;
 
+import edu.wpi.first.wpilibj.Counter;
 import edu.wpi.first.wpilibj.DigitalInput;
+import edu.wpi.first.wpilibj.GearTooth;
 import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import org.usfirst.frc.team125.robot.RobotMap;
@@ -22,6 +24,8 @@ public class CubeLift extends Subsystem {
     private VictorSPX leftSlaveA = new VictorSPX(RobotMap.LEFT_ELEVATOR_SLAVE_A);
     private VictorSPX rightSlaveA = new VictorSPX(RobotMap.RIGHT_ELEVATOR_SLAVE_A);
     private VictorSPX rightSlaveB = new VictorSPX(RobotMap.RIGHT_ELEVATOR_SLAVE_B);
+
+    private static final double DISTANCE_PER_TICK = 0.00429184549; // In inches according to 233 clicks per inch -Henry
 
     //Change from double to single
     //private DoubleSolenoid grabbers = new DoubleSolenoid( 0, 1);
