@@ -24,6 +24,6 @@ public class DropCarrierCmd extends Command {
     protected void end() {
     }
 		
-    protected void inturrupted() {
+    protected void interrupted() {
     }
 }
