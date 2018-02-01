@@ -8,6 +8,7 @@ import edu.wpi.first.wpilibj.command.Scheduler;
 
 import java.lang.reflect.Array;
 
+import org.usfirst.frc.team125.robot.commands.Intake.UpdateCubeSwitchCmd;
 import org.usfirst.frc.team125.robot.subsystems.CubeLift;
 import org.usfirst.frc.team125.robot.subsystems.DoubleLift;
 import org.usfirst.frc.team125.robot.subsystems.Intake;
@@ -47,13 +48,13 @@ public class Robot extends IterativeRobot {
 
     @Override
     public void disabledInit() {
-        SmartDashboard.putNumber("Diff", 0.0);
+
     }
 
     @Override
     public void disabledPeriodic() {
+        updateSmartdashboard();
         Scheduler.getInstance().run();
-        SmartDashboard.putNumber("Elevator Encoder Value", cubeLift.getEncPos());
     }
 
     Command autoCommand;
@@ -67,8 +68,19 @@ public class Robot extends IterativeRobot {
     }
 
     @Override
+    public void autonomousPeriodic(){
+        updateSmartdashboard();
+    }
+
+    @Override
     public void teleopInit() {
 
+    }
+
+    @Override
+    public void testPeriodic(){
+        updateSmartdashboard();
+        Scheduler.getInstance().run();
     }
 
     @Override
