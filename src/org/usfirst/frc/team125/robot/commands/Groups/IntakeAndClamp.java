@@ -12,6 +12,5 @@ public class IntakeAndClamp extends CommandGroup {
         addSequential(new CloseClampCmd());
         //position is currently zero because it isn't tested yet.
         addSequential(new RunToPositionCmd(0));
-
     }
 }

@@ -18,7 +18,7 @@ public class CloseClampCmd extends Command {
 
     @Override
     protected boolean isFinished() {
-        return false;
+        return true;
     }
 
     protected void end(){
