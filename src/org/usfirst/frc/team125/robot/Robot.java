@@ -31,12 +31,7 @@ public class Robot extends IterativeRobot {
 
     public static OI oi;
 
-
-    Waypoint[] autoPathing = AutoPaths.wallToSwitch;
-    Trajectory.Config cfg = new Trajectory.Config(Trajectory.FitMethod.HERMITE_QUINTIC, Trajectory.Config.SAMPLES_HIGH,
-            Drivetrain.DrivetrainProfiling.dt, Drivetrain.DrivetrainProfiling.max_velocity, Drivetrain.DrivetrainProfiling.max_acceleration, Drivetrain.DrivetrainProfiling.max_jerk);
-    Trajectory toFollow = Pathfinder.generate(autoPathing, cfg);
-    TankModifier modifier = new TankModifier(toFollow).modify((Drivetrain.DrivetrainProfiling.wheel_base_width));
+	Command autoCommand = new AutoCommand();
 
     @Override
     public void robotInit() {
@@ -57,36 +52,31 @@ public class Robot extends IterativeRobot {
         Scheduler.getInstance().run();
     }
 
-    Command autoCommand;
 
-    @Override
-    public void autonomousInit() {
-        /* String gameData = DriverStation.getInstance().getGameSpecificMessage(); */ // HOW TO GET GAME DATA
-        Robot.drivetrain.pathSetup(modifier, true);
-        autoCommand = new DrivePathCmd();
-        autoCommand.start();
-    }
+	@Override
+	public void autonomousInit() {
+		/* String gameData = DriverStation.getInstance().getGameSpecificMessage(); */ // HOW TO GET GAME DATA
+		autoCommand.start();
+	}
 
     @Override
     public void autonomousPeriodic(){
         updateSmartdashboard();
     }
 
-    @Override
-    public void teleopInit() {
+	@Override
+	public void teleopInit() {
 
-    }
+	}
 
-    @Override
-    public void testPeriodic(){
-        updateSmartdashboard();
-        Scheduler.getInstance().run();
-    }
-
-    @Override
     public void teleopPeriodic() {
         updateSmartdashboard();
         Scheduler.getInstance().run();
+    }
+
+    @Override
+    public void testPeriodic() {
+
     }
 
     public void updateSmartdashboard() {
@@ -98,6 +88,6 @@ public class Robot extends IterativeRobot {
         SmartDashboard.putNumber("right dt Speed", this.drivetrain.getRightVelocity());
         SmartDashboard.putNumber("gyro angle", this.drivetrain.getAngle());
         SmartDashboard.putNumber("elevator enc val", this.cubeLift.getEncPos());
+        this.drivetrain.updateAccelDashboard();
     }
-
 }

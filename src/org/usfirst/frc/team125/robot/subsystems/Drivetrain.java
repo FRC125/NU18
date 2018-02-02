@@ -7,6 +7,8 @@ import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 import com.ctre.phoenix.motorcontrol.can.VictorSPX;
 import com.kauailabs.navx.frc.AHRS;
 import edu.wpi.first.wpilibj.I2C;
+import jaci.pathfinder.Trajectory;
+import jaci.pathfinder.Waypoint;
 import org.usfirst.frc.team125.robot.RobotMap;
 import edu.wpi.first.wpilibj.ADXRS450_Gyro;
 import edu.wpi.first.wpilibj.Timer;
@@ -24,20 +26,16 @@ public class Drivetrain extends Subsystem {
 
     //Controllers
     private TalonSRX leftDriveMain = new TalonSRX(RobotMap.LEFT_DRIVE_MAIN);
-    private VictorSPX leftDriveSlaveA = new VictorSPX(RobotMap.LEFT_DRIVE_SLAVE_A);
-    private VictorSPX leftDriveSlaveB = new VictorSPX(RobotMap.LEFT_DRIVE_SLAVE_B);
+    private TalonSRX leftDriveSlaveA = new TalonSRX(RobotMap.LEFT_DRIVE_SLAVE_A);
+    private TalonSRX leftDriveSlaveB = new TalonSRX(RobotMap.LEFT_DRIVE_SLAVE_B);
     private TalonSRX rightDriveMain = new TalonSRX(RobotMap.RIGHT_DRIVE_MAIN);
-    private VictorSPX rightDriveSlaveA = new VictorSPX(RobotMap.RIGHT_DRIVE_SLAVE_A);
-    private VictorSPX rightDriveSlaveB = new VictorSPX(RobotMap.RIGHT_DRIVE_SLAVE_B);
+    private TalonSRX rightDriveSlaveA = new TalonSRX(RobotMap.RIGHT_DRIVE_SLAVE_A);
+    private TalonSRX rightDriveSlaveB = new TalonSRX(RobotMap.RIGHT_DRIVE_SLAVE_B);
 
     private static final double HIGH_POW = 1.0;
     private static final double LOW_POW = -HIGH_POW;
 
     AHRS gyro = new AHRS(I2C.Port.kMXP);
-
-    //Encoder Stuff
-    EncoderFollower left;
-    EncoderFollower right;
 
     //Timing
     public Timer timer = new Timer();
@@ -117,9 +115,8 @@ public class Drivetrain extends Subsystem {
     public void resetLastHeadingError() {
         this.lastHeadingError = 0.0;
     }
-
     public double getLeftVelocity() {
-        return (leftDriveMain.getSelectedSensorVelocity(0) * Math.PI * DrivetrainProfiling.wheel_diameter) / (DrivetrainProfiling.ticks_per_rev) * 10;
+        return (leftDriveMain.getSelectedSensorVelocity(0) * Math.PI * DrivetrainProfiling.wheel_diameter) / (DrivetrainProfiling.ticks_per_rev)  * 10;
     }
 
     public double getRightVelocity() {
@@ -179,12 +176,13 @@ public class Drivetrain extends Subsystem {
         this.gyro.reset();
     }
 
-    public void pathSetup(TankModifier modifier, boolean relative) {
-        if (relative) {
-            resetEncoders();
-            resetGyro();
-        }
-
+    public EncoderFollower[] pathSetup(Waypoint[] path) {
+        EncoderFollower left = new EncoderFollower();
+        EncoderFollower right = new EncoderFollower();
+        Trajectory.Config cfg = new Trajectory.Config(Trajectory.FitMethod.HERMITE_QUINTIC, Trajectory.Config.SAMPLES_HIGH,
+                Drivetrain.DrivetrainProfiling.dt, Drivetrain.DrivetrainProfiling.max_velocity, Drivetrain.DrivetrainProfiling.max_acceleration, Drivetrain.DrivetrainProfiling.max_jerk);
+        Trajectory toFollow = Pathfinder.generate(path, cfg);
+        TankModifier modifier = new TankModifier(toFollow).modify((Drivetrain.DrivetrainProfiling.wheel_base_width));
         DrivetrainProfiling.last_gyro_error = 0.0;
         left = new EncoderFollower(modifier.getLeftTrajectory());
         right = new EncoderFollower(modifier.getRightTrajectory());
@@ -192,13 +190,36 @@ public class Drivetrain extends Subsystem {
         right.configureEncoder(rightDriveMain.getSelectedSensorPosition(0), DrivetrainProfiling.ticks_per_rev, DrivetrainProfiling.wheel_diameter);
         left.configurePIDVA(DrivetrainProfiling.kp, DrivetrainProfiling.ki, DrivetrainProfiling.kd, DrivetrainProfiling.kv, DrivetrainProfiling.ka);
         right.configurePIDVA(DrivetrainProfiling.kp, DrivetrainProfiling.ki, DrivetrainProfiling.kd, DrivetrainProfiling.kv, DrivetrainProfiling.ka);
+        return new EncoderFollower[] {
+                left, // 0
+                right, // 1
+        };
     }
 
-    public void pathFollow() {
+    public void resetForPath() {
+        isProfileFinished = false;
+        resetEncoders();
+        resetGyro();
+    }
 
-        double l = left.calculate(leftDriveMain.getSelectedSensorPosition(0));
-        double r = right.calculate(rightDriveMain.getSelectedSensorPosition(0));
+    private boolean isProfileFinished = false;
 
+    public boolean getIsProfileFinished() {
+        return isProfileFinished;
+    }
+
+    public void pathFollow(EncoderFollower[] followers,boolean reverse) {
+        EncoderFollower left = followers[0];
+        EncoderFollower right = followers[1];
+        double l;
+        double r;
+        if (!reverse) {
+            l = left.calculate(-leftDriveMain.getSelectedSensorPosition(0));
+            r = right.calculate(-rightDriveMain.getSelectedSensorPosition(0));
+        } else {
+            l = left.calculate(leftDriveMain.getSelectedSensorPosition(0));
+            r = right.calculate(rightDriveMain.getSelectedSensorPosition(0));
+        }
         double gyro_heading = gyro.getAngle();
         double angle_setpoint = Pathfinder.r2d(left.getHeading());
         double angleDifference = Pathfinder.boundHalfDegrees(angle_setpoint - gyro_heading);
@@ -208,15 +229,31 @@ public class Drivetrain extends Subsystem {
 
         DrivetrainProfiling.last_gyro_error = angleDifference;
 
-        if (left != null && !left.isFinished()) {
+        if(left != null && !left.isFinished()) {
+            SmartDashboard.putNumber("Left diff", left.getSegment().x + this.getEncoderDistanceMetersLeft());
             SmartDashboard.putNumber("Left set vel", left.getSegment().velocity);
+            SmartDashboard.putNumber("Left set pos", left.getSegment().x);
             SmartDashboard.putNumber("Left calc voltage", l);
             SmartDashboard.putNumber("Commanded heading", left.getHeading());
             SmartDashboard.putNumber("Left + turn", l + turn);
             SmartDashboard.putNumber("Left accel (command)", left.getSegment().acceleration);
         }
+        if(!reverse) {
+            drive(l + turn, r - turn);
+        }
+        else {
+            drive(-l + turn, -r - turn);
+        }
+        if(left.isFinished() && right.isFinished()) {
+            isProfileFinished = true;
+        }
+    }
 
-        drive(l + turn, r - turn);
+
+    public void updateAccelDashboard() {
+        SmartDashboard.putNumber("Accel X", gyro.getWorldLinearAccelX());
+        SmartDashboard.putNumber("Accel Y", gyro.getWorldLinearAccelY());
+        SmartDashboard.putNumber("Accel Z", gyro.getWorldLinearAccelZ());
     }
 
     public void initDefaultCommand() {
@@ -225,7 +262,7 @@ public class Drivetrain extends Subsystem {
 
     public static class DrivetrainProfiling {
         //TODO: TUNE CONSTANTS
-        public static double kp = 0.0; //0.0217055
+        public static double kp = 0.8;
         public static double kd = 0.0;
         public static double gp = 0.02;
         public static double gd = 0.0025;
@@ -234,13 +271,13 @@ public class Drivetrain extends Subsystem {
         //gyro logging
         public static double last_gyro_error = 0.0;
 
-        public static final double max_velocity = 3.6;
+        public static final double max_velocity = 4.0; //4 is real
         public static final double kv = 1.0 / max_velocity; // Calculated for test Drivetrain
-        public static final double max_acceleration = 2.2565; // Estimated #
-        public static final double ka = 0.015; //0.071622
+        public static final double max_acceleration = 1.62; // Estimated #
+        public static final double ka = 0.0; //0.015
         public static final double max_jerk = 7.62;
         public static final double wheel_diameter = 0.13;
-        public static final double wheel_base_width = 0.65;
+        public static final double wheel_base_width = 0.72;
         public static final int ticks_per_rev = 4096; // CTRE Mag Encoder
         public static final double dt = 0.02; // Calculated - Confirmed
 
@@ -260,5 +297,4 @@ public class Drivetrain extends Subsystem {
             gd = SmartDashboard.getNumber("gD", 0.0);
         }
     }
-
 }

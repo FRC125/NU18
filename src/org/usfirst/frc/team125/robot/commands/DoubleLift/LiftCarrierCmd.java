@@ -23,7 +23,11 @@ public class LiftCarrierCmd extends Command {
 
     protected void end() {
     }
+<<<<<<< HEAD
 
+=======
+		
+>>>>>>> week3-testing
     protected void interrupted() {
     }
 }
