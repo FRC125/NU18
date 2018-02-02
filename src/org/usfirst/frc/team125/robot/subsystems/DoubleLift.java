@@ -20,8 +20,8 @@ public class DoubleLift extends Subsystem {
     private static final DoubleSolenoid.Value LIFT_LIFT_VALUE = DoubleSolenoid.Value.kForward;
 
     public DoubleLift() {
-        this.doubleLifter.set(LIFT_LIFT_VALUE);
-        this.release.set(UNRELEASE_CARRIER_SET);
+        this.doubleLifter.set(LIFT_LIFT_VALUE); // We want it up
+        this.release.set(false); // We want it not out, hard coded for safety
     }
 
     public void releaseCarrier() {
@@ -43,5 +43,4 @@ public class DoubleLift extends Subsystem {
     @Override
     protected void initDefaultCommand() {
     }
-
 }

@@ -22,6 +22,9 @@ public class CubeLift extends Subsystem {
     private VictorSPX leftElevatorSlaveA = new VictorSPX(RobotMap.LEFT_ELEVATOR_SLAVE_A);
     private VictorSPX leftElevatorSlaveB = new VictorSPX(RobotMap.LEFT_ELEVATOR_SLAVE_B);
 
+    private Solenoid grabbers = new Solenoid(RobotMap.GRABBERS);
+    private Solenoid releasePin = new Solenoid(RobotMap.RELEASE_PIN);
+
     private static final double kP = 0.0;
     private static final double kI = 0.0;
     private static final double kD = 0.0;
@@ -30,33 +33,22 @@ public class CubeLift extends Subsystem {
     private static final double TICKS_PER_INCH = 233.0;
     private static final double DISTANCE_PER_TICK = 1.0/TICKS_PER_INCH; // In inches according to 233 clicks per inch -Henry
 
-    //Change from double to single
-    //private DoubleSolenoid grabbers = new DoubleSolenoid( 0, 1);
-    private Solenoid grabbers = new Solenoid(RobotMap.GRABBERS);
-
-    private Solenoid releasePin = new Solenoid(RobotMap.RELEASE_PIN);
-
-    //private static final double calibrationMinTime = 1.5;
+    //private static final double CALIBRATION_MIN_TIME = 1.5;
     //private DebouncedBoolean calibrationDebouncer = new DebouncedBoolean(calibrationMinTime);
 
-    private boolean grabberPosition = true;
-
-    private static final int ELEVATOR_TOP = 1;
-    private static final int ELEVATOR_BOTTOM = 0;
-
+    private static final int ELEVATOR_TOP_POS = 1;
+    private static final int ELEVATOR_BOTTOM_POS = 0;
+    private static final int ELEVATOR_MID_POS = -1;
     private static final boolean CLAMP_SET = true;
     private static final boolean UNCLAMP_SET = false;
     private static final boolean RELEASE_SET = true;
     private static final boolean UNRELEASE_SET = false;
+    private boolean grabberPosition = true;
 
     public CubeLift() {
         this.rightElevatorSlave.follow(rightElevatorLeader);
         this.leftElevatorSlaveA.follow(rightElevatorLeader);
         this.leftElevatorSlaveB.follow(rightElevatorLeader);
-        this.leftElevatorSlaveA.setInverted(true);
-        this.leftElevatorSlaveB.setInverted(true);
-        this.rightElevatorLeader.setInverted(false);
-        this.rightElevatorSlave.setInverted(false);
         this.rightElevatorLeader.configPeakOutputForward(1.0, 0);
         this.rightElevatorLeader.configPeakOutputReverse(-1.0, 0);
         this.rightElevatorLeader.configNominalOutputForward(0.0, 0);
@@ -74,10 +66,6 @@ public class CubeLift extends Subsystem {
         this.leftElevatorSlaveB.configNominalOutputForward(0.0, 0);
         this.leftElevatorSlaveB.configNominalOutputReverse(0.0, 0);
 
-        //this.grabbers.set(DoubleSolenoid.Value.kOff);
-        //this.grabbers.set(DoubleSolenoid.Value.kForward);
-        //this.grabbers.set(DoubleSolenoid.Value.kReverse);
-
         //Encoder
         this.rightElevatorLeader.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative, 0, 0);
 
@@ -87,7 +75,17 @@ public class CubeLift extends Subsystem {
         this.leftElevatorSlaveA.setNeutralMode(NeutralMode.Brake);
         this.leftElevatorSlaveB.setNeutralMode(NeutralMode.Brake);
 
+        this.leftElevatorSlaveA.setInverted(true);
+        this.leftElevatorSlaveB.setInverted(true);
+        this.rightElevatorLeader.setInverted(false);
+        this.rightElevatorSlave.setInverted(false);
+
         configPIDF(1.0, 0., 0., 0.); // TODO: Tune lol
+        configMotionMagic(0, 0); // TODO: Also tune lol
+
+        //Hard coded to false to reduce chance of breaking...
+        grabbers.set(false);
+        releasePin.set(false);
     }
 
     public void resetEncoders() {
@@ -116,7 +114,6 @@ public class CubeLift extends Subsystem {
 
     public void changeGrabberPosition() {
         grabberPosition = !grabberPosition;
-
         grabbers.set(grabberPosition);
     }
 

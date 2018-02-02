@@ -30,7 +30,6 @@ public class Intake extends Subsystem {
     private static final DoubleSolenoid.Value INTAKE_REVERSE_VALUE = DoubleSolenoid.Value.kReverse;
 
     public Intake() {
-
         //Left side
         this.intakeL.configPeakOutputForward(INTAKE_POWER, 0);
         this.intakeL.configPeakOutputReverse(-INTAKE_POWER, 0);
@@ -85,5 +84,4 @@ public class Intake extends Subsystem {
     @Override
     protected void initDefaultCommand() {
     }
-
 }

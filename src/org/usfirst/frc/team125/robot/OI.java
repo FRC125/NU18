@@ -21,8 +21,8 @@ public class OI {
     public Joystick opPad = new Joystick(1);
 
     /* Operator Control */
-    public Button outtake = new JoystickButton(opPad, JoystickMap.RB);
-    public Button intake = new JoystickButton(opPad, JoystickMap.LB);
+    public Button outtake = new JoystickButton(opPad, JoystickMap.LB);
+    public Button intake = new JoystickButton(opPad, JoystickMap.RB);
     public Button changeClampPosition = new JoystickButton(opPad, JoystickMap.A);
     public Button clampOut = new JoystickButton(opPad, JoystickMap.X);
     public Button clampIn = new JoystickButton(opPad, JoystickMap.Y);
