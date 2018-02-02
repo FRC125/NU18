@@ -6,25 +6,21 @@ import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 import com.ctre.phoenix.motorcontrol.can.VictorSPX;
 
-import edu.wpi.first.wpilibj.Counter;
-import edu.wpi.first.wpilibj.DigitalInput;
-import edu.wpi.first.wpilibj.GearTooth;
 import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import org.usfirst.frc.team125.robot.RobotMap;
 import org.usfirst.frc.team125.robot.commands.CubeLift.ElevatorDriveCmd;
-import org.usfirst.frc.team125.robot.util.DebouncedBoolean;
 
 /**
  * DoubleLift's DoubleLift for DoubleLifting
  */
 public class CubeLift extends Subsystem {
 
-    private TalonSRX leftElevatorLeader = new TalonSRX(RobotMap.LEFT_ELEVATOR_LEADER);
-    private VictorSPX leftSlaveA = new VictorSPX(RobotMap.LEFT_ELEVATOR_SLAVE_A);
-    private VictorSPX rightSlaveA = new VictorSPX(RobotMap.RIGHT_ELEVATOR_SLAVE_A);
-    private VictorSPX rightSlaveB = new VictorSPX(RobotMap.RIGHT_ELEVATOR_SLAVE_B);
+    private TalonSRX rightElevatorLeader = new TalonSRX(RobotMap.RIGHT_ELEVATOR_MAIN);
+    private VictorSPX rightElevatorSlave = new VictorSPX(RobotMap.RIGHT_ELEVATOR_SLAVE);
+    private VictorSPX leftElevatorSlaveA = new VictorSPX(RobotMap.LEFT_ELEVATOR_SLAVE_A);
+    private VictorSPX leftElevatorSlaveB = new VictorSPX(RobotMap.LEFT_ELEVATOR_SLAVE_B);
 
     private static final double kP = 0.0;
     private static final double kI = 0.0;
@@ -54,58 +50,60 @@ public class CubeLift extends Subsystem {
     private static final boolean UNRELEASE_SET = false;
 
     public CubeLift() {
-        this.leftSlaveA.follow(leftElevatorLeader);
-        this.rightSlaveA.follow(leftElevatorLeader);
-        this.rightSlaveB.follow(leftElevatorLeader);
-        this.rightSlaveA.setInverted(true);
-        this.rightSlaveB.setInverted(true);
-        this.leftElevatorLeader.configPeakOutputForward(1.0, 0);
-        this.leftElevatorLeader.configPeakOutputReverse(-1.0, 0);
-        this.leftElevatorLeader.configNominalOutputForward(0.0, 0);
-        this.leftElevatorLeader.configNominalOutputReverse(0.0, 0);
-        this.leftSlaveA.configPeakOutputForward(1.0, 0);
-        this.leftSlaveA.configPeakOutputReverse(-1.0, 0);
-        this.leftSlaveA.configNominalOutputForward(0.0, 0);
-        this.leftSlaveA.configNominalOutputReverse(0.0, 0);
-        this.rightSlaveA.configPeakOutputForward(1.0, 0);
-        this.rightSlaveA.configPeakOutputReverse(-1.0, 0);
-        this.rightSlaveA.configNominalOutputForward(0.0, 0);
-        this.rightSlaveA.configNominalOutputReverse(0.0, 0);
-        this.rightSlaveB.configPeakOutputForward(1.0, 0);
-        this.rightSlaveB.configPeakOutputReverse(-1.0, 0);
-        this.rightSlaveB.configNominalOutputForward(0.0, 0);
-        this.rightSlaveB.configNominalOutputReverse(0.0, 0);
+        this.rightElevatorSlave.follow(rightElevatorLeader);
+        this.leftElevatorSlaveA.follow(rightElevatorLeader);
+        this.leftElevatorSlaveB.follow(rightElevatorLeader);
+        this.leftElevatorSlaveA.setInverted(true);
+        this.leftElevatorSlaveB.setInverted(true);
+        this.rightElevatorLeader.setInverted(false);
+        this.rightElevatorSlave.setInverted(false);
+        this.rightElevatorLeader.configPeakOutputForward(1.0, 0);
+        this.rightElevatorLeader.configPeakOutputReverse(-1.0, 0);
+        this.rightElevatorLeader.configNominalOutputForward(0.0, 0);
+        this.rightElevatorLeader.configNominalOutputReverse(0.0, 0);
+        this.rightElevatorSlave.configPeakOutputForward(1.0, 0);
+        this.rightElevatorSlave.configPeakOutputReverse(-1.0, 0);
+        this.rightElevatorSlave.configNominalOutputForward(0.0, 0);
+        this.rightElevatorSlave.configNominalOutputReverse(0.0, 0);
+        this.leftElevatorSlaveA.configPeakOutputForward(1.0, 0);
+        this.leftElevatorSlaveA.configPeakOutputReverse(-1.0, 0);
+        this.leftElevatorSlaveA.configNominalOutputForward(0.0, 0);
+        this.leftElevatorSlaveA.configNominalOutputReverse(0.0, 0);
+        this.leftElevatorSlaveB.configPeakOutputForward(1.0, 0);
+        this.leftElevatorSlaveB.configPeakOutputReverse(-1.0, 0);
+        this.leftElevatorSlaveB.configNominalOutputForward(0.0, 0);
+        this.leftElevatorSlaveB.configNominalOutputReverse(0.0, 0);
 
         //this.grabbers.set(DoubleSolenoid.Value.kOff);
         //this.grabbers.set(DoubleSolenoid.Value.kForward);
         //this.grabbers.set(DoubleSolenoid.Value.kReverse);
 
         //Encoder
-        this.leftElevatorLeader.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative, 0, 0);
+        this.rightElevatorLeader.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative, 0, 0);
 
         //Neutral mode
-        this.leftElevatorLeader.setNeutralMode(NeutralMode.Brake);
-        this.leftSlaveA.setNeutralMode(NeutralMode.Brake);
-        this.rightSlaveA.setNeutralMode(NeutralMode.Brake);
-        this.rightSlaveB.setNeutralMode(NeutralMode.Brake);
+        this.rightElevatorLeader.setNeutralMode(NeutralMode.Brake);
+        this.rightElevatorSlave.setNeutralMode(NeutralMode.Brake);
+        this.leftElevatorSlaveA.setNeutralMode(NeutralMode.Brake);
+        this.leftElevatorSlaveB.setNeutralMode(NeutralMode.Brake);
 
         configPIDF(1.0, 0., 0., 0.); // TODO: Tune lol
     }
 
     public void resetEncoders() {
-        this.leftElevatorLeader.setSelectedSensorPosition(0, 0, 0);
+        this.rightElevatorLeader.setSelectedSensorPosition(0, 0, 0);
     }
 
     public int getEncPos() {
-        return leftElevatorLeader.getSelectedSensorPosition(0);
+        return rightElevatorLeader.getSelectedSensorPosition(0);
     }
 
     public void runToPosition(int pos) {
-        leftElevatorLeader.set(ControlMode.Position, pos);
+        rightElevatorLeader.set(ControlMode.Position, pos);
     }
 
     public void runToPositionMotionMagic(int pos) {
-        leftElevatorLeader.set(ControlMode.MotionMagic, pos);
+        rightElevatorLeader.set(ControlMode.MotionMagic, pos);
     }
 
     public void openClamp() {
@@ -131,11 +129,11 @@ public class CubeLift extends Subsystem {
     }
 
     public void stopElevator() {
-        leftElevatorLeader.set(ControlMode.PercentOutput, 0.0);
+        rightElevatorLeader.set(ControlMode.PercentOutput, 0.0);
     }
 
     public void directElevate(double pow) {
-        leftElevatorLeader.set(ControlMode.PercentOutput, pow);
+        rightElevatorLeader.set(ControlMode.PercentOutput, pow);
     }
 
     //Will use later once we get hall effect sensor.
@@ -147,10 +145,10 @@ public class CubeLift extends Subsystem {
     }*/
 
     public void configPIDF(double kP, double kI, double kD, double kF) {
-        leftElevatorLeader.config_kP(0, kP, 0);
-        leftElevatorLeader.config_kI(0, kI, 0);
-        leftElevatorLeader.config_kD(0, kD, 0);
-        leftElevatorLeader.config_kF(0, kF, 0);
+        rightElevatorLeader.config_kP(0, kP, 0);
+        rightElevatorLeader.config_kI(0, kI, 0);
+        rightElevatorLeader.config_kD(0, kD, 0);
+        rightElevatorLeader.config_kF(0, kF, 0);
     }
 
     /**
@@ -160,8 +158,8 @@ public class CubeLift extends Subsystem {
      * @param acceleration   cruise acceleration in sensorUnits per 100ms
      */
     public void configMotionMagic(int cruiseVelocity, int acceleration) {
-        leftElevatorLeader.configMotionCruiseVelocity(cruiseVelocity, 0);
-        leftElevatorLeader.configMotionAcceleration(acceleration, 0);
+        rightElevatorLeader.configMotionCruiseVelocity(cruiseVelocity, 0);
+        rightElevatorLeader.configMotionAcceleration(acceleration, 0);
     }
 
     public void initDefaultCommand() {
