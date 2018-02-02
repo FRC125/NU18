@@ -25,10 +25,12 @@ public class CubeLift extends Subsystem {
     private Solenoid grabbers = new Solenoid(RobotMap.GRABBERS);
     private Solenoid releasePin = new Solenoid(RobotMap.RELEASE_PIN);
 
-    private static final double kP = 0.0;
-    private static final double kI = 0.0;
-    private static final double kD = 0.0;
-    private static final double kF = 0.0;
+    private double kP = 1.0;
+    private double kI = 0.0;
+    private double kD = 0.0;
+    private double kF = 0.0;
+    private static final int CRUISE_VELOCITY = 0;
+    private static final int CRUISE_ACCELERATION = 0;
 
     private static final double TICKS_PER_INCH = 233.0;
     private static final double DISTANCE_PER_TICK = 1.0/TICKS_PER_INCH; // In inches according to 233 clicks per inch -Henry
@@ -45,24 +47,27 @@ public class CubeLift extends Subsystem {
     private static final boolean UNRELEASE_SET = false;
     private boolean grabberPosition = true;
 
+    private static final double ELEVATOR_HI_POW = 1.0;
+    private static final double ELEVATOR_LOW_POW = -ELEVATOR_HI_POW;
+
     public CubeLift() {
         this.rightElevatorSlave.follow(rightElevatorLeader);
         this.leftElevatorSlaveA.follow(rightElevatorLeader);
         this.leftElevatorSlaveB.follow(rightElevatorLeader);
-        this.rightElevatorLeader.configPeakOutputForward(1.0, 0);
-        this.rightElevatorLeader.configPeakOutputReverse(-1.0, 0);
+        this.rightElevatorLeader.configPeakOutputForward(ELEVATOR_HI_POW, 0);
+        this.rightElevatorLeader.configPeakOutputReverse(ELEVATOR_LOW_POW, 0);
         this.rightElevatorLeader.configNominalOutputForward(0.0, 0);
         this.rightElevatorLeader.configNominalOutputReverse(0.0, 0);
-        this.rightElevatorSlave.configPeakOutputForward(1.0, 0);
-        this.rightElevatorSlave.configPeakOutputReverse(-1.0, 0);
+        this.rightElevatorSlave.configPeakOutputForward(ELEVATOR_HI_POW, 0);
+        this.rightElevatorSlave.configPeakOutputReverse(ELEVATOR_LOW_POW, 0);
         this.rightElevatorSlave.configNominalOutputForward(0.0, 0);
         this.rightElevatorSlave.configNominalOutputReverse(0.0, 0);
-        this.leftElevatorSlaveA.configPeakOutputForward(1.0, 0);
-        this.leftElevatorSlaveA.configPeakOutputReverse(-1.0, 0);
+        this.leftElevatorSlaveA.configPeakOutputForward(ELEVATOR_HI_POW, 0);
+        this.leftElevatorSlaveA.configPeakOutputReverse(ELEVATOR_LOW_POW, 0);
         this.leftElevatorSlaveA.configNominalOutputForward(0.0, 0);
         this.leftElevatorSlaveA.configNominalOutputReverse(0.0, 0);
-        this.leftElevatorSlaveB.configPeakOutputForward(1.0, 0);
-        this.leftElevatorSlaveB.configPeakOutputReverse(-1.0, 0);
+        this.leftElevatorSlaveB.configPeakOutputForward(ELEVATOR_HI_POW, 0);
+        this.leftElevatorSlaveB.configPeakOutputReverse(ELEVATOR_LOW_POW, 0);
         this.leftElevatorSlaveB.configNominalOutputForward(0.0, 0);
         this.leftElevatorSlaveB.configNominalOutputReverse(0.0, 0);
 
@@ -80,8 +85,8 @@ public class CubeLift extends Subsystem {
         this.rightElevatorLeader.setInverted(false);
         this.rightElevatorSlave.setInverted(false);
 
-        configPIDF(1.0, 0., 0., 0.); // TODO: Tune lol
-        configMotionMagic(0, 0); // TODO: Also tune lol
+        configPIDF(kP, kI, kD, kF); // TODO: Tune lol
+        configMotionMagic(CRUISE_VELOCITY, CRUISE_ACCELERATION); // TODO: Also tune lol
 
         //Hard coded to false to reduce chance of breaking...
         grabbers.set(false);
@@ -173,11 +178,13 @@ public class CubeLift extends Subsystem {
         SmartDashboard.putNumber("kD", kD);
         SmartDashboard.putNumber("kF", kF);
     }
+
     public void updatePIDFFromDashboard() {
-        configPIDF(SmartDashboard.getNumber("kP", kP),
-                SmartDashboard.getNumber("kI", kI),
-                SmartDashboard.getNumber("kD", kD),
-                SmartDashboard.getNumber("kF", kF));
+        kP = SmartDashboard.getNumber("kP", kP);
+        kI = SmartDashboard.getNumber("kI", kI);
+        kD = SmartDashboard.getNumber("kD", kD);
+        kF = SmartDashboard.getNumber("kF", kF);
+        configPIDF(kP, kI, kD, kF);
     }
 }
 

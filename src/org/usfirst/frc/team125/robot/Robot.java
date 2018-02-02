@@ -89,5 +89,7 @@ public class Robot extends IterativeRobot {
         SmartDashboard.putNumber("gyro angle", this.drivetrain.getAngle());
         SmartDashboard.putNumber("elevator enc val", this.cubeLift.getEncPos());
         this.drivetrain.updateAccelDashboard();
+        this.cubeLift.updatePIDFOnDashboard();
+        this.cubeLift.updatePIDFFromDashboard();
     }
 }
