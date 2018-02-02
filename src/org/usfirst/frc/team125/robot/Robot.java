@@ -90,13 +90,14 @@ public class Robot extends IterativeRobot {
     }
 
     public void updateSmartdashboard() {
-        SmartDashboard.putNumber("left Enc", this.drivetrain.getEncoderRawLeft());
-        SmartDashboard.putNumber("right Enc", this.drivetrain.getEncoderRawRight());
-        SmartDashboard.putNumber("left Meters", this.drivetrain.getEncoderDistanceMetersLeft());
-        SmartDashboard.putNumber("right Meters", this.drivetrain.getEncoderDistanceMetersRight());
-        SmartDashboard.putNumber("left Speed", this.drivetrain.getLeftVelocity());
-        SmartDashboard.putNumber("right Speed", this.drivetrain.getRightVelocity());
-        SmartDashboard.putNumber("angle", this.drivetrain.getAngle());
+        SmartDashboard.putNumber("left dt Enc", this.drivetrain.getEncoderRawLeft());
+        SmartDashboard.putNumber("right dt Enc", this.drivetrain.getEncoderRawRight());
+        SmartDashboard.putNumber("left dt Meters", this.drivetrain.getEncoderDistanceMetersLeft());
+        SmartDashboard.putNumber("right dt Meters", this.drivetrain.getEncoderDistanceMetersRight());
+        SmartDashboard.putNumber("left dt Speed", this.drivetrain.getLeftVelocity());
+        SmartDashboard.putNumber("right dt Speed", this.drivetrain.getRightVelocity());
+        SmartDashboard.putNumber("gyro angle", this.drivetrain.getAngle());
+        SmartDashboard.putNumber("elevator enc val", this.cubeLift.getEncPos());
     }
 
 }

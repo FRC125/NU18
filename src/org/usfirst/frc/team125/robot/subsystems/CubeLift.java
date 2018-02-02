@@ -31,7 +31,8 @@ public class CubeLift extends Subsystem {
     private static final double kD = 0.0;
     private static final double kF = 0.0;
 
-    private static final double DISTANCE_PER_TICK = 0.00429184549; // In inches according to 233 clicks per inch -Henry
+    private static final double TICKS_PER_INCH = 233.0;
+    private static final double DISTANCE_PER_TICK = 1.0/TICKS_PER_INCH; // In inches according to 233 clicks per inch -Henry
 
     //Change from double to single
     //private DoubleSolenoid grabbers = new DoubleSolenoid( 0, 1);
@@ -88,7 +89,7 @@ public class CubeLift extends Subsystem {
         this.rightSlaveA.setNeutralMode(NeutralMode.Brake);
         this.rightSlaveB.setNeutralMode(NeutralMode.Brake);
 
-        configPIDF(0, 0, 0, 0); // TODO: Tune lol
+        configPIDF(1.0, 0., 0., 0.); // TODO: Tune lol
     }
 
     public void resetEncoders() {
@@ -165,6 +166,10 @@ public class CubeLift extends Subsystem {
 
     public void initDefaultCommand() {
         setDefaultCommand(new ElevatorDriveCmd());
+    }
+
+    public int inchesToClicks(double inches) {
+     return (int)(inches/DISTANCE_PER_TICK);
     }
 
     public void updatePIDFOnDashboard() {

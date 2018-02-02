@@ -9,6 +9,7 @@ import org.usfirst.frc.team125.robot.Robot;
 public class RunToPositionMotionMagicCmd extends Command {
 
     private int position;
+    private final int TOLERANCE = 200;
 
     public RunToPositionMotionMagicCmd(int pos) {
         requires(Robot.cubeLift);
@@ -24,7 +25,7 @@ public class RunToPositionMotionMagicCmd extends Command {
     }
 
     protected boolean isFinished() {
-        return false;
+        return (position - Robot.cubeLift.getEncPos()) <= TOLERANCE;
     }
 
     protected void end() {

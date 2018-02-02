@@ -26,6 +26,10 @@ public class OI {
     public Button changeClampPosition = new JoystickButton(opPad, JoystickMap.A);
     public Button clampOut = new JoystickButton(opPad, JoystickMap.X);
     public Button clampIn = new JoystickButton(opPad, JoystickMap.Y);
+    public Button resetElevatorEnc = new JoystickButton(opPad, JoystickMap.B);
+    public Button runEleLow = new JoystickButton(opPad, JoystickMap.BACK);
+    public Button runEleHi = new JoystickButton(opPad, JoystickMap.START);
+
 
     //commented out these buttons since they aren't being used rn.
     //public Button readyCarrier = new JoystickButton(opPad, JoystickMap.B);
@@ -48,6 +52,9 @@ public class OI {
         changeClampPosition.whenPressed(new ChangeGrabberPositionCmd());
         clampIn.whenPressed(new CloseClampCmd());
         clampOut.whenPressed(new OpenClampCmd());
+        resetElevatorEnc.whenPressed(new ResetEncoderCmd());
+        runEleLow.whenPressed(new RunToPositionMotionMagicCmd(Robot.cubeLift.inchesToClicks(60.0)));
+        runEleHi.whenPressed(new RunToPositionMotionMagicCmd(Robot.cubeLift.inchesToClicks(120.0)));
 
         //Carrier
         //readyCarrier.whenPressed(new DropAndReleaseCarrier());
