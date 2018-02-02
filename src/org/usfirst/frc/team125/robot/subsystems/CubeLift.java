@@ -11,6 +11,7 @@ import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.GearTooth;
 import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj.command.Subsystem;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import org.usfirst.frc.team125.robot.RobotMap;
 import org.usfirst.frc.team125.robot.commands.CubeLift.ElevatorDriveCmd;
 import org.usfirst.frc.team125.robot.util.DebouncedBoolean;
@@ -24,6 +25,11 @@ public class CubeLift extends Subsystem {
     private VictorSPX leftSlaveA = new VictorSPX(RobotMap.LEFT_ELEVATOR_SLAVE_A);
     private VictorSPX rightSlaveA = new VictorSPX(RobotMap.RIGHT_ELEVATOR_SLAVE_A);
     private VictorSPX rightSlaveB = new VictorSPX(RobotMap.RIGHT_ELEVATOR_SLAVE_B);
+
+    private static final double kP = 0.0;
+    private static final double kI = 0.0;
+    private static final double kD = 0.0;
+    private static final double kF = 0.0;
 
     private static final double DISTANCE_PER_TICK = 0.00429184549; // In inches according to 233 clicks per inch -Henry
 
@@ -161,6 +167,17 @@ public class CubeLift extends Subsystem {
         setDefaultCommand(new ElevatorDriveCmd());
     }
 
-
+    public void updatePIDFOnDashboard() {
+        SmartDashboard.putNumber("kP", kP);
+        SmartDashboard.putNumber("kI", kI);
+        SmartDashboard.putNumber("kD", kD);
+        SmartDashboard.putNumber("kF", kF);
+    }
+    public void updatePIDFFromDashboard() {
+        configPIDF(SmartDashboard.getNumber("kP", kP),
+                SmartDashboard.getNumber("kI", kI),
+                SmartDashboard.getNumber("kD", kD),
+                SmartDashboard.getNumber("kF", kF));
+    }
 }
 
