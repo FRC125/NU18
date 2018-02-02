@@ -1,6 +1,8 @@
 package org.usfirst.frc.team125.robot.subsystems;
 
+import com.ctre.phoenix.motorcontrol.IMotorController;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
+import com.ctre.phoenix.motorcontrol.can.VictorSPX;
 import edu.wpi.first.wpilibj.*;
 import org.usfirst.frc.team125.robot.RobotMap;
 
@@ -13,8 +15,8 @@ import org.usfirst.frc.team125.robot.util.DebouncedBoolean;
 public class Intake extends Subsystem {
 
     //Intake motors
-    private TalonSRX intakeL = new TalonSRX(RobotMap.INTAKE_LEFT);
-    private TalonSRX intakeR = new TalonSRX(RobotMap.INTAKE_RIGHT);
+    private IMotorController intakeL = new VictorSPX(RobotMap.INTAKE_LEFT);
+    private IMotorController intakeR = new VictorSPX(RobotMap.INTAKE_RIGHT);
 
     private DoubleSolenoid intakePiston = new DoubleSolenoid(RobotMap.INTAKE_RETRACT_FORWARD, RobotMap.INTAKE_RETRACT_REVERSE);
 
