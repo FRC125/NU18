@@ -12,7 +12,7 @@ public class DebouncedBoolean {
     }
 
     public boolean get() {
-        return loopCounter >= minimumLoops;
+        return loopCounter > minimumLoops;
     }
 
     public void update(boolean value) {

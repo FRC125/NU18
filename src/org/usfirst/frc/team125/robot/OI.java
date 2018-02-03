@@ -57,7 +57,7 @@ public class OI {
         //Elevator
         resetElevatorEnc.whenPressed(new ResetEncoderCmd());
         runEleLow.whenPressed(new RunToPositionMotionMagicCmd(CubeLift.Positions.ScoreSwitch));
-        runEleHi.whenPressed(new RunToPositionMotionMagicCmd(CubeLift.Positions.ScoreScale));
+        runEleHi.whenPressed(new RunToPositionMotionMagicCmd(CubeLift.Positions.Intake));
         EMERGENCY_QUIT.whenPressed(new ElevatorDriveCmd());
 
         //Carrier
