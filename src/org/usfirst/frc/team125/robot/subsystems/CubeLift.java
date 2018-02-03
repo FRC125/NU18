@@ -6,11 +6,14 @@ import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 import com.ctre.phoenix.motorcontrol.can.VictorSPX;
 
+import edu.wpi.first.wpilibj.AnalogInput;
+import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import org.usfirst.frc.team125.robot.RobotMap;
 import org.usfirst.frc.team125.robot.commands.CubeLift.ElevatorDriveCmd;
+import org.usfirst.frc.team125.robot.util.DebouncedBoolean;
 
 /**
  * DoubleLift's DoubleLift for DoubleLifting
@@ -35,8 +38,9 @@ public class CubeLift extends Subsystem {
     private static final double TICKS_PER_INCH = 233.0;
     private static final double DISTANCE_PER_TICK = 1.0/TICKS_PER_INCH; // In inches according to 233 clicks per inch -Henry
 
-    //private static final double CALIBRATION_MIN_TIME = 1.5;
-    //private DebouncedBoolean calibrationDebouncer = new DebouncedBoolean(calibrationMinTime);
+    private DigitalInput hallEffectSensor = new DigitalInput(RobotMap.CUBELIFT_HALL_EFFECT_SENSOR);
+    private static final double CALIBRATION_MIN_TIME = .5;
+    private DebouncedBoolean calibrationDebouncer = new DebouncedBoolean(CALIBRATION_MIN_TIME);
 
     private static final int ELEVATOR_TOP_POS = 1;
     private static final int ELEVATOR_BOTTOM_POS = 0;
@@ -47,13 +51,13 @@ public class CubeLift extends Subsystem {
     private static final boolean UNRELEASE_SET = false;
     private boolean grabberPosition = true;
 
-    private static final double ELEVATOR_HI_POW = 1.0;
+    private static final double ELEVATOR_HI_POW = .33;
     private static final double ELEVATOR_LOW_POW = -ELEVATOR_HI_POW;
 
     public CubeLift() {
-        this.rightElevatorSlave.follow(rightElevatorLeader);
-        this.leftElevatorSlaveA.follow(rightElevatorLeader);
-        this.leftElevatorSlaveB.follow(rightElevatorLeader);
+        //this.rightElevatorSlave.follow(rightElevatorLeader);
+        //this.leftElevatorSlaveA.follow(rightElevatorLeader);
+        //this.leftElevatorSlaveB.follow(rightElevatorLeader);
         this.rightElevatorLeader.configPeakOutputForward(ELEVATOR_HI_POW, 0);
         this.rightElevatorLeader.configPeakOutputReverse(ELEVATOR_LOW_POW, 0);
         this.rightElevatorLeader.configNominalOutputForward(0.0, 0);
@@ -72,7 +76,7 @@ public class CubeLift extends Subsystem {
         this.leftElevatorSlaveB.configNominalOutputReverse(0.0, 0);
 
         //Encoder
-        this.rightElevatorLeader.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative, 0, 0);
+        this.rightElevatorLeader.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Absolute, 0, 0);
 
         //Neutral mode
         this.rightElevatorLeader.setNeutralMode(NeutralMode.Brake);
@@ -84,6 +88,8 @@ public class CubeLift extends Subsystem {
         this.leftElevatorSlaveB.setInverted(true);
         this.rightElevatorLeader.setInverted(false);
         this.rightElevatorSlave.setInverted(false);
+
+        resetEncoders();
 
         configPIDF(kP, kI, kD, kF); // TODO: Tune lol
         configMotionMagic(CRUISE_VELOCITY, CRUISE_ACCELERATION); // TODO: Also tune lol
@@ -139,12 +145,13 @@ public class CubeLift extends Subsystem {
     }
 
     //Will use later once we get hall effect sensor.
-    /*public void calibrateElevator() {
-        calibrationDebouncer.update(limitSwitch.get());
+    public void calibrateElevator() {
+        calibrationDebouncer.update(!hallEffectSensor.get());
         if (calibrationDebouncer.get()) {
             resetEncoders();
+            stopElevator();
         }
-    }*/
+    }
 
     public void configPIDF(double kP, double kI, double kD, double kF) {
         rightElevatorLeader.config_kP(0, kP, 0);
@@ -185,6 +192,10 @@ public class CubeLift extends Subsystem {
         kD = SmartDashboard.getNumber("kD", kD);
         kF = SmartDashboard.getNumber("kF", kF);
         configPIDF(kP, kI, kD, kF);
+    }
+
+    public boolean gethallEffectSensor(){
+        return this.calibrationDebouncer.get();
     }
 }
 

@@ -10,13 +10,14 @@ public class ElevatorDriveCmd extends Command {
 
     public ElevatorDriveCmd() {
         requires(Robot.cubeLift);
+        setInterruptible(true);
     }
 
     protected void initialize() {
     }
 
     protected void execute() {
-        Robot.cubeLift.directElevate(Robot.oi.getDriverLeftStickY());
+        Robot.cubeLift.directElevate(Robot.oi.getOpLeftStickY());
     }
 
     protected boolean isFinished() {
@@ -27,6 +28,7 @@ public class ElevatorDriveCmd extends Command {
     }
 
     protected void interrupted() {
+        Robot.cubeLift.stopElevator();
     }
 
 }

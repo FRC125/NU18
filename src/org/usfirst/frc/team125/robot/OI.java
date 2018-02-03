@@ -91,5 +91,9 @@ public class OI {
         return this.driverPad.getRawAxis(3) - this.driverPad.getRawAxis(2); //TODO: Check Axis (Right - Left)
     }
 
+    public double getOpLeftStickY() {
+        return stickDeadband(this.opPad.getRawAxis(1), STICK_DEADBAND, 0.0);
+    }
+
 }
 

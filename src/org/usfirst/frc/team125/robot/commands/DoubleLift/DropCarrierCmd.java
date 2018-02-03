@@ -23,12 +23,8 @@ public class DropCarrierCmd extends Command {
 
     protected void end() {
     }
-<<<<<<< HEAD
 
-    protected void inturrupted() {
-=======
-		
     protected void interrupted() {
->>>>>>> week3-testing
+
     }
 }

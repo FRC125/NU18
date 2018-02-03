@@ -8,6 +8,7 @@ import edu.wpi.first.wpilibj.command.Scheduler;
 
 import java.lang.reflect.Array;
 
+import org.usfirst.frc.team125.robot.commands.CubeLift.ResetEncoderCmd;
 import org.usfirst.frc.team125.robot.commands.Intake.UpdateCubeSwitchCmd;
 import org.usfirst.frc.team125.robot.subsystems.CubeLift;
 import org.usfirst.frc.team125.robot.subsystems.DoubleLift;
@@ -37,8 +38,7 @@ public class Robot extends IterativeRobot {
     public void robotInit() {
         oi = new OI();
         drivetrain.timer.start();
-        //will need later
-        //cubeLift.calibrateElevator();
+
     }
 
     @Override
@@ -49,6 +49,7 @@ public class Robot extends IterativeRobot {
     @Override
     public void disabledPeriodic() {
         updateSmartdashboard();
+        cubeLift.calibrateElevator();
         Scheduler.getInstance().run();
     }
 
@@ -61,7 +62,9 @@ public class Robot extends IterativeRobot {
 
     @Override
     public void autonomousPeriodic(){
+        cubeLift.calibrateElevator();
         updateSmartdashboard();
+        Scheduler.getInstance().run();
     }
 
 	@Override
@@ -71,6 +74,7 @@ public class Robot extends IterativeRobot {
 
     public void teleopPeriodic() {
         updateSmartdashboard();
+        cubeLift.calibrateElevator();
         Scheduler.getInstance().run();
     }
 
@@ -79,6 +83,7 @@ public class Robot extends IterativeRobot {
 
     }
 
+    private boolean started = false;
     public void updateSmartdashboard() {
         SmartDashboard.putNumber("left dt Enc", this.drivetrain.getEncoderRawLeft());
         SmartDashboard.putNumber("right dt Enc", this.drivetrain.getEncoderRawRight());
@@ -91,5 +96,16 @@ public class Robot extends IterativeRobot {
         this.drivetrain.updateAccelDashboard();
         this.cubeLift.updatePIDFOnDashboard();
         this.cubeLift.updatePIDFFromDashboard();
+        SmartDashboard.putBoolean("Hall Effect Sensor", this.cubeLift.gethallEffectSensor());
+
+        if(this.cubeLift.gethallEffectSensor()){
+            Command cmd = new ResetEncoderCmd();
+            cmd.start();
+            started = true;
+        }else if(started) {
+            started = false;
+        }
+        //333BIG KYLE MEME
+        //doodie 8
     }
 }
