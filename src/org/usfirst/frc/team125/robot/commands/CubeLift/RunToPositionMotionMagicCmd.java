@@ -7,6 +7,7 @@ import org.usfirst.frc.team125.robot.subsystems.CubeLift;
 public class RunToPositionMotionMagicCmd extends Command {
 
     private CubeLift.Positions position;
+    private boolean started = false;
 
     public RunToPositionMotionMagicCmd(CubeLift.Positions pos) {
         requires(Robot.cubeLift);
@@ -15,10 +16,16 @@ public class RunToPositionMotionMagicCmd extends Command {
 
     protected void initialize() {
         Robot.cubeLift.stopElevator();
+        Robot.cubeLift.startMotionMagic(position);
     }
 
     protected void execute() {
-        Robot.cubeLift.runToPositionMotionMagic(position);
+        if(!started) {
+            started = true;
+        } else {
+            Robot.cubeLift.checkMotionMagicTermination(position);
+        }
+
     }
 
     protected boolean isFinished() {
