@@ -2,13 +2,13 @@ package org.usfirst.frc.team125.robot;
 
 import org.usfirst.frc.team125.robot.commands.CubeLift.*;
 import org.usfirst.frc.team125.robot.commands.Drivetrain.*;
-import org.usfirst.frc.team125.robot.commands.DoubleLift.*;
-import org.usfirst.frc.team125.robot.commands.Groups.DropAndReleaseCarrier;
 import org.usfirst.frc.team125.robot.commands.Intake.*;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.buttons.Button;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
+import org.usfirst.frc.team125.robot.subsystems.CubeLift;
 import org.usfirst.frc.team125.robot.util.*;
+
 
 /**
  * This class is the glue that binds the controls on the physical operator
@@ -29,6 +29,7 @@ public class OI {
     public Button resetElevatorEnc = new JoystickButton(opPad, JoystickMap.B);
     public Button runEleLow = new JoystickButton(opPad, JoystickMap.BACK);
     public Button runEleHi = new JoystickButton(opPad, JoystickMap.START);
+    public Button EMERGENCY_QUIT = new JoystickButton(opPad,JoystickMap.R3);
 
 
     //commented out these buttons since they aren't being used rn.
@@ -40,7 +41,7 @@ public class OI {
     /* Driver Control */
     private Button driveHoldHeading = new JoystickButton(driverPad, JoystickMap.LB);
 
-    private static final double STICK_DEADBAND = 0.005;
+    private static final double STICK_DEADBAND = 0.05;
 
     public OI() {
 
@@ -52,9 +53,12 @@ public class OI {
         changeClampPosition.whenPressed(new ChangeGrabberPositionCmd());
         clampIn.whenPressed(new CloseClampCmd());
         clampOut.whenPressed(new OpenClampCmd());
+
+        //Elevator
         resetElevatorEnc.whenPressed(new ResetEncoderCmd());
-        runEleLow.whenPressed(new RunToPositionMotionMagicCmd(Robot.cubeLift.inchesToClicks(60.0)));
-        runEleHi.whenPressed(new RunToPositionMotionMagicCmd(Robot.cubeLift.inchesToClicks(120.0)));
+        runEleLow.whenPressed(new RunToPositionMotionMagicCmd(CubeLift.Positions.ScoreSwitch));
+        runEleHi.whenPressed(new RunToPositionMotionMagicCmd(CubeLift.Positions.ScoreScale));
+        EMERGENCY_QUIT.whenPressed(new ElevatorDriveCmd());
 
         //Carrier
         //readyCarrier.whenPressed(new DropAndReleaseCarrier());

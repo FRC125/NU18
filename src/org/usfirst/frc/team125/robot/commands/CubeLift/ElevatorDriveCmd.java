@@ -3,9 +3,6 @@ package org.usfirst.frc.team125.robot.commands.CubeLift;
 import edu.wpi.first.wpilibj.command.Command;
 import org.usfirst.frc.team125.robot.Robot;
 
-/**
- *
- */
 public class ElevatorDriveCmd extends Command {
 
     public ElevatorDriveCmd() {
@@ -17,7 +14,7 @@ public class ElevatorDriveCmd extends Command {
     }
 
     protected void execute() {
-        Robot.cubeLift.directElevate(Robot.oi.getOpLeftStickY());
+        Robot.cubeLift.directElevate(-Robot.oi.getOpLeftStickY());
     }
 
     protected boolean isFinished() {

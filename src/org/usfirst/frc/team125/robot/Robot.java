@@ -1,27 +1,15 @@
 package org.usfirst.frc.team125.robot;
 
-import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.IterativeRobot;
-import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
 
-import java.lang.reflect.Array;
-
-import org.usfirst.frc.team125.robot.commands.CubeLift.ResetEncoderCmd;
-import org.usfirst.frc.team125.robot.commands.Intake.UpdateCubeSwitchCmd;
 import org.usfirst.frc.team125.robot.subsystems.CubeLift;
 import org.usfirst.frc.team125.robot.subsystems.DoubleLift;
 import org.usfirst.frc.team125.robot.subsystems.Intake;
 import org.usfirst.frc.team125.robot.subsystems.Drivetrain;
 import org.usfirst.frc.team125.robot.commands.Drivetrain.*;
-import org.usfirst.frc.team125.robot.util.AutoPaths;
-import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import jaci.pathfinder.Pathfinder;
-import jaci.pathfinder.Trajectory;
-import jaci.pathfinder.Waypoint;
-import jaci.pathfinder.modifiers.TankModifier;
 
 public class Robot extends IterativeRobot {
 
@@ -38,7 +26,6 @@ public class Robot extends IterativeRobot {
     public void robotInit() {
         oi = new OI();
         drivetrain.timer.start();
-
     }
 
     @Override
@@ -49,7 +36,6 @@ public class Robot extends IterativeRobot {
     @Override
     public void disabledPeriodic() {
         updateSmartdashboard();
-        cubeLift.calibrateElevator();
         Scheduler.getInstance().run();
     }
 
@@ -62,7 +48,6 @@ public class Robot extends IterativeRobot {
 
     @Override
     public void autonomousPeriodic(){
-        cubeLift.calibrateElevator();
         updateSmartdashboard();
         Scheduler.getInstance().run();
     }
@@ -74,7 +59,6 @@ public class Robot extends IterativeRobot {
 
     public void teleopPeriodic() {
         updateSmartdashboard();
-        cubeLift.calibrateElevator();
         Scheduler.getInstance().run();
     }
 
@@ -83,29 +67,21 @@ public class Robot extends IterativeRobot {
 
     }
 
-    private boolean started = false;
     public void updateSmartdashboard() {
-        SmartDashboard.putNumber("left dt Enc", this.drivetrain.getEncoderRawLeft());
-        SmartDashboard.putNumber("right dt Enc", this.drivetrain.getEncoderRawRight());
-        SmartDashboard.putNumber("left dt Meters", this.drivetrain.getEncoderDistanceMetersLeft());
-        SmartDashboard.putNumber("right dt Meters", this.drivetrain.getEncoderDistanceMetersRight());
-        SmartDashboard.putNumber("left dt Speed", this.drivetrain.getLeftVelocity());
-        SmartDashboard.putNumber("right dt Speed", this.drivetrain.getRightVelocity());
-        SmartDashboard.putNumber("gyro angle", this.drivetrain.getAngle());
-        SmartDashboard.putNumber("elevator enc val", this.cubeLift.getEncPos());
+        SmartDashboard.putNumber("Left dt Encoder", this.drivetrain.getEncoderRawLeft());
+        SmartDashboard.putNumber("Right dt Encoder", this.drivetrain.getEncoderRawRight());
+        SmartDashboard.putNumber("Left dt Meters", this.drivetrain.getEncoderDistanceMetersLeft());
+        SmartDashboard.putNumber("Right dt Meters", this.drivetrain.getEncoderDistanceMetersRight());
+        SmartDashboard.putNumber("Left dt Speed", this.drivetrain.getLeftVelocity());
+        SmartDashboard.putNumber("Right dt Speed", this.drivetrain.getRightVelocity());
+        SmartDashboard.putNumber("Gyro Angle", this.drivetrain.getAngle());
+        SmartDashboard.putNumber("Elevator Encoder Position", this.cubeLift.getEncPos());
         this.drivetrain.updateAccelDashboard();
         this.cubeLift.updatePIDFOnDashboard();
         this.cubeLift.updatePIDFFromDashboard();
-        SmartDashboard.putBoolean("Hall Effect Sensor", this.cubeLift.gethallEffectSensor());
-
-        if(this.cubeLift.gethallEffectSensor()){
-            Command cmd = new ResetEncoderCmd();
-            cmd.start();
-            started = true;
-        }else if(started) {
-            started = false;
-        }
-        //333BIG KYLE MEME
-        //doodie 8
+        SmartDashboard.putBoolean("Hall Effect Debouncer", this.cubeLift.getHallEffectDebouncer());
+        SmartDashboard.putString("Elevator State", this.cubeLift.getState().toString());
+        SmartDashboard.putString("Elevator Position", this.cubeLift.getPosition().toString());
+        SmartDashboard.putBoolean("Raw HE", this.cubeLift.getRawHallEffectSensor());
     }
 }

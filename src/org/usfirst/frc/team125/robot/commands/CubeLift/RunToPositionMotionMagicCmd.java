@@ -2,16 +2,13 @@ package org.usfirst.frc.team125.robot.commands.CubeLift;
 
 import edu.wpi.first.wpilibj.command.Command;
 import org.usfirst.frc.team125.robot.Robot;
+import org.usfirst.frc.team125.robot.subsystems.CubeLift;
 
-/**
- *
- */
 public class RunToPositionMotionMagicCmd extends Command {
 
-    private int position;
-    private final int TOLERANCE = 200;
+    private CubeLift.Positions position;
 
-    public RunToPositionMotionMagicCmd(int pos) {
+    public RunToPositionMotionMagicCmd(CubeLift.Positions pos) {
         requires(Robot.cubeLift);
         this.position = pos;
     }
@@ -25,7 +22,7 @@ public class RunToPositionMotionMagicCmd extends Command {
     }
 
     protected boolean isFinished() {
-        return (position - Robot.cubeLift.getEncPos()) <= TOLERANCE;
+        return Robot.cubeLift.getState() == CubeLift.LiftState.Stationary && Robot.cubeLift.getPosition() == this.position;
     }
 
     protected void end() {

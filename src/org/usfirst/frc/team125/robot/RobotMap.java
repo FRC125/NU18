@@ -29,12 +29,12 @@ public class RobotMap {
     public static final int GRABBERS = 0;
     public static final int RELEASE_PIN = 1;
     //Carrier Solenoids
-    public static final int DOUBLELIFT_LIFTER_FORWARD = 2;
-    public static final int DOUBLELIFT_LIFTER_REVERSE = 3;
-    public static final int DOUBLELIFT_RELEASE = 4;
+    public static final int DOUBLELIFT_LIFTER_FORWARD = 4;
+    public static final int DOUBLELIFT_LIFTER_REVERSE = 5;
+    public static final int DOUBLELIFT_RELEASE = 2;
     //Intake Solenoids
-    public static final int INTAKE_RETRACT_FORWARD = 5;
-    public static final int INTAKE_RETRACT_REVERSE = 6;
+    public static final int INTAKE_RETRACT_FORWARD = 6;
+    public static final int INTAKE_RETRACT_REVERSE = 7;
 
     /*
     Other
