@@ -20,6 +20,13 @@ import org.usfirst.frc.team125.robot.util.DebouncedBoolean;
  */
 public class CubeLift extends Subsystem {
 
+    private enum LiftState {
+        GoingUp,
+        GoingDown,
+        Stationary,
+        stoppedAtBottom
+    }
+
     private TalonSRX rightElevatorLeader = new TalonSRX(RobotMap.RIGHT_ELEVATOR_MAIN);
     private VictorSPX rightElevatorSlave = new VictorSPX(RobotMap.RIGHT_ELEVATOR_SLAVE);
     private VictorSPX leftElevatorSlaveA = new VictorSPX(RobotMap.LEFT_ELEVATOR_SLAVE_A);
@@ -41,6 +48,8 @@ public class CubeLift extends Subsystem {
     private DigitalInput hallEffectSensor = new DigitalInput(RobotMap.CUBELIFT_HALL_EFFECT_SENSOR);
     private static final double CALIBRATION_MIN_TIME = .5;
     private DebouncedBoolean calibrationDebouncer = new DebouncedBoolean(CALIBRATION_MIN_TIME);
+
+    private LiftState state;
 
     private static final int ELEVATOR_TOP_POS = 1;
     private static final int ELEVATOR_BOTTOM_POS = 0;
@@ -113,6 +122,13 @@ public class CubeLift extends Subsystem {
 
     public void runToPositionMotionMagic(int pos) {
         rightElevatorLeader.set(ControlMode.MotionMagic, pos);
+        if (pos < this.getEncPos()){
+            this.state = LiftState.GoingDown;
+        } else if (pos > this.getEncPos()){
+            this.state = LiftState.GoingUp;
+        }else if (pos == this.getEncPos()){
+            this.state = LiftState.Stationary;
+        }
     }
 
     public void openClamp() {
@@ -138,6 +154,7 @@ public class CubeLift extends Subsystem {
 
     public void stopElevator() {
         rightElevatorLeader.set(ControlMode.PercentOutput, 0.0);
+        this.state = LiftState.Stationary;
     }
 
     public void directElevate(double pow) {
@@ -147,9 +164,10 @@ public class CubeLift extends Subsystem {
     //Will use later once we get hall effect sensor.
     public void calibrateElevator() {
         calibrationDebouncer.update(!hallEffectSensor.get());
-        if (calibrationDebouncer.get()) {
+        if (calibrationDebouncer.get() && this.state != LiftState.GoingUp) {
             resetEncoders();
             stopElevator();
+            state =  LiftState.stoppedAtBottom;
         }
     }
 
