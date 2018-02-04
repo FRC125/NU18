@@ -41,7 +41,7 @@ public class CubeLift extends Subsystem {
 
     private double kP = 0.3;
     private double kI = 0.0;
-    private double kD = 3.5;
+    private double kD = 3.75;
     private double kF = 0.1165 * 2.;
 
     //81.2 inches per/s
