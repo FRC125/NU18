@@ -21,8 +21,6 @@ public class OI {
     public Joystick opPad = new Joystick(1);
 
     /* Operator Control */
-    public Button outtake = new JoystickButton(opPad, JoystickMap.RIGHT_TRIGGER);
-    public Button intake = new JoystickButton(opPad, JoystickMap.RIGHT_TRIGGER);
     public Button changeClampPosition = new JoystickButton(opPad, JoystickMap.BACK);
     public Button clampOut = new JoystickButton(opPad, JoystickMap.RB);
     public Button clampIn = new JoystickButton(opPad, JoystickMap.LB);
@@ -46,9 +44,14 @@ public class OI {
 
     public OI() {
 
-        //Intake
-        outtake.whileHeld(new OuttakeCmd());
-        intake.whileHeld(new IntakeCmd());
+        //intake
+        if(opPad.getRawAxis(JoystickMap.LEFT_TRIGGER) >= 0.5){
+            new IntakeCmd();
+        }
+
+        if(opPad.getRawAxis(JoystickMap.RIGHT_TRIGGER) >= 0.5){
+            new OuttakeCmd();
+        }
 
         //Clamp
         changeClampPosition.whenPressed(new ChangeGrabberPositionCmd());
@@ -81,23 +84,31 @@ public class OI {
     }
 
     public double getDriverLeftStickY() {
-        return stickDeadband(this.driverPad.getRawAxis(1), STICK_DEADBAND, 0.0);
+        return stickDeadband(this.driverPad.getRawAxis(JoystickMap.LEFT_Y), STICK_DEADBAND, 0.0);
     }
 
     public double getDriverLeftStickX() {
-        return stickDeadband(this.driverPad.getRawAxis(0), STICK_DEADBAND, 0.0);
+        return stickDeadband(this.driverPad.getRawAxis(JoystickMap.LEFT_X), STICK_DEADBAND, 0.0);
     }
 
     public double getDriverRightStickY() {
-        return stickDeadband(this.driverPad.getRawAxis(5), STICK_DEADBAND, 0.0);
+        return stickDeadband(this.driverPad.getRawAxis(JoystickMap.RIGHT_Y), STICK_DEADBAND, 0.0);
     }
 
     public double getDriverRightStickX() {
-        return stickDeadband(this.driverPad.getRawAxis(4), STICK_DEADBAND, 0.0);
+        return stickDeadband(this.driverPad.getRawAxis(JoystickMap.RIGHT_X), STICK_DEADBAND, 0.0);
     }
 
     public double getDriverTriggerSum() {
         return this.driverPad.getRawAxis(3) - this.driverPad.getRawAxis(2); //TODO: Check Axis (Right - Left)
+    }
+
+    public double getOpRightTrigger(){
+        return this.opPad.getRawAxis(JoystickMap.RIGHT_TRIGGER);
+    }
+
+    public double getOpLeftTrigger(){
+        return this.opPad.getRawAxis(JoystickMap.LEFT_TRIGGER);
     }
 
     public double getOpLeftStickY() {

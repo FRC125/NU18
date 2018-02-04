@@ -49,13 +49,14 @@ public class Intake extends Subsystem {
     }
 
     public void intake() {
-        this.intakeL.set(ControlMode.PercentOutput, INTAKE_POWER);
-        this.intakeR.set(ControlMode.PercentOutput, -INTAKE_POWER);
+            this.intakeL.set(ControlMode.PercentOutput, INTAKE_POWER);
+            this.intakeR.set(ControlMode.PercentOutput, -INTAKE_POWER);
     }
 
+
     public void outtake() {
-        this.intakeL.set(ControlMode.PercentOutput, -INTAKE_POWER);
-        this.intakeR.set(ControlMode.PercentOutput, INTAKE_POWER);
+            this.intakeL.set(ControlMode.PercentOutput, -INTAKE_POWER);
+            this.intakeR.set(ControlMode.PercentOutput, INTAKE_POWER);
     }
 
     public void stopIntake() {
