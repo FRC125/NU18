@@ -4,13 +4,17 @@ import com.ctre.phoenix.motorcontrol.IMotorController;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.can.VictorSPX;
 import edu.wpi.first.wpilibj.*;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import org.usfirst.frc.team125.robot.Robot;
 import org.usfirst.frc.team125.robot.RobotMap;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
-import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 
 import edu.wpi.first.wpilibj.command.Subsystem;
+import org.usfirst.frc.team125.robot.commands.CubeLift.CloseClampCmd;
 import org.usfirst.frc.team125.robot.util.DebouncedBoolean;
+
+import static org.usfirst.frc.team125.robot.Robot.cubeLift;
 
 public class Intake extends Subsystem {
 
@@ -29,7 +33,27 @@ public class Intake extends Subsystem {
     private static final DoubleSolenoid.Value INTAKE_FORWARD_VALUE = DoubleSolenoid.Value.kForward;
     private static final DoubleSolenoid.Value INTAKE_REVERSE_VALUE = DoubleSolenoid.Value.kReverse;
 
+    private class SmartIntakeUpdater implements Runnable {
+        int j = 0;
+        @Override
+        public void run() {
+            while (true) {
+                try {
+                    Thread.sleep(20L);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+                checkSmartIntakeTriggered();
+                SmartDashboard.putBoolean("Is Smart Intake Updater Alive", true);
+                SmartDashboard.putNumber("j counter", j);
+                j++;
+            }
+        }
+    }
+
     public Intake() {
+        Thread thread = new Thread(new Intake.SmartIntakeUpdater());
+        thread.start();
         //Left side
         this.intakeL.configPeakOutputForward(INTAKE_POWER, 0);
         this.intakeL.configPeakOutputReverse(-INTAKE_POWER, 0);
@@ -63,6 +87,13 @@ public class Intake extends Subsystem {
         this.intakeR.set(ControlMode.PercentOutput, 0);
     }
 
+    public void checkSmartIntakeTriggered(){
+        smartIntakeDebouncer.update(smartIntake.get());
+        if (smartIntakeDebouncer.get()) {
+            new CloseClampCmd();
+        }
+    }
+
 
     public void intakePistonForward() {
         this.intakePiston.set(INTAKE_FORWARD_VALUE);
@@ -70,15 +101,6 @@ public class Intake extends Subsystem {
 
     public void intakePistonReverse() {
         this.intakePiston.set(INTAKE_REVERSE_VALUE);
-    }
-
-    public void updateCubeSwitch(boolean val) { // Its going to have to be called during all robot periodic...
-        smartIntakeDebouncer.update(val);
-        if (smartIntakeDebouncer.get()) {
-            this.intakePistonForward();
-        } else {
-            this.intakePistonReverse();
-        }
     }
 
     @Override

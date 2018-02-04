@@ -22,9 +22,10 @@ public class CloseClampCmd extends Command {
     }
 
     protected void end(){
+
     }
 
     protected void interrupted(){
-
+        end();
     }
 }

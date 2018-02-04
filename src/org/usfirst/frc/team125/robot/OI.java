@@ -45,6 +45,10 @@ public class OI {
 
     public OI() {
 
+        if(opPad.getRawAxis(JoystickMap.LEFT_TRIGGER) > 0.5) {
+            new IntakeCmd();
+        }
+
         //Intake
         outtake.whileHeld(new OuttakeCmd());
         intake.whileHeld(new IntakeCmd());
