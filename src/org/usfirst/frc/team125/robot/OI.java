@@ -21,14 +21,15 @@ public class OI {
     public Joystick opPad = new Joystick(1);
 
     /* Operator Control */
-    public Button outtake = new JoystickButton(opPad, JoystickMap.LB);
-    public Button intake = new JoystickButton(opPad, JoystickMap.RB);
-    public Button changeClampPosition = new JoystickButton(opPad, JoystickMap.A);
-    public Button clampOut = new JoystickButton(opPad, JoystickMap.X);
-    public Button clampIn = new JoystickButton(opPad, JoystickMap.Y);
-    public Button resetElevatorEnc = new JoystickButton(opPad, JoystickMap.B);
-    public Button runEleLow = new JoystickButton(opPad, JoystickMap.BACK);
-    public Button runEleHi = new JoystickButton(opPad, JoystickMap.START);
+    public Button outtake = new JoystickButton(opPad, JoystickMap.RIGHT_TRIGGER);
+    public Button intake = new JoystickButton(opPad, JoystickMap.RIGHT_TRIGGER);
+    public Button changeClampPosition = new JoystickButton(opPad, JoystickMap.BACK);
+    public Button clampOut = new JoystickButton(opPad, JoystickMap.RB);
+    public Button clampIn = new JoystickButton(opPad, JoystickMap.LB);
+    public Button resetElevatorEnc = new JoystickButton(opPad, JoystickMap.START);
+    public Button runEleScale = new JoystickButton(opPad, JoystickMap.X);
+    public Button runEleSwitch = new JoystickButton(opPad, JoystickMap.B);
+    public Button runEleIntake = new JoystickButton(opPad, JoystickMap.A);
     public Button EMERGENCY_QUIT = new JoystickButton(opPad,JoystickMap.R3);
 
 
@@ -56,9 +57,13 @@ public class OI {
 
         //Elevator
         resetElevatorEnc.whenPressed(new ResetEncoderCmd());
-        runEleLow.whenPressed(new RunToPositionMotionMagicCmd(CubeLift.Positions.ScoreSwitch));
-        runEleHi.whenPressed(new RunToPositionMotionMagicCmd(CubeLift.Positions.Intake));
         EMERGENCY_QUIT.whenPressed(new ElevatorDriveCmd());
+
+        //Elevator Positions
+        runEleSwitch.whenPressed(new RunToPositionMotionMagicCmd(CubeLift.Positions.ScoreSwitch));
+        runEleScale.whenPressed(new RunToPositionMotionMagicCmd(CubeLift.Positions.ScoreScale));
+        runEleIntake.whenPressed(new RunToPositionMotionMagicCmd(CubeLift.Positions.Intake));
+
 
         //Carrier
         //readyCarrier.whenPressed(new DropAndReleaseCarrier());

@@ -62,9 +62,9 @@ public class CubeLift extends Subsystem {
 
     public static enum Positions {
         Intake(0),
-        ScoreSwitch(75000),
-        ScoreScale(10000),
-        Climbing(15000);
+        ScoreSwitch(20000),
+        ScoreScale(75000),
+        Climbing(0);
         private int position;
         Positions(int encPos) {
             this.position = encPos;
