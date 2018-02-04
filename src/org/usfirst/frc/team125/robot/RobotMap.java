@@ -35,7 +35,9 @@ public class RobotMap {
     //Intake Solenoids
     public static final int INTAKE_RETRACT_FORWARD = 6;
     public static final int INTAKE_RETRACT_REVERSE = 7;
-
+    //Flopper Solenoids
+    public static final int RIGHT_SIDE_FLOPPER = 8;
+    public static final int LEFT_SIDE_FLOPPER = 9;
     /*
     Other
      */
