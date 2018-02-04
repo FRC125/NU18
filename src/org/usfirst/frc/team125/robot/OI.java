@@ -29,6 +29,7 @@ public class OI {
     public Button runEleSwitch = new JoystickButton(opPad, JoystickMap.B);
     public Button runEleIntake = new JoystickButton(opPad, JoystickMap.A);
     public Button EMERGENCY_QUIT = new JoystickButton(opPad,JoystickMap.R3);
+    public Button pinOut = new JoystickButton(opPad, JoystickMap.L3);
 
 
     //commented out these buttons since they aren't being used rn.
@@ -61,6 +62,7 @@ public class OI {
         //Elevator
         resetElevatorEnc.whenPressed(new ResetEncoderCmd());
         EMERGENCY_QUIT.whenPressed(new ElevatorDriveCmd());
+        pinOut.whenPressed(new ReleasePinCmd());
 
         //Elevator Positions
         runEleSwitch.whenPressed(new RunToPositionMotionMagicCmd(CubeLift.Positions.ScoreSwitch));
