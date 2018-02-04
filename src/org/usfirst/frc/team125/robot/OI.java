@@ -44,7 +44,7 @@ public class OI {
     private static final double STICK_DEADBAND = 0.05;
 
     public OI() {
-        
+
         //intake
         if(opPad.getRawAxis(JoystickMap.LEFT_TRIGGER) >= 0.5){
             new IntakeCmd();
