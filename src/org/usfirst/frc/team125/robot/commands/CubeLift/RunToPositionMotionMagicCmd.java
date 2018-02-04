@@ -16,14 +16,14 @@ public class RunToPositionMotionMagicCmd extends Command {
 
     protected void initialize() {
         Robot.cubeLift.stopElevator();
-        Robot.cubeLift.startMotionMagic(position);
+        Robot.cubeLift.startMotionMagic(this.position);
     }
 
     protected void execute() {
         if(!started) {
             started = true;
         } else {
-            Robot.cubeLift.checkMotionMagicTermination(position);
+            Robot.cubeLift.checkMotionMagicTermination(this.position);
         }
 
     }

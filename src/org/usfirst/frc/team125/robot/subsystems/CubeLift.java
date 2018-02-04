@@ -3,6 +3,7 @@ package org.usfirst.frc.team125.robot.subsystems;
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.FeedbackDevice;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
+import com.ctre.phoenix.motorcontrol.StatusFrame;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 import com.ctre.phoenix.motorcontrol.can.VictorSPX;
 
@@ -14,6 +15,7 @@ import org.opencv.core.Mat;
 import org.usfirst.frc.team125.robot.RobotMap;
 import org.usfirst.frc.team125.robot.commands.CubeLift.ElevatorDriveCmd;
 import org.usfirst.frc.team125.robot.util.DebouncedBoolean;
+import org.usfirst.frc.team125.robot.util.PIDController;
 
 /**
  * DoubleLift's DoubleLift for DoubleLifting
@@ -41,14 +43,14 @@ public class CubeLift extends Subsystem {
     private double kI = 0.0;
     private double kD = 3.5;
     private double kF = 0.1165 * 2.;
+
     //81.2 inches per/s
-    //
     //gear is 42:26 geared up
     //4096 ticks per rev
     //233 ticks per inch
     private static final double GEAR_RATIO = 42/26;
-    private static final int CRUISE_VELOCITY = 8800; // 1024
-    private static final int CRUISE_ACCELERATION = 20000; // 1024
+    private static final int CRUISE_VELOCITY = 17600; // 1024
+    private static final int CRUISE_ACCELERATION = 40000; // 1024
 
     private static final double TICKS_PER_INCH = 233.0;
     private static final double DISTANCE_PER_TICK = 1.0/TICKS_PER_INCH; // In inches according to 233 clicks per inch -Henry
@@ -60,7 +62,7 @@ public class CubeLift extends Subsystem {
 
     public static enum Positions {
         Intake(0),
-        ScoreSwitch(45000),
+        ScoreSwitch(75000),
         ScoreScale(10000),
         Climbing(15000);
         private int position;
@@ -136,6 +138,8 @@ public class CubeLift extends Subsystem {
         //Encoder
         this.rightElevatorLeader.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Absolute, 0, 0);
 
+        this.rightElevatorLeader.setSensorPhase(true);
+
         //Neutral mode
         this.rightElevatorLeader.setNeutralMode(NeutralMode.Brake);
         this.rightElevatorSlave.setNeutralMode(NeutralMode.Brake);
@@ -147,9 +151,7 @@ public class CubeLift extends Subsystem {
         this.rightElevatorLeader.setInverted(false);
         this.rightElevatorSlave.setInverted(false);
 
-        this.rightElevatorLeader.setSensorPhase(true);
         resetEncoders();
-
         configPIDF(kP, kI, kD, kF); // TODO: Tune lol
         configMotionMagic(CRUISE_VELOCITY, CRUISE_ACCELERATION); // TODO: Also tune lol
 
@@ -165,6 +167,7 @@ public class CubeLift extends Subsystem {
     private void setState(LiftState newState) {
         this.state = newState;
     }
+
     public void resetEncoders() {
         this.rightElevatorLeader.setSelectedSensorPosition(0, 0, 0);
     }
