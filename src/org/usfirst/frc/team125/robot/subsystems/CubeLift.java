@@ -48,23 +48,18 @@ public class CubeLift extends Subsystem {
     //gear is 42:26 geared up
     //4096 ticks per rev
     //233 ticks per inch
-    private static final double GEAR_RATIO = 42/26;
     private static final int CRUISE_VELOCITY = 17600; // 1024
     private static final int CRUISE_ACCELERATION = 40000; // 1024
-
-    private static final double TICKS_PER_INCH = 233.0;
-    private static final double DISTANCE_PER_TICK = 1.0/TICKS_PER_INCH; // In inches according to 233 clicks per inch -Henry
 
     private DigitalInput hallEffectSensor = new DigitalInput(RobotMap.CUBELIFT_HALL_EFFECT_SENSOR);
     private static final double CALIBRATION_MIN_TIME = 0.;
     private DebouncedBoolean hallEffectDebouncer = new DebouncedBoolean(CALIBRATION_MIN_TIME);
 
-
     public static enum Positions {
         Intake(0),
         ScoreSwitch(20000),
         ScoreScale(75000),
-        Climbing(0);
+        Climbing(80000);
         private int position;
         Positions(int encPos) {
             this.position = encPos;
@@ -75,6 +70,14 @@ public class CubeLift extends Subsystem {
     }
 
     private volatile Positions position = Positions.Intake;
+
+    public Positions getPosition() {
+        return position;
+    }
+
+    private void setPosition(Positions newPos) {
+        this.position = newPos;
+    }
 
     private class HallUpdater implements Runnable {
         int i = 0;
@@ -94,21 +97,15 @@ public class CubeLift extends Subsystem {
         }
     }
 
-    public Positions getPosition() {
-        return position;
-    }
 
-    private void setPosition(Positions newPos) {
-        this.position = newPos;
-    }
-
-    private final int TOLERANCE = 150;
 
     private static final boolean CLAMP_SET = true;
     private static final boolean UNCLAMP_SET = false;
     private static final boolean RELEASE_SET = true;
     private static final boolean UNRELEASE_SET = false;
-    private boolean grabberPosition = true;
+    private boolean grabberPosition = false;
+
+    private final int TOLERANCE = 150;
     private static final double ELEVATOR_HI_POW = 1.0;
     private static final double ELEVATOR_LOW_POW = -ELEVATOR_HI_POW;
 
@@ -176,10 +173,6 @@ public class CubeLift extends Subsystem {
         return rightElevatorLeader.getSelectedSensorPosition(0);
     }
 
-    public void runToPosition(int pos) {
-        rightElevatorLeader.set(ControlMode.Position, pos);
-    }
-
     public void startMotionMagic(Positions pos) {
         if(getEncPos() > pos.getPosition()) {
             setState(LiftState.GoingDown);
@@ -209,8 +202,7 @@ public class CubeLift extends Subsystem {
     }
 
     public void changeGrabberPosition() {
-        grabberPosition = !grabberPosition;
-        grabbers.set(grabberPosition);
+        grabbers.set(!grabberPosition);
     }
 
     public void releasePin() {
@@ -275,10 +267,6 @@ public class CubeLift extends Subsystem {
     public void configMotionMagic(int cruiseVelocity, int acceleration) {
         rightElevatorLeader.configMotionCruiseVelocity(cruiseVelocity, 0);
         rightElevatorLeader.configMotionAcceleration(acceleration, 0);
-    }
-
-    public int inchesToClicks(double inches) {
-     return (int)(inches/DISTANCE_PER_TICK);
     }
 
     public void updatePIDFOnDashboard() {

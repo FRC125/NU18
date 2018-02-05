@@ -10,10 +10,11 @@ public class CloseClampCmd extends Command {
     }
 
     protected void initialize(){
+        Robot.cubeLift.closeClamp();
     }
 
     protected void execute() {
-        Robot.cubeLift.closeClamp();
+
     }
 
     @Override

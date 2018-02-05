@@ -14,10 +14,11 @@ public class OpenClampCmd extends Command {
     }
 
     protected void initialize() {
+        Robot.cubeLift.openClamp();
     }
 
     protected void execute() {
-        Robot.cubeLift.openClamp();
+
     }
 
     protected boolean isFinished() {

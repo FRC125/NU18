@@ -10,11 +10,11 @@ public class ReleasePinCmd extends Command {
     }
 
     protected void initialize() {
-
+        Robot.cubeLift.releasePin();
     }
 
     protected void execute() {
-        Robot.cubeLift.releasePin();
+
     }
 
     @Override
