@@ -26,12 +26,12 @@ public class RobotMap {
     PCM Device
      */
     //Pneumatics
-    public static final int GRABBERS = 0;
-    public static final int RELEASE_PIN = 1;
+    public static final int GRABBERS = 2;
+    public static final int RELEASE_PIN = 0;
     //Carrier Solenoids
     public static final int DOUBLELIFT_LIFTER_FORWARD = 4;
     public static final int DOUBLELIFT_LIFTER_REVERSE = 5;
-    public static final int DOUBLELIFT_RELEASE = 2;
+    public static final int DOUBLELIFT_RELEASE = 1;
     //Intake Solenoids
     public static final int INTAKE_RETRACT_FORWARD = 6;
     public static final int INTAKE_RETRACT_REVERSE = 7;
@@ -41,5 +41,5 @@ public class RobotMap {
      */
     //Digital Input
     public static final int INTAKE_LIMIT_SWITCH = 0;
-    public static final int CUBELIFT_HALL_EFFECT_SENSOR = 1;
+    public static final int CUBELIFT_HALL_EFFECT_SENSOR = 5;
 }

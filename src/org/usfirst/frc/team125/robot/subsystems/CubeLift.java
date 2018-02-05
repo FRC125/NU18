@@ -217,6 +217,10 @@ public class CubeLift extends Subsystem {
         releasePin.set(RELEASE_SET);
     }
 
+    public void closePin(){
+        releasePin.set(UNRELEASE_SET);
+    }
+
     public void reinsertPin() {
         releasePin.set(UNRELEASE_SET);
     }
@@ -229,6 +233,7 @@ public class CubeLift extends Subsystem {
         if(getState() == LiftState.HallEffect && pow < 0.0){
             return;
         }
+
         if (pow > 0.0) {
             setState(LiftState.GoingUp);
         }

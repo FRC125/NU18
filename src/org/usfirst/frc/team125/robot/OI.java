@@ -21,22 +21,20 @@ public class OI {
     public Joystick opPad = new Joystick(1);
 
     /* Operator Control */
-    public Button changeClampPosition = new JoystickButton(opPad, JoystickMap.BACK);
     public Button clampOut = new JoystickButton(opPad, JoystickMap.RB);
     public Button clampIn = new JoystickButton(opPad, JoystickMap.LB);
     public Button resetElevatorEnc = new JoystickButton(opPad, JoystickMap.START);
-    public Button runEleScale = new JoystickButton(opPad, JoystickMap.X);
-    public Button runEleSwitch = new JoystickButton(opPad, JoystickMap.B);
+    public Button runEleScale = new JoystickButton(opPad, JoystickMap.Y);
+    public Button runEleSwitch = new JoystickButton(opPad, JoystickMap.X);
     public Button runEleIntake = new JoystickButton(opPad, JoystickMap.A);
     public Button EMERGENCY_QUIT = new JoystickButton(opPad,JoystickMap.R3);
-    public Button pinOut = new JoystickButton(opPad, JoystickMap.L3);
+    public Button pinOut = new JoystickButton(opPad, JoystickMap.B);
+    public Button pinIn = new JoystickButton(opPad, JoystickMap.BACK);
 
 
     //commented out these buttons since they aren't being used rn.
     //public Button readyCarrier = new JoystickButton(opPad, JoystickMap.B);
     //public Button liftCarrier = new JoystickButton(opPad, JoystickMap.Y);
-    //public Button releasePin = new JoystickButton(opPad, JoystickMap.X);
-
 
     /* Driver Control */
     private Button driveHoldHeading = new JoystickButton(driverPad, JoystickMap.LB);
@@ -55,7 +53,6 @@ public class OI {
         }
 
         //Clamp
-        changeClampPosition.whenPressed(new ChangeGrabberPositionCmd());
         clampIn.whenPressed(new CloseClampCmd());
         clampOut.whenPressed(new OpenClampCmd());
 
@@ -63,6 +60,7 @@ public class OI {
         resetElevatorEnc.whenPressed(new ResetEncoderCmd());
         EMERGENCY_QUIT.whenPressed(new ElevatorDriveCmd());
         pinOut.whenPressed(new ReleasePinCmd());
+        pinIn.whenPressed(new ClosePinCmd());
 
         //Elevator Positions
         runEleSwitch.whenPressed(new RunToPositionMotionMagicCmd(CubeLift.Positions.ScoreSwitch));
