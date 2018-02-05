@@ -10,11 +10,11 @@ public class ChangeGrabberPositionCmd extends Command {
     }
 
     protected void initialize() {
-
+        Robot.cubeLift.changeGrabberPosition();
     }
 
     protected void execute() {
-        Robot.cubeLift.changeGrabberPosition();
+
     }
 
     @Override

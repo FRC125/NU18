@@ -28,9 +28,7 @@ public class DoubleLift extends Subsystem {
         this.release.set(RELEASE_CARRIER_SET);
     }
 
-    public void unreleaseCarrier() {
-        this.release.set(UNRELEASE_CARRIER_SET);
-    }
+    public void unreleaseCarrier() { this.release.set(UNRELEASE_CARRIER_SET); }
 
     public void dropLift() {
         this.doubleLifter.set(DROP_LIFT_VALUE);

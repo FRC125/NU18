@@ -13,10 +13,11 @@ public class ResetEncoderCmd extends Command {
     }
 
     protected void initialize() {
+        Robot.cubeLift.resetEncoders();
     }
 
     protected void execute() {
-        Robot.cubeLift.resetEncoders();
+
     }
 
     protected boolean isFinished() {
