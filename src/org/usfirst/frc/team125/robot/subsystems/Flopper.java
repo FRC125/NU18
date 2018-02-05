@@ -2,6 +2,7 @@ package org.usfirst.frc.team125.robot.subsystems;
 
 import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj.command.Subsystem;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import org.usfirst.frc.team125.robot.RobotMap;
 
 public class Flopper extends Subsystem {
@@ -29,7 +30,10 @@ public class Flopper extends Subsystem {
         this.rightFlop.set(rightRest);
         this.lefrFlop.set(leftRest);
     }
-
+    public void debugFlopper(){
+        SmartDashboard.putBoolean("Right Flop" , rightFlop.get());
+        SmartDashboard.putBoolean("Left Flop", lefrFlop.get());
+    }
     @Override
     protected void initDefaultCommand() {
 
