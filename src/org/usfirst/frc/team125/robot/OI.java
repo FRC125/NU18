@@ -1,6 +1,7 @@
 package org.usfirst.frc.team125.robot;
 
 import org.usfirst.frc.team125.robot.commands.CubeLift.*;
+import org.usfirst.frc.team125.robot.commands.DoubleLift.ToggleReleaserCmd;
 import org.usfirst.frc.team125.robot.commands.Drivetrain.*;
 import org.usfirst.frc.team125.robot.commands.Intake.*;
 import edu.wpi.first.wpilibj.Joystick;
@@ -21,15 +22,17 @@ public class OI {
     public Joystick opPad = new Joystick(1);
 
     /* Operator Control */
+    //Cube Lift
     public Button clampOut = new JoystickButton(opPad, JoystickMap.RB);
     public Button clampIn = new JoystickButton(opPad, JoystickMap.LB);
-    public Button resetElevatorEnc = new JoystickButton(opPad, JoystickMap.START);
+    public Button runEleClimb = new JoystickButton(opPad, JoystickMap.START);
     public Button runEleScale = new JoystickButton(opPad, JoystickMap.Y);
     public Button runEleSwitch = new JoystickButton(opPad, JoystickMap.X);
     public Button runEleIntake = new JoystickButton(opPad, JoystickMap.A);
     public Button EMERGENCY_QUIT = new JoystickButton(opPad,JoystickMap.R3);
-    public Button pinOut = new JoystickButton(opPad, JoystickMap.B);
-    public Button pinIn = new JoystickButton(opPad, JoystickMap.BACK);
+
+    //Double Lift
+    public Button swapDoubleLiftRelease = new JoystickButton(opPad, JoystickMap.B);
 
 
     //commented out these buttons since they aren't being used rn.
@@ -42,8 +45,7 @@ public class OI {
     private static final double STICK_DEADBAND = 0.05;
 
     public OI() {
-
-        //intake
+        //Intake
         if(opPad.getRawAxis(JoystickMap.LEFT_TRIGGER) >= 0.5){
             new IntakeCmd();
         }
@@ -52,28 +54,22 @@ public class OI {
             new OuttakeCmd();
         }
 
-        //Clamp
+        //Cubelift Clamp
         clampIn.whenPressed(new CloseClampCmd());
         clampOut.whenPressed(new OpenClampCmd());
 
         //Elevator
-        resetElevatorEnc.whenPressed(new ResetEncoderCmd());
         EMERGENCY_QUIT.whenPressed(new ElevatorDriveCmd());
-        pinOut.whenPressed(new ReleasePinCmd());
-        pinIn.whenPressed(new ClosePinCmd());
-
         //Elevator Positions
         runEleSwitch.whenPressed(new RunToPositionMotionMagicCmd(CubeLift.Positions.ScoreSwitch));
         runEleScale.whenPressed(new RunToPositionMotionMagicCmd(CubeLift.Positions.ScoreScale));
+        runEleClimb.whenPressed(new RunToPositionMotionMagicCmd(CubeLift.Positions.Climbing));
         runEleIntake.whenPressed(new RunToPositionMotionMagicCmd(CubeLift.Positions.Intake));
 
+        //Double lift
+        swapDoubleLiftRelease.whenPressed(new ToggleReleaserCmd());
 
-        //Carrier
-        //readyCarrier.whenPressed(new DropAndReleaseCarrier());
-        //liftCarrier.whenPressed(new LiftCarrierCmd());
-        //releasePin.whenPressed(new ReleasePinCmd());
-
-        //Hold heading
+        //Driver
         driveHoldHeading.whileHeld(new DriveArcadeWithHoldHeadingCmd());
         driveHoldHeading.whenReleased(new DriveArcadeCmd());
     }

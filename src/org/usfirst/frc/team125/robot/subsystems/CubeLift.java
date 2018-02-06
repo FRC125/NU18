@@ -3,7 +3,6 @@ package org.usfirst.frc.team125.robot.subsystems;
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.FeedbackDevice;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
-import com.ctre.phoenix.motorcontrol.StatusFrame;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 import com.ctre.phoenix.motorcontrol.can.VictorSPX;
 
@@ -11,11 +10,9 @@ import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import org.opencv.core.Mat;
 import org.usfirst.frc.team125.robot.RobotMap;
 import org.usfirst.frc.team125.robot.commands.CubeLift.ElevatorDriveCmd;
 import org.usfirst.frc.team125.robot.util.DebouncedBoolean;
-import org.usfirst.frc.team125.robot.util.PIDController;
 
 /**
  * DoubleLift's DoubleLift for DoubleLifting
@@ -26,7 +23,8 @@ public class CubeLift extends Subsystem {
         GoingUp,
         GoingDown,
         Stationary,
-        HallEffect
+        HallEffect,
+        ToppedOut,
     }
 
     private volatile LiftState state = LiftState.Stationary;
@@ -39,10 +37,10 @@ public class CubeLift extends Subsystem {
     private Solenoid grabbers = new Solenoid(RobotMap.GRABBERS);
     private Solenoid releasePin = new Solenoid(RobotMap.RELEASE_PIN);
 
-    private double kP = 0.3;
+    private double kP = 0.3; // .3
     private double kI = 0.0;
-    private double kD = 3.75;
-    private double kF = 0.1165 * 2.;
+    private double kD = 4.0; // 4.0
+    private double kF = 0.1165 * 2; // 0.1165 * 2
 
     //81.2 inches per/s
     //gear is 42:26 geared up
@@ -50,6 +48,9 @@ public class CubeLift extends Subsystem {
     //233 ticks per inch
     private static final int CRUISE_VELOCITY = 17600; // 1024
     private static final int CRUISE_ACCELERATION = 40000; // 1024
+    private static final int CRUISE_VELOCITY_DOWN = (int)(17600 * 0.4); // 1024
+    private static final int CRUISE_ACCELERATION_DOWN = (int)(40000 * 0.4); // 1024
+
 
     private DigitalInput hallEffectSensor = new DigitalInput(RobotMap.CUBELIFT_HALL_EFFECT_SENSOR);
     private static final double CALIBRATION_MIN_TIME = 0.;
@@ -58,8 +59,9 @@ public class CubeLift extends Subsystem {
     public static enum Positions {
         Intake(0),
         ScoreSwitch(20000),
-        ScoreScale(75000),
-        Climbing(80000);
+        ScoreScale(50000),
+        Climbing(70000),
+        Top(75001);
         private int position;
         Positions(int encPos) {
             this.position = encPos;
@@ -79,7 +81,7 @@ public class CubeLift extends Subsystem {
         this.position = newPos;
     }
 
-    private class HallUpdater implements Runnable {
+    private class ElevatorSafety implements Runnable {
         int i = 0;
         @Override
         public void run() {
@@ -90,14 +92,13 @@ public class CubeLift extends Subsystem {
                     e.printStackTrace();
                 }
                 checkIfBottomedOut();
-                SmartDashboard.putBoolean("Is Hall Updater Alive", true);
+                checkIfToppedOut();
+                SmartDashboard.putBoolean("Is Safety Alive", true);
                 SmartDashboard.putNumber("i counter", i);
                 i++;
             }
         }
     }
-
-
 
     private static final boolean CLAMP_SET = true;
     private static final boolean UNCLAMP_SET = false;
@@ -110,7 +111,7 @@ public class CubeLift extends Subsystem {
     private static final double ELEVATOR_LOW_POW = -ELEVATOR_HI_POW;
 
     public CubeLift() {
-        Thread thread = new Thread(new HallUpdater());
+        Thread thread = new Thread(new ElevatorSafety());
         thread.start();
         this.rightElevatorSlave.follow(rightElevatorLeader);
         this.leftElevatorSlaveA.follow(rightElevatorLeader);
@@ -176,14 +177,23 @@ public class CubeLift extends Subsystem {
     public void startMotionMagic(Positions pos) {
         if(getEncPos() > pos.getPosition()) {
             setState(LiftState.GoingDown);
+            configMotionMagic(CRUISE_VELOCITY_DOWN, CRUISE_ACCELERATION_DOWN);
         } else if(getEncPos() < pos.getPosition()) {
             setState(LiftState.GoingUp);
+            configMotionMagic(CRUISE_VELOCITY, CRUISE_ACCELERATION);
         }
+
         rightElevatorLeader.set(ControlMode.MotionMagic, pos.getPosition());
     }
 
     public void checkMotionMagicTermination(Positions pos) {
-        if(Math.abs(pos.getPosition() - getEncPos()) <= TOLERANCE) {
+        if(pos == Positions.Intake) {
+            if(getEncPos() <= TOLERANCE * 2) {
+                state = LiftState.Stationary;
+                stopElevator();
+                position = pos;
+            }
+        } else if(Math.abs(pos.getPosition() - getEncPos()) <= TOLERANCE) {
             state = LiftState.Stationary;
             stopElevator();
             position = pos;
@@ -202,7 +212,8 @@ public class CubeLift extends Subsystem {
     }
 
     public void changeGrabberPosition() {
-        grabbers.set(!grabberPosition);
+        grabberPosition = !grabberPosition;
+        grabbers.set(grabberPosition);
     }
 
     public void releasePin() {
@@ -225,7 +236,9 @@ public class CubeLift extends Subsystem {
         if(getState() == LiftState.HallEffect && pow < 0.0){
             return;
         }
-
+        if(getState() == LiftState.ToppedOut && pow > 0.0) {
+            return;
+        }
         if (pow > 0.0) {
             setState(LiftState.GoingUp);
         }
@@ -244,6 +257,14 @@ public class CubeLift extends Subsystem {
             setState(LiftState.HallEffect);
             setPosition(Positions.Intake);
             resetEncoders();
+            stopElevator();
+        }
+    }
+
+    private void checkIfToppedOut() {
+        if (getEncPos() >= Positions.Top.getPosition()) {
+            setState(LiftState.ToppedOut);
+            setPosition(Positions.Top);
             stopElevator();
         }
     }

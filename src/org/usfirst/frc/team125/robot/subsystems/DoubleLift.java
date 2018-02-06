@@ -1,7 +1,6 @@
 package org.usfirst.frc.team125.robot.subsystems;
 
 import edu.wpi.first.wpilibj.DoubleSolenoid;
-import org.usfirst.frc.team125.robot.Robot;
 import org.usfirst.frc.team125.robot.RobotMap;
 
 import edu.wpi.first.wpilibj.Solenoid;
@@ -18,6 +17,8 @@ public class DoubleLift extends Subsystem {
     private static final boolean UNRELEASE_CARRIER_SET = false;
     private static final DoubleSolenoid.Value DROP_LIFT_VALUE = DoubleSolenoid.Value.kReverse;
     private static final DoubleSolenoid.Value LIFT_LIFT_VALUE = DoubleSolenoid.Value.kForward;
+
+    private boolean releaseToggle = false;
 
     public DoubleLift() {
         this.doubleLifter.set(LIFT_LIFT_VALUE); // We want it up
@@ -36,6 +37,11 @@ public class DoubleLift extends Subsystem {
 
     public void liftLift() {
         this.doubleLifter.set(LIFT_LIFT_VALUE);
+    }
+
+    public void toggleRelease() {
+        this.releaseToggle = !releaseToggle;
+        this.release.set(releaseToggle);
     }
 
     @Override

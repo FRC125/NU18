@@ -1,20 +1,19 @@
-package org.usfirst.frc.team125.robot.commands.CubeLift;
+package org.usfirst.frc.team125.robot.commands.DoubleLift;
 
 import edu.wpi.first.wpilibj.command.Command;
 import org.usfirst.frc.team125.robot.Robot;
 
-public class ClosePinCmd extends Command {
+public class ToggleReleaserCmd extends Command {
 
-    public ClosePinCmd() {
-        requires(Robot.cubeLift);
+    public ToggleReleaserCmd() {
+        requires(Robot.doubleLift);
     }
 
     protected void initialize() {
-        Robot.cubeLift.closePin();
+        Robot.doubleLift.toggleRelease();
     }
 
     protected void execute() {
-
     }
 
     @Override
@@ -23,11 +22,9 @@ public class ClosePinCmd extends Command {
     }
 
     protected void end() {
-
     }
 
     protected void interrupted() {
-
     }
-
 }
+
