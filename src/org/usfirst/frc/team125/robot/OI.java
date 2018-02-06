@@ -10,11 +10,6 @@ import edu.wpi.first.wpilibj.buttons.JoystickButton;
 import org.usfirst.frc.team125.robot.subsystems.CubeLift;
 import org.usfirst.frc.team125.robot.util.*;
 
-
-/**
- * This class is the glue that binds the controls on the physical operator
- * interface to the commands and command Groups that allow control of the robot.
- */
 public class OI {
 
     //Controllers
@@ -23,16 +18,18 @@ public class OI {
 
     /* Operator Control */
     //Cube Lift
-    public Button clampOut = new JoystickButton(opPad, JoystickMap.RB);
-    public Button clampIn = new JoystickButton(opPad, JoystickMap.LB);
-    public Button runEleClimb = new JoystickButton(opPad, JoystickMap.START);
+    //Cube Lift grabbers
+    public Button toggleGrabbers = new JoystickButton(opPad, JoystickMap.LB);
+    //Cube Lift positions
+    public Button runEleClimb = new JoystickButton(opPad, JoystickMap.B);
     public Button runEleScale = new JoystickButton(opPad, JoystickMap.Y);
     public Button runEleSwitch = new JoystickButton(opPad, JoystickMap.X);
     public Button runEleIntake = new JoystickButton(opPad, JoystickMap.A);
+    //Emergency and Safety
     public Button EMERGENCY_QUIT = new JoystickButton(opPad,JoystickMap.R3);
 
     //Double Lift
-    public Button swapDoubleLiftRelease = new JoystickButton(opPad, JoystickMap.B);
+    public Button swapDoubleLiftRelease = new JoystickButton(opPad, JoystickMap.RB);
 
 
     //commented out these buttons since they aren't being used rn.
@@ -54,17 +51,18 @@ public class OI {
             new OuttakeCmd();
         }
 
-        //Cubelift Clamp
-        clampIn.whenPressed(new CloseClampCmd());
-        clampOut.whenPressed(new OpenClampCmd());
 
-        //Elevator
-        EMERGENCY_QUIT.whenPressed(new ElevatorDriveCmd());
-        //Elevator Positions
-        runEleSwitch.whenPressed(new RunToPositionMotionMagicCmd(CubeLift.Positions.ScoreSwitch));
-        runEleScale.whenPressed(new RunToPositionMotionMagicCmd(CubeLift.Positions.ScoreScale));
+
+        //Cube Lift
+        //Cubelift grabbers
+        toggleGrabbers.whenPressed(new ToggleGrabbersCmd());
+        //Cube Lift Positions
         runEleClimb.whenPressed(new RunToPositionMotionMagicCmd(CubeLift.Positions.Climbing));
+        runEleScale.whenPressed(new RunToPositionMotionMagicCmd(CubeLift.Positions.ScoreScale));
+        runEleSwitch.whenPressed(new RunToPositionMotionMagicCmd(CubeLift.Positions.ScoreSwitch));
         runEleIntake.whenPressed(new RunToPositionMotionMagicCmd(CubeLift.Positions.Intake));
+        //Emergency and Safety
+        EMERGENCY_QUIT.whenPressed(new ElevatorDriveCmd());
 
         //Double lift
         swapDoubleLiftRelease.whenPressed(new ToggleReleaserCmd());
@@ -110,6 +108,5 @@ public class OI {
     public double getOpLeftStickY() {
         return stickDeadband(this.opPad.getRawAxis(1), STICK_DEADBAND, 0.0);
     }
-
 }
 

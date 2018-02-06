@@ -5,16 +5,13 @@ import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.can.VictorSPX;
 import edu.wpi.first.wpilibj.*;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import org.usfirst.frc.team125.robot.Robot;
 import org.usfirst.frc.team125.robot.RobotMap;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
 
 import edu.wpi.first.wpilibj.command.Subsystem;
-import org.usfirst.frc.team125.robot.commands.CubeLift.CloseClampCmd;
+import org.usfirst.frc.team125.robot.commands.CubeLift.CloseGrabbersCmd;
 import org.usfirst.frc.team125.robot.util.DebouncedBoolean;
-
-import static org.usfirst.frc.team125.robot.Robot.cubeLift;
 
 public class Intake extends Subsystem {
 
@@ -91,7 +88,7 @@ public class Intake extends Subsystem {
     public void checkSmartIntakeTriggered(){
         smartIntakeDebouncer.update(smartIntake.get());
         if (smartIntakeDebouncer.get()) {
-            new CloseClampCmd();
+            new CloseGrabbersCmd();
         }
     }
 

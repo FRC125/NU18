@@ -49,5 +49,4 @@ public class PIDController {
     public double getError() {
         return lastError;
     }
-
 }

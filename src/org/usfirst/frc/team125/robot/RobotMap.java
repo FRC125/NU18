@@ -21,7 +21,6 @@ public class RobotMap {
     public static final int INTAKE_RIGHT = 21;
     public static final int INTAKE_LEFT = 20;
 
-
     /*
     PCM Device
      */

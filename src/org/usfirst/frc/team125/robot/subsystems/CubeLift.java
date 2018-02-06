@@ -27,6 +27,14 @@ public class CubeLift extends Subsystem {
         ToppedOut,
     }
 
+    public LiftState getState() {
+        return state;
+    }
+
+    private void setState(LiftState newState) {
+        this.state = newState;
+    }
+
     private volatile LiftState state = LiftState.Stationary;
 
     private volatile TalonSRX rightElevatorLeader = new TalonSRX(RobotMap.RIGHT_ELEVATOR_MAIN);
@@ -50,7 +58,6 @@ public class CubeLift extends Subsystem {
     private static final int CRUISE_ACCELERATION = 40000; // 1024
     private static final int CRUISE_VELOCITY_DOWN = (int)(17600 * 0.4); // 1024
     private static final int CRUISE_ACCELERATION_DOWN = (int)(40000 * 0.4); // 1024
-
 
     private DigitalInput hallEffectSensor = new DigitalInput(RobotMap.CUBELIFT_HALL_EFFECT_SENSOR);
     private static final double CALIBRATION_MIN_TIME = 0.;
@@ -93,18 +100,19 @@ public class CubeLift extends Subsystem {
                 }
                 checkIfBottomedOut();
                 checkIfToppedOut();
-                SmartDashboard.putBoolean("Is Safety Alive", true);
+                SmartDashboard.putBoolean("Is Safety alive", true);
                 SmartDashboard.putNumber("i counter", i);
                 i++;
             }
         }
     }
 
-    private static final boolean CLAMP_SET = true;
-    private static final boolean UNCLAMP_SET = false;
-    private static final boolean RELEASE_SET = true;
-    private static final boolean UNRELEASE_SET = false;
-    private boolean grabberPosition = false;
+    private static final boolean GRAB_SET = true;
+    private static final boolean UNGRAB_SET = false;
+    private boolean grabberToggle = false;
+    private static final boolean UNPIN_SET = true;
+    private static final boolean PIN_SET = false;
+    private boolean pinToggle = false;
 
     private final int TOLERANCE = 150;
     private static final double ELEVATOR_HI_POW = 1.0;
@@ -158,14 +166,6 @@ public class CubeLift extends Subsystem {
         releasePin.set(false);
     }
 
-    public LiftState getState() {
-        return state;
-    }
-
-    private void setState(LiftState newState) {
-        this.state = newState;
-    }
-
     public void resetEncoders() {
         this.rightElevatorLeader.setSelectedSensorPosition(0, 0, 0);
     }
@@ -203,29 +203,30 @@ public class CubeLift extends Subsystem {
         SmartDashboard.putNumber("closed loop err", Math.abs(pos.getPosition() - getEncPos()));
     }
 
-    public void openClamp() {
-        grabbers.set(UNCLAMP_SET);
+    public void openGrabbers() {
+        grabbers.set(UNGRAB_SET);
     }
 
-    public void closeClamp() {
-        grabbers.set(CLAMP_SET);
+    public void closeGrabbers() {
+        grabbers.set(GRAB_SET);
     }
 
-    public void changeGrabberPosition() {
-        grabberPosition = !grabberPosition;
-        grabbers.set(grabberPosition);
+    public void toggleGrabbers() {
+        grabberToggle = !grabberToggle;
+        grabbers.set(grabberToggle);
     }
 
-    public void releasePin() {
-        releasePin.set(RELEASE_SET);
+    public void unpin() {
+        releasePin.set(UNPIN_SET);
     }
 
-    public void closePin(){
-        releasePin.set(UNRELEASE_SET);
+    public void pin(){
+        releasePin.set(PIN_SET);
     }
 
-    public void reinsertPin() {
-        releasePin.set(UNRELEASE_SET);
+    public void togglePin() {
+        pinToggle = !pinToggle;
+        releasePin.set(pinToggle);
     }
 
     public void stopElevator() {
