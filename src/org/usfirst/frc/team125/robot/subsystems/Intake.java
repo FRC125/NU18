@@ -19,7 +19,7 @@ public class Intake extends Subsystem {
     private IMotorController intakeL = new VictorSPX(RobotMap.INTAKE_LEFT);
     private IMotorController intakeR = new VictorSPX(RobotMap.INTAKE_RIGHT);
 
-    private DoubleSolenoid intakePiston = new DoubleSolenoid(RobotMap.INTAKE_RETRACT_FORWARD, RobotMap.INTAKE_RETRACT_REVERSE);
+    private DoubleSolenoid intakeSolenoid = new DoubleSolenoid(RobotMap.INTAKE_RETRACT_FORWARD, RobotMap.INTAKE_RETRACT_REVERSE);
 
     private DigitalInput smartIntake = new DigitalInput(RobotMap.INTAKE_LIMIT_SWITCH);
     private static final double minimumSmartIntakeTime = 2.0; // Is 2 seconds too long???
@@ -66,7 +66,7 @@ public class Intake extends Subsystem {
         this.intakeL.setNeutralMode(NeutralMode.Coast);
         this.intakeR.setNeutralMode(NeutralMode.Coast);
 
-        this.intakePiston.set(INTAKE_REVERSE_VALUE); // TODO: Check if this is right...
+        this.intakeSolenoid.set(INTAKE_REVERSE_VALUE); // TODO: Check if this is right...
     }
 
     public void intake() {
@@ -94,11 +94,20 @@ public class Intake extends Subsystem {
 
 
     public void intakePistonForward() {
-        this.intakePiston.set(INTAKE_FORWARD_VALUE);
+        this.intakeSolenoid.set(INTAKE_FORWARD_VALUE);
     }
 
     public void intakePistonReverse() {
-        this.intakePiston.set(INTAKE_REVERSE_VALUE);
+        this.intakeSolenoid.set(INTAKE_REVERSE_VALUE);
+    }
+
+    public void toggleIntakePiston() {
+        if(intakeSolenoid.get() == INTAKE_FORWARD_VALUE) {
+             intakeSolenoid.set(INTAKE_REVERSE_VALUE);
+        }
+        if(intakeSolenoid.get() == INTAKE_REVERSE_VALUE) {
+            intakeSolenoid.set(INTAKE_FORWARD_VALUE);
+        }
     }
 
     @Override

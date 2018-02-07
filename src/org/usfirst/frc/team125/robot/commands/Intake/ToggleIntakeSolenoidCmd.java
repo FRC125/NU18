@@ -1,16 +1,16 @@
-package org.usfirst.frc.team125.robot.commands.DoubleLift;
+package org.usfirst.frc.team125.robot.commands.Intake;
 
 import edu.wpi.first.wpilibj.command.Command;
 import org.usfirst.frc.team125.robot.Robot;
 
-public class LiftCarrierCmd extends Command {
+public class ToggleIntakeSolenoidCmd extends Command {
 
-    public LiftCarrierCmd() {
-        requires(Robot.doubleLift);
+    public ToggleIntakeSolenoidCmd() {
+        requires(Robot.intake);
     }
 
     protected void initialize() {
-        Robot.doubleLift.liftLift();
+        Robot.intake.toggleIntakePiston();
     }
 
     protected void execute() {
@@ -27,3 +27,4 @@ public class LiftCarrierCmd extends Command {
     protected void interrupted() {
     }
 }
+

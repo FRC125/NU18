@@ -3,9 +3,9 @@ package org.usfirst.frc.team125.robot.commands.DoubleLift;
 import edu.wpi.first.wpilibj.command.Command;
 import org.usfirst.frc.team125.robot.Robot;
 
-public class DropCarrierCmd extends Command {
+public class DropLiftCmd extends Command {
 
-    public DropCarrierCmd() {
+    public DropLiftCmd() {
         requires(Robot.doubleLift);
     }
 

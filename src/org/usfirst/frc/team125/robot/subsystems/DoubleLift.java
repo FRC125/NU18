@@ -31,6 +31,11 @@ public class DoubleLift extends Subsystem {
 
     public void unreleaseCarrier() { this.release.set(UNRELEASE_CARRIER_SET); }
 
+    public void toggleRelease() {
+        this.releaseToggle = !releaseToggle;
+        this.release.set(releaseToggle);
+    }
+
     public void dropLift() {
         this.doubleLifter.set(DROP_LIFT_VALUE);
     }
@@ -39,10 +44,16 @@ public class DoubleLift extends Subsystem {
         this.doubleLifter.set(LIFT_LIFT_VALUE);
     }
 
-    public void toggleRelease() {
-        this.releaseToggle = !releaseToggle;
-        this.release.set(releaseToggle);
+    public void toggleLift() {
+        if(doubleLifter.get() == DROP_LIFT_VALUE) {
+            doubleLifter.set(LIFT_LIFT_VALUE);
+        }
+        if(doubleLifter.get() == LIFT_LIFT_VALUE) {
+            doubleLifter.set(DROP_LIFT_VALUE);
+        }
     }
+
+
 
     @Override
     protected void initDefaultCommand() {

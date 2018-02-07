@@ -56,8 +56,8 @@ public class CubeLift extends Subsystem {
     //233 ticks per inch
     private static final int CRUISE_VELOCITY = 17600; // 1024
     private static final int CRUISE_ACCELERATION = 40000; // 1024
-    private static final int CRUISE_VELOCITY_DOWN = (int)(17600 * 0.4); // 1024
-    private static final int CRUISE_ACCELERATION_DOWN = (int)(40000 * 0.4); // 1024
+    private static final int CRUISE_VELOCITY_DOWN = (int)(17600 * 0.25); // 1024
+    private static final int CRUISE_ACCELERATION_DOWN = (int)(40000 * 0.25); // 1024
 
     private DigitalInput hallEffectSensor = new DigitalInput(RobotMap.CUBELIFT_HALL_EFFECT_SENSOR);
     private static final double CALIBRATION_MIN_TIME = 0.;
@@ -157,7 +157,7 @@ public class CubeLift extends Subsystem {
         this.rightElevatorLeader.setInverted(false);
         this.rightElevatorSlave.setInverted(false);
 
-        resetEncoders();
+        //resetEncoders();
         configPIDF(kP, kI, kD, kF); // TODO: Tune lol
         configMotionMagic(CRUISE_VELOCITY, CRUISE_ACCELERATION); // TODO: Also tune lol
 
