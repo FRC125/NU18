@@ -37,19 +37,22 @@ public class OI {
     //public Button liftCarrier = new JoystickButton(opPad, JoystickMap.Y);
 
     /* Driver Control */
-    private Button driveHoldHeading = new JoystickButton(driverPad, JoystickMap.LB);
+    private Button driveHoldHeading = new JoystickButton(driverPad, JoystickMap.A);
+    private Button intake = new JoystickButton(driverPad, JoystickMap.LB);
+    private Button outtake = new JoystickButton(driverPad, JoystickMap.RB);
+
 
     private static final double STICK_DEADBAND = 0.05;
 
     public OI() {
         //Intake
-        if(opPad.getRawAxis(JoystickMap.LEFT_TRIGGER) >= 0.5){
+        /*if(opPad.getRawAxis(JoystickMap.LEFT_TRIGGER) >= 0.5){
             new IntakeCmd();
         }
 
         if(opPad.getRawAxis(JoystickMap.RIGHT_TRIGGER) >= 0.5){
             new OuttakeCmd();
-        }
+        }*/
 
 
 
@@ -70,6 +73,11 @@ public class OI {
         //Driver
         driveHoldHeading.whileHeld(new DriveArcadeWithHoldHeadingCmd());
         driveHoldHeading.whenReleased(new DriveArcadeCmd());
+
+        //Intake
+        intake.whileHeld(new IntakeCmd());
+        outtake.whileHeld(new OuttakeCmd());
+
     }
 
 
