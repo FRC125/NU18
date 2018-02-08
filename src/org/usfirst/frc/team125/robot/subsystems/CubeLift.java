@@ -6,13 +6,11 @@ import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 import com.ctre.phoenix.motorcontrol.can.VictorSPX;
 
-import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import org.usfirst.frc.team125.robot.RobotMap;
 import org.usfirst.frc.team125.robot.commands.CubeLift.ElevatorDriveCmd;
-import org.usfirst.frc.team125.robot.util.DebouncedBoolean;
 
 /**
  * DoubleLift's DoubleLift for DoubleLifting
@@ -23,7 +21,7 @@ public class CubeLift extends Subsystem {
         GoingUp,
         GoingDown,
         Stationary,
-        HallEffect,
+        BottomedOut,
         ToppedOut,
     }
 
@@ -50,6 +48,8 @@ public class CubeLift extends Subsystem {
     private double kD = 4.0; // 4.0
     private double kF = 0.1165 * 2; // 0.1165 * 2
 
+    private static final int ZERO_POSITION = 3000;
+
     //81.2 inches per/s
     //gear is 42:26 geared up
     //4096 ticks per rev
@@ -59,10 +59,6 @@ public class CubeLift extends Subsystem {
     private static final int CRUISE_VELOCITY_DOWN = (int)(17600 * 0.25); // 1024
     private static final int CRUISE_ACCELERATION_DOWN = (int)(40000 * 0.25); // 1024
 
-    private DigitalInput hallEffectSensor = new DigitalInput(RobotMap.CUBELIFT_HALL_EFFECT_SENSOR);
-    private static final double CALIBRATION_MIN_TIME = 0.;
-    private DebouncedBoolean hallEffectDebouncer = new DebouncedBoolean(CALIBRATION_MIN_TIME);
-
     public static enum Positions {
         Intake(0),
         ScoreSwitch(20000),
@@ -71,7 +67,7 @@ public class CubeLift extends Subsystem {
         Top(75001);
         private int position;
         Positions(int encPos) {
-            this.position = encPos;
+            this.position = ZERO_POSITION - encPos;
         }
         public int getPosition() {
             return this.position;
@@ -98,8 +94,8 @@ public class CubeLift extends Subsystem {
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
-                checkIfBottomedOut();
                 checkIfToppedOut();
+                checkIfZeroedOut();
                 SmartDashboard.putBoolean("Is Safety alive", true);
                 SmartDashboard.putNumber("i counter", i);
                 i++;
@@ -142,7 +138,7 @@ public class CubeLift extends Subsystem {
         this.leftElevatorSlaveB.configNominalOutputReverse(0.0, 0);
 
         //Encoder
-        this.rightElevatorLeader.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Absolute, 0, 0);
+        this.rightElevatorLeader.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative, 0, 0);
 
         this.rightElevatorLeader.setSensorPhase(true);
 
@@ -157,7 +153,7 @@ public class CubeLift extends Subsystem {
         this.rightElevatorLeader.setInverted(false);
         this.rightElevatorSlave.setInverted(false);
 
-        //resetEncoders();
+        this.rightElevatorLeader.setSelectedSensorPosition(rightElevatorLeader.getSensorCollection().getPulseWidthPosition(),0, 0);
         configPIDF(kP, kI, kD, kF); // TODO: Tune lol
         configMotionMagic(CRUISE_VELOCITY, CRUISE_ACCELERATION); // TODO: Also tune lol
 
@@ -171,14 +167,18 @@ public class CubeLift extends Subsystem {
     }
 
     public int getEncPos() {
-        return rightElevatorLeader.getSelectedSensorPosition(0);
+        return rightElevatorLeader.getSensorCollection().getPulseWidthPosition();
     }
 
-    public void startMotionMagic(Positions pos) {
-        if(getEncPos() > pos.getPosition()) {
+    public int getRelativeEncPos() {
+        return ZERO_POSITION - getEncPos();
+    }
+
+    public void startMotionMagic(Positions pos) { // Up is now negative
+        if(getEncPos() < pos.getPosition()) {
             setState(LiftState.GoingDown);
             configMotionMagic(CRUISE_VELOCITY_DOWN, CRUISE_ACCELERATION_DOWN);
-        } else if(getEncPos() < pos.getPosition()) {
+        } else if(getEncPos() > pos.getPosition()) {
             setState(LiftState.GoingUp);
             configMotionMagic(CRUISE_VELOCITY, CRUISE_ACCELERATION);
         }
@@ -188,7 +188,7 @@ public class CubeLift extends Subsystem {
 
     public void checkMotionMagicTermination(Positions pos) {
         if(pos == Positions.Intake) {
-            if(getEncPos() <= TOLERANCE * 2) {
+            if(getEncPos() >= ZERO_POSITION - (TOLERANCE * 2)) {
                 state = LiftState.Stationary;
                 stopElevator();
                 position = pos;
@@ -200,7 +200,7 @@ public class CubeLift extends Subsystem {
         }
         SmartDashboard.putString("Desired Pos Enum", pos.toString());
         SmartDashboard.putNumber("Desired Pos Num", pos.getPosition());
-        SmartDashboard.putNumber("closed loop err", Math.abs(pos.getPosition() - getEncPos()));
+        SmartDashboard.putNumber("Closed loop err", Math.abs(pos.getPosition() - getEncPos()));
     }
 
     public void openGrabbers() {
@@ -234,7 +234,7 @@ public class CubeLift extends Subsystem {
     }
 
     public void directElevate(double pow) {
-        if(getState() == LiftState.HallEffect && pow < 0.0){
+        if(getState() == LiftState.BottomedOut && pow < 0.0){
             return;
         }
         if(getState() == LiftState.ToppedOut && pow > 0.0) {
@@ -252,30 +252,20 @@ public class CubeLift extends Subsystem {
         rightElevatorLeader.set(ControlMode.PercentOutput, pow);
     }
 
-    private void checkIfBottomedOut() {
-        hallEffectDebouncer.update(!hallEffectSensor.get());
-        if (hallEffectDebouncer.get() && getState() != LiftState.GoingUp) {
-            setState(LiftState.HallEffect);
-            setPosition(Positions.Intake);
-            resetEncoders();
-            stopElevator();
-        }
-    }
-
     private void checkIfToppedOut() {
-        if (getEncPos() >= Positions.Top.getPosition()) {
+        if (getEncPos() <= Positions.Top.getPosition() && getState() != LiftState.GoingDown) {
             setState(LiftState.ToppedOut);
             setPosition(Positions.Top);
             stopElevator();
         }
     }
 
-    public boolean getHallEffectDebouncer(){
-        return this.hallEffectDebouncer.get();
-    }
-
-    public boolean getRawHallEffectSensor() {
-        return hallEffectSensor.get();
+    private void checkIfZeroedOut() {
+        if(getEncPos() >= Positions.Intake.getPosition() && getState() != LiftState.GoingUp) {
+            setState(LiftState.BottomedOut);
+            setPosition(Positions.Intake);
+            stopElevator();
+        }
     }
 
     public void configPIDF(double kP, double kI, double kD, double kF) {

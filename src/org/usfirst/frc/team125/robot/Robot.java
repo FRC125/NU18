@@ -76,12 +76,11 @@ public class Robot extends IterativeRobot {
         SmartDashboard.putNumber("Right dt Speed", this.drivetrain.getRightVelocity());
         SmartDashboard.putNumber("Gyro Angle", this.drivetrain.getAngle());
         SmartDashboard.putNumber("Elevator Encoder Position", this.cubeLift.getEncPos());
+        SmartDashboard.putNumber("Elevator Encoder Relative Position", this.cubeLift.getRelativeEncPos());
         this.drivetrain.updateAccelDashboard();
         this.cubeLift.updatePIDFOnDashboard();
         this.cubeLift.updatePIDFFromDashboard();
-        SmartDashboard.putBoolean("Hall Effect Debouncer", this.cubeLift.getHallEffectDebouncer());
         SmartDashboard.putString("Elevator State", this.cubeLift.getState().toString());
         SmartDashboard.putString("Elevator Position", this.cubeLift.getPosition().toString());
-        SmartDashboard.putBoolean("Raw HE", this.cubeLift.getRawHallEffectSensor());
     }
 }
