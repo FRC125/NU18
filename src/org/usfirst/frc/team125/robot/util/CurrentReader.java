@@ -10,6 +10,14 @@ public class CurrentReader {
         Cubelift
     }
 
+    public static final double INTAKE_MAX_CURRENT = 45;
+    public static final double DRIVETRAIN_MAX_CURRENT = 5;
+    public static final double CUBELIFT_MAX_CURRENT = 4;
+
+    public static final int COUNTER_MAX = 100;
+
+    public int currentCounter = 0;
+
     public static PowerDistributionPanel pdp = new PowerDistributionPanel();
 
     public CurrentReader(){
@@ -63,7 +71,5 @@ public class CurrentReader {
 
         return currentVal;
     }
-
-
 
 }

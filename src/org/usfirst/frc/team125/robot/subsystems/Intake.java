@@ -28,8 +28,8 @@ public class Intake extends Subsystem {
     private DebouncedBoolean smartIntakeDebouncer = new DebouncedBoolean(minimumSmartIntakeTime);
 
     public static final double INTAKE_POWER_LEFT = 1.0;
-    public static final double INTAKE_POWER_RIGHT = .75;
-    public static final double CURRENT_MAX = 4;
+    public static final double INTAKE_POWER_RIGHT = .50;
+    public static final double CURRENT_MAX = 110;
 
     public CurrentReader intakeCurrentReader = new CurrentReader();
 
@@ -96,7 +96,14 @@ public class Intake extends Subsystem {
         intakeCurrent = this.intakeCurrentReader.getTotalCurrent(CurrentReader.CurrentPorts.Intake);
         SmartDashboard.putNumber("intakeCurrent", intakeCurrent );
 
-        return intakeCurrent > CURRENT_MAX;
+        if (intakeCurrent > this.intakeCurrentReader.INTAKE_MAX_CURRENT){
+            this.intakeCurrentReader.currentCounter += 1;
+        }
+        return this.intakeCurrentReader.currentCounter > this.intakeCurrentReader.COUNTER_MAX ? true : false;
+    }
+
+    public int currentCounterReset(){
+        return this.intakeCurrentReader.currentCounter = 0;
     }
 
     public void checkSmartIntakeTriggered(){

@@ -78,6 +78,8 @@ public class OI {
         intake.whileHeld(new IntakeCmd());
         outtake.whileHeld(new OuttakeCmd());
 
+        intake.whenReleased(new IntakeStopCmd());
+
     }
 
 
