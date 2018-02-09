@@ -17,7 +17,7 @@ public class IntakeCmd extends Command {
     @Override
     public void execute() {
         if (Robot.intake.passedCurrentLimit()){
-            end();
+            Robot.intake.stopIntake();
         }else{
             Robot.intake.intake();
         }
@@ -25,7 +25,7 @@ public class IntakeCmd extends Command {
 
     @Override
     protected boolean isFinished() {
-        return false;
+        return Robot.intake.passedCurrentLimit();
     }
 
     @Override

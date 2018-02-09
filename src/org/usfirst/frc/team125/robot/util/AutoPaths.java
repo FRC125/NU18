@@ -34,4 +34,9 @@ public class AutoPaths {
             new Waypoint(0.0,0.0, Pathfinder.d2r(0.0)),
             new Waypoint(1.0, 1.0, Pathfinder.d2r(0.0)),
     };
+
+    public static Waypoint[] afterBackUp = new Waypoint[] {
+            new Waypoint(0.0, 0.0, Pathfinder.d2r(0.0)),
+            new Waypoint(2.143,  2.351, Pathfinder.d2r(45.0)),
+    };
 }
