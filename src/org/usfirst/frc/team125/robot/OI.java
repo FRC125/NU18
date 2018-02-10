@@ -32,19 +32,15 @@ public class OI {
     public Button togglePuncher = new JoystickButton(opPad, JoystickMap.R3);
 
     /* Driver Control */
-    private Button driveHoldHeading = new JoystickButton(driverPad, JoystickMap.LB);
+    private Button driveHoldHeading = new JoystickButton(driverPad, JoystickMap.A);
+    private Button intake = new JoystickButton(driverPad, JoystickMap.LB);
+    private Button outtake = new JoystickButton(driverPad, JoystickMap.RB);
+
 
     private static final double STICK_DEADBAND = 0.05;
 
     public OI() {
         /* Operator Control */
-        if(opPad.getRawAxis(JoystickMap.LEFT_TRIGGER) >= 0.5){
-            new IntakeCmd();
-        }
-
-        if(opPad.getRawAxis(JoystickMap.RIGHT_TRIGGER) >= 0.5){
-            new OuttakeCmd();
-        }
         runEleClimb.whenPressed(new RunToPositionMotionMagicCmd(CubeLift.Positions.Climbing));
         runEleScale.whenPressed(new RunToPositionMotionMagicCmd(CubeLift.Positions.ScoreScale));
         runEleSwitch.whenPressed(new RunToPositionMotionMagicCmd(CubeLift.Positions.ScoreSwitch));
@@ -61,7 +57,14 @@ public class OI {
         /* Driver Control */
         driveHoldHeading.whileHeld(new DriveArcadeWithHoldHeadingCmd());
         driveHoldHeading.whenReleased(new DriveArcadeCmd());
+
+        //Intake
+        intake.whileHeld(new IntakeCmd());
+        outtake.whileHeld(new OuttakeCmd());
+
+        intake.whenReleased(new IntakeStopCmd());
     }
+
 
 
     private static double stickDeadband(double value, double deadband, double center) {
@@ -99,5 +102,5 @@ public class OI {
     public double getOpLeftStickY() {
         return stickDeadband(this.opPad.getRawAxis(1), STICK_DEADBAND, 0.0);
     }
-}
+    }
 

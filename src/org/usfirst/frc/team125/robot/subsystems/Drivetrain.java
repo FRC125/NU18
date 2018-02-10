@@ -272,7 +272,7 @@ public class Drivetrain extends Subsystem {
         public static final double max_velocity = 4.0; //4 is real
         public static final double kv = 1.0 / max_velocity; // Calculated for test Drivetrain
         public static final double max_acceleration = 1.62; // Estimated #
-        public static final double ka = 0.0; //0.015
+        public static final double ka = 0.015; //0.015
         public static final double max_jerk = 7.62;
         public static final double wheel_diameter = 0.13;
         public static final double wheel_base_width = 0.72;

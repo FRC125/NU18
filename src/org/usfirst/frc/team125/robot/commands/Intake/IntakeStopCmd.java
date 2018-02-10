@@ -1,12 +1,11 @@
 package org.usfirst.frc.team125.robot.commands.Intake;
 
+import edu.wpi.first.wpilibj.command.Command;
 import org.usfirst.frc.team125.robot.Robot;
 
-import edu.wpi.first.wpilibj.command.Command;
+public class IntakeStopCmd extends Command {
 
-public class IntakeCmd extends Command {
-
-    public IntakeCmd() {
+    public IntakeStopCmd() {
         requires(Robot.intake);
     }
 
@@ -16,26 +15,19 @@ public class IntakeCmd extends Command {
 
     @Override
     public void execute() {
-        if (Robot.intake.passedCurrentLimit()){
-            Robot.intake.stopIntake();
-        }else{
-            Robot.intake.intake();
-        }
+       Robot.intake.currentCounterReset();
     }
 
     @Override
     protected boolean isFinished() {
-        return Robot.intake.passedCurrentLimit();
+        return false;
     }
 
     @Override
     protected void end() {
-        Robot.intake.stopIntake();
-        Robot.intake.currentCounterReset();
     }
 
     protected void interrupted() {
         end();
     }
-
 }
