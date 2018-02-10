@@ -41,7 +41,6 @@ public class Intake extends Subsystem {
                     e.printStackTrace();
                 }
                 checkSmartIntakeTriggered();
-                SmartDashboard.putBoolean("Is Smart Intake Updater Alive", true);
                 SmartDashboard.putNumber("j counter", j);
                 j++;
             }
@@ -74,7 +73,6 @@ public class Intake extends Subsystem {
             this.intakeR.set(ControlMode.PercentOutput, -INTAKE_POWER);
     }
 
-
     public void outtake() {
             this.intakeL.set(ControlMode.PercentOutput, -INTAKE_POWER);
             this.intakeR.set(ControlMode.PercentOutput, INTAKE_POWER);
@@ -91,7 +89,6 @@ public class Intake extends Subsystem {
             new CloseGrabbersCmd();
         }
     }
-
 
     public void intakePistonForward() {
         this.intakeSolenoid.set(INTAKE_FORWARD_VALUE);

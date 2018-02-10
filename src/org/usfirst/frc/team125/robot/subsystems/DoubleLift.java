@@ -6,22 +6,20 @@ import org.usfirst.frc.team125.robot.RobotMap;
 import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj.command.Subsystem;
 
-/**
- * The mechansim to doubleLifter another robot (including a seperate release)
- */
 public class DoubleLift extends Subsystem {
 
-    private DoubleSolenoid doubleLifter = new DoubleSolenoid(RobotMap.DOUBLELIFT_LIFTER_FORWARD, RobotMap.DOUBLELIFT_LIFTER_REVERSE);
+    private Solenoid doubleLifter = new Solenoid(RobotMap.DOUBLELIFT_LIFTER);
     private Solenoid release = new Solenoid(RobotMap.DOUBLELIFT_RELEASE);
     private static final boolean RELEASE_CARRIER_SET = true;
     private static final boolean UNRELEASE_CARRIER_SET = false;
-    private static final DoubleSolenoid.Value DROP_LIFT_VALUE = DoubleSolenoid.Value.kReverse;
-    private static final DoubleSolenoid.Value LIFT_LIFT_VALUE = DoubleSolenoid.Value.kForward;
+    private static final boolean DROP_LIFT_SET = true;
+    private static final boolean LIFT_LIFT_SET = false;
 
     private boolean releaseToggle = false;
+    private boolean liftToggle = false;
 
     public DoubleLift() {
-        this.doubleLifter.set(LIFT_LIFT_VALUE); // We want it up
+        this.doubleLifter.set(false); // We want it up, hard coded for safety
         this.release.set(false); // We want it not out, hard coded for safety
     }
 
@@ -37,23 +35,17 @@ public class DoubleLift extends Subsystem {
     }
 
     public void dropLift() {
-        this.doubleLifter.set(DROP_LIFT_VALUE);
+        this.doubleLifter.set(DROP_LIFT_SET);
     }
 
     public void liftLift() {
-        this.doubleLifter.set(LIFT_LIFT_VALUE);
+        this.doubleLifter.set(LIFT_LIFT_SET);
     }
 
     public void toggleLift() {
-        if(doubleLifter.get() == DROP_LIFT_VALUE) {
-            doubleLifter.set(LIFT_LIFT_VALUE);
-        }
-        if(doubleLifter.get() == LIFT_LIFT_VALUE) {
-            doubleLifter.set(DROP_LIFT_VALUE);
-        }
+        this.liftToggle = !liftToggle;
+        this.doubleLifter.set(liftToggle);
     }
-
-
 
     @Override
     protected void initDefaultCommand() {

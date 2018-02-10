@@ -19,9 +19,6 @@ import jaci.pathfinder.followers.EncoderFollower;
 import jaci.pathfinder.modifiers.TankModifier;
 import org.usfirst.frc.team125.robot.commands.Drivetrain.DriveArcadeCmd;
 
-/**
- * 4 Motor Drivetrain Subclass
- */
 public class Drivetrain extends Subsystem {
 
     //Controllers
@@ -40,7 +37,7 @@ public class Drivetrain extends Subsystem {
     //Timing
     public Timer timer = new Timer();
 
-    //Gyro
+    //Gyro logging for driving
     double lastHeadingError = 0.0;
 
     public Drivetrain() {
@@ -115,6 +112,7 @@ public class Drivetrain extends Subsystem {
     public void resetLastHeadingError() {
         this.lastHeadingError = 0.0;
     }
+
     public double getLeftVelocity() {
         return (leftDriveMain.getSelectedSensorVelocity(0) * Math.PI * DrivetrainProfiling.wheel_diameter) / (DrivetrainProfiling.ticks_per_rev)  * 10;
     }
@@ -262,13 +260,13 @@ public class Drivetrain extends Subsystem {
 
     public static class DrivetrainProfiling {
         //TODO: TUNE CONSTANTS
-        public static double kp = 0.8;
+        public static double kp = 1.2;
         public static double kd = 0.0;
-        public static double gp = 0.02;
-        public static double gd = 0.0025;
+        public static double gp = 0.1;
+        public static double gd = 0.0; //0.0025
         public static double ki = 0.0;
 
-        //gyro logging
+        //Gyro logging for motion profiling
         public static double last_gyro_error = 0.0;
 
         public static final double max_velocity = 4.0; //4 is real

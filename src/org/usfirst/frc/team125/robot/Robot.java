@@ -75,7 +75,7 @@ public class Robot extends IterativeRobot {
         SmartDashboard.putNumber("Left dt Speed", this.drivetrain.getLeftVelocity());
         SmartDashboard.putNumber("Right dt Speed", this.drivetrain.getRightVelocity());
         SmartDashboard.putNumber("Gyro Angle", this.drivetrain.getAngle());
-        SmartDashboard.putNumber("Elevator Encoder Position", this.cubeLift.getEncPos());
+        SmartDashboard.putNumber("Elevator Encoder Pulse Width Position", this.cubeLift.getPulseWidthPosition());
         SmartDashboard.putNumber("Elevator Encoder Relative Position", this.cubeLift.getRelativeEncPos());
         this.drivetrain.updateAccelDashboard();
         this.cubeLift.updatePIDFOnDashboard();
