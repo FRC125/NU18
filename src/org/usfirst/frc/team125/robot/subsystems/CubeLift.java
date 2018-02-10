@@ -138,9 +138,9 @@ public class CubeLift extends Subsystem {
             this.leftElevatorSlaveB.configNominalOutputReverse(0.0, 0);
 
             //Encoder
-            this.rightElevatorLeader.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative, 0, 0);
+            this.rightElevatorLeader.setSensorPhase(true);
+            this.rightElevatorLeader.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Absolute, 0, 0);
             this.rightElevatorLeader.setSelectedSensorPosition(rightElevatorLeader.getSensorCollection().getPulseWidthPosition(),0, 0);
-            this.rightElevatorLeader.setSensorPhase(false);
 
             //Neutral mode
             this.rightElevatorLeader.setNeutralMode(NeutralMode.Brake);
@@ -182,7 +182,7 @@ public class CubeLift extends Subsystem {
                 configMotionMagic(CRUISE_VELOCITY, CRUISE_ACCELERATION);
             }
 
-            rightElevatorLeader.set(ControlMode.MotionMagic, pos.getPosition());
+            rightElevatorLeader.set(ControlMode.MotionMagic, -pos.getPosition());
         }
 
         public void checkMotionMagicTermination(Positions pos) {
@@ -198,6 +198,8 @@ public class CubeLift extends Subsystem {
                 position = pos;
             }
             SmartDashboard.putString("Desired Pos Enum", pos.toString());
+            SmartDashboard.putNumber("Set pos",rightElevatorLeader.getClosedLoopTarget(0));
+            SmartDashboard.putNumber("CTRError", rightElevatorLeader.getClosedLoopError(0));
             SmartDashboard.putNumber("Desired Pos Num", pos.getPosition());
             SmartDashboard.putNumber("Closed loop err", Math.abs(pos.getPosition() - getPulseWidthPosition()));
         }
