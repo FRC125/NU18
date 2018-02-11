@@ -24,11 +24,11 @@ public class RobotMap {
     /*
     PCM Device
      */
-    //Single Acting Solenoids
+    //Single Acting Solenoids 
     public static final int GRABBERS = 3;
     public static final int RELEASE_PIN = 0;
-    public static final int DOUBLELIFT_RELEASE = 1;
-    public static final int DOUBLELIFT_LIFTER = 2;
+    public static final int DOUBLELIFT_RELEASE = 2;
+    public static final int DOUBLELIFT_LIFTER = 1;
     public static final int PUNCHER = 6;
     //Double Acting Solenoids
     public static final int INTAKE_RETRACT_FORWARD = 4;

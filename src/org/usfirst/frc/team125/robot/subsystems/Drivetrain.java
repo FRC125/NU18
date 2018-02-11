@@ -9,6 +9,7 @@ import com.kauailabs.navx.frc.AHRS;
 import edu.wpi.first.wpilibj.I2C;
 import jaci.pathfinder.Trajectory;
 import jaci.pathfinder.Waypoint;
+import org.opencv.core.Mat;
 import org.usfirst.frc.team125.robot.RobotMap;
 import edu.wpi.first.wpilibj.ADXRS450_Gyro;
 import edu.wpi.first.wpilibj.Timer;
@@ -109,10 +110,23 @@ public class Drivetrain extends Subsystem {
         this.rightDriveMain.set(ControlMode.PercentOutput, throttle + turn);
     }
 
+    public boolean turnToAngle(double angle) {
+        double error = angle - gyro.getAngle();
+        double turn = (DrivetrainProfiling.gp * error) + (DrivetrainProfiling.gd * (gyro.getRate()));
+        this.leftDriveMain.set(ControlMode.PercentOutput, turn);
+        this.rightDriveMain.set(ControlMode.PercentOutput, -turn);
+        lastHeadingError = error;
+        SmartDashboard.putNumber("turn to angle error", error);
+        return Math.abs(error) <= 0.5;
+    }
+
     public void resetLastHeadingError() {
         this.lastHeadingError = 0.0;
     }
 
+    public double getGyroRate() {
+        return gyro.getRate();
+    }
     public double getLeftVelocity() {
         return (leftDriveMain.getSelectedSensorVelocity(0) * Math.PI * DrivetrainProfiling.wheel_diameter) / (DrivetrainProfiling.ticks_per_rev)  * 10;
     }
@@ -260,9 +274,9 @@ public class Drivetrain extends Subsystem {
 
     public static class DrivetrainProfiling {
         //TODO: TUNE CONSTANTS
-        public static double kp = 1.2;
+        public static double kp = 0.8; //1.2;
         public static double kd = 0.0;
-        public static double gp = 0.1;
+        public static double gp = 0.02;
         public static double gd = 0.0; //0.0025
         public static double ki = 0.0;
 
@@ -271,10 +285,10 @@ public class Drivetrain extends Subsystem {
 
         public static final double max_velocity = 4.0; //4 is real
         public static final double kv = 1.0 / max_velocity; // Calculated for test Drivetrain
-        public static final double max_acceleration = 1.62; // Estimated #
-        public static final double ka = 0.015; //0.015
-        public static final double max_jerk = 7.62;
-        public static final double wheel_diameter = 0.13;
+        public static final double max_acceleration = 3.8; // Estimated #
+        public static final double ka = 0.05; //0.015
+        public static final double max_jerk = 16.0;
+        public static final double wheel_diameter = 0.125;
         public static final double wheel_base_width = 0.72;
         public static final int ticks_per_rev = 4096; // CTRE Mag Encoder
         public static final double dt = 0.02; // Calculated - Confirmed

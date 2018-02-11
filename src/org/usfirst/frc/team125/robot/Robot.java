@@ -5,6 +5,7 @@ import edu.wpi.first.wpilibj.PowerDistributionPanel;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
 
+import org.usfirst.frc.team125.robot.commands.Drivetrain.TurnToAngleCmd;
 import org.usfirst.frc.team125.robot.commands.Groups.AutoCommand;
 import org.usfirst.frc.team125.robot.subsystems.CubeLift;
 import org.usfirst.frc.team125.robot.subsystems.DoubleLift;
@@ -23,6 +24,7 @@ public class Robot extends IterativeRobot {
     public static OI oi;
 
 	Command autoCommand = new AutoCommand();
+	//Command turnToAngle = new TurnToAngleCmd(90);
 
     @Override
     public void robotInit() {
@@ -46,6 +48,7 @@ public class Robot extends IterativeRobot {
 	public void autonomousInit() {
 		/* String gameData = DriverStation.getInstance().getGameSpecificMessage(); */ // HOW TO GET GAME DATA
 		autoCommand.start();
+        //turnToAngle.start();
 	}
 
     @Override
@@ -84,6 +87,7 @@ public class Robot extends IterativeRobot {
         this.cubeLift.updatePIDFFromDashboard();
         SmartDashboard.putString("Elevator State", this.cubeLift.getState().toString());
         SmartDashboard.putString("Elevator Position", this.cubeLift.getPosition().toString());
+        SmartDashboard.putNumber("Gyro Rate", this.drivetrain.getGyroRate());
     }
-    
+
 }
