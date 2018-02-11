@@ -11,14 +11,6 @@ import org.usfirst.frc.team125.robot.commands.Intake.OuttakeCmd;
 import org.usfirst.frc.team125.robot.util.AutoPaths;
 
 public class AutoCommand extends CommandGroup {
-    Command a = new DrivePathCmd(AutoPaths.toLine);
-    Command b = new DrivePathReverseCmd(AutoPaths.backUp);
-    Command c = new DrivePathCmd(AutoPaths.toLineFar);
-    Command d = new DrivePathReverseCmd(AutoPaths.postToLineFar);
     public AutoCommand() {
-        addSequential(a);
-        addSequential(b);
-        addSequential(c);
-        addSequential(d);
     }
 }
