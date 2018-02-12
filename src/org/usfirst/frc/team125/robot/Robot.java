@@ -1,12 +1,11 @@
 package org.usfirst.frc.team125.robot;
 
 import edu.wpi.first.wpilibj.IterativeRobot;
-import edu.wpi.first.wpilibj.PowerDistributionPanel;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
 
-import org.usfirst.frc.team125.robot.commands.Drivetrain.TurnToAngleCmd;
-import org.usfirst.frc.team125.robot.commands.Groups.AutoCommand;
+import org.usfirst.frc.team125.robot.commands.Groups.RightSideCloseSwitchCloseScaleAuto;
+import org.usfirst.frc.team125.robot.commands.Groups.RightSideFarSwitchCloseScaleAuto;
 import org.usfirst.frc.team125.robot.subsystems.CubeLift;
 import org.usfirst.frc.team125.robot.subsystems.DoubleLift;
 import org.usfirst.frc.team125.robot.subsystems.Intake;
@@ -23,7 +22,7 @@ public class Robot extends IterativeRobot {
 
     public static OI oi;
 
-	Command autoCommand = new AutoCommand();
+	Command autoCommand = new RightSideFarSwitchCloseScaleAuto();
 	//Command turnToAngle = new TurnToAngleCmd(90);
 
     @Override

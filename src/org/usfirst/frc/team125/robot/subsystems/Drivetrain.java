@@ -74,7 +74,7 @@ public class Drivetrain extends Subsystem {
         this.rightDriveSlaveB.configNominalOutputForward(0.0, 0);
         this.rightDriveSlaveB.configNominalOutputReverse(0.0, 0);
 
-        //Inverted or Not...
+
         this.leftDriveMain.setInverted(false);
         this.leftDriveSlaveA.setInverted(false);
         this.leftDriveSlaveB.setInverted(false);
@@ -181,7 +181,7 @@ public class Drivetrain extends Subsystem {
     }
 
     public double getAngle() {
-        return gyro.getAngle();
+        return -gyro.getAngle();
     }
 
     public void resetGyro() {
@@ -220,23 +220,31 @@ public class Drivetrain extends Subsystem {
         return isProfileFinished;
     }
 
+    /*
+    If going !reverse going forward x is positive, going left y is positive, turning left is positive
+    If going reverse going backwards x is positive, going right y is negative, turning left is negative
+     */
     public void pathFollow(EncoderFollower[] followers,boolean reverse) {
         EncoderFollower left = followers[0];
         EncoderFollower right = followers[1];
         double l;
         double r;
+        double localGp = DrivetrainProfiling.gp;
         if (!reverse) {
+            localGp *= -1;
             l = left.calculate(-leftDriveMain.getSelectedSensorPosition(0));
             r = right.calculate(-rightDriveMain.getSelectedSensorPosition(0));
         } else {
             l = left.calculate(leftDriveMain.getSelectedSensorPosition(0));
             r = right.calculate(rightDriveMain.getSelectedSensorPosition(0));
         }
-        double gyro_heading = gyro.getAngle();
+        double gyro_heading = reverse ? -getAngle() - DrivetrainProfiling.path_angle_offset : getAngle() + DrivetrainProfiling.path_angle_offset;
         double angle_setpoint = Pathfinder.r2d(left.getHeading());
+        SmartDashboard.putNumber("Angle Setpoint" , angle_setpoint);
         double angleDifference = Pathfinder.boundHalfDegrees(angle_setpoint - gyro_heading);
+        SmartDashboard.putNumber("Path Angle Error", angleDifference);
 
-        double turn = DrivetrainProfiling.gp * angleDifference + (DrivetrainProfiling.gd *
+        double turn = localGp * angleDifference + (DrivetrainProfiling.gd *
                 ((angleDifference - DrivetrainProfiling.last_gyro_error) / DrivetrainProfiling.dt));
 
         DrivetrainProfiling.last_gyro_error = angleDifference;
@@ -246,9 +254,9 @@ public class Drivetrain extends Subsystem {
             SmartDashboard.putNumber("Left set vel", left.getSegment().velocity);
             SmartDashboard.putNumber("Left set pos", left.getSegment().x);
             SmartDashboard.putNumber("Left calc voltage", l);
-            SmartDashboard.putNumber("Commanded heading", left.getHeading());
+            SmartDashboard.putNumber("Commanded seg heading", left.getHeading());
             SmartDashboard.putNumber("Left + turn", l + turn);
-            SmartDashboard.putNumber("Left accel (command)", left.getSegment().acceleration);
+            SmartDashboard.putNumber("Left seg acceleration", left.getSegment().acceleration);
         }
         if(!reverse) {
             drive(l + turn, r - turn);
@@ -256,8 +264,10 @@ public class Drivetrain extends Subsystem {
         else {
             drive(-l + turn, -r - turn);
         }
+
         if(left.isFinished() && right.isFinished()) {
             isProfileFinished = true;
+            DrivetrainProfiling.path_angle_offset = angleDifference;
         }
     }
 
@@ -276,12 +286,14 @@ public class Drivetrain extends Subsystem {
         //TODO: TUNE CONSTANTS
         public static double kp = 0.8; //1.2;
         public static double kd = 0.0;
-        public static double gp = 0.02;
+        public static double gp = 0.02; // -0.05 for practice bot
         public static double gd = 0.0; //0.0025
         public static double ki = 0.0;
 
         //Gyro logging for motion profiling
         public static double last_gyro_error = 0.0;
+
+        public static double path_angle_offset = 0.0;
 
         public static final double max_velocity = 4.0; //4 is real
         public static final double kv = 1.0 / max_velocity; // Calculated for test Drivetrain

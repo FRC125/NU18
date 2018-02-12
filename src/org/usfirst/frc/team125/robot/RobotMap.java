@@ -24,7 +24,7 @@ public class RobotMap {
     /*
     PCM Device
      */
-    //Single Acting Solenoids 
+    //Single Acting Solenoids
     public static final int GRABBERS = 3;
     public static final int RELEASE_PIN = 0;
     public static final int DOUBLELIFT_RELEASE = 2;
