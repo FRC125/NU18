@@ -1,15 +1,22 @@
 package org.usfirst.frc.team125.robot;
 
-import org.usfirst.frc.team125.robot.commands.CubeLift.*;
-import org.usfirst.frc.team125.robot.commands.DoubleLift.ToggleLiftCmd;
-import org.usfirst.frc.team125.robot.commands.DoubleLift.ToggleReleaserCmd;
-import org.usfirst.frc.team125.robot.commands.Drivetrain.*;
-import org.usfirst.frc.team125.robot.commands.Intake.*;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.buttons.Button;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
+import org.usfirst.frc.team125.robot.commands.CubeLift.RunToPositionMotionMagicCmd;
+import org.usfirst.frc.team125.robot.commands.CubeLift.ToggleGrabbersCmd;
+import org.usfirst.frc.team125.robot.commands.CubeLift.TogglePinCmd;
+import org.usfirst.frc.team125.robot.commands.CubeLift.TogglePuncherCmd;
+import org.usfirst.frc.team125.robot.commands.DoubleLift.ToggleLiftCmd;
+import org.usfirst.frc.team125.robot.commands.DoubleLift.ToggleReleaserCmd;
+import org.usfirst.frc.team125.robot.commands.Drivetrain.DriveArcadeCmd;
+import org.usfirst.frc.team125.robot.commands.Drivetrain.DriveArcadeWithHoldHeadingCmd;
+import org.usfirst.frc.team125.robot.commands.Intake.IntakeCmd;
+import org.usfirst.frc.team125.robot.commands.Intake.IntakeStopCmd;
+import org.usfirst.frc.team125.robot.commands.Intake.OuttakeCmd;
+import org.usfirst.frc.team125.robot.commands.Intake.ToggleIntakeSolenoidCmd;
 import org.usfirst.frc.team125.robot.subsystems.CubeLift;
-import org.usfirst.frc.team125.robot.util.*;
+import org.usfirst.frc.team125.robot.util.JoystickMap;
 
 public class OI {
 
@@ -25,11 +32,11 @@ public class OI {
 
     //Pneumatics
     public Button toggleGrabbers = new JoystickButton(opPad, JoystickMap.LB);
-    public Button toggleElevatorPin = new JoystickButton(opPad, JoystickMap.RB);
+    public Button toggleElevatorPin = new JoystickButton(opPad, JoystickMap.R3);
     public Button toggleDoubleLiftRelease = new JoystickButton(opPad, JoystickMap.BACK);
     public Button toggleDoubleLiftLift = new JoystickButton(opPad, JoystickMap.START);
     public Button toggleIntakePistonInOrOut = new JoystickButton(opPad, JoystickMap.L3);
-    public Button togglePuncher = new JoystickButton(opPad, JoystickMap.R3);
+    public Button togglePuncher = new JoystickButton(opPad, JoystickMap.RB);
 
     /* Driver Control */
     private Button driveHoldHeading = new JoystickButton(driverPad, JoystickMap.A);
@@ -66,7 +73,6 @@ public class OI {
     }
 
 
-
     private static double stickDeadband(double value, double deadband, double center) {
         return (value < (center + deadband) && value > (center - deadband)) ? center : value;
     }
@@ -91,16 +97,16 @@ public class OI {
         return this.driverPad.getRawAxis(3) - this.driverPad.getRawAxis(2); //TODO: Check Axis (Right - Left)
     }
 
-    public double getOpRightTrigger(){
+    public double getOpRightTrigger() {
         return this.opPad.getRawAxis(JoystickMap.RIGHT_TRIGGER);
     }
 
-    public double getOpLeftTrigger(){
+    public double getOpLeftTrigger() {
         return this.opPad.getRawAxis(JoystickMap.LEFT_TRIGGER);
     }
 
     public double getOpLeftStickY() {
         return stickDeadband(this.opPad.getRawAxis(1), STICK_DEADBAND, 0.0);
     }
-    }
+}
 

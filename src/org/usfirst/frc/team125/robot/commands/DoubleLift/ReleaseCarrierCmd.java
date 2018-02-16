@@ -1,8 +1,7 @@
 package org.usfirst.frc.team125.robot.commands.DoubleLift;
 
-import org.usfirst.frc.team125.robot.Robot;
-
 import edu.wpi.first.wpilibj.command.Command;
+import org.usfirst.frc.team125.robot.Robot;
 
 public class ReleaseCarrierCmd extends Command {
 

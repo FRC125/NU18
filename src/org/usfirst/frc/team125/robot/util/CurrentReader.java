@@ -4,7 +4,7 @@ import edu.wpi.first.wpilibj.PowerDistributionPanel;
 
 public class CurrentReader {
 
-    public static enum CurrentPorts{
+    public static enum CurrentPorts {
         Drivetrain,
         Intake,
         Cubelift
@@ -20,7 +20,7 @@ public class CurrentReader {
 
     public static PowerDistributionPanel pdp = new PowerDistributionPanel();
 
-    public CurrentReader(){
+    public CurrentReader() {
 
     }
 

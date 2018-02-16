@@ -16,11 +16,16 @@ public class RunToPositionMotionMagicCmd extends Command {
 
     protected void initialize() {
         Robot.cubeLift.stopElevator();
+        if(position == CubeLift.Positions.Climbing || position == CubeLift.Positions.ChinUp) {
+            Robot.intake.intakePistonReverse();
+        } else {
+            Robot.intake.intakePistonForward();
+        }
         Robot.cubeLift.startMotionMagic(this.position);
     }
 
     protected void execute() {
-        if(!started) {
+        if (!started) {
             started = true;
         } else {
             Robot.cubeLift.checkMotionMagicTermination(this.position);

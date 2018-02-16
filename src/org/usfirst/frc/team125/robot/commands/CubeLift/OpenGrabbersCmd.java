@@ -1,12 +1,8 @@
 package org.usfirst.frc.team125.robot.commands.CubeLift;
 
+import edu.wpi.first.wpilibj.command.Command;
 import org.usfirst.frc.team125.robot.Robot;
 
-import edu.wpi.first.wpilibj.command.Command;
-
-/**
- *
- */
 public class OpenGrabbersCmd extends Command {
 
     public OpenGrabbersCmd() {

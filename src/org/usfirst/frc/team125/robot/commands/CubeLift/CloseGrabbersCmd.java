@@ -9,7 +9,7 @@ public class CloseGrabbersCmd extends Command {
         requires(Robot.cubeLift);
     }
 
-    protected void initialize(){
+    protected void initialize() {
         Robot.cubeLift.closeGrabbers();
     }
 
@@ -22,11 +22,11 @@ public class CloseGrabbersCmd extends Command {
         return true;
     }
 
-    protected void end(){
+    protected void end() {
 
     }
 
-    protected void interrupted(){
+    protected void interrupted() {
         end();
     }
 }

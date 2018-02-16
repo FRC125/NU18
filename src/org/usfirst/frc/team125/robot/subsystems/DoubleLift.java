@@ -1,10 +1,8 @@
 package org.usfirst.frc.team125.robot.subsystems;
 
-import edu.wpi.first.wpilibj.DoubleSolenoid;
-import org.usfirst.frc.team125.robot.RobotMap;
-
 import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj.command.Subsystem;
+import org.usfirst.frc.team125.robot.RobotMap;
 
 public class DoubleLift extends Subsystem {
 
@@ -27,7 +25,9 @@ public class DoubleLift extends Subsystem {
         this.release.set(RELEASE_CARRIER_SET);
     }
 
-    public void unreleaseCarrier() { this.release.set(UNRELEASE_CARRIER_SET); }
+    public void unreleaseCarrier() {
+        this.release.set(UNRELEASE_CARRIER_SET);
+    }
 
     public void toggleRelease() {
         this.releaseToggle = !releaseToggle;

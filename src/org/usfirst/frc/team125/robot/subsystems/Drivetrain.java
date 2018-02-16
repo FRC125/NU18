@@ -7,17 +7,15 @@ import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 import com.ctre.phoenix.motorcontrol.can.VictorSPX;
 import com.kauailabs.navx.frc.AHRS;
 import edu.wpi.first.wpilibj.I2C;
-import jaci.pathfinder.Trajectory;
-import jaci.pathfinder.Waypoint;
-import org.opencv.core.Mat;
-import org.usfirst.frc.team125.robot.RobotMap;
-import edu.wpi.first.wpilibj.ADXRS450_Gyro;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import jaci.pathfinder.Pathfinder;
+import jaci.pathfinder.Trajectory;
+import jaci.pathfinder.Waypoint;
 import jaci.pathfinder.followers.EncoderFollower;
 import jaci.pathfinder.modifiers.TankModifier;
+import org.usfirst.frc.team125.robot.RobotMap;
 import org.usfirst.frc.team125.robot.commands.Drivetrain.DriveArcadeCmd;
 
 public class Drivetrain extends Subsystem {
@@ -127,8 +125,9 @@ public class Drivetrain extends Subsystem {
     public double getGyroRate() {
         return gyro.getRate();
     }
+
     public double getLeftVelocity() {
-        return (leftDriveMain.getSelectedSensorVelocity(0) * Math.PI * DrivetrainProfiling.wheel_diameter) / (DrivetrainProfiling.ticks_per_rev)  * 10;
+        return (leftDriveMain.getSelectedSensorVelocity(0) * Math.PI * DrivetrainProfiling.wheel_diameter) / (DrivetrainProfiling.ticks_per_rev) * 10;
     }
 
     public double getRightVelocity() {
@@ -202,7 +201,7 @@ public class Drivetrain extends Subsystem {
         right.configureEncoder(rightDriveMain.getSelectedSensorPosition(0), DrivetrainProfiling.ticks_per_rev, DrivetrainProfiling.wheel_diameter);
         left.configurePIDVA(DrivetrainProfiling.kp, DrivetrainProfiling.ki, DrivetrainProfiling.kd, DrivetrainProfiling.kv, DrivetrainProfiling.ka);
         right.configurePIDVA(DrivetrainProfiling.kp, DrivetrainProfiling.ki, DrivetrainProfiling.kd, DrivetrainProfiling.kv, DrivetrainProfiling.ka);
-        return new EncoderFollower[] {
+        return new EncoderFollower[]{
                 left, // 0
                 right, // 1
         };
@@ -212,6 +211,10 @@ public class Drivetrain extends Subsystem {
         isProfileFinished = false;
         resetEncoders();
         resetGyro();
+    }
+
+    public void resetPathAngleOffset() {
+        DrivetrainProfiling.path_angle_offset = 0.0;
     }
 
     private boolean isProfileFinished = false;
@@ -224,7 +227,7 @@ public class Drivetrain extends Subsystem {
     If going !reverse going forward x is positive, going left y is positive, turning left is positive
     If going reverse going backwards x is positive, going right y is negative, turning left is negative
      */
-    public void pathFollow(EncoderFollower[] followers,boolean reverse) {
+    public void pathFollow(EncoderFollower[] followers, boolean reverse) {
         EncoderFollower left = followers[0];
         EncoderFollower right = followers[1];
         double l;
@@ -238,18 +241,19 @@ public class Drivetrain extends Subsystem {
             l = left.calculate(leftDriveMain.getSelectedSensorPosition(0));
             r = right.calculate(rightDriveMain.getSelectedSensorPosition(0));
         }
+
         double gyro_heading = reverse ? -getAngle() - DrivetrainProfiling.path_angle_offset : getAngle() + DrivetrainProfiling.path_angle_offset;
         double angle_setpoint = Pathfinder.r2d(left.getHeading());
-        SmartDashboard.putNumber("Angle Setpoint" , angle_setpoint);
+        SmartDashboard.putNumber("Angle setpoint", angle_setpoint);
         double angleDifference = Pathfinder.boundHalfDegrees(angle_setpoint - gyro_heading);
-        SmartDashboard.putNumber("Path Angle Error", angleDifference);
+        SmartDashboard.putNumber("Angle difference", angleDifference);
 
         double turn = localGp * angleDifference + (DrivetrainProfiling.gd *
                 ((angleDifference - DrivetrainProfiling.last_gyro_error) / DrivetrainProfiling.dt));
 
         DrivetrainProfiling.last_gyro_error = angleDifference;
 
-        if(left != null && !left.isFinished()) {
+        if (left != null && !left.isFinished()) {
             SmartDashboard.putNumber("Left diff", left.getSegment().x + this.getEncoderDistanceMetersLeft());
             SmartDashboard.putNumber("Left set vel", left.getSegment().velocity);
             SmartDashboard.putNumber("Left set pos", left.getSegment().x);
@@ -257,15 +261,16 @@ public class Drivetrain extends Subsystem {
             SmartDashboard.putNumber("Commanded seg heading", left.getHeading());
             SmartDashboard.putNumber("Left + turn", l + turn);
             SmartDashboard.putNumber("Left seg acceleration", left.getSegment().acceleration);
+            SmartDashboard.putNumber("Path angle offset", DrivetrainProfiling.path_angle_offset);
+            SmartDashboard.putNumber("Angle offset w/ new path angle offset", angleDifference + DrivetrainProfiling.path_angle_offset);
         }
-        if(!reverse) {
+        if (!reverse) {
             drive(l + turn, r - turn);
-        }
-        else {
+        } else {
             drive(-l + turn, -r - turn);
         }
 
-        if(left.isFinished() && right.isFinished()) {
+        if (left.isFinished() && right.isFinished()) {
             isProfileFinished = true;
             DrivetrainProfiling.path_angle_offset = angleDifference;
         }
@@ -286,7 +291,7 @@ public class Drivetrain extends Subsystem {
         //TODO: TUNE CONSTANTS
         public static double kp = 0.8; //1.2;
         public static double kd = 0.0;
-        public static double gp = 0.02; // -0.05 for practice bot
+        public static double gp = 0.0375; // 0.05 for practice bot 0.02 for real bot
         public static double gd = 0.0; //0.0025
         public static double ki = 0.0;
 
@@ -294,7 +299,6 @@ public class Drivetrain extends Subsystem {
         public static double last_gyro_error = 0.0;
 
         public static double path_angle_offset = 0.0;
-
         public static final double max_velocity = 4.0; //4 is real
         public static final double kv = 1.0 / max_velocity; // Calculated for test Drivetrain
         public static final double max_acceleration = 3.8; // Estimated #

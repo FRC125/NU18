@@ -1,8 +1,7 @@
 package org.usfirst.frc.team125.robot.commands.Intake;
 
-import org.usfirst.frc.team125.robot.Robot;
-
 import edu.wpi.first.wpilibj.command.Command;
+import org.usfirst.frc.team125.robot.Robot;
 
 public class IntakeCmd extends Command {
 
@@ -16,9 +15,9 @@ public class IntakeCmd extends Command {
 
     @Override
     public void execute() {
-        if (Robot.intake.passedCurrentLimit()){
+        if (Robot.intake.passedCurrentLimit()) {
             Robot.intake.stopIntake();
-        }else{
+        } else {
             Robot.intake.intake();
         }
     }

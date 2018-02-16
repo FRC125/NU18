@@ -15,6 +15,7 @@ public class TurnToAngleCmd extends Command {
     }
 
     double angle;
+
     protected void initialize() {
         Robot.drivetrain.enableBreakMode();
         Robot.drivetrain.resetGyro();

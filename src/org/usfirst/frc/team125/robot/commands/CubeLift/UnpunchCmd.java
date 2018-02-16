@@ -3,9 +3,6 @@ package org.usfirst.frc.team125.robot.commands.CubeLift;
 import edu.wpi.first.wpilibj.command.Command;
 import org.usfirst.frc.team125.robot.Robot;
 
-/**
- *
- */
 public class UnpunchCmd extends Command {
 
     public UnpunchCmd() {

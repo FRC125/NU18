@@ -35,8 +35,6 @@ public class RobotMap {
     public static final int INTAKE_RETRACT_REVERSE = 5;
 
 
-
-
     /*
     Other
      */

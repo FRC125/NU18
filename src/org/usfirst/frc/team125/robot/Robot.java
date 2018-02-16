@@ -1,16 +1,16 @@
 package org.usfirst.frc.team125.robot;
 
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
-
-import org.usfirst.frc.team125.robot.commands.Groups.RightSideCloseSwitchCloseScaleAuto;
-import org.usfirst.frc.team125.robot.commands.Groups.RightSideFarSwitchCloseScaleAuto;
+import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import org.usfirst.frc.team125.robot.commands.Groups.Autos.*;
 import org.usfirst.frc.team125.robot.subsystems.CubeLift;
 import org.usfirst.frc.team125.robot.subsystems.DoubleLift;
-import org.usfirst.frc.team125.robot.subsystems.Intake;
 import org.usfirst.frc.team125.robot.subsystems.Drivetrain;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import org.usfirst.frc.team125.robot.subsystems.Intake;
 
 public class Robot extends IterativeRobot {
 
@@ -19,11 +19,26 @@ public class Robot extends IterativeRobot {
     public static DoubleLift doubleLift = new DoubleLift();
     public static CubeLift cubeLift = new CubeLift();
 
-
     public static OI oi;
 
-	Command autoCommand = new RightSideFarSwitchCloseScaleAuto();
-	//Command turnToAngle = new TurnToAngleCmd(90);
+    Command autoCommand;
+    //Command turnToAngle = new TurnToAngleCmd(90);
+
+    private enum Sides {
+        Left,
+        Right,
+    }
+
+    private enum Autos {
+        SwitchOnly,
+        ScaleOnly,
+        SwitchToScale,
+        ScaleToSwitch,
+    }
+    String gameData ;
+    SendableChooser sideSelector = new SendableChooser();
+    SendableChooser autoSelector = new SendableChooser();
+
 
     @Override
     public void robotInit() {
@@ -33,37 +48,119 @@ public class Robot extends IterativeRobot {
 
     @Override
     public void disabledInit() {
-
+        gameData = DriverStation.getInstance().getGameSpecificMessage().substring(0,2);
     }
 
     @Override
     public void disabledPeriodic() {
-        updateSmartdashboard();
         Scheduler.getInstance().run();
+        updateSmartdashboard();
+        sideSelector.addDefault("Left", Sides.Left); // Left Side
+        sideSelector.addObject("Right" , Sides.Right); // Right Side
+        autoSelector.addDefault("Switch Only", Autos.SwitchOnly);
+        autoSelector.addObject("Scale Only", Autos.ScaleOnly);
     }
 
-
-	@Override
-	public void autonomousInit() {
-		/* String gameData = DriverStation.getInstance().getGameSpecificMessage(); */ // HOW TO GET GAME DATA
-		autoCommand.start();
-        //turnToAngle.start();
-	}
 
     @Override
-    public void autonomousPeriodic(){
-        updateSmartdashboard();
-        Scheduler.getInstance().run();
+    public void autonomousInit() {
+        gameData = DriverStation.getInstance().getGameSpecificMessage().substring(0,2);
+        switch (gameData) {
+
+            case "LR" : // GOOD!
+               if(sideSelector.getSelected().equals(Sides.Left)) {
+                   if(autoSelector.getSelected().equals(Autos.SwitchOnly)) {
+                       autoCommand = new LeftSideCloseSwitchAuto();
+                   }
+                   if(autoSelector.getSelected().equals(Autos.ScaleOnly)) {
+                        autoCommand = new LeftSideFarScaleAuto();
+                   }
+               } else {
+                   if(autoSelector.getSelected().equals(Autos.SwitchOnly)) {
+                        autoCommand = new RightSideFarSwitchAuto();
+                   }
+                   if(autoSelector.getSelected().equals(Autos.ScaleOnly)) {
+                        autoCommand = new RightSideCloseScaleAuto();
+                   }
+               }
+                break;
+
+            case "RL" : // GOOD!
+                if(sideSelector.getSelected().equals(Sides.Left)) {
+                    if(autoSelector.getSelected().equals(Autos.SwitchOnly)) {
+                        autoCommand = new LeftSideFarSwitchAuto();
+                    }
+                    if(autoSelector.getSelected().equals(Autos.ScaleOnly)) {
+                        autoCommand = new LeftSideCloseScaleAuto();
+                    }
+                } else {
+                    if(autoSelector.getSelected().equals(Autos.SwitchOnly)) {
+                        autoCommand = new RightSideCloseSwitchAuto();
+                    }
+                    if(autoSelector.getSelected().equals(Autos.ScaleOnly)) {
+                        autoCommand = new RightSideFarScaleAuto();
+                    }
+                }
+                break;
+
+            case "LL" : //GOOD!
+                if(sideSelector.getSelected().equals(Sides.Left)) {
+                    if(autoSelector.getSelected().equals(Autos.SwitchOnly)) {
+                        autoCommand = new LeftSideCloseSwitchAuto();
+                    }
+                    if(autoSelector.getSelected().equals(Autos.ScaleOnly)) {
+                        autoCommand = new LeftSideCloseScaleAuto();
+                    }
+                } else {
+                    if(autoSelector.getSelected().equals(Autos.SwitchOnly)) {
+                        autoCommand = new RightSideFarSwitchAuto();
+                    }
+                    if(autoSelector.getSelected().equals(Autos.ScaleOnly)) {
+                        autoCommand = new RightSideFarScaleAuto();
+                    }
+                }
+                break;
+
+            case "RR" : //GOOD!
+                if(sideSelector.getSelected().equals(Sides.Left)) {
+                    if(autoSelector.getSelected().equals(Autos.SwitchOnly)) {
+                        autoCommand = new LeftSideFarSwitchAuto();
+                    }
+                    if(autoSelector.getSelected().equals(Autos.ScaleOnly)) {
+                        autoCommand = new LeftSideFarScaleAuto();
+                    }
+                } else {
+                    if(autoSelector.getSelected().equals(Autos.SwitchOnly)) {
+                        autoCommand = new RightSideCloseSwitchAuto();
+                    }
+                    if(autoSelector.getSelected().equals(Autos.ScaleOnly)) {
+                        autoCommand = new RightSideCloseScaleAuto();
+                    }
+                }
+                break;
+
+            default:
+                break;
+        }
+
+        autoCommand.start();
+        SmartDashboard.putString("Chosen Auto", autoCommand.toString());
     }
 
-	@Override
-	public void teleopInit() {
+    @Override
+    public void autonomousPeriodic() {
+        Scheduler.getInstance().run();
+        updateSmartdashboard();
+    }
 
-	}
+    @Override
+    public void teleopInit() {
+
+    }
 
     public void teleopPeriodic() {
-        updateSmartdashboard();
         Scheduler.getInstance().run();
+        updateSmartdashboard();
     }
 
     @Override
@@ -72,21 +169,24 @@ public class Robot extends IterativeRobot {
     }
 
     public void updateSmartdashboard() {
-        SmartDashboard.putNumber("Left dt Encoder", this.drivetrain.getEncoderRawLeft());
-        SmartDashboard.putNumber("Right dt Encoder", this.drivetrain.getEncoderRawRight());
-        SmartDashboard.putNumber("Left dt Meters", this.drivetrain.getEncoderDistanceMetersLeft());
-        SmartDashboard.putNumber("Right dt Meters", this.drivetrain.getEncoderDistanceMetersRight());
-        SmartDashboard.putNumber("Left dt Speed", this.drivetrain.getLeftVelocity());
-        SmartDashboard.putNumber("Right dt Speed", this.drivetrain.getRightVelocity());
-        SmartDashboard.putNumber("Gyro Angle", this.drivetrain.getAngle());
-        SmartDashboard.putNumber("Elevator Encoder Pulse Width Position", this.cubeLift.getPulseWidthPosition());
-        SmartDashboard.putNumber("Elevator Encoder Relative Position", this.cubeLift.getRelativeEncPos());
+        SmartDashboard.putNumber("Left dt encoder", this.drivetrain.getEncoderRawLeft());
+        SmartDashboard.putNumber("Right dt encoder", this.drivetrain.getEncoderRawRight());
+        SmartDashboard.putNumber("Left dt meters", this.drivetrain.getEncoderDistanceMetersLeft());
+        SmartDashboard.putNumber("Right dt meters", this.drivetrain.getEncoderDistanceMetersRight());
+        SmartDashboard.putNumber("Left dt speed", this.drivetrain.getLeftVelocity());
+        SmartDashboard.putNumber("Right dt speed", this.drivetrain.getRightVelocity());
+        SmartDashboard.putNumber("Gyro angle", this.drivetrain.getAngle());
+        SmartDashboard.putNumber("Elevator encoder PWP", this.cubeLift.getPulseWidthPosition());
+        SmartDashboard.putNumber("Elevator encoder relative position", this.cubeLift.getRelativeEncPos());
         this.drivetrain.updateAccelDashboard();
         this.cubeLift.updatePIDFOnDashboard();
         this.cubeLift.updatePIDFFromDashboard();
-        SmartDashboard.putString("Elevator State", this.cubeLift.getState().toString());
-        SmartDashboard.putString("Elevator Position", this.cubeLift.getPosition().toString());
-        SmartDashboard.putNumber("Gyro Rate", this.drivetrain.getGyroRate());
+        SmartDashboard.putString("Elevator state", this.cubeLift.getState().toString());
+        SmartDashboard.putString("Elevator position", this.cubeLift.getPosition().toString());
+        SmartDashboard.putNumber("Gyro rate", this.drivetrain.getGyroRate());
+        SmartDashboard.putString("Game data" , gameData);
+        SmartDashboard.putString("Selected Side", sideSelector.getSelected().toString());
+        SmartDashboard.putString("Selected Auto", autoSelector.getSelected().toString());
     }
 
 }

@@ -1,13 +1,9 @@
 package org.usfirst.frc.team125.robot.commands.Drivetrain;
 
-import jaci.pathfinder.Pathfinder;
-import jaci.pathfinder.Trajectory;
+import edu.wpi.first.wpilibj.command.Command;
 import jaci.pathfinder.Waypoint;
 import jaci.pathfinder.followers.EncoderFollower;
-import jaci.pathfinder.modifiers.TankModifier;
 import org.usfirst.frc.team125.robot.Robot;
-import edu.wpi.first.wpilibj.command.Command;
-import org.usfirst.frc.team125.robot.subsystems.Drivetrain;
 
 /**
  *
@@ -38,7 +34,7 @@ public class DrivePathCmd extends Command {
     }
 
     protected void end() {
-        Robot.drivetrain.drive(0.,0.);
+        Robot.drivetrain.drive(0., 0.);
     }
 
     protected void interrupted() {
