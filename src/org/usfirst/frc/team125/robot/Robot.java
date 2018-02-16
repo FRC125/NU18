@@ -2,6 +2,7 @@ package org.usfirst.frc.team125.robot;
 
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.IterativeRobot;
+import edu.wpi.first.wpilibj.Sendable;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
@@ -36,14 +37,34 @@ public class Robot extends IterativeRobot {
         ScaleToSwitch,
     }
     String gameData ;
-    SendableChooser sideSelector = new SendableChooser();
-    SendableChooser autoSelector = new SendableChooser();
+
+    SendableChooser sideSelector;
+    SendableChooser autoSelector;
+
+
+    Command leftSideCloseScaleAuto = new LeftSideCloseScaleAuto();
+    Command leftSideCloseSwitchAuto = new LeftSideCloseSwitchAuto();
+    Command leftSideFarScaleAuto = new LeftSideFarScaleAuto();
+    Command leftSideFarSwitchAuto = new LeftSideFarSwitchAuto();
+    Command rightSideCloseScaleAuto = new RightSideCloseScaleAuto();
+    Command rightSideCloseSwitchAuto = new RightSideCloseSwitchAuto();
+    Command rightSideFarScaleAuto = new RightSideFarScaleAuto();
+    Command rightSideFarSwitchAuto = new RightSideFarSwitchAuto();
 
 
     @Override
     public void robotInit() {
+
         oi = new OI();
         drivetrain.timer.start();
+        sideSelector = new SendableChooser();
+        autoSelector = new SendableChooser();
+        sideSelector.addDefault("Left", Sides.Left); // Left Side
+        sideSelector.addObject("Right" , Sides.Right); // Right Side
+        autoSelector.addDefault("Switch Only", Autos.SwitchOnly);
+        autoSelector.addObject("Scale Only", Autos.ScaleOnly);
+        SmartDashboard.putData("Side Selector", sideSelector);
+        SmartDashboard.putData("Auto Selector", autoSelector);
     }
 
     @Override
@@ -55,32 +76,29 @@ public class Robot extends IterativeRobot {
     public void disabledPeriodic() {
         Scheduler.getInstance().run();
         updateSmartdashboard();
-        sideSelector.addDefault("Left", Sides.Left); // Left Side
-        sideSelector.addObject("Right" , Sides.Right); // Right Side
-        autoSelector.addDefault("Switch Only", Autos.SwitchOnly);
-        autoSelector.addObject("Scale Only", Autos.ScaleOnly);
     }
 
 
     @Override
     public void autonomousInit() {
         gameData = DriverStation.getInstance().getGameSpecificMessage().substring(0,2);
+
         switch (gameData) {
 
             case "LR" : // GOOD!
                if(sideSelector.getSelected().equals(Sides.Left)) {
                    if(autoSelector.getSelected().equals(Autos.SwitchOnly)) {
-                       autoCommand = new LeftSideCloseSwitchAuto();
+                       autoCommand = leftSideCloseSwitchAuto;
                    }
                    if(autoSelector.getSelected().equals(Autos.ScaleOnly)) {
-                        autoCommand = new LeftSideFarScaleAuto();
+                        autoCommand = leftSideFarScaleAuto;
                    }
                } else {
                    if(autoSelector.getSelected().equals(Autos.SwitchOnly)) {
-                        autoCommand = new RightSideFarSwitchAuto();
+                        autoCommand = rightSideFarSwitchAuto;
                    }
                    if(autoSelector.getSelected().equals(Autos.ScaleOnly)) {
-                        autoCommand = new RightSideCloseScaleAuto();
+                        autoCommand = rightSideCloseScaleAuto;
                    }
                }
                 break;
@@ -88,17 +106,17 @@ public class Robot extends IterativeRobot {
             case "RL" : // GOOD!
                 if(sideSelector.getSelected().equals(Sides.Left)) {
                     if(autoSelector.getSelected().equals(Autos.SwitchOnly)) {
-                        autoCommand = new LeftSideFarSwitchAuto();
+                        autoCommand = leftSideFarSwitchAuto;
                     }
                     if(autoSelector.getSelected().equals(Autos.ScaleOnly)) {
-                        autoCommand = new LeftSideCloseScaleAuto();
+                        autoCommand = leftSideCloseScaleAuto;
                     }
                 } else {
                     if(autoSelector.getSelected().equals(Autos.SwitchOnly)) {
-                        autoCommand = new RightSideCloseSwitchAuto();
+                        autoCommand = rightSideCloseSwitchAuto;
                     }
                     if(autoSelector.getSelected().equals(Autos.ScaleOnly)) {
-                        autoCommand = new RightSideFarScaleAuto();
+                        autoCommand = rightSideFarScaleAuto;
                     }
                 }
                 break;
@@ -106,17 +124,17 @@ public class Robot extends IterativeRobot {
             case "LL" : //GOOD!
                 if(sideSelector.getSelected().equals(Sides.Left)) {
                     if(autoSelector.getSelected().equals(Autos.SwitchOnly)) {
-                        autoCommand = new LeftSideCloseSwitchAuto();
+                        autoCommand = leftSideCloseSwitchAuto;
                     }
                     if(autoSelector.getSelected().equals(Autos.ScaleOnly)) {
-                        autoCommand = new LeftSideCloseScaleAuto();
+                        autoCommand = leftSideCloseScaleAuto;
                     }
                 } else {
                     if(autoSelector.getSelected().equals(Autos.SwitchOnly)) {
-                        autoCommand = new RightSideFarSwitchAuto();
+                        autoCommand = rightSideFarSwitchAuto;
                     }
                     if(autoSelector.getSelected().equals(Autos.ScaleOnly)) {
-                        autoCommand = new RightSideFarScaleAuto();
+                        autoCommand = rightSideFarScaleAuto;
                     }
                 }
                 break;
@@ -124,17 +142,17 @@ public class Robot extends IterativeRobot {
             case "RR" : //GOOD!
                 if(sideSelector.getSelected().equals(Sides.Left)) {
                     if(autoSelector.getSelected().equals(Autos.SwitchOnly)) {
-                        autoCommand = new LeftSideFarSwitchAuto();
+                        autoCommand = leftSideFarSwitchAuto;
                     }
                     if(autoSelector.getSelected().equals(Autos.ScaleOnly)) {
-                        autoCommand = new LeftSideFarScaleAuto();
+                        autoCommand = leftSideFarScaleAuto;
                     }
                 } else {
                     if(autoSelector.getSelected().equals(Autos.SwitchOnly)) {
-                        autoCommand = new RightSideCloseSwitchAuto();
+                        autoCommand = rightSideCloseSwitchAuto;
                     }
                     if(autoSelector.getSelected().equals(Autos.ScaleOnly)) {
-                        autoCommand = new RightSideCloseScaleAuto();
+                        autoCommand = rightSideCloseScaleAuto;
                     }
                 }
                 break;
