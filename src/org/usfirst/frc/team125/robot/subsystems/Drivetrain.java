@@ -201,14 +201,14 @@ public class Drivetrain extends Subsystem {
         SmartDashboard.putString("Path Hash", pathHash);
         Trajectory toFollow;
         try {
-            File trajectory = new File(pathHash+".csv");
+            File trajectory = new File("paths//"+pathHash+".csv");
             if(!trajectory.exists()) {
                 throw new FileNotFoundException();
             }
             toFollow = Pathfinder.readFromCSV(trajectory);
         } catch (FileNotFoundException e) {
             toFollow = Pathfinder.generate(path, cfg);
-            File trajectory = new File(pathHash+".csv");
+            File trajectory = new File("paths//"+pathHash+".csv");
             trajectory.mkdirs();
             try {
                 trajectory.createNewFile();
