@@ -20,6 +20,8 @@ public class IntakeCmd extends Command {
         } else {
             Robot.intake.intake();
         }
+
+        Robot.intake.checkSmartIntakeTriggered();
     }
 
     @Override

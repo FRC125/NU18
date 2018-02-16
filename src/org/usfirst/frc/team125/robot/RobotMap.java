@@ -39,6 +39,6 @@ public class RobotMap {
     Other
      */
     //Digital Input
-    public static final int INTAKE_LIMIT_SWITCH = 0;
+    public static final int INTAKE_PROXIMITY_SENSOR = 0;
     public static final int CUBELIFT_HALL_EFFECT_SENSOR = 5;
 }
