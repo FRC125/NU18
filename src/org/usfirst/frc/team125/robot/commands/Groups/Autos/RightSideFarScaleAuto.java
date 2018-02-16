@@ -14,21 +14,15 @@ import org.usfirst.frc.team125.robot.util.Paths.RightSideFarScalePaths;
 
 public class RightSideFarScaleAuto extends CommandGroup {
 
-    Command driveToFarSwitch = new DrivePathCmd(RightSideFarScalePaths.toFarSwitchLine);
-    Command driveElbowTurn = new DrivePathCmd(RightSideFarScalePaths.elbowTurn);
-    Command driveStraightAway = new DrivePathCmd(RightSideFarScalePaths.driveStraight);
-    Command driveElbowTurnToScale = new DrivePathCmd(RightSideFarScalePaths.elbowTurnToScale);
+    Command driveToFarScale = new DrivePathCmd(RightSideFarScalePaths.toScale);
     Command liftElevatorToScalePos = new RunToPositionMotionMagicCmd(CubeLift.Positions.ScoreScale);
     Command openClamps = new OpenGrabbersCmd();
     Command punch = new PunchCmd();
     Command unPunch = new UnpunchCmd();
 
     public RightSideFarScaleAuto() {
-        addSequential(driveToFarSwitch);
-        addSequential(driveElbowTurn);
-        addSequential(driveStraightAway);
-        addParallel(liftElevatorToScalePos);
-        addSequential(driveElbowTurnToScale);
+        addSequential(driveToFarScale);
+        addSequential(liftElevatorToScalePos);
         addParallel(openClamps);
         addSequential(punch);
         addSequential(new WaitCommand(0.34));

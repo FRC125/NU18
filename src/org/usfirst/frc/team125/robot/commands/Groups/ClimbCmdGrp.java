@@ -13,6 +13,7 @@ import org.usfirst.frc.team125.robot.util.Paths.LeftSideCloseScalePaths;
 public class ClimbCmdGrp extends CommandGroup {
     public ClimbCmdGrp() {
         addSequential(new StartClimbCmd());
+        addSequential(new UnpinCmd());
         addSequential(new RunToPositionMotionMagicCmd(CubeLift.Positions.ChinUp));
         addSequential(new ReleaseCarrierCmd());
     }

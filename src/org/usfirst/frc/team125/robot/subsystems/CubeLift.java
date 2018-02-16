@@ -57,7 +57,8 @@ public class CubeLift extends Subsystem {
     public boolean getCurrentSpikeDebouncer() {
         return currentSpikeDebouncer.get();
     }
-    private double kP = 0.3; // .3
+
+    private double kP = 0.4; // .3
     private double kI = 0.0;
     private double kD = 4.0; // 4.0
     private double kF = 0.1165 * 2; // 0.1165 * 2

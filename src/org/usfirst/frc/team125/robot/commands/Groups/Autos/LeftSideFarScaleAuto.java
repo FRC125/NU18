@@ -9,26 +9,19 @@ import org.usfirst.frc.team125.robot.commands.CubeLift.RunToPositionMotionMagicC
 import org.usfirst.frc.team125.robot.commands.CubeLift.UnpunchCmd;
 import org.usfirst.frc.team125.robot.commands.Drivetrain.DrivePathCmd;
 import org.usfirst.frc.team125.robot.subsystems.CubeLift;
-import org.usfirst.frc.team125.robot.util.Paths.LeftSideCloseScalePaths;
 import org.usfirst.frc.team125.robot.util.Paths.LeftSideFarScalePaths;
 
 public class LeftSideFarScaleAuto extends CommandGroup {
 
-    Command driveToFarSwitch = new DrivePathCmd(LeftSideFarScalePaths.toFarSwitchLine);
-    Command driveElbowTurn = new DrivePathCmd(LeftSideFarScalePaths.elbowTurn);
-    Command driveStraightAway = new DrivePathCmd(LeftSideFarScalePaths.driveStraight);
-    Command driveElbowTurnToScale = new DrivePathCmd(LeftSideFarScalePaths.elbowTurnToScale);
+    Command driveToFarScale= new DrivePathCmd(LeftSideFarScalePaths.toScale);
     Command liftElevatorToScalePos = new RunToPositionMotionMagicCmd(CubeLift.Positions.ScoreScale);
     Command openClamps = new OpenGrabbersCmd();
     Command punch = new PunchCmd();
     Command unPunch = new UnpunchCmd();
 
     public LeftSideFarScaleAuto() {
-        addSequential(driveToFarSwitch);
-        addSequential(driveElbowTurn);
-        addSequential(driveStraightAway);
-        addParallel(liftElevatorToScalePos);
-        addSequential(driveElbowTurnToScale);
+        addSequential(driveToFarScale);
+        addSequential(liftElevatorToScalePos);
         addParallel(openClamps);
         addSequential(punch);
         addSequential(new WaitCommand(0.34));

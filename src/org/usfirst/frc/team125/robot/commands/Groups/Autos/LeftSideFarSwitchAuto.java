@@ -13,23 +13,17 @@ import org.usfirst.frc.team125.robot.util.Paths.LeftSideFarSwitchPaths;
 
 public class LeftSideFarSwitchAuto extends CommandGroup {
 
-    Command driveToFarSwitchLine = new DrivePathCmd(LeftSideFarSwitchPaths.pastFarSwitchLine);
-    Command driveElbowTurn = new DrivePathCmd(LeftSideFarSwitchPaths.elbowTurn);
-    Command driveElbowTurnToSwitch = new DrivePathCmd(LeftSideFarSwitchPaths.elbowTurn);
-    Command driveStraight = new DrivePathCmd(LeftSideFarSwitchPaths.driveStraight);
+    Command driveToFarSwitch = new DrivePathCmd(LeftSideFarSwitchPaths.toSwitch);
     Command liftElevatorToSwitchPos = new RunToPositionMotionMagicCmd(CubeLift.Positions.ScoreSwitch);
     Command openClamps = new OpenGrabbersCmd();
     Command punch = new PunchCmd();
     Command unPunch = new UnpunchCmd();
 
     public LeftSideFarSwitchAuto(){
-        addSequential(driveToFarSwitchLine);
-        addSequential(driveElbowTurn);
-        addSequential(driveStraight);
-        addParallel(liftElevatorToSwitchPos);
-        addSequential(driveElbowTurnToSwitch);
-        addSequential(openClamps);
-        addParallel(punch);
+        addSequential(driveToFarSwitch);
+        addSequential(liftElevatorToSwitchPos);
+        addParallel(openClamps);
+        addSequential(punch);
         addSequential(new WaitCommand(0.34));
         addSequential(unPunch);
     }

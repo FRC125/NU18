@@ -18,6 +18,9 @@ import jaci.pathfinder.modifiers.TankModifier;
 import org.usfirst.frc.team125.robot.RobotMap;
 import org.usfirst.frc.team125.robot.commands.Drivetrain.DriveArcadeCmd;
 
+import java.io.File;
+import java.nio.file.Path;
+
 public class Drivetrain extends Subsystem {
 
     //Controllers
@@ -192,7 +195,17 @@ public class Drivetrain extends Subsystem {
         EncoderFollower right = new EncoderFollower();
         Trajectory.Config cfg = new Trajectory.Config(Trajectory.FitMethod.HERMITE_QUINTIC, Trajectory.Config.SAMPLES_HIGH,
                 Drivetrain.DrivetrainProfiling.dt, Drivetrain.DrivetrainProfiling.max_velocity, Drivetrain.DrivetrainProfiling.max_acceleration, Drivetrain.DrivetrainProfiling.max_jerk);
-        Trajectory toFollow = Pathfinder.generate(path, cfg);
+        String pathHash = String.valueOf(path.hashCode());
+        SmartDashboard.putString("Path Hash", pathHash);
+        Trajectory toFollow;
+        try {
+            File trajectory = new File(pathHash+".csv");
+            toFollow = Pathfinder.readFromCSV(trajectory);
+        } catch (NullPointerException e) {
+            toFollow = Pathfinder.generate(path, cfg);
+            File trajectory = new File(pathHash+".csv");
+            Pathfinder.writeToCSV(trajectory, toFollow);
+        }
         TankModifier modifier = new TankModifier(toFollow).modify((Drivetrain.DrivetrainProfiling.wheel_base_width));
         DrivetrainProfiling.last_gyro_error = 0.0;
         left = new EncoderFollower(modifier.getLeftTrajectory());

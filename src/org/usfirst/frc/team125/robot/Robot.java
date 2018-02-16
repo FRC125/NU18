@@ -5,6 +5,7 @@ import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.Sendable;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
+import edu.wpi.first.wpilibj.command.WaitCommand;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import org.usfirst.frc.team125.robot.commands.Groups.Autos.*;
@@ -84,7 +85,6 @@ public class Robot extends IterativeRobot {
         gameData = DriverStation.getInstance().getGameSpecificMessage().substring(0,2);
 
         switch (gameData) {
-
             case "LR" : // GOOD!
                if(sideSelector.getSelected().equals(Sides.Left)) {
                    if(autoSelector.getSelected().equals(Autos.SwitchOnly)) {
@@ -158,6 +158,7 @@ public class Robot extends IterativeRobot {
                 break;
 
             default:
+                autoCommand = new WaitCommand(15);
                 break;
         }
 

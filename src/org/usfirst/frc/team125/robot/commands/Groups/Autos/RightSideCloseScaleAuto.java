@@ -9,21 +9,18 @@ import org.usfirst.frc.team125.robot.commands.CubeLift.RunToPositionMotionMagicC
 import org.usfirst.frc.team125.robot.commands.CubeLift.UnpunchCmd;
 import org.usfirst.frc.team125.robot.commands.Drivetrain.DrivePathCmd;
 import org.usfirst.frc.team125.robot.subsystems.CubeLift;
-import org.usfirst.frc.team125.robot.util.Paths.LeftSideCloseScalePaths;
 import org.usfirst.frc.team125.robot.util.Paths.RightSideCloseScalePaths;
 
 public class RightSideCloseScaleAuto extends CommandGroup {
-    Command driveToFarSwitch = new DrivePathCmd(RightSideCloseScalePaths.toFarSwitchLine);
-    Command driveSPathToScale = new DrivePathCmd(RightSideCloseScalePaths.sPathToScale);
+    Command driveToScale = new DrivePathCmd(RightSideCloseScalePaths.toScale);
     Command liftElevatorToScalePos = new RunToPositionMotionMagicCmd(CubeLift.Positions.ScoreScale);
     Command openClamps = new OpenGrabbersCmd();
     Command punch = new PunchCmd();
     Command unPunch = new UnpunchCmd();
 
     public RightSideCloseScaleAuto() {
-        addSequential(driveToFarSwitch);
-        addParallel(liftElevatorToScalePos);
-        addSequential(driveSPathToScale);
+        addSequential(driveToScale);
+        addSequential(liftElevatorToScalePos);
         addParallel(openClamps);
         addSequential(punch);
         addSequential(new WaitCommand(0.34));
