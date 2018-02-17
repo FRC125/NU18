@@ -23,7 +23,7 @@ public class RightSideCloseScaleAuto extends CommandGroup {
     public RightSideCloseScaleAuto() {
         addSequential(secureCube);
         addSequential(driveToScale);
-        addSequential(liftElevatorToScalePos);
+        addSequential(liftElevatorToScalePos, 3);
         addSequential(scoreCube);
     }
 

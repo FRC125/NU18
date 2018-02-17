@@ -22,7 +22,7 @@ public class LeftSideCloseSwitchAuto extends CommandGroup {
     public LeftSideCloseSwitchAuto(){
         addSequential(secureCube);
         addSequential(driveToSwitch);
-        addSequential(liftElevatorToSwitchPos);
+        addSequential(liftElevatorToSwitchPos, 3);
         addSequential(scoreCube);
     }
 

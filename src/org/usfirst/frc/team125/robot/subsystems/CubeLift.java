@@ -63,7 +63,7 @@ public class CubeLift extends Subsystem {
     private double kD = 4.0; // 4.0
     private double kF = 0.1165 * 2; // 0.1165 * 2
 
-    private static final int ZERO_POSITION = 3800; // Up is NEGATIVE!!!
+    private static final int ZERO_POSITION = -100; // Up is NEGATIVE!!!
 
     //81.2 inches per/s
     //Gear is 42:26 geared up
@@ -76,8 +76,8 @@ public class CubeLift extends Subsystem {
 
     public enum Positions {
         Intake(0),
-        ScoreSwitch(20000),
-        ScoreScale(50000),
+        ScoreSwitch(50000),
+        ScoreScale(70000),
         Climbing(70000),
         Top(75001),
         ChinUp(0);
@@ -113,8 +113,8 @@ public class CubeLift extends Subsystem {
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
-                checkIfToppedOut();
-                checkIfZeroedOut();
+                //checkIfToppedOut();
+                //checkIfZeroedOut();
                 SmartDashboard.putNumber("i counter", i);
                 i++;
             }

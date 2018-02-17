@@ -31,10 +31,10 @@ public class OI {
 
     //Pneumatics
     public Button toggleGrabbers = new JoystickButton(opPad, JoystickMap.LB);
-    public Button toggleElevatorPin = new JoystickButton(opPad, JoystickMap.R3);
+    public Button toggleElevatorPin = new JoystickButton(opPad, JoystickMap.L3);
     public Button toggleDoubleLiftRelease = new JoystickButton(opPad, JoystickMap.BACK);
     public Button toggleDoubleLiftLift = new JoystickButton(opPad, JoystickMap.START);
-    public Button toggleIntakePistonInOrOut = new JoystickButton(opPad, JoystickMap.L3);
+    public Button toggleIntakePistonInOrOut = new JoystickButton(opPad, JoystickMap.R3);
     public Button togglePuncher = new JoystickButton(opPad, JoystickMap.RB);
 
     /* Driver Control */

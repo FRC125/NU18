@@ -24,7 +24,7 @@ public class LeftSideFarScaleAuto extends CommandGroup {
     public LeftSideFarScaleAuto() {
         addSequential(secureCube);
         addSequential(driveToFarScale);
-        addSequential(liftElevatorToScalePos);
+        addSequential(liftElevatorToScalePos, 3);
         addSequential(scoreCube);
     }
 

@@ -23,11 +23,11 @@ public class Robot extends IterativeRobot {
 
     public static OI oi;
 
-    Command autoCommand;
+    //Command autoCommand;
     //Command turnToAngle = new TurnToAngleCmd(90);
 
     private enum Sides {
-        Left,
+        Left, 
         Right,
     }
 
@@ -37,11 +37,11 @@ public class Robot extends IterativeRobot {
         SwitchToScale,
         ScaleToSwitch,
     }
-    String gameData ;
+
+    String gameData;
 
     SendableChooser sideSelector;
     SendableChooser autoSelector;
-
 
     Command leftSideCloseScaleAuto = new LeftSideCloseScaleAuto();
     Command leftSideCloseSwitchAuto = new LeftSideCloseSwitchAuto();
@@ -55,7 +55,6 @@ public class Robot extends IterativeRobot {
 
     @Override
     public void robotInit() {
-
         oi = new OI();
         drivetrain.timer.start();
         sideSelector = new SendableChooser();
@@ -70,7 +69,6 @@ public class Robot extends IterativeRobot {
 
     @Override
     public void disabledInit() {
-        gameData = DriverStation.getInstance().getGameSpecificMessage().substring(0,2);
     }
 
     @Override
@@ -82,8 +80,16 @@ public class Robot extends IterativeRobot {
 
     @Override
     public void autonomousInit() {
-        gameData = DriverStation.getInstance().getGameSpecificMessage().substring(0,2);
+        /*
+        String gameDataTemp = DriverStation.getInstance().getGameSpecificMessage();
 
+        if(gameDataTemp != null) {
+            gameData = DriverStation.getInstance().getGameSpecificMessage().substring(0, 2);
+        } else {
+            System.out.println("NO GAME DATA!");
+            gameData = "";
+        }
+        /*
         switch (gameData) {
             case "LR" : // GOOD!
                if(sideSelector.getSelected().equals(Sides.Left)) {
@@ -161,9 +167,9 @@ public class Robot extends IterativeRobot {
                 autoCommand = new WaitCommand(15);
                 break;
         }
-
-        autoCommand.start();
-        SmartDashboard.putString("Chosen Auto", autoCommand.toString());
+        */
+        //autoCommand.start();
+        //SmartDashboard.putString("Chosen Auto", autoCommand.toString());
     }
 
     @Override
@@ -203,9 +209,6 @@ public class Robot extends IterativeRobot {
         SmartDashboard.putString("Elevator state", this.cubeLift.getState().toString());
         SmartDashboard.putString("Elevator position", this.cubeLift.getPosition().toString());
         SmartDashboard.putNumber("Gyro rate", this.drivetrain.getGyroRate());
-        SmartDashboard.putString("Game data" , gameData);
-        SmartDashboard.putString("Selected Side", sideSelector.getSelected().toString());
-        SmartDashboard.putString("Selected Auto", autoSelector.getSelected().toString());
     }
 
 }
