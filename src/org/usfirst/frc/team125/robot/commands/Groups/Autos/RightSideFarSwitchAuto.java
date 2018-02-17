@@ -8,24 +8,24 @@ import org.usfirst.frc.team125.robot.commands.CubeLift.PunchCmd;
 import org.usfirst.frc.team125.robot.commands.CubeLift.RunToPositionMotionMagicCmd;
 import org.usfirst.frc.team125.robot.commands.CubeLift.UnpunchCmd;
 import org.usfirst.frc.team125.robot.commands.Drivetrain.DrivePathCmd;
+import org.usfirst.frc.team125.robot.commands.Groups.ClampAndIntakeCmdGrp;
+import org.usfirst.frc.team125.robot.commands.Groups.ScoreCmdGrp;
 import org.usfirst.frc.team125.robot.subsystems.CubeLift;
 import org.usfirst.frc.team125.robot.util.Paths.RightSideFarSwitchPaths;
 
 public class RightSideFarSwitchAuto extends CommandGroup {
 
     Command driveToFarSwitch = new DrivePathCmd(RightSideFarSwitchPaths.toSwitch);
+    Command secureCube = new ClampAndIntakeCmdGrp();
     Command liftElevatorToSwitchPos = new RunToPositionMotionMagicCmd(CubeLift.Positions.ScoreSwitch);
-    Command openClamps = new OpenGrabbersCmd();
-    Command punch = new PunchCmd();
-    Command unPunch = new UnpunchCmd();
+    Command scoreCube = new ScoreCmdGrp();
+
 
     public RightSideFarSwitchAuto(){
+        addSequential(secureCube);
         addSequential(driveToFarSwitch);
         addSequential(liftElevatorToSwitchPos);
-        addParallel(openClamps);
-        addSequential(punch);
-        addSequential(new WaitCommand(0.34));
-        addSequential(unPunch);
+        addSequential(scoreCube);
     }
 
 }

@@ -8,6 +8,8 @@ import org.usfirst.frc.team125.robot.commands.CubeLift.PunchCmd;
 import org.usfirst.frc.team125.robot.commands.CubeLift.RunToPositionMotionMagicCmd;
 import org.usfirst.frc.team125.robot.commands.CubeLift.UnpunchCmd;
 import org.usfirst.frc.team125.robot.commands.Drivetrain.DrivePathCmd;
+import org.usfirst.frc.team125.robot.commands.Groups.ClampAndIntakeCmdGrp;
+import org.usfirst.frc.team125.robot.commands.Groups.ScoreCmdGrp;
 import org.usfirst.frc.team125.robot.subsystems.CubeLift;
 import org.usfirst.frc.team125.robot.util.Paths.LeftSideFarScalePaths;
 import org.usfirst.frc.team125.robot.util.Paths.RightSideFarScalePaths;
@@ -15,18 +17,16 @@ import org.usfirst.frc.team125.robot.util.Paths.RightSideFarScalePaths;
 public class RightSideFarScaleAuto extends CommandGroup {
 
     Command driveToFarScale = new DrivePathCmd(RightSideFarScalePaths.toScale);
+    Command secureCube = new ClampAndIntakeCmdGrp();
     Command liftElevatorToScalePos = new RunToPositionMotionMagicCmd(CubeLift.Positions.ScoreScale);
-    Command openClamps = new OpenGrabbersCmd();
-    Command punch = new PunchCmd();
-    Command unPunch = new UnpunchCmd();
+    Command scoreCube = new ScoreCmdGrp();
+
 
     public RightSideFarScaleAuto() {
+        addSequential(secureCube);
         addSequential(driveToFarScale);
         addSequential(liftElevatorToScalePos);
-        addParallel(openClamps);
-        addSequential(punch);
-        addSequential(new WaitCommand(0.34));
-        addSequential(unPunch);
+        addSequential(scoreCube);
     }
 
 }
