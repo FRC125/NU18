@@ -63,7 +63,7 @@ public class CubeLift extends Subsystem {
     private double kD = 4.0; // 4.0
     private double kF = 0.1165 * 2; // 0.1165 * 2
 
-    private static final int ZERO_POSITION = 1000; // Up is NEGATIVE!!!
+    private static final int ZERO_POSITION = 3800; // Up is NEGATIVE!!!
 
     //81.2 inches per/s
     //Gear is 42:26 geared up

@@ -4,6 +4,7 @@ import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.IMotorController;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
+import com.ctre.phoenix.motorcontrol.can.VictorSPX;
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.command.Subsystem;
@@ -16,8 +17,8 @@ import org.usfirst.frc.team125.robot.util.DebouncedBoolean;
 public class Intake extends Subsystem {
 
     //Intake motors
-    private IMotorController intakeL = new TalonSRX(RobotMap.INTAKE_LEFT);
-    private IMotorController intakeR = new TalonSRX(RobotMap.INTAKE_RIGHT);
+    private IMotorController intakeL = new VictorSPX(RobotMap.INTAKE_LEFT);
+    private IMotorController intakeR = new VictorSPX(RobotMap.INTAKE_RIGHT);
 
     private DoubleSolenoid intakeSolenoid = new DoubleSolenoid(RobotMap.INTAKE_RETRACT_FORWARD, RobotMap.INTAKE_RETRACT_REVERSE);
 
@@ -70,17 +71,17 @@ public class Intake extends Subsystem {
         this.intakeL.setNeutralMode(NeutralMode.Coast);
         this.intakeR.setNeutralMode(NeutralMode.Coast);
 
-        this.intakeSolenoid.set(INTAKE_REVERSE_VALUE); // TODO: Check if this is right...
+        intakePistonUp(); // TODO: Check if this is right...
     }
 
     public void intake() {
-        this.intakeL.set(ControlMode.PercentOutput, INTAKE_POWER_LEFT);
-        this.intakeR.set(ControlMode.PercentOutput, -INTAKE_POWER_RIGHT);
+        this.intakeL.set(ControlMode.PercentOutput, -INTAKE_POWER_LEFT);
+        this.intakeR.set(ControlMode.PercentOutput, INTAKE_POWER_RIGHT);
     }
 
     public void outtake() {
-        this.intakeL.set(ControlMode.PercentOutput, -INTAKE_POWER_LEFT);
-        this.intakeR.set(ControlMode.PercentOutput, INTAKE_POWER_RIGHT);
+        this.intakeL.set(ControlMode.PercentOutput, INTAKE_POWER_LEFT);
+        this.intakeR.set(ControlMode.PercentOutput, -INTAKE_POWER_RIGHT);
     }
 
     public void stopIntake() {
@@ -105,16 +106,18 @@ public class Intake extends Subsystem {
 
     public void checkSmartIntakeTriggered() {
         smartIntakeDebouncer.update(smartIntake.get());
+        SmartDashboard.putBoolean("Smart Intake", smartIntake.get());
+        SmartDashboard.putBoolean("Smart Intake Debouncer", smartIntakeDebouncer.get());
         if (smartIntakeDebouncer.get() == true) {
             new CloseGrabbersCmd();
         }
     }
 
-    public void intakePistonForward() {
+    public void intakePistonUp() {
         this.intakeSolenoid.set(INTAKE_FORWARD_VALUE);
     }
 
-    public void intakePistonReverse() {
+    public void intakePistonDown() {
         this.intakeSolenoid.set(INTAKE_REVERSE_VALUE);
     }
 

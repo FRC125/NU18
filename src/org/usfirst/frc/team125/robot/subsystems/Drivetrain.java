@@ -199,6 +199,8 @@ public class Drivetrain extends Subsystem {
                 Drivetrain.DrivetrainProfiling.dt, Drivetrain.DrivetrainProfiling.max_velocity, Drivetrain.DrivetrainProfiling.max_acceleration, Drivetrain.DrivetrainProfiling.max_jerk);
         String pathHash = String.valueOf(path.hashCode());
         SmartDashboard.putString("Path Hash", pathHash);
+        Trajectory toFollow = Pathfinder.generate(path, cfg);
+        /*
         Trajectory toFollow;
         File trajectory = new File("/home/lvuser/paths/"+pathHash+".csv");
         if(!trajectory.exists()) {
@@ -209,6 +211,7 @@ public class Drivetrain extends Subsystem {
             System.out.println(pathHash + ".CSV read from file");
             toFollow = Pathfinder.readFromCSV(trajectory);
         }
+        */
         TankModifier modifier = new TankModifier(toFollow).modify((Drivetrain.DrivetrainProfiling.wheel_base_width));
         DrivetrainProfiling.last_gyro_error = 0.0;
         left = new EncoderFollower(modifier.getLeftTrajectory());

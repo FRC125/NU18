@@ -3,14 +3,13 @@ package org.usfirst.frc.team125.robot;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.buttons.Button;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
-import org.usfirst.frc.team125.robot.commands.CubeLift.RunToPositionMotionMagicCmd;
-import org.usfirst.frc.team125.robot.commands.CubeLift.ToggleGrabbersCmd;
-import org.usfirst.frc.team125.robot.commands.CubeLift.TogglePinCmd;
-import org.usfirst.frc.team125.robot.commands.CubeLift.TogglePuncherCmd;
+import org.usfirst.frc.team125.robot.commands.CubeLift.*;
 import org.usfirst.frc.team125.robot.commands.DoubleLift.ToggleLiftCmd;
 import org.usfirst.frc.team125.robot.commands.DoubleLift.ToggleReleaserCmd;
 import org.usfirst.frc.team125.robot.commands.Drivetrain.DriveArcadeCmd;
 import org.usfirst.frc.team125.robot.commands.Drivetrain.DriveArcadeWithHoldHeadingCmd;
+import org.usfirst.frc.team125.robot.commands.Groups.ClampAndIntakeCmdGrp;
+import org.usfirst.frc.team125.robot.commands.Groups.ScoreCmdGrp;
 import org.usfirst.frc.team125.robot.commands.Intake.IntakeCmd;
 import org.usfirst.frc.team125.robot.commands.Intake.IntakeStopCmd;
 import org.usfirst.frc.team125.robot.commands.Intake.OuttakeCmd;
@@ -39,9 +38,9 @@ public class OI {
     public Button togglePuncher = new JoystickButton(opPad, JoystickMap.RB);
 
     /* Driver Control */
-    private Button driveHoldHeading = new JoystickButton(driverPad, JoystickMap.A);
-    private Button intake = new JoystickButton(driverPad, JoystickMap.LB);
-    private Button outtake = new JoystickButton(driverPad, JoystickMap.RB);
+    private Button driveHoldHeading = new JoystickButton(driverPad, JoystickMap.X);
+    private Button intake = new JoystickButton(driverPad, JoystickMap.A);
+    private Button outtake = new JoystickButton(driverPad, JoystickMap.B);
 
 
     private static final double STICK_DEADBAND = 0.05;
@@ -54,12 +53,13 @@ public class OI {
         runEleIntake.whenPressed(new RunToPositionMotionMagicCmd(CubeLift.Positions.Intake));
 
         //Pneumatics
-        toggleGrabbers.whenPressed(new ToggleGrabbersCmd());
+        toggleGrabbers.whenPressed(new ClampAndIntakeCmdGrp());
         toggleElevatorPin.whenPressed(new TogglePinCmd());
         toggleDoubleLiftRelease.whenPressed(new ToggleReleaserCmd());
         toggleDoubleLiftLift.whenPressed(new ToggleLiftCmd());
         toggleIntakePistonInOrOut.whenPressed(new ToggleIntakeSolenoidCmd());
-        togglePuncher.whenPressed(new TogglePuncherCmd());
+        togglePuncher.whenPressed(new ScoreCmdGrp());
+        togglePuncher.whenReleased(new UnpunchCmd());
 
         /* Driver Control */
         driveHoldHeading.whileHeld(new DriveArcadeWithHoldHeadingCmd());
@@ -67,7 +67,9 @@ public class OI {
 
         //Intake
         intake.whileHeld(new IntakeCmd());
+        intake.whenPressed(new OpenGrabbersCmd());
         outtake.whileHeld(new OuttakeCmd());
+        outtake.whenPressed(new OpenGrabbersCmd());
 
         intake.whenReleased(new IntakeStopCmd());
     }

@@ -3,14 +3,14 @@ package org.usfirst.frc.team125.robot.commands.Intake;
 import edu.wpi.first.wpilibj.command.Command;
 import org.usfirst.frc.team125.robot.Robot;
 
-public class IntakeForwardCmd extends Command {
+public class IntakeDownCmd extends Command {
 
-    public IntakeForwardCmd() {
+    public IntakeDownCmd() {
         requires(Robot.intake);
     }
 
     protected void initialize() {
-        Robot.intake.intakePistonForward();
+        Robot.intake.intakePistonDown();
     }
 
     protected void execute() {

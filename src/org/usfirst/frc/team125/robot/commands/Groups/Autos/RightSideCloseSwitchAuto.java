@@ -10,21 +10,18 @@ import org.usfirst.frc.team125.robot.commands.CubeLift.UnpunchCmd;
 import org.usfirst.frc.team125.robot.commands.Drivetrain.DrivePathCmd;
 import org.usfirst.frc.team125.robot.commands.Drivetrain.DrivePathReverseCmd;
 import org.usfirst.frc.team125.robot.subsystems.CubeLift;
-import org.usfirst.frc.team125.robot.util.Paths.LeftSideCloseSwitchPaths;
 import org.usfirst.frc.team125.robot.util.Paths.RightSideCloseSwitchPaths;
 
 public class RightSideCloseSwitchAuto extends CommandGroup {
-    Command driveBackwardsPathSwitch = new DrivePathReverseCmd(RightSideCloseSwitchPaths.backwards_pastFarSwitchLine);
-    Command driveSPathToSwitch = new DrivePathCmd(RightSideCloseSwitchPaths.sPathToSwitch);
+    Command driveToSwitch = new DrivePathCmd(RightSideCloseSwitchPaths.toSwitch);
     Command liftElevatorToSwitchPos = new RunToPositionMotionMagicCmd(CubeLift.Positions.ScoreSwitch);
     Command openClamps = new OpenGrabbersCmd();
     Command punch = new PunchCmd();
     Command unPunch = new UnpunchCmd();
 
     public RightSideCloseSwitchAuto(){
-        addSequential(driveBackwardsPathSwitch);
-        addParallel(liftElevatorToSwitchPos);
-        addSequential(driveSPathToSwitch);
+        addSequential(driveToSwitch);
+        addSequential(liftElevatorToSwitchPos);
         addParallel(openClamps);
         addSequential(punch);
         addSequential(new WaitCommand(0.34));
