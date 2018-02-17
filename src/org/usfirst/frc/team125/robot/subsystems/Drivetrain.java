@@ -200,24 +200,15 @@ public class Drivetrain extends Subsystem {
         String pathHash = String.valueOf(path.hashCode());
         SmartDashboard.putString("Path Hash", pathHash);
         Trajectory toFollow;
-        try {
-            File trajectory = new File("paths//"+pathHash+".csv");
-            if(!trajectory.exists()) {
-                throw new FileNotFoundException();
-            }
-            toFollow = Pathfinder.readFromCSV(trajectory);
-        } catch (FileNotFoundException e) {
+        File trajectory = new File("/home/lvuser/paths/"+pathHash+".csv");
+        if(!trajectory.exists()) {
             toFollow = Pathfinder.generate(path, cfg);
-            File trajectory = new File("paths//"+pathHash+".csv");
-            trajectory.mkdirs();
-            try {
-                trajectory.createNewFile();
-            } catch (IOException e1) {
-                e1.printStackTrace();
-            }
             Pathfinder.writeToCSV(trajectory, toFollow);
+            System.out.println(pathHash + ".CSV not found, wrote to file");
+        } else {
+            System.out.println(pathHash + ".CSV read from file");
+            toFollow = Pathfinder.readFromCSV(trajectory);
         }
-
         TankModifier modifier = new TankModifier(toFollow).modify((Drivetrain.DrivetrainProfiling.wheel_base_width));
         DrivetrainProfiling.last_gyro_error = 0.0;
         left = new EncoderFollower(modifier.getLeftTrajectory());
