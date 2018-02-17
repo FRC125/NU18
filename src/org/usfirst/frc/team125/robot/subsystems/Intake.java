@@ -106,8 +106,8 @@ public class Intake extends Subsystem {
 
     public void checkSmartIntakeTriggered() {
         smartIntakeDebouncer.update(smartIntake.get());
-        SmartDashboard.putBoolean("Smart Intake", smartIntake.get());
-        SmartDashboard.putBoolean("Smart Intake Debouncer", smartIntakeDebouncer.get());
+        SmartDashboard.putBoolean("Smart intake", smartIntake.get());
+        SmartDashboard.putBoolean("Smart intake de-bouncer", smartIntakeDebouncer.get());
         if (smartIntakeDebouncer.get() == true) {
             new CloseGrabbersCmd();
         }

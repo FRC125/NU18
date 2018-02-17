@@ -23,11 +23,10 @@ public class Robot extends IterativeRobot {
 
     public static OI oi;
 
-    //Command autoCommand;
-    //Command turnToAngle = new TurnToAngleCmd(90);
+    Command autoCommand;
 
     private enum Sides {
-        Left, 
+        Left,
         Right,
     }
 
@@ -80,7 +79,7 @@ public class Robot extends IterativeRobot {
 
     @Override
     public void autonomousInit() {
-        /*
+
         String gameDataTemp = DriverStation.getInstance().getGameSpecificMessage();
 
         if(gameDataTemp != null) {
@@ -89,7 +88,7 @@ public class Robot extends IterativeRobot {
             System.out.println("NO GAME DATA!");
             gameData = "";
         }
-        /*
+
         switch (gameData) {
             case "LR" : // GOOD!
                if(sideSelector.getSelected().equals(Sides.Left)) {
@@ -167,9 +166,9 @@ public class Robot extends IterativeRobot {
                 autoCommand = new WaitCommand(15);
                 break;
         }
-        */
-        //autoCommand.start();
-        //SmartDashboard.putString("Chosen Auto", autoCommand.toString());
+
+        autoCommand.start();
+        SmartDashboard.putString("Chosen Auto", autoCommand.toString());
     }
 
     @Override
@@ -209,6 +208,7 @@ public class Robot extends IterativeRobot {
         SmartDashboard.putString("Elevator state", this.cubeLift.getState().toString());
         SmartDashboard.putString("Elevator position", this.cubeLift.getPosition().toString());
         SmartDashboard.putNumber("Gyro rate", this.drivetrain.getGyroRate());
+        SmartDashboard.putNumber("opPad POV", this.oi.opPad.getPOV());
     }
 
 }

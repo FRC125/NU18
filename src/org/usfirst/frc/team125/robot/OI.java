@@ -8,7 +8,8 @@ import org.usfirst.frc.team125.robot.commands.DoubleLift.ToggleLiftCmd;
 import org.usfirst.frc.team125.robot.commands.DoubleLift.ToggleReleaserCmd;
 import org.usfirst.frc.team125.robot.commands.Drivetrain.DriveArcadeCmd;
 import org.usfirst.frc.team125.robot.commands.Drivetrain.DriveArcadeWithHoldHeadingCmd;
-import org.usfirst.frc.team125.robot.commands.Groups.ClampAndIntakeCmdGrp;
+import org.usfirst.frc.team125.robot.commands.Groups.PullUpAndDropCarrierCmdGrp;
+import org.usfirst.frc.team125.robot.commands.Groups.SecureCubeCmdGrp;
 import org.usfirst.frc.team125.robot.commands.Groups.ScoreCmdGrp;
 import org.usfirst.frc.team125.robot.commands.Intake.IntakeCmd;
 import org.usfirst.frc.team125.robot.commands.Intake.IntakeStopCmd;
@@ -24,42 +25,45 @@ public class OI {
     public Joystick opPad = new Joystick(1);
 
     /* Operator Control */
-    public Button runEleClimb = new JoystickButton(opPad, JoystickMap.B);
+    public Button climb = new JoystickButton(opPad, JoystickMap.START);
     public Button runEleScale = new JoystickButton(opPad, JoystickMap.Y);
     public Button runEleSwitch = new JoystickButton(opPad, JoystickMap.X);
     public Button runEleIntake = new JoystickButton(opPad, JoystickMap.A);
-
-    //Pneumatics
-    public Button toggleGrabbers = new JoystickButton(opPad, JoystickMap.LB);
+    public Button secureCube = new JoystickButton(opPad, JoystickMap.LB);
+    public Button score = new JoystickButton(opPad, JoystickMap.RB);
     public Button toggleElevatorPin = new JoystickButton(opPad, JoystickMap.L3);
     public Button toggleDoubleLiftRelease = new JoystickButton(opPad, JoystickMap.BACK);
-    public Button toggleDoubleLiftLift = new JoystickButton(opPad, JoystickMap.START);
+    public Button toggleDoubleLiftLift = new JoystickButton(opPad, JoystickMap.B);
     public Button toggleIntakePistonInOrOut = new JoystickButton(opPad, JoystickMap.R3);
-    public Button togglePuncher = new JoystickButton(opPad, JoystickMap.RB);
 
     /* Driver Control */
     private Button driveHoldHeading = new JoystickButton(driverPad, JoystickMap.X);
     private Button intake = new JoystickButton(driverPad, JoystickMap.A);
     private Button outtake = new JoystickButton(driverPad, JoystickMap.B);
 
-
     private static final double STICK_DEADBAND = 0.05;
 
     public OI() {
+
+        if (opPad.getPOV() == 0.0) {
+            new RunToPositionMotionMagicCmd(CubeLift.Positions.PreClimb);
+        }
+        if (opPad.getPOV() == 180.0) {
+            new RunToPositionMotionMagicCmd(CubeLift.Positions.ClimbingBar);
+        }
+
         /* Operator Control */
-        runEleClimb.whenPressed(new RunToPositionMotionMagicCmd(CubeLift.Positions.Climbing));
+        climb.whenPressed(new PullUpAndDropCarrierCmdGrp());
         runEleScale.whenPressed(new RunToPositionMotionMagicCmd(CubeLift.Positions.ScoreScale));
         runEleSwitch.whenPressed(new RunToPositionMotionMagicCmd(CubeLift.Positions.ScoreSwitch));
         runEleIntake.whenPressed(new RunToPositionMotionMagicCmd(CubeLift.Positions.Intake));
-
-        //Pneumatics
-        toggleGrabbers.whenPressed(new ClampAndIntakeCmdGrp());
+        secureCube.whenPressed(new SecureCubeCmdGrp());
+        score.whenPressed(new ScoreCmdGrp());
+        score.whenReleased(new UnpunchCmd());
         toggleElevatorPin.whenPressed(new TogglePinCmd());
         toggleDoubleLiftRelease.whenPressed(new ToggleReleaserCmd());
         toggleDoubleLiftLift.whenPressed(new ToggleLiftCmd());
         toggleIntakePistonInOrOut.whenPressed(new ToggleIntakeSolenoidCmd());
-        togglePuncher.whenPressed(new ScoreCmdGrp());
-        togglePuncher.whenReleased(new UnpunchCmd());
 
         /* Driver Control */
         driveHoldHeading.whileHeld(new DriveArcadeWithHoldHeadingCmd());
@@ -70,8 +74,6 @@ public class OI {
         intake.whenPressed(new OpenGrabbersCmd());
         outtake.whileHeld(new OuttakeCmd());
         outtake.whenPressed(new OpenGrabbersCmd());
-
-        intake.whenReleased(new IntakeStopCmd());
     }
 
 

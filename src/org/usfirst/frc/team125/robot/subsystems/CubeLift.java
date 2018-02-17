@@ -63,7 +63,7 @@ public class CubeLift extends Subsystem {
     private double kD = 4.0; // 4.0
     private double kF = 0.1165 * 2; // 0.1165 * 2
 
-    private static final int ZERO_POSITION = -100; // Up is NEGATIVE!!!
+    private static final int ZERO_POSITION = 0; // Up is NEGATIVE!!!
 
     //81.2 inches per/s
     //Gear is 42:26 geared up
@@ -78,9 +78,10 @@ public class CubeLift extends Subsystem {
         Intake(0),
         ScoreSwitch(50000),
         ScoreScale(70000),
-        Climbing(70000),
+        PreClimb(70000),
         Top(75001),
-        ChinUp(0);
+        ChinUp(0),
+        ClimbingBar(0);
         private int position;
 
         Positions(int encPos) {
@@ -113,8 +114,8 @@ public class CubeLift extends Subsystem {
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
-                //checkIfToppedOut();
-                //checkIfZeroedOut();
+                checkIfToppedOut();
+                checkIfZeroedOut();
                 SmartDashboard.putNumber("i counter", i);
                 i++;
             }
@@ -218,11 +219,11 @@ public class CubeLift extends Subsystem {
             stopElevator();
             position = pos;
         }
-        SmartDashboard.putString("Desired Pos Enum", pos.toString());
-        SmartDashboard.putNumber("Set pos", rightElevatorLeader.getClosedLoopTarget(0));
+        SmartDashboard.putString("Desired elevator position enum", pos.toString());
+        SmartDashboard.putNumber("Motion Magic set position", rightElevatorLeader.getClosedLoopTarget(0));
         SmartDashboard.putNumber("CTRError", rightElevatorLeader.getClosedLoopError(0));
-        SmartDashboard.putNumber("Desired Pos Num", pos.getPosition());
-        SmartDashboard.putNumber("Closed loop err", Math.abs(pos.getPosition() - getPulseWidthPosition()));
+        SmartDashboard.putNumber("Desired elevator position", pos.getPosition());
+        SmartDashboard.putNumber("Closed loop error", Math.abs(pos.getPosition() - getPulseWidthPosition()));
     }
 
     public void openGrabbers() {

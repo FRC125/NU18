@@ -10,10 +10,9 @@ import org.usfirst.frc.team125.robot.commands.Drivetrain.DrivePathCmd;
 import org.usfirst.frc.team125.robot.subsystems.CubeLift;
 import org.usfirst.frc.team125.robot.util.Paths.LeftSideCloseScalePaths;
 
-public class ClimbCmdGrp extends CommandGroup {
-    public ClimbCmdGrp() {
-        addSequential(new RunToPositionMotionMagicCmd(CubeLift.Positions.Climbing));
-        addSequential(new StartClimbCmd());
+public class PullUpAndDropCarrierCmdGrp extends CommandGroup {
+
+    public PullUpAndDropCarrierCmdGrp() {
         addSequential(new UnpinCmd());
         addSequential(new RunToPositionMotionMagicCmd(CubeLift.Positions.ChinUp));
         addSequential(new ReleaseCarrierCmd());

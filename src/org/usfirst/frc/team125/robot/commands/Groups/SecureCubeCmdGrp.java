@@ -7,8 +7,8 @@ import org.usfirst.frc.team125.robot.commands.CubeLift.PunchCmd;
 import org.usfirst.frc.team125.robot.commands.CubeLift.ToggleGrabbersCmd;
 import org.usfirst.frc.team125.robot.commands.Intake.IntakeCmd;
 
-public class ClampAndIntakeCmdGrp extends CommandGroup {
-    public ClampAndIntakeCmdGrp() {
+public class SecureCubeCmdGrp extends CommandGroup {
+    public SecureCubeCmdGrp() {
         addSequential(new IntakeCmd(), 0.25);
         addSequential(new CloseGrabbersCmd());
     }
