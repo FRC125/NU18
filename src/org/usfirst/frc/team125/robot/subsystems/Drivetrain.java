@@ -35,6 +35,9 @@ public class Drivetrain extends Subsystem {
 
     private static final double HIGH_POW = 1.0;
     private static final double LOW_POW = -HIGH_POW;
+    private double lastThrottle = 0;
+    private final double RAMP_RATE = 0;
+    private final double THRESHOLD = 0.2;
 
     AHRS gyro = new AHRS(I2C.Port.kMXP);
 
@@ -101,9 +104,32 @@ public class Drivetrain extends Subsystem {
         this.rightDriveMain.set(ControlMode.PercentOutput, powRight);
     }
 
+    public double rampCalc(double gamepadVal) {
+        SmartDashboard.putNumber("gamepad value", gamepadVal);
+        double output = gamepadVal;
+        double difference = Math.abs(lastThrottle - gamepadVal);
+        if (difference <= THRESHOLD) {
+            output = gamepadVal;
+        } else if (difference > THRESHOLD ) {
+            if(gamepadVal == 0.0) {
+                output = 0.0;
+            }else if(lastThrottle < gamepadVal) {
+                output = lastThrottle + RAMP_RATE;
+            } else if (lastThrottle >= gamepadVal) {
+                output = lastThrottle - RAMP_RATE;
+            }
+        }
+        lastThrottle = output;
+        SmartDashboard.putNumber("ramp output ", output);
+
+
+        return output;
+    }
+
     public void driveArcade(double throttle, double turn) {
-        this.leftDriveMain.set(ControlMode.PercentOutput, throttle + turn);
-        this.rightDriveMain.set(ControlMode.PercentOutput, throttle - turn);
+        double rampCalcThrottle = rampCalc(throttle);
+        this.leftDriveMain.set(ControlMode.PercentOutput, rampCalcThrottle + turn);
+        this.rightDriveMain.set(ControlMode.PercentOutput, rampCalcThrottle - turn);
     }
 
     public void driveHoldHeading(double throttle) {
@@ -200,8 +226,8 @@ public class Drivetrain extends Subsystem {
         String pathHash = String.valueOf(path.hashCode());
         SmartDashboard.putString("Path Hash", pathHash);
         Trajectory toFollow;// = Pathfinder.generate(path, cfg);
-        File trajectory = new File("/home/lvuser/paths/"+pathHash+".csv");
-        if(!trajectory.exists()) {
+        File trajectory = new File("/home/lvuser/paths/" + pathHash + ".csv");
+        if (!trajectory.exists()) {
             toFollow = Pathfinder.generate(path, cfg);
             Pathfinder.writeToCSV(trajectory, toFollow);
             System.out.println(pathHash + ".csv not found, wrote to file");
@@ -218,7 +244,7 @@ public class Drivetrain extends Subsystem {
         right.configureEncoder(rightDriveMain.getSelectedSensorPosition(0), DrivetrainProfiling.ticks_per_rev, DrivetrainProfiling.wheel_diameter);
         left.configurePIDVA(DrivetrainProfiling.kp, DrivetrainProfiling.ki, DrivetrainProfiling.kd, DrivetrainProfiling.kv, DrivetrainProfiling.ka);
         right.configurePIDVA(DrivetrainProfiling.kp, DrivetrainProfiling.ki, DrivetrainProfiling.kd, DrivetrainProfiling.kv, DrivetrainProfiling.ka);
-        return new EncoderFollower[] {
+        return new EncoderFollower[]{
                 left, // 0
                 right, // 1
         };
