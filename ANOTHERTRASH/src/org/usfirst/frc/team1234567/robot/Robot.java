@@ -8,8 +8,10 @@
 package org.usfirst.frc.team1234567.robot;
 
 import edu.wpi.first.wpilibj.IterativeRobot;
+import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import subsystems.Intake;
 
 /**
  * The VM is configured to automatically run this class, and to call the
@@ -19,20 +21,19 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
  * project.
  */
 public class Robot extends IterativeRobot {
-	
+	public static Intake intakeobject = new Intake();
 
 	/**
 	 * This function is run when the robot is first started up and should be
 	 * used for any initialization code.
 	 */
-	@Override
+
 	public void robotInit() {
 	}
 
 	
-	@Override
 	public void autonomousInit() {
-		
+	}
 
 	
 	public void autonomousPeriodic() {
