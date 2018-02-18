@@ -79,7 +79,7 @@ public class Robot extends IterativeRobot {
 
     @Override
     public void autonomousInit() {
-
+        this.drivetrain.disableRamping();
         String gameDataTemp = DriverStation.getInstance().getGameSpecificMessage();
 
         if(gameDataTemp != null) {
@@ -179,7 +179,7 @@ public class Robot extends IterativeRobot {
 
     @Override
     public void teleopInit() {
-
+        this.drivetrain.enableRamping();
     }
 
     public void teleopPeriodic() {

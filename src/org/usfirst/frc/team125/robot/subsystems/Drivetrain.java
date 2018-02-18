@@ -17,6 +17,7 @@ import jaci.pathfinder.followers.EncoderFollower;
 import jaci.pathfinder.modifiers.TankModifier;
 import org.usfirst.frc.team125.robot.RobotMap;
 import org.usfirst.frc.team125.robot.commands.Drivetrain.DriveArcadeCmd;
+import org.usfirst.frc.team125.robot.commands.Drivetrain.DriveTankCmd;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -35,6 +36,7 @@ public class Drivetrain extends Subsystem {
 
     private static final double HIGH_POW = 1.0;
     private static final double LOW_POW = -HIGH_POW;
+    private static final double RAMP_RATE = 0.25;
 
     AHRS gyro = new AHRS(I2C.Port.kMXP);
 
@@ -89,11 +91,27 @@ public class Drivetrain extends Subsystem {
         this.leftDriveMain.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative, 0, 0);
         this.rightDriveMain.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative, 0, 0);
 
+        enableRamping();
+
         resetEncoders();
         enableBreakMode();
 
         //Gyro
         resetGyro();
+    }
+
+    public void enableRamping() {
+        this.leftDriveMain.configOpenloopRamp(RAMP_RATE, 0);
+        this.leftDriveMain.configClosedloopRamp(RAMP_RATE, 0);
+        this.rightDriveMain.configOpenloopRamp(RAMP_RATE, 0);
+        this.rightDriveMain.configClosedloopRamp(RAMP_RATE, 0);
+    }
+
+    public void disableRamping() {
+        this.leftDriveMain.configOpenloopRamp(0.0, 0);
+        this.leftDriveMain.configClosedloopRamp(0.0, 0);
+        this.rightDriveMain.configOpenloopRamp(0.0, 0);
+        this.rightDriveMain.configClosedloopRamp(0.0, 0);
     }
 
     public void drive(double powLeft, double powRight) {

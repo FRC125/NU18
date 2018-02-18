@@ -9,7 +9,7 @@ public class LeftSideFarSwitchPaths {
 
     public static Waypoint[] toSwitch = new Waypoint[]{
             new Waypoint(0.0, 0.0, Pathfinder.d2r(0.0)),
-            new Waypoint((4.9784 - DRIVETRAIN_LENGTH), 0.0, Pathfinder.d2r(0.0)),
+            new Waypoint((4.9784 - DRIVETRAIN_LENGTH) - 1.0, 0.0, Pathfinder.d2r(0.0)),
             new Waypoint((4.9784 - DRIVETRAIN_LENGTH) + 1.0, -0.95, Pathfinder.d2r(-90.0)),
             new Waypoint((4.9784 - DRIVETRAIN_LENGTH) + 0.1, -1.9, Pathfinder.d2r(-180.0)),
     };
