@@ -17,12 +17,17 @@ public class IntakeCmd extends Command {
 
     @Override
     public void execute() {
-        Robot.intake.intake();
+
+        if(Robot.intake.checkSmartIntakeTriggered()) {
+            Robot.intake.stopIntake();
+        }else{
+            Robot.intake.intake();
+        }
     }
 
     @Override
     protected boolean isFinished() {
-        return Robot.intake.checkSmartIntakeTriggered();
+        return false;
     }
 
     @Override
