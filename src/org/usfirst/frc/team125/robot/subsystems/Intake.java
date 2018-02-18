@@ -17,13 +17,13 @@ import org.usfirst.frc.team125.robot.util.DebouncedBoolean;
 public class Intake extends Subsystem {
 
     //Intake motors
-    private IMotorController intakeL = new VictorSPX(RobotMap.INTAKE_LEFT);
-    private IMotorController intakeR = new VictorSPX(RobotMap.INTAKE_RIGHT);
+    private IMotorController intakeL = new TalonSRX(RobotMap.INTAKE_LEFT);
+    private IMotorController intakeR = new TalonSRX(RobotMap.INTAKE_RIGHT);
 
     private DoubleSolenoid intakeSolenoid = new DoubleSolenoid(RobotMap.INTAKE_RETRACT_FORWARD, RobotMap.INTAKE_RETRACT_REVERSE);
 
     private DigitalInput smartIntake = new DigitalInput(RobotMap.INTAKE_PROXIMITY_SENSOR);
-    private static final double minimumSmartIntakeTime = 2.0; // Is 2 seconds too long???
+    private static final double minimumSmartIntakeTime = .5; // Is 2 seconds too long???
     private DebouncedBoolean smartIntakeDebouncer = new DebouncedBoolean(minimumSmartIntakeTime);
 
     public static final double INTAKE_POWER_LEFT = 1.0;
@@ -104,13 +104,14 @@ public class Intake extends Subsystem {
         return this.intakeCurrentReader.currentCounter = 0;
     }
 
-    public void checkSmartIntakeTriggered() {
+    public boolean checkSmartIntakeTriggered() {
         smartIntakeDebouncer.update(smartIntake.get());
+
         SmartDashboard.putBoolean("Smart Intake", smartIntake.get());
         SmartDashboard.putBoolean("Smart Intake Debouncer", smartIntakeDebouncer.get());
-        if (smartIntakeDebouncer.get() == true) {
-            new CloseGrabbersCmd();
-        }
+
+        return smartIntakeDebouncer.get();
+
     }
 
     public void intakePistonUp() {

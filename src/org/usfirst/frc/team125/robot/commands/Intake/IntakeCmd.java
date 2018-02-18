@@ -2,6 +2,8 @@ package org.usfirst.frc.team125.robot.commands.Intake;
 
 import edu.wpi.first.wpilibj.command.Command;
 import org.usfirst.frc.team125.robot.Robot;
+import org.usfirst.frc.team125.robot.commands.Groups.ClampAndIntakeCmdGrp;
+
 
 public class IntakeCmd extends Command {
 
@@ -15,24 +17,18 @@ public class IntakeCmd extends Command {
 
     @Override
     public void execute() {
-        if (Robot.intake.passedCurrentLimit()) {
-            Robot.intake.stopIntake();
-        } else {
-            Robot.intake.intake();
-        }
-
-        Robot.intake.checkSmartIntakeTriggered();
+        Robot.intake.intake();
     }
 
     @Override
     protected boolean isFinished() {
-        return Robot.intake.passedCurrentLimit();
+        return Robot.intake.checkSmartIntakeTriggered();
     }
 
     @Override
     protected void end() {
+        new ClampAndIntakeCmdGrp();
         Robot.intake.stopIntake();
-        Robot.intake.currentCounterReset();
     }
 
     protected void interrupted() {
