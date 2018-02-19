@@ -10,10 +10,7 @@ import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import org.usfirst.frc.team125.robot.RobotMap;
 import org.usfirst.frc.team125.robot.commands.CubeLift.ElevatorDriveCmd;
-import org.usfirst.frc.team125.robot.util.CurrentReader;
 import org.usfirst.frc.team125.robot.util.DebouncedBoolean;
-
-import static org.usfirst.frc.team125.robot.Robot.cubeLift;
 
 public class CubeLift extends Subsystem {
 
@@ -43,21 +40,6 @@ public class CubeLift extends Subsystem {
     private Solenoid grabbers = new Solenoid(RobotMap.GRABBERS);
     private Solenoid releasePin = new Solenoid(RobotMap.RELEASE_PIN);
     private Solenoid puncher = new Solenoid(RobotMap.PUNCHER);
-
-    private CurrentReader elevatorCurrentReader = new CurrentReader();
-    private DebouncedBoolean currentSpikeDebouncer = new DebouncedBoolean(1.0);
-
-    private boolean isCurrentReaderMaxed() {
-        return elevatorCurrentReader.getTotalCurrent(CurrentReader.CurrentPorts.Cubelift) >= CurrentReader.CUBELIFT_MAX_CURRENT;
-    }
-
-    public void updateCurrentSpikeDebouncer() {
-        currentSpikeDebouncer.update(isCurrentReaderMaxed());
-    }
-
-    public boolean getCurrentSpikeDebouncer() {
-        return currentSpikeDebouncer.get();
-    }
 
     private double kP = 0.5; // .3
     private double kI = 0.0;
