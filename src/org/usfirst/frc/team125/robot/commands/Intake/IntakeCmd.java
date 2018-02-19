@@ -18,11 +18,13 @@ public class IntakeCmd extends Command {
     @Override
     public void execute() {
 
-        if(Robot.intake.checkSmartIntakeTriggered()) {
+        if (!Robot.intake.checkSmartIntakeTriggered()) {
+            Robot.cubeLift.closeGrabbers();
             Robot.intake.stopIntake();
-        }else{
+        } else {
             Robot.intake.intake();
         }
+
     }
 
     @Override
@@ -32,7 +34,6 @@ public class IntakeCmd extends Command {
 
     @Override
     protected void end() {
-        new SecureCubeCmdGrp();
         Robot.intake.stopIntake();
     }
 

@@ -2,7 +2,6 @@ package org.usfirst.frc.team125.robot;
 
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.IterativeRobot;
-import edu.wpi.first.wpilibj.Sendable;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.command.WaitCommand;
@@ -59,7 +58,7 @@ public class Robot extends IterativeRobot {
         sideSelector = new SendableChooser();
         autoSelector = new SendableChooser();
         sideSelector.addDefault("Left", Sides.Left); // Left Side
-        sideSelector.addObject("Right" , Sides.Right); // Right Side
+        sideSelector.addObject("Right", Sides.Right); // Right Side
         autoSelector.addDefault("Switch Only", Autos.SwitchOnly);
         autoSelector.addObject("Scale Only", Autos.ScaleOnly);
         SmartDashboard.putData("Side Selector", sideSelector);
@@ -82,7 +81,7 @@ public class Robot extends IterativeRobot {
         this.drivetrain.disableRamping();
         String gameDataTemp = DriverStation.getInstance().getGameSpecificMessage();
 
-        if(gameDataTemp != null) {
+        if (gameDataTemp != null) {
             gameData = DriverStation.getInstance().getGameSpecificMessage().substring(0, 2);
         } else {
             System.out.println("NO GAME DATA!");
@@ -90,73 +89,73 @@ public class Robot extends IterativeRobot {
         }
 
         switch (gameData) {
-            case "LR" : // GOOD!
-               if(sideSelector.getSelected().equals(Sides.Left)) {
-                   if(autoSelector.getSelected().equals(Autos.SwitchOnly)) {
-                       autoCommand = leftSideCloseSwitchAuto;
-                   }
-                   if(autoSelector.getSelected().equals(Autos.ScaleOnly)) {
-                        autoCommand = leftSideFarScaleAuto;
-                   }
-               } else {
-                   if(autoSelector.getSelected().equals(Autos.SwitchOnly)) {
-                        autoCommand = rightSideFarSwitchAuto;
-                   }
-                   if(autoSelector.getSelected().equals(Autos.ScaleOnly)) {
-                        autoCommand = rightSideCloseScaleAuto;
-                   }
-               }
-                break;
-
-            case "RL" : // GOOD!
-                if(sideSelector.getSelected().equals(Sides.Left)) {
-                    if(autoSelector.getSelected().equals(Autos.SwitchOnly)) {
-                        autoCommand = leftSideFarSwitchAuto;
-                    }
-                    if(autoSelector.getSelected().equals(Autos.ScaleOnly)) {
-                        autoCommand = leftSideCloseScaleAuto;
-                    }
-                } else {
-                    if(autoSelector.getSelected().equals(Autos.SwitchOnly)) {
-                        autoCommand = rightSideCloseSwitchAuto;
-                    }
-                    if(autoSelector.getSelected().equals(Autos.ScaleOnly)) {
-                        autoCommand = rightSideFarScaleAuto;
-                    }
-                }
-                break;
-
-            case "LL" : //GOOD!
-                if(sideSelector.getSelected().equals(Sides.Left)) {
-                    if(autoSelector.getSelected().equals(Autos.SwitchOnly)) {
+            case "LR": // GOOD!
+                if (sideSelector.getSelected().equals(Sides.Left)) {
+                    if (autoSelector.getSelected().equals(Autos.SwitchOnly)) {
                         autoCommand = leftSideCloseSwitchAuto;
                     }
-                    if(autoSelector.getSelected().equals(Autos.ScaleOnly)) {
+                    if (autoSelector.getSelected().equals(Autos.ScaleOnly)) {
+                        autoCommand = leftSideFarScaleAuto;
+                    }
+                } else {
+                    if (autoSelector.getSelected().equals(Autos.SwitchOnly)) {
+                        autoCommand = rightSideFarSwitchAuto;
+                    }
+                    if (autoSelector.getSelected().equals(Autos.ScaleOnly)) {
+                        autoCommand = rightSideCloseScaleAuto;
+                    }
+                }
+                break;
+
+            case "RL": // GOOD!
+                if (sideSelector.getSelected().equals(Sides.Left)) {
+                    if (autoSelector.getSelected().equals(Autos.SwitchOnly)) {
+                        autoCommand = leftSideFarSwitchAuto;
+                    }
+                    if (autoSelector.getSelected().equals(Autos.ScaleOnly)) {
                         autoCommand = leftSideCloseScaleAuto;
                     }
                 } else {
-                    if(autoSelector.getSelected().equals(Autos.SwitchOnly)) {
-                        autoCommand = rightSideFarSwitchAuto;
+                    if (autoSelector.getSelected().equals(Autos.SwitchOnly)) {
+                        autoCommand = rightSideCloseSwitchAuto;
                     }
-                    if(autoSelector.getSelected().equals(Autos.ScaleOnly)) {
+                    if (autoSelector.getSelected().equals(Autos.ScaleOnly)) {
                         autoCommand = rightSideFarScaleAuto;
                     }
                 }
                 break;
 
-            case "RR" : //GOOD!
-                if(sideSelector.getSelected().equals(Sides.Left)) {
-                    if(autoSelector.getSelected().equals(Autos.SwitchOnly)) {
+            case "LL": //GOOD!
+                if (sideSelector.getSelected().equals(Sides.Left)) {
+                    if (autoSelector.getSelected().equals(Autos.SwitchOnly)) {
+                        autoCommand = leftSideCloseSwitchAuto;
+                    }
+                    if (autoSelector.getSelected().equals(Autos.ScaleOnly)) {
+                        autoCommand = leftSideCloseScaleAuto;
+                    }
+                } else {
+                    if (autoSelector.getSelected().equals(Autos.SwitchOnly)) {
+                        autoCommand = rightSideFarSwitchAuto;
+                    }
+                    if (autoSelector.getSelected().equals(Autos.ScaleOnly)) {
+                        autoCommand = rightSideFarScaleAuto;
+                    }
+                }
+                break;
+
+            case "RR": //GOOD!
+                if (sideSelector.getSelected().equals(Sides.Left)) {
+                    if (autoSelector.getSelected().equals(Autos.SwitchOnly)) {
                         autoCommand = leftSideFarSwitchAuto;
                     }
-                    if(autoSelector.getSelected().equals(Autos.ScaleOnly)) {
+                    if (autoSelector.getSelected().equals(Autos.ScaleOnly)) {
                         autoCommand = leftSideFarScaleAuto;
                     }
                 } else {
-                    if(autoSelector.getSelected().equals(Autos.SwitchOnly)) {
+                    if (autoSelector.getSelected().equals(Autos.SwitchOnly)) {
                         autoCommand = rightSideCloseSwitchAuto;
                     }
-                    if(autoSelector.getSelected().equals(Autos.ScaleOnly)) {
+                    if (autoSelector.getSelected().equals(Autos.ScaleOnly)) {
                         autoCommand = rightSideCloseScaleAuto;
                     }
                 }
@@ -200,8 +199,7 @@ public class Robot extends IterativeRobot {
         SmartDashboard.putNumber("Left dt speed", this.drivetrain.getLeftVelocity());
         SmartDashboard.putNumber("Right dt speed", this.drivetrain.getRightVelocity());
         SmartDashboard.putNumber("Gyro angle", this.drivetrain.getAngle());
-        SmartDashboard.putNumber("Elevator encoder PWP", this.cubeLift.getPulseWidthPosition());
-        SmartDashboard.putNumber("Elevator encoder relative position", this.cubeLift.getRelativeEncPos());
+        SmartDashboard.putNumber("Elevator encoder Quadrature Position", this.cubeLift.getQuadraturePosition());
         this.drivetrain.updateAccelDashboard();
         this.cubeLift.updatePIDFOnDashboard();
         this.cubeLift.updatePIDFFromDashboard();

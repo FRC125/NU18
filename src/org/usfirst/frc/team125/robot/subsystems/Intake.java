@@ -3,14 +3,12 @@ package org.usfirst.frc.team125.robot.subsystems;
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.IMotorController;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
-import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 import com.ctre.phoenix.motorcontrol.can.VictorSPX;
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import org.usfirst.frc.team125.robot.RobotMap;
-import org.usfirst.frc.team125.robot.commands.CubeLift.CloseGrabbersCmd;
 import org.usfirst.frc.team125.robot.util.CurrentReader;
 import org.usfirst.frc.team125.robot.util.DebouncedBoolean;
 
@@ -23,7 +21,7 @@ public class Intake extends Subsystem {
     private DoubleSolenoid intakeSolenoid = new DoubleSolenoid(RobotMap.INTAKE_RETRACT_FORWARD, RobotMap.INTAKE_RETRACT_REVERSE);
 
     private DigitalInput smartIntake = new DigitalInput(RobotMap.INTAKE_PROXIMITY_SENSOR);
-    private static final double minimumSmartIntakeTime = 2; // Is 2 seconds too long???
+    private static final double minimumSmartIntakeTime = 0.66; // Is 2 seconds too long???
     private DebouncedBoolean smartIntakeDebouncer = new DebouncedBoolean(minimumSmartIntakeTime);
 
     public static final double INTAKE_POWER_LEFT = 1.0;
@@ -114,11 +112,11 @@ public class Intake extends Subsystem {
     }
 
     public void intakePistonUp() {
-        this.intakeSolenoid.set(INTAKE_FORWARD_VALUE);
+        this.intakeSolenoid.set(INTAKE_REVERSE_VALUE);
     }
 
     public void intakePistonDown() {
-        this.intakeSolenoid.set(INTAKE_REVERSE_VALUE);
+        this.intakeSolenoid.set(INTAKE_FORWARD_VALUE);
     }
 
     public void toggleIntakePiston() {

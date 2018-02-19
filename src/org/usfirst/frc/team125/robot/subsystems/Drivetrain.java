@@ -17,12 +17,8 @@ import jaci.pathfinder.followers.EncoderFollower;
 import jaci.pathfinder.modifiers.TankModifier;
 import org.usfirst.frc.team125.robot.RobotMap;
 import org.usfirst.frc.team125.robot.commands.Drivetrain.DriveArcadeCmd;
-import org.usfirst.frc.team125.robot.commands.Drivetrain.DriveTankCmd;
 
 import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.nio.file.Path;
 
 public class Drivetrain extends Subsystem {
 
@@ -218,8 +214,8 @@ public class Drivetrain extends Subsystem {
         String pathHash = String.valueOf(path.hashCode());
         SmartDashboard.putString("Path Hash", pathHash);
         Trajectory toFollow;// = Pathfinder.generate(path, cfg);
-        File trajectory = new File("/home/lvuser/paths/"+pathHash+".csv");
-        if(!trajectory.exists()) {
+        File trajectory = new File("/home/lvuser/paths/" + pathHash + ".csv");
+        if (!trajectory.exists()) {
             toFollow = Pathfinder.generate(path, cfg);
             Pathfinder.writeToCSV(trajectory, toFollow);
             System.out.println(pathHash + ".csv not found, wrote to file");
@@ -236,7 +232,7 @@ public class Drivetrain extends Subsystem {
         right.configureEncoder(rightDriveMain.getSelectedSensorPosition(0), DrivetrainProfiling.ticks_per_rev, DrivetrainProfiling.wheel_diameter);
         left.configurePIDVA(DrivetrainProfiling.kp, DrivetrainProfiling.ki, DrivetrainProfiling.kd, DrivetrainProfiling.kv, DrivetrainProfiling.ka);
         right.configurePIDVA(DrivetrainProfiling.kp, DrivetrainProfiling.ki, DrivetrainProfiling.kd, DrivetrainProfiling.kv, DrivetrainProfiling.ka);
-        return new EncoderFollower[] {
+        return new EncoderFollower[]{
                 left, // 0
                 right, // 1
         };

@@ -16,11 +16,23 @@ public class RunToPositionMotionMagicCmd extends Command {
 
     protected void initialize() {
         Robot.cubeLift.stopElevator();
-        if(position == CubeLift.Positions.PreClimb || position == CubeLift.Positions.ChinUp) {
-            Robot.intake.intakePistonDown();
-            Robot.cubeLift.closeGrabbers(); // To make room for elevator to fit in between intake...
-        } else {
-            Robot.intake.intakePistonUp();
+        Robot.cubeLift.closeGrabbers();
+        switch (position) {
+            case Intake:
+                Robot.intake.intakePistonDown();
+                break;
+            case ScoreSwitch:
+            case ScoreScale:
+                Robot.intake.intakePistonDown();
+                break;
+            case PreClimb:
+            case ClimbingBar:
+            case ChinUp:
+                Robot.intake.intakePistonUp();
+                break;
+            default:
+                break;
+
         }
         Robot.cubeLift.startMotionMagic(this.position);
     }

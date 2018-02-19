@@ -10,9 +10,10 @@ import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import org.usfirst.frc.team125.robot.RobotMap;
 import org.usfirst.frc.team125.robot.commands.CubeLift.ElevatorDriveCmd;
-import org.usfirst.frc.team125.robot.commands.CubeLift.RunToPositionMotionMagicCmd;
 import org.usfirst.frc.team125.robot.util.CurrentReader;
 import org.usfirst.frc.team125.robot.util.DebouncedBoolean;
+
+import static org.usfirst.frc.team125.robot.Robot.cubeLift;
 
 public class CubeLift extends Subsystem {
 
@@ -58,26 +59,24 @@ public class CubeLift extends Subsystem {
         return currentSpikeDebouncer.get();
     }
 
-    private double kP = 0.4; // .3
+    private double kP = 0.5; // .3
     private double kI = 0.0;
     private double kD = 4.0; // 4.0
     private double kF = 0.1165 * 2; // 0.1165 * 2
-
-    private static final int ZERO_POSITION = 0; // Up is NEGATIVE!!!
 
     //81.2 inches per/s
     //Gear is 42:26 geared up
     //4096 ticks per rev
     //233 ticks per inch
     private static final int CRUISE_VELOCITY = 17600; // 1024
-    private static final int CRUISE_ACCELERATION = 40000; // 1024
-    private static final int CRUISE_VELOCITY_DOWN = (int) (17600 * 0.7); // 1024
-    private static final int CRUISE_ACCELERATION_DOWN = (int) (40000 * 0.5); // 1024
+    private static final int CRUISE_ACCELERATION = 11000; // 1024
+    private static final int CRUISE_VELOCITY_DOWN = (int) (CRUISE_VELOCITY * 0.7); // 1024
+    private static final int CRUISE_ACCELERATION_DOWN = (int) (CRUISE_ACCELERATION * 0.6); // 1024
 
     public enum Positions {
-        Intake(0),
+        Intake(300),
         ScoreSwitch(50000),
-        ScoreScale(70000),
+        ScoreScale(22000),
         PreClimb(70000),
         Top(75001),
         ChinUp(0),
@@ -85,7 +84,7 @@ public class CubeLift extends Subsystem {
         private int position;
 
         Positions(int encPos) {
-            this.position = ZERO_POSITION - encPos;
+            this.position = encPos;
         }
 
         public int getPosition() {
@@ -161,8 +160,9 @@ public class CubeLift extends Subsystem {
 
         //Encoder
         this.rightElevatorLeader.setSensorPhase(true);
-        this.rightElevatorLeader.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Absolute, 0, 0);
-        this.rightElevatorLeader.setSelectedSensorPosition(rightElevatorLeader.getSensorCollection().getPulseWidthPosition(), 0, 0);
+        this.rightElevatorLeader.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative, 0, 0);
+        resetEncoders();
+        //this.rightElevatorLeader.setSelectedSensorPosition(rightElevatorLeader.getSensorCollection().getQuadraturePosition(), 0, 0);
 
         //Neutral mode
         this.rightElevatorLeader.setNeutralMode(NeutralMode.Brake);
@@ -183,38 +183,36 @@ public class CubeLift extends Subsystem {
         releasePin.set(false);
     }
 
+
     public void resetEncoders() {
         this.rightElevatorLeader.setSelectedSensorPosition(0, 0, 0);
     }
 
-    public int getPulseWidthPosition() {
-        return rightElevatorLeader.getSensorCollection().getPulseWidthPosition();
-    }
-
-    public int getRelativeEncPos() {
-        return ZERO_POSITION - getPulseWidthPosition();
+    public int getQuadraturePosition() {
+        return rightElevatorLeader.getSelectedSensorPosition(0);
+        //return rightElevatorLeader.getSensorCollection().getQuadraturePosition();
     }
 
     public void startMotionMagic(Positions pos) { // Up is now negative
-        if (getPulseWidthPosition() < pos.getPosition()) {
+        if (getQuadraturePosition() > pos.getPosition()) {
             setState(LiftState.GoingDown);
             configMotionMagic(CRUISE_VELOCITY_DOWN, CRUISE_ACCELERATION_DOWN);
-        } else if (getPulseWidthPosition() > pos.getPosition()) {
+        } else if (getQuadraturePosition() < pos.getPosition()) {
             setState(LiftState.GoingUp);
             configMotionMagic(CRUISE_VELOCITY, CRUISE_ACCELERATION);
         }
 
-        rightElevatorLeader.set(ControlMode.MotionMagic, -pos.getPosition());
+        rightElevatorLeader.set(ControlMode.MotionMagic, pos.getPosition());
     }
 
     public void checkMotionMagicTermination(Positions pos) {
         if (pos == Positions.Intake) {
-            if (getPulseWidthPosition() >= ZERO_POSITION - (MOTION_MAGIC_TOLERANCE * 2)) {
+            if (getQuadraturePosition() <= (MOTION_MAGIC_TOLERANCE * 2)) {
                 state = LiftState.Stationary;
                 stopElevator();
                 position = pos;
             }
-        } else if (Math.abs(pos.getPosition() - getPulseWidthPosition()) <= MOTION_MAGIC_TOLERANCE) {
+        } else if (Math.abs(pos.getPosition() - getQuadraturePosition()) <= MOTION_MAGIC_TOLERANCE) {
             state = LiftState.Stationary;
             stopElevator();
             position = pos;
@@ -223,7 +221,7 @@ public class CubeLift extends Subsystem {
         SmartDashboard.putNumber("Motion Magic set position", rightElevatorLeader.getClosedLoopTarget(0));
         SmartDashboard.putNumber("CTRError", rightElevatorLeader.getClosedLoopError(0));
         SmartDashboard.putNumber("Desired elevator position", pos.getPosition());
-        SmartDashboard.putNumber("Closed loop error", Math.abs(pos.getPosition() - getPulseWidthPosition()));
+        SmartDashboard.putNumber("Closed loop error", Math.abs(pos.getPosition() - getQuadraturePosition()));
     }
 
     public void openGrabbers() {
@@ -289,7 +287,7 @@ public class CubeLift extends Subsystem {
     }
 
     private void checkIfToppedOut() {
-        if (getPulseWidthPosition() <= Positions.Top.getPosition() && getState() != LiftState.GoingDown) {
+        if (getQuadraturePosition() >= Positions.Top.getPosition() && getState() != LiftState.GoingDown) {
             setState(LiftState.ToppedOut);
             setPosition(Positions.Top);
             stopElevator();
@@ -297,7 +295,7 @@ public class CubeLift extends Subsystem {
     }
 
     private void checkIfZeroedOut() {
-        if (getPulseWidthPosition() >= Positions.Intake.getPosition() && getState() != LiftState.GoingUp) {
+        if (getQuadraturePosition() <= Positions.Intake.getPosition() && getState() != LiftState.GoingUp) {
             setState(LiftState.BottomedOut);
             setPosition(Positions.Intake);
             stopElevator();
