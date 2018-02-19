@@ -8,20 +8,19 @@ public class DebouncedBoolean {
     private int minimumLoops;
 
     public DebouncedBoolean(double minimumSeconds) {
-        minimumLoops = (int)Math.ceil(minimumSeconds / 0.02);
+        minimumLoops = (int) Math.ceil(minimumSeconds / 0.02);
     }
 
     public boolean get() {
-        return loopCounter >= minimumLoops;
+        return loopCounter > minimumLoops;
     }
 
     public void update(boolean value) {
-        if(value) {
+        if (value) {
             loopCounter++;
         } else {
             loopCounter = 0;
         }
         SmartDashboard.putNumber("Loop Counter", loopCounter);
     }
-    
 }

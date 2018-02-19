@@ -1,97 +1,116 @@
 package org.usfirst.frc.team125.robot.subsystems;
 
-import com.ctre.phoenix.motorcontrol.NeutralMode;
-import edu.wpi.first.wpilibj.*;
-import org.usfirst.frc.team125.robot.RobotMap;
-
 import com.ctre.phoenix.motorcontrol.ControlMode;
-import com.ctre.phoenix.motorcontrol.can.TalonSRX;
-
+import com.ctre.phoenix.motorcontrol.IMotorController;
+import com.ctre.phoenix.motorcontrol.NeutralMode;
+import com.ctre.phoenix.motorcontrol.can.VictorSPX;
+import edu.wpi.first.wpilibj.DigitalInput;
+import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.command.Subsystem;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import org.usfirst.frc.team125.robot.RobotMap;
 import org.usfirst.frc.team125.robot.util.DebouncedBoolean;
 
 public class Intake extends Subsystem {
-	
-	//Intake motors
-	private TalonSRX intakeL = new TalonSRX(RobotMap.INTAKE_LEFT);
-	private TalonSRX intakeR = new TalonSRX(RobotMap.INTAKE_RIGHT);
-	
-	private DoubleSolenoid intakePiston = new DoubleSolenoid(RobotMap.INTAKE_RETRACT_FORWARD, RobotMap.INTAKE_RETRACT_REVERSE);
-	private Solenoid intakeClamp = new Solenoid(RobotMap.INTAKE_CLAMP);
 
-	private DigitalInput smartIntake = new DigitalInput(RobotMap.INTAKE_LIMIT_SWITCH);
-	private static final double minimumSmartIntakeTime = 2.0; // Is 2 seconds too long???
-	private DebouncedBoolean smartIntakeDebouncer = new DebouncedBoolean(minimumSmartIntakeTime);
+    //Intake motors
+    private IMotorController intakeL = new VictorSPX(RobotMap.INTAKE_LEFT);
+    private IMotorController intakeR = new VictorSPX(RobotMap.INTAKE_RIGHT);
 
-	private static final double RIGHT_INTAKE_SPEED = 0.75;
-	private static final DoubleSolenoid.Value INTAKE_FORWARD_VALUE = DoubleSolenoid.Value.kForward;
-	private static final DoubleSolenoid.Value INTAKE_REVERSE_VALUE = DoubleSolenoid.Value.kReverse;
-	private static final Boolean CLAMP_SET = true;
-	private static final Boolean UNCLAMP_SET = false;
+    private DoubleSolenoid intakeSolenoid = new DoubleSolenoid(RobotMap.INTAKE_RETRACT_FORWARD, RobotMap.INTAKE_RETRACT_REVERSE);
 
-	public Intake() {
-		
-		//Left side
-		this.intakeL.configPeakOutputForward(1.0, 0);
-		this.intakeL.configPeakOutputReverse(-1.0, 0);
-		this.intakeL.configNominalOutputForward(0.0, 0);
-		this.intakeL.configNominalOutputReverse(0.0, 0);
-		
-		//Right side
-		this.intakeR.configPeakOutputForward(RIGHT_INTAKE_SPEED, 0);
-		this.intakeR.configPeakOutputReverse(-RIGHT_INTAKE_SPEED, 0);
-		this.intakeR.configNominalOutputForward(0.0, 0);
-		this.intakeR.configNominalOutputReverse(0.0, 0);
+    private DigitalInput smartIntake = new DigitalInput(RobotMap.INTAKE_PROXIMITY_SENSOR);
+    private static final double minimumSmartIntakeTime = 0.66; // Is 2 seconds too long???
+    private DebouncedBoolean smartIntakeDebouncer = new DebouncedBoolean(minimumSmartIntakeTime);
 
-		this.intakeL.setNeutralMode(NeutralMode.Coast);
-		this.intakeR.setNeutralMode(NeutralMode.Coast);
+    public static final double INTAKE_POWER_LEFT = 1.0;
+    public static final double INTAKE_POWER_RIGHT = 1.0;
+    public static final double CURRENT_MAX = 110;
 
-		this.intakePiston.set(INTAKE_REVERSE_VALUE); // TODO: Check if this is right...
-		this.intakeClamp.set(UNCLAMP_SET); // TODO: Check .set()
-	}
+    private static final DoubleSolenoid.Value INTAKE_FORWARD_VALUE = DoubleSolenoid.Value.kForward;
+    private static final DoubleSolenoid.Value INTAKE_REVERSE_VALUE = DoubleSolenoid.Value.kReverse;
 
-	public void runIntake(double power) {
-		this.intakeL.set(ControlMode.PercentOutput, power);
-		this.intakeR.set(ControlMode.PercentOutput, -power);
-	}
-	
-	public void runIntakeReversed(double power) {
-		this.intakeL.set(ControlMode.PercentOutput, -power);
-		this.intakeR.set(ControlMode.PercentOutput, power);
-	}
-	
-	public void stopIntake() {
-		this.intakeL.set(ControlMode.PercentOutput, 0);
-		this.intakeR.set(ControlMode.PercentOutput, 0);
-	}
-	
-	public void openClamp(){
-		this.intakeClamp.set(UNCLAMP_SET);
-	}
-	
-	public void closeClamp(){
-		this.intakeClamp.set(CLAMP_SET);
-	}
-	
-	public void intakePistonForward() {
-		this.intakePiston.set(INTAKE_FORWARD_VALUE);
-	}
-	
-	public void intakePistonReverse() {
-		this.intakePiston.set(INTAKE_REVERSE_VALUE);
-	}
+    private class SmartIntakeUpdater implements Runnable {
+        int j = 0;
 
-    public void updateCubeSwitch(boolean val) { // Its going to have to be called during all robot periodic...
-        smartIntakeDebouncer.update(val);
-        if(smartIntakeDebouncer.get()){
-            this.intakePistonForward();
-        } else {
-            this.intakePistonReverse();
+        @Override
+        public void run() {
+            while (true) {
+                try {
+                    Thread.sleep(20L);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+                checkSmartIntakeTriggered();
+                SmartDashboard.putNumber("j counter", j);
+                j++;
+            }
         }
     }
 
-	@Override
-	protected void initDefaultCommand() {
-	}
+    public Intake() {
+        Thread thread = new Thread(new Intake.SmartIntakeUpdater());
+        thread.start();
+        //Left side
+        this.intakeL.configPeakOutputForward(INTAKE_POWER_LEFT, 0);
+        this.intakeL.configPeakOutputReverse(-INTAKE_POWER_LEFT, 0);
+        this.intakeL.configNominalOutputForward(0.0, 0);
+        this.intakeL.configNominalOutputReverse(0.0, 0);
 
+        //Right side
+        this.intakeR.configPeakOutputForward(INTAKE_POWER_RIGHT, 0);
+        this.intakeR.configPeakOutputReverse(-INTAKE_POWER_RIGHT, 0);
+        this.intakeR.configNominalOutputForward(0.0, 0);
+        this.intakeR.configNominalOutputReverse(0.0, 0);
+
+        this.intakeL.setNeutralMode(NeutralMode.Coast);
+        this.intakeR.setNeutralMode(NeutralMode.Coast);
+
+        intakePistonUp(); // TODO: Check if this is right...
+    }
+
+    public void intake() {
+        this.intakeL.set(ControlMode.PercentOutput, -INTAKE_POWER_LEFT);
+        this.intakeR.set(ControlMode.PercentOutput, INTAKE_POWER_RIGHT);
+    }
+
+    public void outtake() {
+        this.intakeL.set(ControlMode.PercentOutput, INTAKE_POWER_LEFT);
+        this.intakeR.set(ControlMode.PercentOutput, -INTAKE_POWER_RIGHT);
+    }
+
+    public void stopIntake() {
+        this.intakeL.set(ControlMode.PercentOutput, 0);
+        this.intakeR.set(ControlMode.PercentOutput, 0);
+    }
+
+    public boolean checkSmartIntakeTriggered() {
+        smartIntakeDebouncer.update(smartIntake.get());
+
+        SmartDashboard.putBoolean("Smart intake", smartIntake.get());
+        SmartDashboard.putBoolean("Smart intake de-bouncer", smartIntakeDebouncer.get());
+
+        return smartIntakeDebouncer.get();
+    }
+
+    public void intakePistonUp() {
+        this.intakeSolenoid.set(INTAKE_REVERSE_VALUE);
+    }
+
+    public void intakePistonDown() {
+        this.intakeSolenoid.set(INTAKE_FORWARD_VALUE);
+    }
+
+    public void toggleIntakePiston() {
+        if (intakeSolenoid.get() == INTAKE_FORWARD_VALUE) {
+            intakeSolenoid.set(INTAKE_REVERSE_VALUE);
+        }
+        if (intakeSolenoid.get() == INTAKE_REVERSE_VALUE) {
+            intakeSolenoid.set(INTAKE_FORWARD_VALUE);
+        }
+    }
+
+    @Override
+    protected void initDefaultCommand() {
+    }
 }

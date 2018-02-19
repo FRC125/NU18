@@ -6,11 +6,15 @@ import org.usfirst.frc.team125.robot.Robot;
 /**
  *
  */
-public class DriveArcadeWithHoldHeadingCmd extends Command {
+public class TurnToAngleCmd extends Command {
 
-    public DriveArcadeWithHoldHeadingCmd() {
+    public TurnToAngleCmd(double angle) {
         requires(Robot.drivetrain);
+        this.angle = angle;
+
     }
+
+    double angle;
 
     protected void initialize() {
         Robot.drivetrain.enableBreakMode();
@@ -18,16 +22,16 @@ public class DriveArcadeWithHoldHeadingCmd extends Command {
     }
 
     protected void execute() {
-        Robot.drivetrain.driveHoldHeading(Robot.oi.getDriverTriggerSum());
+
     }
 
     protected boolean isFinished() {
-        return false;
+        return Robot.drivetrain.turnToAngle(angle);
     }
-
 
     protected void end() {
         Robot.drivetrain.resetLastHeadingError();
+        Robot.drivetrain.drive(0.0, 0.0);
     }
 
     protected void interrupted() {

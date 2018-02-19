@@ -1,32 +1,30 @@
 package org.usfirst.frc.team125.robot.commands.Intake;
 
+import edu.wpi.first.wpilibj.command.Command;
 import org.usfirst.frc.team125.robot.Robot;
 
-import edu.wpi.first.wpilibj.command.Command;
+public class ToggleIntakeSolenoidCmd extends Command {
 
-/**
- *
- */
-public class CloseIntakeClampCmd extends Command {
-
-    public CloseIntakeClampCmd() {
+    public ToggleIntakeSolenoidCmd() {
         requires(Robot.intake);
     }
 
     protected void initialize() {
+        Robot.intake.toggleIntakePiston();
     }
 
     protected void execute() {
-    	Robot.intake.closeClamp();
     }
 
+    @Override
     protected boolean isFinished() {
         return true;
     }
 
     protected void end() {
     }
-    
+
     protected void interrupted() {
     }
 }
+

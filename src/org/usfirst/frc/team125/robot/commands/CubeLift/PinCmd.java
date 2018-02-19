@@ -3,35 +3,31 @@ package org.usfirst.frc.team125.robot.commands.CubeLift;
 import edu.wpi.first.wpilibj.command.Command;
 import org.usfirst.frc.team125.robot.Robot;
 
-/**
- *
- */
-public class RunToPositionCmd extends Command {
+public class PinCmd extends Command {
 
-    private int position;
-
-    public RunToPositionCmd(int pos) {
+    public PinCmd() {
         requires(Robot.cubeLift);
-        this.position = pos;
     }
 
     protected void initialize() {
-        Robot.cubeLift.stopElevator();
+        Robot.cubeLift.pin();
     }
 
     protected void execute() {
-        Robot.cubeLift.runToPosition(position);
+
     }
 
+    @Override
     protected boolean isFinished() {
-        return false;
+        return true;
     }
 
     protected void end() {
-        Robot.cubeLift.stopElevator();
+
     }
 
     protected void interrupted() {
-        end();
+
     }
+
 }

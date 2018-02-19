@@ -20,7 +20,9 @@ public class DriveArcadeCmd extends Command {
         Robot.drivetrain.driveArcade(Robot.oi.getDriverTriggerSum(), Robot.oi.getDriverLeftStickX());
     }
 
-    protected boolean isFinished() { return false; }
+    protected boolean isFinished() {
+        return false;
+    }
 
     protected void end() {
         //Left empty intentionally

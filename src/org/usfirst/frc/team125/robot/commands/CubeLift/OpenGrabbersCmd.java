@@ -1,23 +1,20 @@
 package org.usfirst.frc.team125.robot.commands.CubeLift;
 
+import edu.wpi.first.wpilibj.command.Command;
 import org.usfirst.frc.team125.robot.Robot;
 
-import edu.wpi.first.wpilibj.command.Command;
+public class OpenGrabbersCmd extends Command {
 
-/**
- *
- */
-public class OpenElevatorClampCmd extends Command {
-
-    public OpenElevatorClampCmd() {
-    	requires(Robot.cubeLift);
+    public OpenGrabbersCmd() {
+        requires(Robot.cubeLift);
     }
 
     protected void initialize() {
+        Robot.cubeLift.openGrabbers();
     }
 
     protected void execute() {
-    	Robot.cubeLift.openClamp();
+
     }
 
     protected boolean isFinished() {

@@ -1,25 +1,22 @@
 package org.usfirst.frc.team125.robot.commands.Intake;
 
+import edu.wpi.first.wpilibj.command.Command;
 import org.usfirst.frc.team125.robot.Robot;
 
-import edu.wpi.first.wpilibj.command.Command;
+public class IntakeDownCmd extends Command {
 
-/**
- *
- */
-public class OpenIntakeClampCmd extends Command {
-
-    public OpenIntakeClampCmd() {
+    public IntakeDownCmd() {
         requires(Robot.intake);
     }
 
     protected void initialize() {
+        Robot.intake.intakePistonDown();
     }
 
     protected void execute() {
-    	Robot.intake.openClamp();
     }
 
+    @Override
     protected boolean isFinished() {
         return true;
     }

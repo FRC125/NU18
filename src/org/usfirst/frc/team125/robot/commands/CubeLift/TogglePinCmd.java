@@ -3,32 +3,30 @@ package org.usfirst.frc.team125.robot.commands.CubeLift;
 import edu.wpi.first.wpilibj.command.Command;
 import org.usfirst.frc.team125.robot.Robot;
 
-public class ElevatorDriveCmd extends Command {
+public class TogglePinCmd extends Command {
 
-    public ElevatorDriveCmd() {
+    public TogglePinCmd() {
         requires(Robot.cubeLift);
-
-        setInterruptible(true);
     }
 
     protected void initialize() {
+        Robot.cubeLift.togglePin();
     }
 
     protected void execute() {
-        Robot.cubeLift.directElevate(-Robot.oi.getOpLeftStickY());
 
     }
 
+    @Override
     protected boolean isFinished() {
-        return false;
+        return true;
     }
 
     protected void end() {
+
     }
 
     protected void interrupted() {
-        Robot.cubeLift.stopElevator();
 
     }
-
 }

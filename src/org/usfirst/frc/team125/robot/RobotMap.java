@@ -2,10 +2,9 @@ package org.usfirst.frc.team125.robot;
 
 public class RobotMap {
 
-    /*
-    CTRE Can Devices
-     */
+
     //Drivetrain Motors TODO: Make sure these are correspondant to the actual drivetrain motors on webdash
+
     public static final int LEFT_DRIVE_MAIN = 1;
     public static final int LEFT_DRIVE_SLAVE_A = 2;
     public static final int LEFT_DRIVE_SLAVE_B = 3;
@@ -13,35 +12,34 @@ public class RobotMap {
     public static final int RIGHT_DRIVE_SLAVE_A = 5;
     public static final int RIGHT_DRIVE_SLAVE_B = 6;
 
-    //Intake Motors
-    public static final int INTAKE_RIGHT = 54;
-    public static final int INTAKE_LEFT = 53;
+    //Elevator
+    public static final int RIGHT_ELEVATOR_MAIN = 7;
+    public static final int RIGHT_ELEVATOR_SLAVE = 9;
+    public static final int LEFT_ELEVATOR_SLAVE_A = 8;
+    public static final int LEFT_ELEVATOR_SLAVE_B = 10;
+    //Intake
+    public static final int INTAKE_RIGHT = 21;
+    public static final int INTAKE_LEFT = 20;
 
-    // Elevator Motors
-    public static final int ELEVATOR = 52;
-    public static final int ELEVATOR_SLAVE_A = 51;
-    public static final int ELEVATOR_SLAVE_B = 50;
+    /*
+    PCM Device
+     */
+    //Single Acting Solenoids
+    public static final int GRABBERS = 3;
+    public static final int RELEASE_PIN = 0;
+    public static final int DOUBLELIFT_RELEASE = 2;
+    public static final int DOUBLELIFT_LIFTER = 1;
+    public static final int PUNCHER = 6;
+    //Double Acting Solenoids
+    public static final int INTAKE_RETRACT_FORWARD = 4;
+    public static final int INTAKE_RETRACT_REVERSE = 5;
 
 
     /*
-    PCM Devices
+    Other
      */
-    //Double Lift
-    public static final int DOUBLELIFT_LIFTER_FORWARD = 7;
-    public static final int DOUBLELIFT_LIFTER_REVERSE = 6;
-    public static final int DOUBLELIFT_RELEASE = 5;
-
-    //Intake Solenoids
-    public static final int INTAKE_CLAMP = 4;
-    public static final int INTAKE_RETRACT_FORWARD = 3;
-    public static final int INTAKE_RETRACT_REVERSE = 2;
-
-    //Cube Lift
-    public static final int ELEVATOR_CLAMP = 1;
-    public static final int ELEVATOR_RELEASE = 0;
-
-
     //Digital Input
-    public static final int INTAKE_LIMIT_SWITCH = 0;
-
+    public static final int INTAKE_PROXIMITY_SENSOR = 0;
+    public static final int CUBELIFT_HALL_EFFECT_SENSOR = 5;
 }
+

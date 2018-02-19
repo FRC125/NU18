@@ -1,25 +1,22 @@
-package org.usfirst.frc.team125.robot.commands.CubeLift;
-
-import org.usfirst.frc.team125.robot.Robot;
+package org.usfirst.frc.team125.robot.commands.DoubleLift;
 
 import edu.wpi.first.wpilibj.command.Command;
+import org.usfirst.frc.team125.robot.Robot;
 
-/**
- *
- */
-public class CloseElevatorClampCmd extends Command {
+public class DropLiftCmd extends Command {
 
-    public CloseElevatorClampCmd() {
-    	requires(Robot.cubeLift);
+    public DropLiftCmd() {
+        requires(Robot.doubleLift);
     }
 
     protected void initialize() {
+        Robot.doubleLift.dropLift();
     }
 
     protected void execute() {
-    	Robot.cubeLift.closeClamp();
     }
 
+    @Override
     protected boolean isFinished() {
         return true;
     }
@@ -28,5 +25,6 @@ public class CloseElevatorClampCmd extends Command {
     }
 
     protected void interrupted() {
+
     }
 }

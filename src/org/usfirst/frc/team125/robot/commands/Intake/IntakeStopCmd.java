@@ -3,29 +3,28 @@ package org.usfirst.frc.team125.robot.commands.Intake;
 import edu.wpi.first.wpilibj.command.Command;
 import org.usfirst.frc.team125.robot.Robot;
 
-/**
- *
- */
-public class UpdateCubeSwitchCmd extends Command {
+public class IntakeStopCmd extends Command {
 
-    public UpdateCubeSwitchCmd() {
+    public IntakeStopCmd() {
         requires(Robot.intake);
     }
 
+    @Override
     protected void initialize() {
-
     }
 
-    protected void execute() {
-        Robot.intake.updateCubeSwitch(true);
+    @Override
+    public void execute() {
+        Robot.intake.stopIntake();
     }
 
+    @Override
     protected boolean isFinished() {
         return false;
     }
 
+    @Override
     protected void end() {
-        Robot.intake.updateCubeSwitch(false);
     }
 
     protected void interrupted() {
