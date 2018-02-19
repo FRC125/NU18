@@ -18,10 +18,10 @@ public class RightSideFarSwitchAuto extends CommandGroup {
 
 
     public RightSideFarSwitchAuto() {
-        addSequential(secureCube);
+        //addSequential(secureCube);
         addSequential(driveToFarSwitch);
-        addSequential(liftElevatorToSwitchPos, 3);
-        addSequential(scoreCube);
+        //addSequential(liftElevatorToSwitchPos, 3);
+        //addSequential(scoreCube);
     }
 
 }

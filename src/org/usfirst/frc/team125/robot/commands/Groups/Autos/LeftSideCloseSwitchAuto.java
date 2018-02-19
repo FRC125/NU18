@@ -16,10 +16,10 @@ public class LeftSideCloseSwitchAuto extends CommandGroup {
     Command scoreCube = new ScoreCmdGrp();
 
     public LeftSideCloseSwitchAuto() {
-        addSequential(secureCube);
+        //addSequential(secureCube);
         addSequential(driveToSwitch);
-        addSequential(liftElevatorToSwitchPos, 3);
-        addSequential(scoreCube);
+        //addSequential(liftElevatorToSwitchPos, 3);
+        //addSequential(scoreCube);
     }
 
 

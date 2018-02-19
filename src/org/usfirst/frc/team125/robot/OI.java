@@ -8,11 +8,15 @@ import org.usfirst.frc.team125.robot.commands.CubeLift.OpenGrabbersCmd;
 import org.usfirst.frc.team125.robot.commands.CubeLift.RunToPositionMotionMagicCmd;
 import org.usfirst.frc.team125.robot.commands.CubeLift.TogglePinCmd;
 import org.usfirst.frc.team125.robot.commands.CubeLift.UnpunchCmd;
+import org.usfirst.frc.team125.robot.commands.DoubleLift.LiftLiftCmd;
+import org.usfirst.frc.team125.robot.commands.DoubleLift.ReleaseCarrierCmd;
+import org.usfirst.frc.team125.robot.commands.DoubleLift.ToggleReleaserCmd;
 import org.usfirst.frc.team125.robot.commands.Groups.PullUpAndDropCarrierCmdGrp;
 import org.usfirst.frc.team125.robot.commands.Groups.ScoreCmdGrp;
 import org.usfirst.frc.team125.robot.commands.Groups.SecureCubeCmdGrp;
 import org.usfirst.frc.team125.robot.commands.Intake.IntakeCmd;
 import org.usfirst.frc.team125.robot.commands.Intake.IntakeStopCmd;
+import org.usfirst.frc.team125.robot.commands.Intake.OuttakeCmd;
 import org.usfirst.frc.team125.robot.commands.Intake.ToggleIntakeSolenoidCmd;
 import org.usfirst.frc.team125.robot.subsystems.CubeLift;
 import org.usfirst.frc.team125.robot.util.JoystickMap;
@@ -34,21 +38,59 @@ public class OI {
     public Button toggleIntakePistonInOrOut = new JoystickButton(opPad, JoystickMap.R3);
     public Button runEleClimb = new JoystickButton(opPad, JoystickMap.BACK);
     public Button climb = new JoystickButton(opPad, JoystickMap.START);
-    //public Trigger toggleDoubleLiftDown = new JoystickButton(opPad, JoystickMap.LEFT_TRIGGER);
-    //public Trigger toggleDoubleLiftLift = new JoystickButton(opPad, JoystickMap.RIGHT_TRIGGER);
-    public AnalogButton intake = new AnalogButton(opPad, 3, 0.5);
-
 
     /* Driver Control */
     public Button score = new JoystickButton(driverPad, JoystickMap.X);
-    //private Button intake = new JoystickButton(driverPad, JoystickMap.A);
+    private Button intake = new JoystickButton(driverPad, JoystickMap.A);
     private Button outtake = new JoystickButton(driverPad, JoystickMap.B);
 
 
     private static final double STICK_DEADBAND = 0.05;
 
-    public OI() {
+    private class ConditionalOIControl implements Runnable {
+        int k = 0;
 
+        @Override
+        public void run() {
+            while (true) {
+                try {
+                    Thread.sleep(20L);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+                checkTriggers();
+                checkPOV();
+                SmartDashboard.putNumber("k counter", k);
+                k++;
+            }
+        }
+    }
+
+    public void checkTriggers() {
+        if (getOpLeftTrigger() >= 0.5) {
+            new ReleaseCarrierCmd().start();
+        }
+        if (getOpRightTrigger() >= 0.5) {
+            new LiftLiftCmd().start();
+        }
+    }
+
+    public void checkPOV() {
+        switch (opPad.getPOV()) {
+            case 0:
+                new RunToPositionMotionMagicCmd(CubeLift.Positions.ScoreScaleHigh).start();
+                break;
+            case 180:
+                new RunToPositionMotionMagicCmd(CubeLift.Positions.ScoreScaleLow).start();
+                break;
+            default:
+                break;
+        }
+    }
+
+    public OI() {
+        Thread thisNewInfiniteManaSwainIsOPWhatTheFuckRiot = new Thread(new ConditionalOIControl());
+        thisNewInfiniteManaSwainIsOPWhatTheFuckRiot.start();
         /* Operator Control */
         runEleScale.whenPressed(new RunToPositionMotionMagicCmd(CubeLift.Positions.ScoreScale));
         runEleSwitch.whenPressed(new RunToPositionMotionMagicCmd(CubeLift.Positions.ScoreSwitch));
@@ -62,9 +104,9 @@ public class OI {
 
         /* Driver Control */
         //Intake and Scoring
-        //intake.whileHeld(new IntakeCmd());
-        //intake.whenPressed(new OpenGrabbersCmd());
-        //outtake.whileHeld(new OuttakeCmd());
+
+        intake.whileHeld(new IntakeCmd());
+        outtake.whileHeld(new OuttakeCmd());
         outtake.whenPressed(new OpenGrabbersCmd());
         score.whenPressed(new ScoreCmdGrp());
         score.whenReleased(new UnpunchCmd());

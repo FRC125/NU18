@@ -20,8 +20,8 @@ public class Intake extends Subsystem {
 
     private DoubleSolenoid intakeSolenoid = new DoubleSolenoid(RobotMap.INTAKE_RETRACT_FORWARD, RobotMap.INTAKE_RETRACT_REVERSE);
 
-    private DigitalInput smartIntake = new DigitalInput(RobotMap.INTAKE_PROXIMITY_SENSOR);
-    private static final double minimumSmartIntakeTime = 0.66; // Is 2 seconds too long???
+    private DigitalInput smartIntake = new DigitalInput(RobotMap.INTAKE_LIMIT_SWITCH_A);
+    private static final double minimumSmartIntakeTime = 0.1; // Is 2 seconds too long???
     private DebouncedBoolean smartIntakeDebouncer = new DebouncedBoolean(minimumSmartIntakeTime);
 
     public static final double INTAKE_POWER_LEFT = 1.0;

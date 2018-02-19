@@ -58,7 +58,9 @@ public class CubeLift extends Subsystem {
     public enum Positions {
         Intake(300),
         ScoreSwitch(50000),
-        ScoreScale(22000),
+        ScoreScale(70000),
+        ScoreScaleLow(20000),
+        ScoreScaleHigh(70000),
         PreClimb(70000),
         Top(75001),
         ChinUp(0),
