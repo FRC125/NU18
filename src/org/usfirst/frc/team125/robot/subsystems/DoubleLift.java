@@ -1,5 +1,7 @@
 package org.usfirst.frc.team125.robot.subsystems;
 
+
+
 import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import org.usfirst.frc.team125.robot.RobotMap;
@@ -46,6 +48,7 @@ public class DoubleLift extends Subsystem {
         this.liftToggle = !liftToggle;
         this.doubleLifter.set(liftToggle);
     }
+
 
     @Override
     protected void initDefaultCommand() {

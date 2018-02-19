@@ -307,10 +307,12 @@ public class CubeLift extends Subsystem {
         rightElevatorLeader.config_kI(0, kI, 0);
         rightElevatorLeader.config_kD(0, kD, 0);
         rightElevatorLeader.config_kF(0, kF, 0);
+
     }
 
     /**
      * Set parameters for motion magic control
+<<<<<<< HEAD
      *
      * @param cruiseVelocity cruise velocity in sensorUnits per 100ms
      * @param acceleration   cruise acceleration in sensorUnits per 100ms
@@ -333,10 +335,12 @@ public class CubeLift extends Subsystem {
         kD = SmartDashboard.getNumber("kD", kD);
         kF = SmartDashboard.getNumber("kF", kF);
         configPIDF(kP, kI, kD, kF);
+
     }
 
     public void initDefaultCommand() {
         setDefaultCommand(new ElevatorDriveCmd());
     }
+
 }
 

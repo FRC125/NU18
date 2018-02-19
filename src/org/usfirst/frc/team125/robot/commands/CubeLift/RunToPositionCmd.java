@@ -3,20 +3,24 @@ package org.usfirst.frc.team125.robot.commands.CubeLift;
 import edu.wpi.first.wpilibj.command.Command;
 import org.usfirst.frc.team125.robot.Robot;
 
-public class ElevatorDriveCmd extends Command {
+/**
+ *
+ */
+public class RunToPositionCmd extends Command {
 
-    public ElevatorDriveCmd() {
+    private int position;
+
+    public RunToPositionCmd(int pos) {
         requires(Robot.cubeLift);
-
-        setInterruptible(true);
+        this.position = pos;
     }
 
     protected void initialize() {
+        Robot.cubeLift.stopElevator();
     }
 
     protected void execute() {
-        Robot.cubeLift.directElevate(-Robot.oi.getOpLeftStickY());
-
+        Robot.cubeLift.runToPosition(position);
     }
 
     protected boolean isFinished() {
@@ -24,11 +28,10 @@ public class ElevatorDriveCmd extends Command {
     }
 
     protected void end() {
+        Robot.cubeLift.stopElevator();
     }
 
     protected void interrupted() {
-        Robot.cubeLift.stopElevator();
-
+        end();
     }
-
 }
