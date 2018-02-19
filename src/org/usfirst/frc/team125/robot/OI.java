@@ -3,25 +3,18 @@ package org.usfirst.frc.team125.robot;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.buttons.Button;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
-import edu.wpi.first.wpilibj.buttons.Trigger;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import org.usfirst.frc.team125.robot.commands.CubeLift.OpenGrabbersCmd;
 import org.usfirst.frc.team125.robot.commands.CubeLift.RunToPositionMotionMagicCmd;
 import org.usfirst.frc.team125.robot.commands.CubeLift.TogglePinCmd;
 import org.usfirst.frc.team125.robot.commands.CubeLift.UnpunchCmd;
-import org.usfirst.frc.team125.robot.commands.DoubleLift.ToggleLiftCmd;
-import org.usfirst.frc.team125.robot.commands.DoubleLift.ToggleReleaserCmd;
-import org.usfirst.frc.team125.robot.commands.Drivetrain.DriveArcadeCmd;
-import org.usfirst.frc.team125.robot.commands.Drivetrain.DriveArcadeWithHoldHeadingCmd;
 import org.usfirst.frc.team125.robot.commands.Groups.PullUpAndDropCarrierCmdGrp;
 import org.usfirst.frc.team125.robot.commands.Groups.ScoreCmdGrp;
 import org.usfirst.frc.team125.robot.commands.Groups.SecureCubeCmdGrp;
 import org.usfirst.frc.team125.robot.commands.Intake.IntakeCmd;
 import org.usfirst.frc.team125.robot.commands.Intake.IntakeStopCmd;
-import org.usfirst.frc.team125.robot.commands.Intake.OuttakeCmd;
 import org.usfirst.frc.team125.robot.commands.Intake.ToggleIntakeSolenoidCmd;
 import org.usfirst.frc.team125.robot.subsystems.CubeLift;
-import org.usfirst.frc.team125.robot.util.AnalogButton;
 import org.usfirst.frc.team125.robot.util.JoystickMap;
 
 
@@ -66,18 +59,6 @@ public class OI {
         toggleIntakePistonInOrOut.whenPressed(new ToggleIntakeSolenoidCmd());
         runEleClimb.whenPressed(new RunToPositionMotionMagicCmd(CubeLift.Positions.ClimbingBar));
         climb.whenPressed(new PullUpAndDropCarrierCmdGrp());
-
-
-        if(intake.buttonPressed()){
-            new IntakeCmd();
-        }else{
-            new IntakeStopCmd();
-        }
-
-        SmartDashboard.putBoolean("Intake Button Pressed", intake.buttonPressed());
-
-        //toggleDoubleLiftDown.whenActive(new ToggleReleaserCmd());
-        //toggleDoubleLiftLift.whenActive(new ToggleLiftCmd());
 
         /* Driver Control */
         //Intake and Scoring
