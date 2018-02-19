@@ -4,6 +4,7 @@ import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.buttons.Button;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
 import edu.wpi.first.wpilibj.buttons.Trigger;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import org.usfirst.frc.team125.robot.commands.CubeLift.OpenGrabbersCmd;
 import org.usfirst.frc.team125.robot.commands.CubeLift.RunToPositionMotionMagicCmd;
 import org.usfirst.frc.team125.robot.commands.CubeLift.TogglePinCmd;
@@ -16,9 +17,11 @@ import org.usfirst.frc.team125.robot.commands.Groups.PullUpAndDropCarrierCmdGrp;
 import org.usfirst.frc.team125.robot.commands.Groups.ScoreCmdGrp;
 import org.usfirst.frc.team125.robot.commands.Groups.SecureCubeCmdGrp;
 import org.usfirst.frc.team125.robot.commands.Intake.IntakeCmd;
+import org.usfirst.frc.team125.robot.commands.Intake.IntakeStopCmd;
 import org.usfirst.frc.team125.robot.commands.Intake.OuttakeCmd;
 import org.usfirst.frc.team125.robot.commands.Intake.ToggleIntakeSolenoidCmd;
 import org.usfirst.frc.team125.robot.subsystems.CubeLift;
+import org.usfirst.frc.team125.robot.util.AnalogButton;
 import org.usfirst.frc.team125.robot.util.JoystickMap;
 
 
@@ -38,12 +41,14 @@ public class OI {
     public Button toggleIntakePistonInOrOut = new JoystickButton(opPad, JoystickMap.R3);
     public Button runEleClimb = new JoystickButton(opPad, JoystickMap.BACK);
     public Button climb = new JoystickButton(opPad, JoystickMap.START);
-    public Trigger toggleDoubleLiftDown = new JoystickButton(opPad, JoystickMap.LEFT_TRIGGER);
-    public Trigger toggleDoubleLiftLift = new JoystickButton(opPad, JoystickMap.RIGHT_TRIGGER);
+    //public Trigger toggleDoubleLiftDown = new JoystickButton(opPad, JoystickMap.LEFT_TRIGGER);
+    //public Trigger toggleDoubleLiftLift = new JoystickButton(opPad, JoystickMap.RIGHT_TRIGGER);
+    public AnalogButton intake = new AnalogButton(opPad, 3, 0.5);
+
 
     /* Driver Control */
     public Button score = new JoystickButton(driverPad, JoystickMap.X);
-    private Button intake = new JoystickButton(driverPad, JoystickMap.A);
+    //private Button intake = new JoystickButton(driverPad, JoystickMap.A);
     private Button outtake = new JoystickButton(driverPad, JoystickMap.B);
 
 
@@ -62,14 +67,23 @@ public class OI {
         runEleClimb.whenPressed(new RunToPositionMotionMagicCmd(CubeLift.Positions.ClimbingBar));
         climb.whenPressed(new PullUpAndDropCarrierCmdGrp());
 
+
+        if(intake.buttonPressed()){
+            new IntakeCmd();
+        }else{
+            new IntakeStopCmd();
+        }
+
+        SmartDashboard.putBoolean("Intake Button Pressed", intake.buttonPressed());
+
         //toggleDoubleLiftDown.whenActive(new ToggleReleaserCmd());
         //toggleDoubleLiftLift.whenActive(new ToggleLiftCmd());
 
         /* Driver Control */
         //Intake and Scoring
-        intake.whileHeld(new IntakeCmd());
-        intake.whenPressed(new OpenGrabbersCmd());
-        outtake.whileHeld(new OuttakeCmd());
+        //intake.whileHeld(new IntakeCmd());
+        //intake.whenPressed(new OpenGrabbersCmd());
+        //outtake.whileHeld(new OuttakeCmd());
         outtake.whenPressed(new OpenGrabbersCmd());
         score.whenPressed(new ScoreCmdGrp());
         score.whenReleased(new UnpunchCmd());
