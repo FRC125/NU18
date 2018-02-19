@@ -20,6 +20,8 @@ import org.usfirst.frc.team125.robot.RobotMap;
 import org.usfirst.frc.team125.robot.commands.Drivetrain.DriveArcadeCmd;
 import java.io.File;
 
+import static java.lang.Math.abs;
+
 public class Drivetrain extends Subsystem {
 
     //Controllers
@@ -134,7 +136,7 @@ public class Drivetrain extends Subsystem {
         this.rightDriveMain.set(ControlMode.PercentOutput, -turn);
         lastHeadingError = error;
         SmartDashboard.putNumber("turn to angle error", error);
-        return Math.abs(error) <= 0.5;
+        return abs(error) <= 0.5;
     }
 
     public void resetLastHeadingError() {
@@ -206,13 +208,21 @@ public class Drivetrain extends Subsystem {
         this.gyro.reset();
     }
 
+    public double generateHashCode(Waypoint[] path) {
+        double hash = 1.0;
+        for(int i = 0; i < path.length; i ++) {
+            hash =  ((path[i].x * 3) + (path[i].y * 7) + (path[i].angle * 11));
+        }
+        return (int)abs(hash * 1000);
+    }
 
     public EncoderFollower[] pathSetup(Waypoint[] path) {
+
         EncoderFollower left = new EncoderFollower();
         EncoderFollower right = new EncoderFollower();
         Trajectory.Config cfg = new Trajectory.Config(Trajectory.FitMethod.HERMITE_QUINTIC, Trajectory.Config.SAMPLES_HIGH,
                 Drivetrain.DrivetrainProfiling.dt, Drivetrain.DrivetrainProfiling.max_velocity, Drivetrain.DrivetrainProfiling.max_acceleration, Drivetrain.DrivetrainProfiling.max_jerk);
-        String pathHash = String.valueOf(path.hashCode());
+        String pathHash = String.valueOf(generateHashCode(path));
         SmartDashboard.putString("Path Hash", pathHash);
         Trajectory toFollow;// = Pathfinder.generate(path, cfg);
         File trajectory = new File("/home/lvuser/paths/" + pathHash + ".csv");

@@ -10,6 +10,6 @@ public class LeftSideCloseScalePaths {
     public static Waypoint[] toScale = new Waypoint[]{
             new Waypoint(0.0, 0.0, Pathfinder.d2r(0.0)),
             new Waypoint((4.9784 - DRIVETRAIN_LENGTH), 0.0, Pathfinder.d2r(0.0)),
-            new Waypoint((4.9784 - DRIVETRAIN_LENGTH) + 2.7, -1.0, Pathfinder.d2r(0.0)),
+            new Waypoint((4.9784 - DRIVETRAIN_LENGTH) + 2.1, -1.0, Pathfinder.d2r(-90.0)),
     };
 }
