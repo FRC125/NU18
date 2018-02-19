@@ -83,7 +83,7 @@ public class Intake extends Subsystem {
         this.intakeL.set(ControlMode.PercentOutput, 0);
         this.intakeR.set(ControlMode.PercentOutput, 0);
     }
-    
+
     public boolean checkSmartIntakeTriggered() {
         smartIntakeDebouncer.update(smartIntake.get());
 
