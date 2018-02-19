@@ -16,10 +16,10 @@ public class LeftSideCloseScaleAuto extends CommandGroup {
     Command scoreCube = new ScoreCmdGrp();
 
     public LeftSideCloseScaleAuto() {
-        addSequential(secureCube);
+        //addSequential(secureCube);
         addSequential(driveToScale);
-        addSequential(liftElevatorToScalePos, 3);
-        addSequential(scoreCube);
+        //addSequential(liftElevatorToScalePos, 3);
+        //addSequential(scoreCube);
     }
 
 }

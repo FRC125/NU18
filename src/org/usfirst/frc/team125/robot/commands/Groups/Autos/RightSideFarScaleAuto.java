@@ -18,10 +18,10 @@ public class RightSideFarScaleAuto extends CommandGroup {
 
 
     public RightSideFarScaleAuto() {
-        addSequential(secureCube);
+        //addSequential(secureCube);
         addSequential(driveToFarScale);
-        addSequential(liftElevatorToScalePos, 3);
-        addSequential(scoreCube);
+        //addSequential(liftElevatorToScalePos, 3);
+        //addSequential(scoreCube);
     }
 
 }

@@ -17,10 +17,10 @@ public class LeftSideFarSwitchAuto extends CommandGroup {
     Command scoreCube = new ScoreCmdGrp();
 
     public LeftSideFarSwitchAuto() {
-        addSequential(secureCube);
+        //addSequential(secureCube);
         addSequential(driveToFarSwitch);
-        addSequential(liftElevatorToSwitchPos, 3);
-        addSequential(scoreCube);
+        //addSequential(liftElevatorToSwitchPos, 3);
+        //addSequential(scoreCube);
     }
 
 }

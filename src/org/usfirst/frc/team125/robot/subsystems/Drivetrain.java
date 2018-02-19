@@ -183,18 +183,18 @@ public class Drivetrain extends Subsystem {
     }
 
     public double getEncoderDistanceMetersRight() {
-        return (rightDriveMain.getSelectedSensorPosition(0) * Math.PI * DrivetrainProfiling.wheel_diameter) / DrivetrainProfiling.ticks_per_rev;
+        return (getEncoderRawRight() * Math.PI * DrivetrainProfiling.wheel_diameter) / DrivetrainProfiling.ticks_per_rev;
     }
 
     public double getEncoderDistanceMetersLeft() {
-        return (leftDriveMain.getSelectedSensorPosition(0) * Math.PI * DrivetrainProfiling.wheel_diameter) / DrivetrainProfiling.ticks_per_rev;
+        return (getEncoderRawLeft() * Math.PI * DrivetrainProfiling.wheel_diameter) / DrivetrainProfiling.ticks_per_rev;
     }
 
-    public double getEncoderRawLeft() {
-        return leftDriveMain.getSelectedSensorPosition(0);
+    public int getEncoderRawLeft() {
+        return -leftDriveMain.getSelectedSensorPosition(0);
     }
 
-    public double getEncoderRawRight() {
+    public int getEncoderRawRight() {
         return rightDriveMain.getSelectedSensorPosition(0);
     }
 
@@ -228,8 +228,8 @@ public class Drivetrain extends Subsystem {
         DrivetrainProfiling.last_gyro_error = 0.0;
         left = new EncoderFollower(modifier.getLeftTrajectory());
         right = new EncoderFollower(modifier.getRightTrajectory());
-        left.configureEncoder(leftDriveMain.getSelectedSensorPosition(0), DrivetrainProfiling.ticks_per_rev, DrivetrainProfiling.wheel_diameter);
-        right.configureEncoder(rightDriveMain.getSelectedSensorPosition(0), DrivetrainProfiling.ticks_per_rev, DrivetrainProfiling.wheel_diameter);
+        left.configureEncoder(getEncoderRawLeft(), DrivetrainProfiling.ticks_per_rev, DrivetrainProfiling.wheel_diameter);
+        right.configureEncoder(getEncoderRawRight(), DrivetrainProfiling.ticks_per_rev, DrivetrainProfiling.wheel_diameter);
         left.configurePIDVA(DrivetrainProfiling.kp, DrivetrainProfiling.ki, DrivetrainProfiling.kd, DrivetrainProfiling.kv, DrivetrainProfiling.ka);
         right.configurePIDVA(DrivetrainProfiling.kp, DrivetrainProfiling.ki, DrivetrainProfiling.kd, DrivetrainProfiling.kv, DrivetrainProfiling.ka);
         return new EncoderFollower[]{
@@ -266,11 +266,11 @@ public class Drivetrain extends Subsystem {
         double localGp = DrivetrainProfiling.gp;
         if (!reverse) {
             localGp *= -1;
-            l = left.calculate(-leftDriveMain.getSelectedSensorPosition(0));
-            r = right.calculate(-rightDriveMain.getSelectedSensorPosition(0));
+            l = left.calculate(-getEncoderRawLeft());
+            r = right.calculate(-getEncoderRawRight());
         } else {
-            l = left.calculate(leftDriveMain.getSelectedSensorPosition(0));
-            r = right.calculate(rightDriveMain.getSelectedSensorPosition(0));
+            l = left.calculate(getEncoderRawLeft());
+            r = right.calculate(getEncoderRawRight());
         }
 
         double gyro_heading = reverse ? -getAngle() - DrivetrainProfiling.path_angle_offset : getAngle() + DrivetrainProfiling.path_angle_offset;
