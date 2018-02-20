@@ -15,7 +15,7 @@ public class IntakeStopCmd extends Command {
 
     @Override
     public void execute() {
-        Robot.intake.currentCounterReset();
+        Robot.intake.stopIntake();
     }
 
     @Override

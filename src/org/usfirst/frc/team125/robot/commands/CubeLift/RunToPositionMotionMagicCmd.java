@@ -10,12 +10,14 @@ public class RunToPositionMotionMagicCmd extends Command {
     private boolean started = false;
 
     public RunToPositionMotionMagicCmd(CubeLift.Positions pos) {
+
         requires(Robot.cubeLift);
         this.position = pos;
     }
 
     protected void initialize() {
         Robot.cubeLift.stopElevator();
+
         Robot.cubeLift.closeGrabbers();
         switch (position) {
             case Intake:
@@ -51,6 +53,7 @@ public class RunToPositionMotionMagicCmd extends Command {
 
     protected boolean isFinished() {
         return Robot.cubeLift.getState() == CubeLift.LiftState.Stationary && Robot.cubeLift.getPosition() == this.position;
+
     }
 
     protected void end() {

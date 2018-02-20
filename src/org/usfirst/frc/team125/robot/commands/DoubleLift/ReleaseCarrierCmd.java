@@ -1,30 +1,30 @@
 package org.usfirst.frc.team125.robot.commands.DoubleLift;
 
-import edu.wpi.first.wpilibj.command.Command;
 import org.usfirst.frc.team125.robot.Robot;
 
-public class ReleaseCarrierCmd extends Command {
+import edu.wpi.first.wpilibj.command.Command;
 
-    public ReleaseCarrierCmd() {
-        requires(Robot.doubleLift);
-    }
+public class ReleaseCarrierCmd extends Command{
 
-    protected void initialize() {
-        Robot.doubleLift.releaseCarrier();
-    }
+	public ReleaseCarrierCmd() {
+		requires(Robot.doubleLift);
+	}
+	
+	protected void initialize() {
+		Robot.doubleLift.releaseCarrier();
+	}
+	
+	protected void execute() {
+	}
 
-    protected void execute() {
-    }
+	@Override
+	protected boolean isFinished() {
+		return true;
+	}
+	
+	protected void end() {
+	}
 
-    @Override
-    protected boolean isFinished() {
-        return true;
-    }
-
-    protected void end() {
-    }
-
-    protected void interrupted() {
-    }
+	protected void interrupted() {
+	}
 }
-

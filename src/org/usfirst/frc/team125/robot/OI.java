@@ -20,6 +20,7 @@ import org.usfirst.frc.team125.robot.commands.Intake.ToggleIntakeSolenoidCmd;
 import org.usfirst.frc.team125.robot.subsystems.CubeLift;
 import org.usfirst.frc.team125.robot.util.JoystickMap;
 
+
 public class OI {
 
     //Controllers
@@ -103,6 +104,7 @@ public class OI {
 
         /* Driver Control */
         //Intake and Scoring
+
         intake.whileHeld(new IntakeCmd());
         outtake.whileHeld(new OuttakeCmd());
         outtake.whenPressed(new OpenGrabbersCmd());
@@ -146,5 +148,6 @@ public class OI {
     public double getOpLeftStickY() {
         return stickDeadband(this.opPad.getRawAxis(1), STICK_DEADBAND, 0.0);
     }
+
 }
 

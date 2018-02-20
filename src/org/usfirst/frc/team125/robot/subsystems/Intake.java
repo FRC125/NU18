@@ -3,20 +3,20 @@ package org.usfirst.frc.team125.robot.subsystems;
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.IMotorController;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
+import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 import com.ctre.phoenix.motorcontrol.can.VictorSPX;
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import org.usfirst.frc.team125.robot.RobotMap;
-import org.usfirst.frc.team125.robot.util.CurrentReader;
 import org.usfirst.frc.team125.robot.util.DebouncedBoolean;
 
 public class Intake extends Subsystem {
 
     //Intake motors
-    private IMotorController intakeL = new VictorSPX(RobotMap.INTAKE_LEFT);
-    private IMotorController intakeR = new VictorSPX(RobotMap.INTAKE_RIGHT);
+    private IMotorController intakeL = new TalonSRX(RobotMap.INTAKE_LEFT);
+    private IMotorController intakeR = new TalonSRX(RobotMap.INTAKE_RIGHT);
 
     private DoubleSolenoid intakeSolenoid = new DoubleSolenoid(RobotMap.INTAKE_RETRACT_FORWARD, RobotMap.INTAKE_RETRACT_REVERSE);
 
@@ -27,8 +27,6 @@ public class Intake extends Subsystem {
     public static final double INTAKE_POWER_LEFT = 1.0;
     public static final double INTAKE_POWER_RIGHT = 1.0;
     public static final double CURRENT_MAX = 110;
-
-    public CurrentReader intakeCurrentReader = new CurrentReader();
 
     private static final DoubleSolenoid.Value INTAKE_FORWARD_VALUE = DoubleSolenoid.Value.kForward;
     private static final DoubleSolenoid.Value INTAKE_REVERSE_VALUE = DoubleSolenoid.Value.kReverse;
@@ -85,21 +83,6 @@ public class Intake extends Subsystem {
     public void stopIntake() {
         this.intakeL.set(ControlMode.PercentOutput, 0);
         this.intakeR.set(ControlMode.PercentOutput, 0);
-    }
-
-    public boolean passedCurrentLimit() {
-        double intakeCurrent = 0;
-        intakeCurrent = this.intakeCurrentReader.getTotalCurrent(CurrentReader.CurrentPorts.Intake);
-        SmartDashboard.putNumber("intakeCurrent", intakeCurrent);
-
-        if (intakeCurrent > this.intakeCurrentReader.INTAKE_MAX_CURRENT) {
-            this.intakeCurrentReader.currentCounter += 1;
-        }
-        return this.intakeCurrentReader.currentCounter > this.intakeCurrentReader.COUNTER_MAX ? true : false;
-    }
-
-    public int currentCounterReset() {
-        return this.intakeCurrentReader.currentCounter = 0;
     }
 
     public boolean checkSmartIntakeTriggered() {

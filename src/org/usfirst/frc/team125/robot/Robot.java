@@ -13,6 +13,7 @@ import org.usfirst.frc.team125.robot.subsystems.DoubleLift;
 import org.usfirst.frc.team125.robot.subsystems.Drivetrain;
 import org.usfirst.frc.team125.robot.subsystems.Intake;
 
+
 public class Robot extends IterativeRobot {
 
     public static Drivetrain drivetrain = new Drivetrain();
@@ -69,8 +70,10 @@ public class Robot extends IterativeRobot {
         SmartDashboard.putData("Auto Selector", autoSelector);
     }
 
+
     @Override
     public void disabledInit() {
+		SmartDashboard.putNumber("Diff", 0.0);
     }
 
     @Override
