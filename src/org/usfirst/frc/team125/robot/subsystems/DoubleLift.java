@@ -10,11 +10,11 @@ public class DoubleLift extends Subsystem {
     private Solenoid release = new Solenoid(RobotMap.DOUBLELIFT_RELEASE);
     private static final boolean RELEASE_CARRIER_SET = true;
     private static final boolean UNRELEASE_CARRIER_SET = false;
-    private static final boolean DROP_LIFT_SET = true;
-    private static final boolean LIFT_LIFT_SET = false;
+    private static final boolean DROP_LIFT_SET = false;
+    private static final boolean LIFT_LIFT_SET = true;
 
     private boolean releaseToggle = false;
-    private boolean liftToggle = false;
+    private boolean liftToggle = true;
 
     public DoubleLift() {
         this.doubleLifter.set(false); // We want it up, hard coded for safety

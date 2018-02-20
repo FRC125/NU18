@@ -27,6 +27,7 @@ public class Robot extends IterativeRobot {
     private enum Sides {
         Left,
         Right,
+        Center,
     }
 
     private enum Autos {
@@ -41,6 +42,8 @@ public class Robot extends IterativeRobot {
     SendableChooser sideSelector;
     SendableChooser autoSelector;
 
+    Command leftCenterAuto = new CenterLeftAuto();
+    Command rightCenterAuto = new CenterRightAuto();
     Command leftSideCloseScaleAuto = new LeftSideCloseScaleAuto();
     Command leftSideCloseSwitchAuto = new LeftSideCloseSwitchAuto();
     Command leftSideFarScaleAuto = new LeftSideFarScaleAuto();
@@ -59,6 +62,7 @@ public class Robot extends IterativeRobot {
         autoSelector = new SendableChooser();
         sideSelector.addDefault("Left", Sides.Left); // Left Side
         sideSelector.addObject("Right", Sides.Right); // Right Side
+        sideSelector.addObject("Center", Sides.Center); // Right Side
         autoSelector.addDefault("Switch Only", Autos.SwitchOnly);
         autoSelector.addObject("Scale Only", Autos.ScaleOnly);
         SmartDashboard.putData("Side Selector", sideSelector);
@@ -89,82 +93,96 @@ public class Robot extends IterativeRobot {
             gameData = "";
         }
 
-        switch (gameData) {
-            case "LR": // GOOD!
-                if (sideSelector.getSelected().equals(Sides.Left)) {
-                    if (autoSelector.getSelected().equals(Autos.SwitchOnly)) {
-                        autoCommand = leftSideCloseSwitchAuto;
+        if (sideSelector.getSelected().equals(Sides.Center)) {
+            switch (gameData.substring(0, 1)) {
+                case "L":
+                    autoCommand = leftCenterAuto;
+                    break;
+                case "R":
+                    autoCommand = rightCenterAuto;
+                    break;
+                default:
+                    autoCommand = new WaitCommand(15);
+                    break;
+            }
+        } else {
+            switch (gameData) {
+                case "LR": // GOOD!
+                    if (sideSelector.getSelected().equals(Sides.Left)) {
+                        if (autoSelector.getSelected().equals(Autos.SwitchOnly)) {
+                            autoCommand = leftSideCloseSwitchAuto;
+                        }
+                        if (autoSelector.getSelected().equals(Autos.ScaleOnly)) {
+                            autoCommand = leftSideFarScaleAuto;
+                        }
+                    } else {
+                        if (autoSelector.getSelected().equals(Autos.SwitchOnly)) {
+                            autoCommand = rightSideFarSwitchAuto;
+                        }
+                        if (autoSelector.getSelected().equals(Autos.ScaleOnly)) {
+                            autoCommand = rightSideCloseScaleAuto;
+                        }
                     }
-                    if (autoSelector.getSelected().equals(Autos.ScaleOnly)) {
-                        autoCommand = leftSideFarScaleAuto;
-                    }
-                } else {
-                    if (autoSelector.getSelected().equals(Autos.SwitchOnly)) {
-                        autoCommand = rightSideFarSwitchAuto;
-                    }
-                    if (autoSelector.getSelected().equals(Autos.ScaleOnly)) {
-                        autoCommand = rightSideCloseScaleAuto;
-                    }
-                }
-                break;
+                    break;
 
-            case "RL": // GOOD!
-                if (sideSelector.getSelected().equals(Sides.Left)) {
-                    if (autoSelector.getSelected().equals(Autos.SwitchOnly)) {
-                        autoCommand = leftSideFarSwitchAuto;
+                case "RL": // GOOD!
+                    if (sideSelector.getSelected().equals(Sides.Left)) {
+                        if (autoSelector.getSelected().equals(Autos.SwitchOnly)) {
+                            autoCommand = leftSideFarSwitchAuto;
+                        }
+                        if (autoSelector.getSelected().equals(Autos.ScaleOnly)) {
+                            autoCommand = leftSideCloseScaleAuto;
+                        }
+                    } else {
+                        if (autoSelector.getSelected().equals(Autos.SwitchOnly)) {
+                            autoCommand = rightSideCloseSwitchAuto;
+                        }
+                        if (autoSelector.getSelected().equals(Autos.ScaleOnly)) {
+                            autoCommand = rightSideFarScaleAuto;
+                        }
                     }
-                    if (autoSelector.getSelected().equals(Autos.ScaleOnly)) {
-                        autoCommand = leftSideCloseScaleAuto;
-                    }
-                } else {
-                    if (autoSelector.getSelected().equals(Autos.SwitchOnly)) {
-                        autoCommand = rightSideCloseSwitchAuto;
-                    }
-                    if (autoSelector.getSelected().equals(Autos.ScaleOnly)) {
-                        autoCommand = rightSideFarScaleAuto;
-                    }
-                }
-                break;
+                    break;
 
-            case "LL": //GOOD!
-                if (sideSelector.getSelected().equals(Sides.Left)) {
-                    if (autoSelector.getSelected().equals(Autos.SwitchOnly)) {
-                        autoCommand = leftSideCloseSwitchAuto;
+                case "LL": //GOOD!
+                    if (sideSelector.getSelected().equals(Sides.Left)) {
+                        if (autoSelector.getSelected().equals(Autos.SwitchOnly)) {
+                            autoCommand = leftSideCloseSwitchAuto;
+                        }
+                        if (autoSelector.getSelected().equals(Autos.ScaleOnly)) {
+                            autoCommand = leftSideCloseScaleAuto;
+                        }
+                    } else {
+                        if (autoSelector.getSelected().equals(Autos.SwitchOnly)) {
+                            autoCommand = rightSideFarSwitchAuto;
+                        }
+                        if (autoSelector.getSelected().equals(Autos.ScaleOnly)) {
+                            autoCommand = rightSideFarScaleAuto;
+                        }
                     }
-                    if (autoSelector.getSelected().equals(Autos.ScaleOnly)) {
-                        autoCommand = leftSideCloseScaleAuto;
-                    }
-                } else {
-                    if (autoSelector.getSelected().equals(Autos.SwitchOnly)) {
-                        autoCommand = rightSideFarSwitchAuto;
-                    }
-                    if (autoSelector.getSelected().equals(Autos.ScaleOnly)) {
-                        autoCommand = rightSideFarScaleAuto;
-                    }
-                }
-                break;
+                    break;
 
-            case "RR": //GOOD!
-                if (sideSelector.getSelected().equals(Sides.Left)) {
-                    if (autoSelector.getSelected().equals(Autos.SwitchOnly)) {
-                        autoCommand = leftSideFarSwitchAuto;
+                case "RR": //GOOD!
+                    if (sideSelector.getSelected().equals(Sides.Left)) {
+                        if (autoSelector.getSelected().equals(Autos.SwitchOnly)) {
+                            autoCommand = leftSideFarSwitchAuto;
+                        }
+                        if (autoSelector.getSelected().equals(Autos.ScaleOnly)) {
+                            autoCommand = leftSideFarScaleAuto;
+                        }
+                    } else {
+                        if (autoSelector.getSelected().equals(Autos.SwitchOnly)) {
+                            autoCommand = rightSideCloseSwitchAuto;
+                        }
+                        if (autoSelector.getSelected().equals(Autos.ScaleOnly)) {
+                            autoCommand = rightSideCloseScaleAuto;
+                        }
                     }
-                    if (autoSelector.getSelected().equals(Autos.ScaleOnly)) {
-                        autoCommand = leftSideFarScaleAuto;
-                    }
-                } else {
-                    if (autoSelector.getSelected().equals(Autos.SwitchOnly)) {
-                        autoCommand = rightSideCloseSwitchAuto;
-                    }
-                    if (autoSelector.getSelected().equals(Autos.ScaleOnly)) {
-                        autoCommand = rightSideCloseScaleAuto;
-                    }
-                }
-                break;
+                    break;
 
-            default:
-                autoCommand = new WaitCommand(15);
-                break;
+                default:
+                    autoCommand = new WaitCommand(15);
+                    break;
+            }
         }
 
         autoCommand.start();

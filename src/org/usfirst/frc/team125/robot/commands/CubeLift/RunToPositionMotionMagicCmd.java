@@ -27,8 +27,11 @@ public class RunToPositionMotionMagicCmd extends Command {
                 break;
             case PreClimb:
             case ClimbingBar:
-            case ChinUp:
                 Robot.intake.intakePistonUp();
+                break;
+            case ChinUp:
+                Robot.cubeLift.unpin();
+                Robot.intake.intakePistonDown();
                 break;
             default:
                 break;

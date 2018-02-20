@@ -13,8 +13,6 @@ import org.usfirst.frc.team125.robot.commands.CubeLift.ElevatorDriveCmd;
 import org.usfirst.frc.team125.robot.util.CurrentReader;
 import org.usfirst.frc.team125.robot.util.DebouncedBoolean;
 
-import static org.usfirst.frc.team125.robot.Robot.cubeLift;
-
 public class CubeLift extends Subsystem {
 
     public static enum LiftState {
@@ -75,14 +73,15 @@ public class CubeLift extends Subsystem {
 
     public enum Positions {
         Intake(300),
+        Driving(25000),
         ScoreSwitch(50000),
         ScoreScale(70000),
-        ScoreScaleLow(20000),
-        ScoreScaleHigh(70000),
-        PreClimb(70000),
+        ScoreScaleLow(60000),
+        ScoreScaleHigh(72000),
+        PreClimb(74000),
         Top(75001),
-        ChinUp(0),
-        ClimbingBar(0);
+        ChinUp(40500),
+        ClimbingBar(67500);
         private int position;
 
         Positions(int encPos) {

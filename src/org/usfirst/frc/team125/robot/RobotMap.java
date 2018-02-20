@@ -40,5 +40,4 @@ public class RobotMap {
      */
     //Digital Input
     public static final int INTAKE_LIMIT_SWITCH_A = 0;
-    public static final int CUBELIFT_HALL_EFFECT_SENSOR = 5;
 }

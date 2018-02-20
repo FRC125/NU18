@@ -10,11 +10,11 @@ import org.usfirst.frc.team125.robot.commands.CubeLift.TogglePinCmd;
 import org.usfirst.frc.team125.robot.commands.CubeLift.UnpunchCmd;
 import org.usfirst.frc.team125.robot.commands.DoubleLift.LiftLiftCmd;
 import org.usfirst.frc.team125.robot.commands.DoubleLift.ReleaseCarrierCmd;
-import org.usfirst.frc.team125.robot.commands.DoubleLift.ToggleReleaserCmd;
-import org.usfirst.frc.team125.robot.commands.Groups.PullUpAndDropCarrierCmdGrp;
+import org.usfirst.frc.team125.robot.commands.Groups.ChinUpCmdGrp;
 import org.usfirst.frc.team125.robot.commands.Groups.ScoreCmdGrp;
 import org.usfirst.frc.team125.robot.commands.Groups.SecureCubeCmdGrp;
 import org.usfirst.frc.team125.robot.commands.Intake.IntakeCmd;
+import org.usfirst.frc.team125.robot.commands.Intake.IntakeDownCmd;
 import org.usfirst.frc.team125.robot.commands.Intake.OuttakeCmd;
 import org.usfirst.frc.team125.robot.commands.Intake.ToggleIntakeSolenoidCmd;
 import org.usfirst.frc.team125.robot.subsystems.CubeLift;
@@ -67,6 +67,7 @@ public class OI {
     public void checkTriggers() {
         if (getOpLeftTrigger() >= 0.5) {
             new ReleaseCarrierCmd().start();
+            new IntakeDownCmd().start();
         }
         if (getOpRightTrigger() >= 0.5) {
             new LiftLiftCmd().start();
@@ -98,7 +99,7 @@ public class OI {
         toggleElevatorPin.whenPressed(new TogglePinCmd());
         toggleIntakePistonInOrOut.whenPressed(new ToggleIntakeSolenoidCmd());
         runEleClimb.whenPressed(new RunToPositionMotionMagicCmd(CubeLift.Positions.ClimbingBar));
-        climb.whenPressed(new PullUpAndDropCarrierCmdGrp());
+        climb.whenPressed(new ChinUpCmdGrp());
 
         /* Driver Control */
         //Intake and Scoring
