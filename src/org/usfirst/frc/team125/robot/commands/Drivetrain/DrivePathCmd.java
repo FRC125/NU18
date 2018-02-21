@@ -21,6 +21,7 @@ public class DrivePathCmd extends Command {
     }
 
     protected void initialize() {
+        Robot.drivetrain.initLogging();
         Robot.drivetrain.resetForPath();
         Robot.drivetrain.pathFollow(followers, false);
     }
@@ -35,6 +36,7 @@ public class DrivePathCmd extends Command {
 
     protected void end() {
         Robot.drivetrain.drive(0., 0.);
+        Robot.drivetrain.endLogging();
     }
 
     protected void interrupted() {

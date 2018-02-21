@@ -18,7 +18,7 @@ import jaci.pathfinder.modifiers.TankModifier;
 import org.usfirst.frc.team125.robot.RobotMap;
 import org.usfirst.frc.team125.robot.commands.Drivetrain.DriveArcadeCmd;
 
-import java.io.File;
+import java.io.*;
 
 public class Drivetrain extends Subsystem {
 
@@ -41,6 +41,8 @@ public class Drivetrain extends Subsystem {
 
     //Gyro logging for driving
     double lastHeadingError = 0.0;
+
+    private PrintWriter pathWriter;
 
     public Drivetrain() {
         //Slave Control
@@ -304,6 +306,18 @@ public class Drivetrain extends Subsystem {
             SmartDashboard.putNumber("Path angle offset", DrivetrainProfiling.path_angle_offset);
             SmartDashboard.putNumber("Angle offset w/ new path angle offset", angleDifference + DrivetrainProfiling.path_angle_offset);
         }
+
+        if(!left.isFinished() && !right.isFinished()) {
+            double leftSeg = left.getSegment().position;
+            double RightSeg = right.getSegment().position;
+
+            double leftActual = getEncoderDistanceMetersLeft();
+            double rightActual = getEncoderDistanceMetersRight();
+
+            String line = String.format("%f,%f,%f,%f\n", leftSeg, RightSeg, leftActual, rightActual);
+            pathWriter.write(line);
+        }
+
         if (!reverse) {
             drive(l + turn, r - turn);
         } else {
@@ -314,6 +328,32 @@ public class Drivetrain extends Subsystem {
             isProfileFinished = true;
             DrivetrainProfiling.path_angle_offset = angleDifference;
         }
+    }
+
+    public void initLogging(){
+
+        String fileName = "/home/lvuser/" + Long.valueOf(System.currentTimeMillis()).toString();
+
+        File file = new File(fileName);
+
+        try {
+            file.createNewFile();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        try {
+            this.pathWriter = new PrintWriter(new BufferedWriter(new FileWriter(fileName)));
+            //Write first line
+            //"LeftSegDist, RightSegDist, LeftDistActual, RightDistActual
+            pathWriter.write("LeftSegDistance, RightSegDist, LeftDistActual, RightDistActual\n");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void endLogging(){
+        pathWriter.close();
     }
 
 
