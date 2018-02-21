@@ -8,6 +8,11 @@ import edu.wpi.first.wpilibj.command.WaitCommand;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import org.usfirst.frc.team125.robot.commands.Groups.Autos.*;
+import org.usfirst.frc.team125.robot.commands.Groups.Autos.PalmettoAutos.CenterRightAuto;
+import org.usfirst.frc.team125.robot.commands.Groups.Autos.LeftSideCloseSwitchAuto;
+import org.usfirst.frc.team125.robot.commands.Groups.Autos.LeftSideFarSwitchAuto;
+import org.usfirst.frc.team125.robot.commands.Groups.Autos.RightSideCloseSwitchAuto;
+import org.usfirst.frc.team125.robot.commands.Groups.Autos.RightSideFarSwitchAuto;
 import org.usfirst.frc.team125.robot.subsystems.CubeLift;
 import org.usfirst.frc.team125.robot.subsystems.DoubleLift;
 import org.usfirst.frc.team125.robot.subsystems.Drivetrain;
@@ -42,7 +47,8 @@ public class Robot extends IterativeRobot {
     SendableChooser sideSelector;
     SendableChooser autoSelector;
 
-    Command leftCenterAuto = new CenterLeftAuto();
+    //Basic 1 Cubes
+    Command leftCenterAuto = new org.usfirst.frc.team125.robot.commands.Groups.Autos.PalmettoAutos.CenterLeftAuto();
     Command rightCenterAuto = new CenterRightAuto();
     Command leftSideCloseScaleAuto = new LeftSideCloseScaleAuto();
     Command leftSideCloseSwitchAuto = new LeftSideCloseSwitchAuto();
@@ -52,6 +58,9 @@ public class Robot extends IterativeRobot {
     Command rightSideCloseSwitchAuto = new RightSideCloseSwitchAuto();
     Command rightSideFarScaleAuto = new RightSideFarScaleAuto();
     Command rightSideFarSwitchAuto = new RightSideFarSwitchAuto();
+
+    //Two Cubes
+    Command rightSideCloseScaleTwoCubeAuto = new RightSideCloseScaleTwoCubeAuto();
 
 
     @Override
@@ -85,7 +94,6 @@ public class Robot extends IterativeRobot {
         this.drivetrain.disableRamping();
 
         String gameDataTemp = DriverStation.getInstance().getGameSpecificMessage();
-
         if (gameDataTemp != null) {
             gameData = DriverStation.getInstance().getGameSpecificMessage().substring(0, 2);
         } else {
