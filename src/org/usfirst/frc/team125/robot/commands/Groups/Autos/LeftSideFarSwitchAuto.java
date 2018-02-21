@@ -11,14 +11,14 @@ import org.usfirst.frc.team125.robot.util.Paths.LeftSideFarSwitchPaths;
 
 public class LeftSideFarSwitchAuto extends CommandGroup {
 
-    Command driveToFarSwitch = new DrivePathCmd(LeftSideFarSwitchPaths.toSwitch);
+    //Command driveToFarSwitch = new DrivePathCmd(LeftSideFarSwitchPaths.toSwitch);
     Command secureCube = new SecureCubeCmdGrp();
     Command liftElevatorToSwitchPos = new RunToPositionMotionMagicCmd(CubeLift.Positions.ScoreSwitch);
     Command scoreCube = new ScoreCmdGrp();
 
     public LeftSideFarSwitchAuto() {
         //addSequential(secureCube);
-        addSequential(driveToFarSwitch);
+        //addSequential(driveToFarSwitch);
         //addSequential(liftElevatorToSwitchPos, 3);
         //addSequential(scoreCube);
     }
