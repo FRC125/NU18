@@ -1,4 +1,4 @@
-package org.usfirst.frc.team125.robot.commands.Groups.Autos;
+package org.usfirst.frc.team125.robot.commands.Groups.Autos.PalmettoAutos.SwitchOnlyAutos;
 
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.CommandGroup;
@@ -9,21 +9,25 @@ import org.usfirst.frc.team125.robot.commands.Groups.ScoreCmdGrp;
 import org.usfirst.frc.team125.robot.commands.Groups.SecureCubeCmdGrp;
 import org.usfirst.frc.team125.robot.commands.Intake.IntakeDownCmd;
 import org.usfirst.frc.team125.robot.subsystems.CubeLift;
-import org.usfirst.frc.team125.robot.util.Paths.LeftSideCloseScalePaths;
+import org.usfirst.frc.team125.robot.util.Paths.PalmettoPaths.SwitchOnlyPaths.LeftSideCloseSwitchPaths;
+import org.usfirst.frc.team125.robot.util.Paths.PalmettoPaths.SwitchOnlyPaths.RightSideCloseSwitchPaths;
 
-public class LeftSideCloseScaleAuto extends CommandGroup {
+public class RightSideCloseSwitchAuto extends CommandGroup {
     Command intakeDown = new IntakeDownCmd();
-    Command driveToScale = new DrivePathCmd(LeftSideCloseScalePaths.toScale);
     Command secureCube = new SecureCubeCmdGrp();
-    Command liftElevatorA = new AutoLiftCmdGrp(0.5, CubeLift.Positions.ScoreScale);
+    Command liftElevator = new AutoLiftCmdGrp(0.5, CubeLift.Positions.ScoreSwitch);
+    Command driveToBeforeSwitch = new DrivePathCmd(RightSideCloseSwitchPaths.toBeforeSwitchTurn);
+    Command driveToSwitch = new DrivePathCmd(RightSideCloseSwitchPaths.turnToSwitch);
     Command scoreCube = new ScoreCmdGrp();
 
-    public LeftSideCloseScaleAuto() {
+
+    public RightSideCloseSwitchAuto() {
         addSequential(intakeDown);
         addSequential(new WaitCommand(0.25));
         addSequential(secureCube);
-        addParallel(liftElevatorA);
-        addSequential(driveToScale);
+        addParallel(liftElevator);
+        addSequential(driveToBeforeSwitch);
+        addSequential(driveToSwitch);
         addSequential(scoreCube);
     }
 

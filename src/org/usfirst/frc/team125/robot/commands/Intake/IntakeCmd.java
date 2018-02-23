@@ -13,6 +13,7 @@ public class IntakeCmd extends Command {
 
     @Override
     protected void initialize() {
+        Robot.cubeLift.unpunch();
     }
 
     @Override
