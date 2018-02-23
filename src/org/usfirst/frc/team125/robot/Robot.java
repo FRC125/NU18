@@ -7,12 +7,13 @@ import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.command.WaitCommand;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import org.usfirst.frc.team125.robot.commands.Groups.Autos.*;
-import org.usfirst.frc.team125.robot.commands.Groups.Autos.PalmettoAutos.CenterRightAuto;
-import org.usfirst.frc.team125.robot.commands.Groups.Autos.LeftSideCloseSwitchAuto;
-import org.usfirst.frc.team125.robot.commands.Groups.Autos.LeftSideFarSwitchAuto;
-import org.usfirst.frc.team125.robot.commands.Groups.Autos.RightSideCloseSwitchAuto;
-import org.usfirst.frc.team125.robot.commands.Groups.Autos.RightSideFarSwitchAuto;
+import org.usfirst.frc.team125.robot.commands.Groups.Autos.PalmettoAutos.CenterAutos.CenterLeftAuto;
+import org.usfirst.frc.team125.robot.commands.Groups.Autos.PalmettoAutos.CenterAutos.CenterRightAuto;
+import org.usfirst.frc.team125.robot.commands.Groups.Autos.PalmettoAutos.ScaleToSwitchAutos.*;
+import org.usfirst.frc.team125.robot.commands.Groups.Autos.PalmettoAutos.SwitchOnlyAutos.LeftSideCloseSwitchAuto;
+import org.usfirst.frc.team125.robot.commands.Groups.Autos.PalmettoAutos.SwitchOnlyAutos.LeftSideFarSwitchAuto;
+import org.usfirst.frc.team125.robot.commands.Groups.Autos.PalmettoAutos.SwitchOnlyAutos.RightSideCloseSwitchAuto;
+import org.usfirst.frc.team125.robot.commands.Groups.Autos.PalmettoAutos.SwitchOnlyAutos.RightSideFarSwitchAuto;
 import org.usfirst.frc.team125.robot.subsystems.CubeLift;
 import org.usfirst.frc.team125.robot.subsystems.DoubleLift;
 import org.usfirst.frc.team125.robot.subsystems.Drivetrain;
@@ -37,9 +38,8 @@ public class Robot extends IterativeRobot {
 
     private enum Autos {
         SwitchOnly,
-        ScaleOnly,
-        SwitchToScale,
         ScaleToSwitch,
+        DoNothing,
     }
 
     String gameData;
@@ -47,21 +47,25 @@ public class Robot extends IterativeRobot {
     SendableChooser sideSelector;
     SendableChooser autoSelector;
 
-    //Basic 1 Cubes
-    Command leftCenterAuto = new org.usfirst.frc.team125.robot.commands.Groups.Autos.PalmettoAutos.CenterLeftAuto();
-    Command rightCenterAuto = new CenterRightAuto();
-    Command leftSideCloseScaleAuto = new LeftSideCloseScaleAuto();
+    //Center Autos
+    Command centerLeftAuto = new CenterLeftAuto();
+    Command centerRightAuto = new CenterRightAuto();
+
+    //Scale To Switch Autos
+    Command leftSideCloseScaleCloseSwitchAuto = new LeftSideCloseScaleCloseSwitchAuto();
+    Command leftSideCloseScaleFarSwitchAuto = new LeftSideCloseScaleFarSwitchAuto();
+    Command leftSideFarScaleCloseSwitchAuto = new LeftSideFarScaleCloseSwitchAuto();
+    Command leftSideFarScaleFarSwitchAuto = new LeftSideFarScaleFarSwitchAuto();
+    Command rightSideCloseScaleCloseSwitchAuto = new RightSideCloseScaleCloseSwitchAuto();
+    Command rightSideCloseScaleFarSwitchAuto = new RightSideCloseScaleFarSwitchAuto();
+    Command rightSideFarScaleCloseSwitchAuto = new RightSideFarScaleCloseSwitchAuto();
+    Command rightSideFarScaleFarSwitchAuto = new RightSideFarScaleFarSwitchAuto();
+
+    //Switch Only Autos
     Command leftSideCloseSwitchAuto = new LeftSideCloseSwitchAuto();
-    Command leftSideFarScaleAuto = new LeftSideFarScaleAuto();
     Command leftSideFarSwitchAuto = new LeftSideFarSwitchAuto();
-    Command rightSideCloseScaleAuto = new RightSideCloseScaleAuto();
     Command rightSideCloseSwitchAuto = new RightSideCloseSwitchAuto();
-    Command rightSideFarScaleAuto = new RightSideFarScaleAuto();
     Command rightSideFarSwitchAuto = new RightSideFarSwitchAuto();
-
-    //Two Cubes
-    Command rightSideCloseScaleTwoCubeAuto = new RightSideCloseScaleTwoCubeAuto();
-
 
     @Override
     public void robotInit() {
@@ -73,7 +77,8 @@ public class Robot extends IterativeRobot {
         sideSelector.addObject("Right", Sides.Right); // Right Side
         sideSelector.addObject("Center", Sides.Center); // Right Side
         autoSelector.addDefault("Switch Only", Autos.SwitchOnly);
-        autoSelector.addObject("Scale Only", Autos.ScaleOnly);
+        autoSelector.addObject("Scale To Switch", Autos.ScaleToSwitch);
+        autoSelector.addObject("Do Nothing", Autos.DoNothing);
         SmartDashboard.putData("Side Selector", sideSelector);
         SmartDashboard.putData("Auto Selector", autoSelector);
     }
@@ -101,13 +106,16 @@ public class Robot extends IterativeRobot {
             gameData = "";
         }
 
-        if (sideSelector.getSelected().equals(Sides.Center)) {
+        if (autoSelector.getSelected().equals(Autos.DoNothing)) {
+            autoCommand = new WaitCommand(15);
+        }
+        else if (sideSelector.getSelected().equals(Sides.Center)) {
             switch (gameData.substring(0, 1)) {
                 case "L":
-                    autoCommand = leftCenterAuto;
+                    autoCommand = centerLeftAuto;
                     break;
                 case "R":
-                    autoCommand = rightCenterAuto;
+                    autoCommand = centerRightAuto;
                     break;
                 default:
                     autoCommand = new WaitCommand(15);
@@ -120,15 +128,15 @@ public class Robot extends IterativeRobot {
                         if (autoSelector.getSelected().equals(Autos.SwitchOnly)) {
                             autoCommand = leftSideCloseSwitchAuto;
                         }
-                        if (autoSelector.getSelected().equals(Autos.ScaleOnly)) {
-                            autoCommand = leftSideFarScaleAuto;
+                        if (autoSelector.getSelected().equals(Autos.ScaleToSwitch)) {
+                            autoCommand = leftSideFarScaleCloseSwitchAuto;
                         }
                     } else {
                         if (autoSelector.getSelected().equals(Autos.SwitchOnly)) {
                             autoCommand = rightSideFarSwitchAuto;
                         }
-                        if (autoSelector.getSelected().equals(Autos.ScaleOnly)) {
-                            autoCommand = rightSideCloseScaleAuto;
+                        if (autoSelector.getSelected().equals(Autos.ScaleToSwitch)) {
+                            autoCommand = rightSideCloseScaleFarSwitchAuto;
                         }
                     }
                     break;
@@ -138,15 +146,15 @@ public class Robot extends IterativeRobot {
                         if (autoSelector.getSelected().equals(Autos.SwitchOnly)) {
                             autoCommand = leftSideFarSwitchAuto;
                         }
-                        if (autoSelector.getSelected().equals(Autos.ScaleOnly)) {
-                            autoCommand = leftSideCloseScaleAuto;
+                        if (autoSelector.getSelected().equals(Autos.ScaleToSwitch)) {
+                            autoCommand = leftSideCloseScaleFarSwitchAuto;
                         }
                     } else {
                         if (autoSelector.getSelected().equals(Autos.SwitchOnly)) {
                             autoCommand = rightSideCloseSwitchAuto;
                         }
-                        if (autoSelector.getSelected().equals(Autos.ScaleOnly)) {
-                            autoCommand = rightSideFarScaleAuto;
+                        if (autoSelector.getSelected().equals(Autos.ScaleToSwitch)) {
+                            autoCommand = rightSideFarScaleCloseSwitchAuto;
                         }
                     }
                     break;
@@ -156,15 +164,15 @@ public class Robot extends IterativeRobot {
                         if (autoSelector.getSelected().equals(Autos.SwitchOnly)) {
                             autoCommand = leftSideCloseSwitchAuto;
                         }
-                        if (autoSelector.getSelected().equals(Autos.ScaleOnly)) {
-                            autoCommand = leftSideCloseScaleAuto;
+                        if (autoSelector.getSelected().equals(Autos.ScaleToSwitch)) {
+                            autoCommand = leftSideCloseScaleCloseSwitchAuto;
                         }
                     } else {
                         if (autoSelector.getSelected().equals(Autos.SwitchOnly)) {
                             autoCommand = rightSideFarSwitchAuto;
                         }
-                        if (autoSelector.getSelected().equals(Autos.ScaleOnly)) {
-                            autoCommand = rightSideFarScaleAuto;
+                        if (autoSelector.getSelected().equals(Autos.ScaleToSwitch)) {
+                            autoCommand = rightSideFarScaleFarSwitchAuto;
                         }
                     }
                     break;
@@ -174,15 +182,15 @@ public class Robot extends IterativeRobot {
                         if (autoSelector.getSelected().equals(Autos.SwitchOnly)) {
                             autoCommand = leftSideFarSwitchAuto;
                         }
-                        if (autoSelector.getSelected().equals(Autos.ScaleOnly)) {
-                            autoCommand = leftSideFarScaleAuto;
+                        if (autoSelector.getSelected().equals(Autos.ScaleToSwitch)) {
+                            autoCommand = leftSideFarScaleFarSwitchAuto;
                         }
                     } else {
                         if (autoSelector.getSelected().equals(Autos.SwitchOnly)) {
                             autoCommand = rightSideCloseSwitchAuto;
                         }
-                        if (autoSelector.getSelected().equals(Autos.ScaleOnly)) {
-                            autoCommand = rightSideCloseScaleAuto;
+                        if (autoSelector.getSelected().equals(Autos.ScaleToSwitch)) {
+                            autoCommand = rightSideCloseScaleCloseSwitchAuto;
                         }
                     }
                     break;

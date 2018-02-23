@@ -5,7 +5,7 @@ import jaci.pathfinder.Waypoint;
 
 public class RightSideFarSwitchPaths {
 
-    public static Waypoint[] toBeforeScaleTurn = new Waypoint[]{
+    public static Waypoint[] toBeforeSwitchTurn = new Waypoint[]{
             new Waypoint(0.0, 0.0, Pathfinder.d2r(0.0)),
             new Waypoint(3.7, 0.0, Pathfinder.d2r(0.0)),
             new Waypoint(5.2, 1.5, Pathfinder.d2r(90.0)),

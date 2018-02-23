@@ -1,4 +1,4 @@
-package org.usfirst.frc.team125.robot.commands.Groups.Autos.PalmettoAutos;
+package org.usfirst.frc.team125.robot.commands.Groups.Autos.PalmettoAutos.SwitchOnlyAutos;
 
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.CommandGroup;
@@ -9,23 +9,26 @@ import org.usfirst.frc.team125.robot.commands.Groups.ScoreCmdGrp;
 import org.usfirst.frc.team125.robot.commands.Groups.SecureCubeCmdGrp;
 import org.usfirst.frc.team125.robot.commands.Intake.IntakeDownCmd;
 import org.usfirst.frc.team125.robot.subsystems.CubeLift;
-import org.usfirst.frc.team125.robot.util.Paths.PalmettoPaths.CenterPaths.CenterLeftPath;
+import org.usfirst.frc.team125.robot.util.Paths.PalmettoPaths.SwitchOnlyPaths.LeftSideCloseSwitchPaths;
+import org.usfirst.frc.team125.robot.util.Paths.PalmettoPaths.SwitchOnlyPaths.RightSideCloseSwitchPaths;
+import org.usfirst.frc.team125.robot.util.Paths.PalmettoPaths.SwitchOnlyPaths.RightSideFarSwitchPaths;
 
-public class CenterLeftAuto extends CommandGroup {
+public class RightSideFarSwitchAuto extends CommandGroup {
     Command intakeDown = new IntakeDownCmd();
     Command secureCube = new SecureCubeCmdGrp();
-    Command liftElevator = new AutoLiftCmdGrp(0.1, CubeLift.Positions.ScoreSwitch);
-    Command driveToScale = new DrivePathCmd(CenterLeftPath.toSwitch);
+    Command liftElevator = new AutoLiftCmdGrp(0.75, CubeLift.Positions.ScoreSwitch);
+    Command driveToBeforeSwitch = new DrivePathCmd(RightSideFarSwitchPaths.toBeforeSwitchTurn);
+    Command driveToSwitch = new DrivePathCmd(RightSideFarSwitchPaths.turnToSwitch);
     Command scoreCube = new ScoreCmdGrp();
 
 
-    public CenterLeftAuto() {
+    public RightSideFarSwitchAuto() {
         addSequential(intakeDown);
         addSequential(new WaitCommand(0.25));
         addSequential(secureCube);
         addParallel(liftElevator);
-        addSequential(driveToScale);
+        addSequential(driveToBeforeSwitch);
+        addSequential(driveToSwitch);
         addSequential(scoreCube);
     }
-
 }
