@@ -12,15 +12,18 @@ public class DrivePathCmd extends Command {
 
     Waypoint[] path;
     EncoderFollower[] followers;
+    String hashCode;
 
     public DrivePathCmd(Waypoint[] path) {
         requires(Robot.drivetrain);
         this.path = path;
         setInterruptible(false);
         followers = Robot.drivetrain.pathSetup(path);
+        hashCode = String.valueOf(Robot.drivetrain.generateHashCode(path));
     }
 
     protected void initialize() {
+        Robot.drivetrain.initLogging(hashCode);
         Robot.drivetrain.resetForPath();
         Robot.drivetrain.pathFollow(followers, false);
     }
@@ -35,6 +38,7 @@ public class DrivePathCmd extends Command {
 
     protected void end() {
         Robot.drivetrain.drive(0., 0.);
+        Robot.drivetrain.endLogging();
     }
 
     protected void interrupted() {

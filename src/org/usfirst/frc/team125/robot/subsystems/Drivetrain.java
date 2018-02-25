@@ -18,7 +18,7 @@ import jaci.pathfinder.modifiers.TankModifier;
 import org.usfirst.frc.team125.robot.RobotMap;
 import org.usfirst.frc.team125.robot.commands.Drivetrain.DriveArcadeCmd;
 
-import java.io.File;
+import java.io.*;
 
 public class Drivetrain extends Subsystem {
 
@@ -41,6 +41,8 @@ public class Drivetrain extends Subsystem {
 
     //Gyro logging for driving
     double lastHeadingError = 0.0;
+
+    private PrintWriter pathWriter;
 
     public Drivetrain() {
         //Slave Control
@@ -212,6 +214,7 @@ public class Drivetrain extends Subsystem {
             hash = ((path[i].x * 3) + (path[i].y * 7) + (path[i].angle * 11));
         }
         return (int) Math.abs(hash * 1000) * path.length;
+
     }
 
     public EncoderFollower[] pathSetup(Waypoint[] path) {
@@ -304,6 +307,23 @@ public class Drivetrain extends Subsystem {
             SmartDashboard.putNumber("Path angle offset", DrivetrainProfiling.path_angle_offset);
             SmartDashboard.putNumber("Angle offset w/ new path angle offset", angleDifference + DrivetrainProfiling.path_angle_offset);
         }
+
+        if(!left.isFinished() && !right.isFinished()) {
+
+            double leftSeg = left.getSegment().position;
+            double rightSeg = right.getSegment().position;
+
+            //Made Negative to undo the setInverted to the getEncoderDistanceMeters so it can be read properly.
+            double leftActual = -getEncoderDistanceMetersLeft();
+            double rightActual = -getEncoderDistanceMetersRight();
+
+            double leftError = leftActual - leftSeg;
+            double rightError = rightActual - rightSeg;
+
+            String line = String.format("%f,%f,%f,%f,%f,%f\n", leftSeg, rightSeg, leftActual, rightActual, leftError, rightError);
+            pathWriter.write(line);
+        }
+
         if (!reverse) {
             drive(l + turn, r - turn);
         } else {
@@ -314,6 +334,34 @@ public class Drivetrain extends Subsystem {
             isProfileFinished = true;
             DrivetrainProfiling.path_angle_offset = angleDifference;
         }
+    }
+
+    public void initLogging(String hashCode){
+
+        String fileName = "/home/lvuser/" + Long.valueOf(System.currentTimeMillis()).toString();
+
+        File file = new File(fileName);
+
+        try {
+            file.createNewFile();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        try {
+            this.pathWriter = new PrintWriter(new BufferedWriter(new FileWriter(fileName)));
+            //Write first line
+            //"LeftSegDist, RightSegDist, LeftDistActual, RightDistActual
+            String firstLine = String.format("HashCode: %f\n", hashCode);
+            pathWriter.write(firstLine);
+            pathWriter.write("LeftSegDist, RightSegDist, LeftDistActual, RightDistActual, LeftError, RightError\n");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void endLogging(){
+        pathWriter.close();
     }
 
 
