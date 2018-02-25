@@ -213,7 +213,7 @@ public class Drivetrain extends Subsystem {
         for(int i = 0; i < path.length; i ++) {
             hash =  ((path[i].x * 3) + (path[i].y * 7) + (path[i].angle * 11));
         }
-        return (int)Math.abs(hash * 1000);
+        return (int)Math.abs(hash * 1000) * path.length;
     }
 
     public EncoderFollower[] pathSetup(Waypoint[] path) {
@@ -308,13 +308,18 @@ public class Drivetrain extends Subsystem {
         }
 
         if(!left.isFinished() && !right.isFinished()) {
+
             double leftSeg = left.getSegment().position;
-            double RightSeg = right.getSegment().position;
+            double rightSeg = right.getSegment().position;
 
-            double leftActual = getEncoderDistanceMetersLeft();
-            double rightActual = getEncoderDistanceMetersRight();
+            //Made Negative to undo the setInverted to the getEncoderDistanceMeters so it can be read properly.
+            double leftActual = -getEncoderDistanceMetersLeft();
+            double rightActual = -getEncoderDistanceMetersRight();
 
-            String line = String.format("%f,%f,%f,%f\n", leftSeg, RightSeg, leftActual, rightActual);
+            double leftError = leftActual - leftSeg;
+            double rightError = rightActual - rightSeg;
+
+            String line = String.format("%f,%f,%f,%f,%f,%f\n", leftSeg, rightSeg, leftActual, rightActual, leftError, rightError);
             pathWriter.write(line);
         }
 
@@ -330,7 +335,7 @@ public class Drivetrain extends Subsystem {
         }
     }
 
-    public void initLogging(){
+    public void initLogging(String hashCode){
 
         String fileName = "/home/lvuser/" + Long.valueOf(System.currentTimeMillis()).toString();
 
@@ -346,7 +351,9 @@ public class Drivetrain extends Subsystem {
             this.pathWriter = new PrintWriter(new BufferedWriter(new FileWriter(fileName)));
             //Write first line
             //"LeftSegDist, RightSegDist, LeftDistActual, RightDistActual
-            pathWriter.write("LeftSegDistance, RightSegDist, LeftDistActual, RightDistActual\n");
+            String firstLine = String.format("HashCode: %f\n", hashCode);
+            pathWriter.write(firstLine);
+            pathWriter.write("LeftSegDist, RightSegDist, LeftDistActual, RightDistActual, LeftError, RightError\n");
         } catch (IOException e) {
             e.printStackTrace();
         }
