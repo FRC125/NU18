@@ -2,7 +2,6 @@ package org.usfirst.frc.team125.robot.commands.Intake;
 
 import edu.wpi.first.wpilibj.command.Command;
 import org.usfirst.frc.team125.robot.Robot;
-import org.usfirst.frc.team125.robot.subsystems.CubeLift;
 
 
 public class AutonomousIntakeCmd extends Command {
@@ -17,9 +16,9 @@ public class AutonomousIntakeCmd extends Command {
 
     @Override
     public void execute() {
-            Robot.cubeLift.openGrabbers();
-            Robot.cubeLift.unpunch();
-            Robot.intake.intake();
+        Robot.cubeLift.openGrabbers();
+        Robot.cubeLift.unpunch();
+        Robot.intake.intake();
     }
 
     @Override

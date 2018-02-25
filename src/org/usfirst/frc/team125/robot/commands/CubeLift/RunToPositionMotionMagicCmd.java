@@ -3,6 +3,7 @@ package org.usfirst.frc.team125.robot.commands.CubeLift;
 import edu.wpi.first.wpilibj.command.Command;
 import org.usfirst.frc.team125.robot.Robot;
 import org.usfirst.frc.team125.robot.subsystems.CubeLift;
+import org.usfirst.frc.team125.robot.subsystems.LEDController;
 
 public class RunToPositionMotionMagicCmd extends Command {
 
@@ -17,6 +18,7 @@ public class RunToPositionMotionMagicCmd extends Command {
     protected void initialize() {
         Robot.cubeLift.stopElevator();
         Robot.cubeLift.closeGrabbers();
+        Robot.ledController.setRunningMotionMagic(true);
         switch (position) {
             case Intake:
                 Robot.intake.intakePistonDown();
@@ -41,12 +43,12 @@ public class RunToPositionMotionMagicCmd extends Command {
     }
 
     protected void execute() {
+        Robot.ledController.setRunningMotionMagic(true);
         if (!started) {
             started = true;
         } else {
             Robot.cubeLift.checkMotionMagicTermination(this.position);
         }
-
     }
 
     protected boolean isFinished() {
@@ -54,6 +56,7 @@ public class RunToPositionMotionMagicCmd extends Command {
     }
 
     protected void end() {
+        Robot.ledController.setRunningMotionMagic(false);
         Robot.cubeLift.stopElevator();
     }
 

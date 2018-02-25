@@ -10,16 +10,16 @@ public class LeftSideCloseScaleCloseSwitchPaths {
     public static Waypoint[] toScale = new Waypoint[]{
             new Waypoint(0.0, 0.0, Pathfinder.d2r(0.0)),
             new Waypoint((3.9784 - DRIVETRAIN_LENGTH), 0.0, Pathfinder.d2r(0.0)),
-            new Waypoint(6.0, -0.7, Pathfinder.d2r(0.0)),
+            new Waypoint(6.2, -1.2, Pathfinder.d2r(0.0)),
     };
 
     public static Waypoint[] reverse_kTurnToSwitch1A = new Waypoint[]{
             new Waypoint(0.0, 0.0, Pathfinder.d2r(0.0)),
-            new Waypoint(1.35, 1.35, Pathfinder.d2r(-90.0)),
+            new Waypoint(0.65, 0.65, Pathfinder.d2r(-90.0)),
     };
 
     public static Waypoint[] kTurnToSwitch1B = new Waypoint[]{
             new Waypoint(0.0, 0.0, Pathfinder.d2r(0.0)),
-            new Waypoint(1.35, -1.35, Pathfinder.d2r(-90.0)),
+            new Waypoint(0.95, -0.75, Pathfinder.d2r(-90.0)),
     };
 }

@@ -40,7 +40,7 @@ public class LeftSideCloseScaleCloseSwitchAuto extends CommandGroup {
         addParallel(intakeCube, 3);
         addSequential(driveToSwitchB);
         addSequential(secureCubeAgain);
-        addSequential(liftElevatorToSwitch,3);
+        addSequential(liftElevatorToSwitch, 3);
         addSequential(scoreCubeAgain);
 
     }

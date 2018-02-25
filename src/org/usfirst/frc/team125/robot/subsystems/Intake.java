@@ -6,8 +6,10 @@ import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.can.VictorSPX;
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
+import edu.wpi.first.wpilibj.Spark;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import org.usfirst.frc.team125.robot.Robot;
 import org.usfirst.frc.team125.robot.RobotMap;
 import org.usfirst.frc.team125.robot.util.CurrentReader;
 import org.usfirst.frc.team125.robot.util.DebouncedBoolean;
@@ -104,10 +106,8 @@ public class Intake extends Subsystem {
 
     public boolean checkSmartIntakeTriggered() {
         smartIntakeDebouncer.update(smartIntake.get());
-
-        SmartDashboard.putBoolean("Smart intake", smartIntake.get());
+        Robot.ledController.setSmartIntakeTriggered(!smartIntakeDebouncer.get());        SmartDashboard.putBoolean("Smart intake", smartIntake.get());
         SmartDashboard.putBoolean("Smart intake de-bouncer", smartIntakeDebouncer.get());
-
         return smartIntakeDebouncer.get();
     }
 

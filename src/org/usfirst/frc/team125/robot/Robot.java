@@ -7,6 +7,7 @@ import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.command.WaitCommand;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import org.usfirst.frc.team125.robot.commands.Groups.Autos.GenericAuto;
 import org.usfirst.frc.team125.robot.commands.Groups.Autos.PalmettoAutos.CenterAutos.CenterLeftAuto;
 import org.usfirst.frc.team125.robot.commands.Groups.Autos.PalmettoAutos.CenterAutos.CenterRightAuto;
 import org.usfirst.frc.team125.robot.commands.Groups.Autos.PalmettoAutos.ScaleToSwitchAutos.*;
@@ -14,10 +15,7 @@ import org.usfirst.frc.team125.robot.commands.Groups.Autos.PalmettoAutos.SwitchO
 import org.usfirst.frc.team125.robot.commands.Groups.Autos.PalmettoAutos.SwitchOnlyAutos.LeftSideFarSwitchAuto;
 import org.usfirst.frc.team125.robot.commands.Groups.Autos.PalmettoAutos.SwitchOnlyAutos.RightSideCloseSwitchAuto;
 import org.usfirst.frc.team125.robot.commands.Groups.Autos.PalmettoAutos.SwitchOnlyAutos.RightSideFarSwitchAuto;
-import org.usfirst.frc.team125.robot.subsystems.CubeLift;
-import org.usfirst.frc.team125.robot.subsystems.DoubleLift;
-import org.usfirst.frc.team125.robot.subsystems.Drivetrain;
-import org.usfirst.frc.team125.robot.subsystems.Intake;
+import org.usfirst.frc.team125.robot.subsystems.*;
 
 public class Robot extends IterativeRobot {
 
@@ -25,7 +23,7 @@ public class Robot extends IterativeRobot {
     public static Intake intake = new Intake();
     public static DoubleLift doubleLift = new DoubleLift();
     public static CubeLift cubeLift = new CubeLift();
-
+    public static LEDController ledController = new LEDController();
     public static OI oi;
 
     Command autoCommand;
@@ -97,7 +95,6 @@ public class Robot extends IterativeRobot {
     @Override
     public void autonomousInit() {
         this.drivetrain.disableRamping();
-
         String gameDataTemp = DriverStation.getInstance().getGameSpecificMessage();
         if (gameDataTemp != null) {
             gameData = DriverStation.getInstance().getGameSpecificMessage().substring(0, 2);
@@ -108,8 +105,7 @@ public class Robot extends IterativeRobot {
 
         if (autoSelector.getSelected().equals(Autos.DoNothing)) {
             autoCommand = new WaitCommand(15);
-        }
-        else if (sideSelector.getSelected().equals(Sides.Center)) {
+        } else if (sideSelector.getSelected().equals(Sides.Center)) {
             switch (gameData.substring(0, 1)) {
                 case "L":
                     autoCommand = centerLeftAuto;

@@ -208,10 +208,10 @@ public class Drivetrain extends Subsystem {
 
     public double generateHashCode(Waypoint[] path) {
         double hash = 1.0;
-        for(int i = 0; i < path.length; i ++) {
-            hash =  ((path[i].x * 3) + (path[i].y * 7) + (path[i].angle * 11));
+        for (int i = 0; i < path.length; i++) {
+            hash = ((path[i].x * 3) + (path[i].y * 7) + (path[i].angle * 11));
         }
-        return (int)Math.abs(hash * 1000);
+        return (int) Math.abs(hash * 1000) * path.length;
     }
 
     public EncoderFollower[] pathSetup(Waypoint[] path) {

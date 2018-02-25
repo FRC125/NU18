@@ -12,7 +12,6 @@ import org.usfirst.frc.team125.robot.commands.Groups.SecureCubeCmdGrp;
 import org.usfirst.frc.team125.robot.commands.Intake.AutonomousIntakeCmd;
 import org.usfirst.frc.team125.robot.commands.Intake.IntakeDownCmd;
 import org.usfirst.frc.team125.robot.subsystems.CubeLift;
-import org.usfirst.frc.team125.robot.util.Paths.PalmettoPaths.ScaleToSwitchPaths.LeftSideCloseScaleCloseSwitchPaths;
 import org.usfirst.frc.team125.robot.util.Paths.PalmettoPaths.ScaleToSwitchPaths.RightSideCloseScaleCloseSwitchPaths;
 
 public class RightSideCloseScaleCloseSwitchAuto extends CommandGroup {
@@ -41,7 +40,7 @@ public class RightSideCloseScaleCloseSwitchAuto extends CommandGroup {
         addParallel(intakeCube, 3);
         addSequential(driveToSwitchB);
         addSequential(secureCubeAgain);
-        addSequential(liftElevatorToSwitch,3);
+        addSequential(liftElevatorToSwitch, 3);
         addSequential(scoreCubeAgain);
 
     }

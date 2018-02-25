@@ -9,7 +9,6 @@ import org.usfirst.frc.team125.robot.commands.Groups.ScoreCmdGrp;
 import org.usfirst.frc.team125.robot.commands.Groups.SecureCubeCmdGrp;
 import org.usfirst.frc.team125.robot.commands.Intake.IntakeDownCmd;
 import org.usfirst.frc.team125.robot.subsystems.CubeLift;
-import org.usfirst.frc.team125.robot.util.Paths.PalmettoPaths.SwitchOnlyPaths.LeftSideCloseSwitchPaths;
 import org.usfirst.frc.team125.robot.util.Paths.PalmettoPaths.SwitchOnlyPaths.RightSideCloseSwitchPaths;
 
 public class RightSideCloseSwitchAuto extends CommandGroup {
