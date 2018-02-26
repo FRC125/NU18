@@ -35,16 +35,17 @@ public class RightSideFarScaleCloseSwitchAuto extends CommandGroup {
         addSequential(secureCube);
         addParallel(liftElevatorToScale);
         addSequential(driveToBeforeScale);
+        addSequential(new WaitCommand(1));
         addSequential(driveToScale);
         addSequential(scoreCube);
         addParallel(bringElevatorToIntake);
         addSequential(driveToSwitchA);
+        addSequential(new WaitCommand(1));
         addParallel(intakeCube, 3);
         addSequential(driveToSwitchB);
         addSequential(secureCubeAgain);
         addSequential(liftElevatorToSwitch, 3);
         addSequential(scoreCubeAgain);
-
     }
 
 }

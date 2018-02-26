@@ -10,22 +10,18 @@ public class LeftSideFarScaleCloseSwitchPaths {
             new Waypoint(3.7, 0.0, Pathfinder.d2r(0.0)),
             new Waypoint(5.2, -1.5, Pathfinder.d2r(-90.0)),
             new Waypoint(5.2, -3.5, Pathfinder.d2r(-90.0)),
-    };
-
-    public static Waypoint[] turnToScale = new Waypoint[]{
-            new Waypoint(0.0, 0.0, Pathfinder.d2r(0.0)),
-            new Waypoint(1.05, 1.0, Pathfinder.d2r(90.0)),
+            new Waypoint(6.2, -4.5, Pathfinder.d2r(0.0)),
     };
 
     public static Waypoint[] reverse_kTurnToSwitch1A = new Waypoint[]{
             new Waypoint(0.0, 0.0, Pathfinder.d2r(0.0)),
-            new Waypoint(1.35, -1.35, Pathfinder.d2r(90.0)),
+            new Waypoint(0.75, -1.0, Pathfinder.d2r(90.0)),
     };
 
     public static Waypoint[] kTurnToSwitch1B = new Waypoint[]{
             new Waypoint(0.0, 0.0, Pathfinder.d2r(0.0)),
-            new Waypoint(4.0, 0.0, Pathfinder.d2r(0.0)),
-            new Waypoint(5.0, 1.35, Pathfinder.d2r(90.0)),
+            new Waypoint(1.5, 0, Pathfinder.d2r(0.0)),
+            new Waypoint(3.4, 1.9, Pathfinder.d2r(90.0)),
     };
 
 }

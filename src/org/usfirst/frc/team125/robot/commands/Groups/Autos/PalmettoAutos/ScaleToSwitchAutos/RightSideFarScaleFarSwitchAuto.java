@@ -19,7 +19,6 @@ public class RightSideFarScaleFarSwitchAuto extends CommandGroup {
     Command secureCube = new SecureCubeCmdGrp();
     Command liftElevatorToScale = new AutoLiftCmdGrp(0.5, CubeLift.Positions.ScoreScale);
     Command driveToBeforeScale = new DrivePathCmd(RightSideFarScaleFarSwitchPaths.toBeforeScaleTurn);
-    Command driveToScale = new DrivePathCmd(RightSideFarScaleFarSwitchPaths.turnToScale);
     Command scoreCube = new ScoreCmdGrp();
     Command bringElevatorToIntake = new RunToPositionMotionMagicCmd(CubeLift.Positions.Intake);
     Command driveToSwitchA = new DrivePathReverseCmd(RightSideFarScaleFarSwitchPaths.reverse_kTurnToSwitch1A);
@@ -35,16 +34,16 @@ public class RightSideFarScaleFarSwitchAuto extends CommandGroup {
         addSequential(secureCube);
         addParallel(liftElevatorToScale);
         addSequential(driveToBeforeScale);
-        addSequential(driveToScale);
+        addSequential(new WaitCommand(0.1));
         addSequential(scoreCube);
         addParallel(bringElevatorToIntake);
         addSequential(driveToSwitchA);
+        addSequential(new WaitCommand(0.1));
         addParallel(intakeCube, 3);
         addSequential(driveToSwitchB);
         addSequential(secureCubeAgain);
         addSequential(liftElevatorToSwitch, 3);
         addSequential(scoreCubeAgain);
-
     }
 
 }

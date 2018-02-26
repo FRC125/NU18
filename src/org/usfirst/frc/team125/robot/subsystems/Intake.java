@@ -3,10 +3,10 @@ package org.usfirst.frc.team125.robot.subsystems;
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.IMotorController;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
+import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 import com.ctre.phoenix.motorcontrol.can.VictorSPX;
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
-import edu.wpi.first.wpilibj.Spark;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import org.usfirst.frc.team125.robot.Robot;
@@ -17,8 +17,8 @@ import org.usfirst.frc.team125.robot.util.DebouncedBoolean;
 public class Intake extends Subsystem {
 
     //Intake motors
-    private IMotorController intakeL = new VictorSPX(RobotMap.INTAKE_LEFT);
-    private IMotorController intakeR = new VictorSPX(RobotMap.INTAKE_RIGHT);
+    private IMotorController intakeL = new TalonSRX(RobotMap.INTAKE_LEFT);
+    private IMotorController intakeR = new TalonSRX(RobotMap.INTAKE_RIGHT);
 
     private DoubleSolenoid intakeSolenoid = new DoubleSolenoid(RobotMap.INTAKE_RETRACT_FORWARD, RobotMap.INTAKE_RETRACT_REVERSE);
 
@@ -105,8 +105,9 @@ public class Intake extends Subsystem {
     }
 
     public boolean checkSmartIntakeTriggered() {
-        smartIntakeDebouncer.update(smartIntake.get());
-        Robot.ledController.setSmartIntakeTriggered(!smartIntakeDebouncer.get());        SmartDashboard.putBoolean("Smart intake", smartIntake.get());
+        smartIntakeDebouncer.update(!smartIntake.get());
+        Robot.ledController.setSmartIntakeTriggered(smartIntakeDebouncer.get());
+        SmartDashboard.putBoolean("Smart intake", smartIntake.get());
         SmartDashboard.putBoolean("Smart intake de-bouncer", smartIntakeDebouncer.get());
         return smartIntakeDebouncer.get();
     }

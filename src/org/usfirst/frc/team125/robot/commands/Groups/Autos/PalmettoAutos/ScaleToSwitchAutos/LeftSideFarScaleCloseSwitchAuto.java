@@ -17,9 +17,8 @@ import org.usfirst.frc.team125.robot.util.Paths.PalmettoPaths.ScaleToSwitchPaths
 public class LeftSideFarScaleCloseSwitchAuto extends CommandGroup {
     Command intakeDown = new IntakeDownCmd();
     Command secureCube = new SecureCubeCmdGrp();
-    Command liftElevatorToScale = new AutoLiftCmdGrp(0.5, CubeLift.Positions.ScoreScale);
+    Command liftElevatorToScale = new AutoLiftCmdGrp(2.5, CubeLift.Positions.ScoreScale);
     Command driveToBeforeScale = new DrivePathCmd(LeftSideFarScaleCloseSwitchPaths.toBeforeScaleTurn);
-    Command driveToScale = new DrivePathCmd(LeftSideFarScaleCloseSwitchPaths.turnToScale);
     Command scoreCube = new ScoreCmdGrp();
     Command bringElevatorToIntake = new RunToPositionMotionMagicCmd(CubeLift.Positions.Intake);
     Command driveToSwitchA = new DrivePathReverseCmd(LeftSideFarScaleCloseSwitchPaths.reverse_kTurnToSwitch1A);
@@ -30,15 +29,17 @@ public class LeftSideFarScaleCloseSwitchAuto extends CommandGroup {
     Command scoreCubeAgain = new ScoreCmdGrp();
 
     public LeftSideFarScaleCloseSwitchAuto() {
+        /*
         addSequential(intakeDown);
         addSequential(new WaitCommand(0.25));
         addSequential(secureCube);
+        */
         addParallel(liftElevatorToScale);
         addSequential(driveToBeforeScale);
-        addSequential(driveToScale);
         addSequential(scoreCube);
         addParallel(bringElevatorToIntake);
         addSequential(driveToSwitchA);
+        addSequential(new WaitCommand(1));
         addParallel(intakeCube, 3);
         addSequential(driveToSwitchB);
         addSequential(secureCubeAgain);

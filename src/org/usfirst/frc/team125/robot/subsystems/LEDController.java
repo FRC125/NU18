@@ -61,7 +61,7 @@ public class LEDController extends Subsystem {
     }
 
     public void updateLEDStatus() {
-        if(runningMotionMagic) {
+        if (runningMotionMagic) {
             setLEDStrobeRed();
         } else if (smartIntakeTriggered) {
             setLEDYellow();

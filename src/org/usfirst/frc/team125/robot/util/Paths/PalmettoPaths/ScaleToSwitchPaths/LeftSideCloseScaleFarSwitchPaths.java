@@ -21,6 +21,6 @@ public class LeftSideCloseScaleFarSwitchPaths {
     public static Waypoint[] kTurnToSwitch1B = new Waypoint[]{
             new Waypoint(0.0, 0.0, Pathfinder.d2r(0.0)),
             new Waypoint(3.0, 0.0, Pathfinder.d2r(0.0)),
-            new Waypoint(3.8, -0.75, Pathfinder.d2r(-90.0)),
+            new Waypoint(3.9, -0.75, Pathfinder.d2r(-90.0)),
     };
 }

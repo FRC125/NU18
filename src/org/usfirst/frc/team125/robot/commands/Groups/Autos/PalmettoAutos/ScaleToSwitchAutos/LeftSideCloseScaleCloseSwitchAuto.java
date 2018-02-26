@@ -29,9 +29,10 @@ public class LeftSideCloseScaleCloseSwitchAuto extends CommandGroup {
     Command scoreCubeAgain = new ScoreCmdGrp();
 
     public LeftSideCloseScaleCloseSwitchAuto() {
-        addSequential(intakeDown);
+        /*addSequential(intakeDown);
         addSequential(new WaitCommand(0.25));
         addSequential(secureCube);
+        */
         addParallel(liftElevatorToScale);
         addSequential(driveToScale);
         addSequential(scoreCube);
@@ -42,7 +43,6 @@ public class LeftSideCloseScaleCloseSwitchAuto extends CommandGroup {
         addSequential(secureCubeAgain);
         addSequential(liftElevatorToSwitch, 3);
         addSequential(scoreCubeAgain);
-
     }
 
 }

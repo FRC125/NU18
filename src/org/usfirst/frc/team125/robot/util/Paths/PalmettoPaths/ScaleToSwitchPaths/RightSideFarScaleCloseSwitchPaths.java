@@ -19,13 +19,13 @@ public class RightSideFarScaleCloseSwitchPaths {
 
     public static Waypoint[] reverse_kTurnToSwitch1A = new Waypoint[]{
             new Waypoint(0.0, 0.0, Pathfinder.d2r(0.0)),
-            new Waypoint(1.35, 1.35, Pathfinder.d2r(-90.0)),
+            new Waypoint(0.75, 1.0, Pathfinder.d2r(-90.0)),
     };
 
     public static Waypoint[] kTurnToSwitch1B = new Waypoint[]{
             new Waypoint(0.0, 0.0, Pathfinder.d2r(0.0)),
-            new Waypoint(4.0, 0.0, Pathfinder.d2r(0.0)),
-            new Waypoint(5.0, -1.35, Pathfinder.d2r(-90.0)),
+            new Waypoint(3.0, 0.0, Pathfinder.d2r(0.0)),
+            new Waypoint(4.0, -1.0, Pathfinder.d2r(-90.0)),
     };
 
 }

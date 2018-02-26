@@ -42,7 +42,6 @@ public class RightSideCloseScaleCloseSwitchAuto extends CommandGroup {
         addSequential(secureCubeAgain);
         addSequential(liftElevatorToSwitch, 3);
         addSequential(scoreCubeAgain);
-
     }
 
 }

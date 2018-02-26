@@ -7,7 +7,6 @@ import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.command.WaitCommand;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import org.usfirst.frc.team125.robot.commands.Groups.Autos.GenericAuto;
 import org.usfirst.frc.team125.robot.commands.Groups.Autos.PalmettoAutos.CenterAutos.CenterLeftAuto;
 import org.usfirst.frc.team125.robot.commands.Groups.Autos.PalmettoAutos.CenterAutos.CenterRightAuto;
 import org.usfirst.frc.team125.robot.commands.Groups.Autos.PalmettoAutos.ScaleToSwitchAutos.*;

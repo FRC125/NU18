@@ -17,9 +17,8 @@ import org.usfirst.frc.team125.robot.util.Paths.PalmettoPaths.ScaleToSwitchPaths
 public class LeftSideFarScaleFarSwitchAuto extends CommandGroup {
     Command intakeDown = new IntakeDownCmd();
     Command secureCube = new SecureCubeCmdGrp();
-    Command liftElevatorToScale = new AutoLiftCmdGrp(0.5, CubeLift.Positions.ScoreScale);
+    Command liftElevatorToScale = new AutoLiftCmdGrp(2.5, CubeLift.Positions.ScoreScale);
     Command driveToBeforeScale = new DrivePathCmd(LeftSideFarScaleFarSwitchPaths.toBeforeScaleTurn);
-    Command driveToScale = new DrivePathCmd(LeftSideFarScaleFarSwitchPaths.turnToScale);
     Command scoreCube = new ScoreCmdGrp();
     Command bringElevatorToIntake = new RunToPositionMotionMagicCmd(CubeLift.Positions.Intake);
     Command driveToSwitchA = new DrivePathReverseCmd(LeftSideFarScaleFarSwitchPaths.reverse_kTurnToSwitch1A);
@@ -30,21 +29,23 @@ public class LeftSideFarScaleFarSwitchAuto extends CommandGroup {
     Command scoreCubeAgain = new ScoreCmdGrp();
 
     public LeftSideFarScaleFarSwitchAuto() {
+        /*
         addSequential(intakeDown);
         addSequential(new WaitCommand(0.25));
         addSequential(secureCube);
+        */
         addParallel(liftElevatorToScale);
         addSequential(driveToBeforeScale);
-        addSequential(driveToScale);
+        addSequential(new WaitCommand(0.1));
         addSequential(scoreCube);
         addParallel(bringElevatorToIntake);
         addSequential(driveToSwitchA);
+        addSequential(new WaitCommand(0.1));
         addParallel(intakeCube, 3);
         addSequential(driveToSwitchB);
         addSequential(secureCubeAgain);
         addSequential(liftElevatorToSwitch, 3);
         addSequential(scoreCubeAgain);
-
     }
 
 }

@@ -312,7 +312,7 @@ public class Drivetrain extends Subsystem {
 
         if (left.isFinished() && right.isFinished()) {
             isProfileFinished = true;
-            DrivetrainProfiling.path_angle_offset = angleDifference;
+            DrivetrainProfiling.path_angle_offset = 0.0;
         }
     }
 
@@ -331,7 +331,7 @@ public class Drivetrain extends Subsystem {
         //TODO: TUNE CONSTANTS
         public static double kp = 0.8; //1.2;
         public static double kd = 0.0;
-        public static double gp = 0.0375; // 0.05 for practice bot 0.02 for real bot
+        public static double gp = 0.0375; // 0.0375
         public static double gd = 0.0; //0.0025
         public static double ki = 0.0;
 
@@ -339,11 +339,11 @@ public class Drivetrain extends Subsystem {
         public static double last_gyro_error = 0.0;
 
         public static double path_angle_offset = 0.0;
-        public static final double max_velocity = 4.0; //4 is real
+        public static final double max_velocity = 2.0; //4 is real
         public static final double kv = 1.0 / max_velocity; // Calculated for test Drivetrain
-        public static final double max_acceleration = 3.8; // Estimated #
+        public static final double max_acceleration = 1.9; // Estimated # 3.8
         public static final double ka = 0.05; //0.015
-        public static final double max_jerk = 16.0;
+        public static final double max_jerk = 8.0; // 16.0
         public static final double wheel_diameter = 0.125;
         public static final double wheel_base_width = 0.72;
         public static final int ticks_per_rev = 4096; // CTRE Mag Encoder

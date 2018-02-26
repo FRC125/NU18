@@ -18,7 +18,6 @@ public class CenterRightAuto extends CommandGroup {
     Command driveToScale = new DrivePathCmd(CenterRightPath.toSwitch);
     Command scoreCube = new ScoreCmdGrp();
 
-
     public CenterRightAuto() {
         addSequential(intakeDown);
         addSequential(new WaitCommand(0.25));
