@@ -17,8 +17,8 @@ import org.usfirst.frc.team125.robot.util.DebouncedBoolean;
 public class Intake extends Subsystem {
 
     //Intake motors
-    private IMotorController intakeL = new TalonSRX(RobotMap.INTAKE_LEFT);
-    private IMotorController intakeR = new TalonSRX(RobotMap.INTAKE_RIGHT);
+    private IMotorController intakeL = new VictorSPX(RobotMap.INTAKE_LEFT);
+    private IMotorController intakeR = new VictorSPX(RobotMap.INTAKE_RIGHT);
 
     private DoubleSolenoid intakeSolenoid = new DoubleSolenoid(RobotMap.INTAKE_RETRACT_FORWARD, RobotMap.INTAKE_RETRACT_REVERSE);
 

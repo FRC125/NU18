@@ -94,6 +94,9 @@ public class Robot extends IterativeRobot {
     @Override
     public void autonomousInit() {
         this.drivetrain.disableRamping();
+        autoCommand = leftSideCloseScaleCloseSwitchAuto;
+
+        /*
         String gameDataTemp = DriverStation.getInstance().getGameSpecificMessage();
         if (gameDataTemp != null) {
             gameData = DriverStation.getInstance().getGameSpecificMessage().substring(0, 2);
@@ -135,7 +138,6 @@ public class Robot extends IterativeRobot {
                         }
                     }
                     break;
-
                 case "RL": // GOOD!
                     if (sideSelector.getSelected().equals(Sides.Left)) {
                         if (autoSelector.getSelected().equals(Autos.SwitchOnly)) {
@@ -195,6 +197,7 @@ public class Robot extends IterativeRobot {
                     break;
             }
         }
+        */
 
         autoCommand.start();
         SmartDashboard.putString("Chosen Auto", autoCommand.toString());

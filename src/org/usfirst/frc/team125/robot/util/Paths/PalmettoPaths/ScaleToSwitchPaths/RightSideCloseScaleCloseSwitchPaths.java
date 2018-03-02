@@ -10,7 +10,7 @@ public class RightSideCloseScaleCloseSwitchPaths {
     public static Waypoint[] toScale = new Waypoint[]{
             new Waypoint(0.0, 0.0, Pathfinder.d2r(0.0)),
             new Waypoint((3.9784 - DRIVETRAIN_LENGTH), 0.0, Pathfinder.d2r(0.0)),
-            new Waypoint(6.2, 0.5, Pathfinder.d2r(0.0)),
+            new Waypoint(6.5, 0.2, Pathfinder.d2r(0.0)),
     };
 
     public static Waypoint[] reverse_kTurnToSwitch1A = new Waypoint[]{

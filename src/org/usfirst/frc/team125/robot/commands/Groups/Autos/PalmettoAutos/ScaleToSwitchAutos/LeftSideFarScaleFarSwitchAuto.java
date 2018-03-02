@@ -36,8 +36,8 @@ public class LeftSideFarScaleFarSwitchAuto extends CommandGroup {
         */
         addParallel(liftElevatorToScale);
         addSequential(driveToBeforeScale);
-        addSequential(new WaitCommand(0.1));
         addSequential(scoreCube);
+        addSequential(new WaitCommand(0.4));
         addParallel(bringElevatorToIntake);
         addSequential(driveToSwitchA);
         addSequential(new WaitCommand(0.1));

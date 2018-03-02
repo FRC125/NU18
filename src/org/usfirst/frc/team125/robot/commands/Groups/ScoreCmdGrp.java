@@ -8,7 +8,7 @@ import org.usfirst.frc.team125.robot.commands.CubeLift.PunchCmd;
 public class ScoreCmdGrp extends CommandGroup {
     public ScoreCmdGrp() {
         addSequential(new OpenGrabbersCmd());
-        addSequential(new WaitCommand(0.5));
+        addSequential(new WaitCommand(0.1));
         addSequential(new PunchCmd());
     }
 }

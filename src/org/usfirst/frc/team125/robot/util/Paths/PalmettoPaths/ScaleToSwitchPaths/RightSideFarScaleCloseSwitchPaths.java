@@ -8,13 +8,9 @@ public class RightSideFarScaleCloseSwitchPaths {
     public static Waypoint[] toBeforeScaleTurn = new Waypoint[]{
             new Waypoint(0.0, 0.0, Pathfinder.d2r(0.0)),
             new Waypoint(3.7, 0.0, Pathfinder.d2r(0.0)),
-            new Waypoint(5.2, 1.5, Pathfinder.d2r(90.0)),
-            new Waypoint(5.2, 3.5, Pathfinder.d2r(90.0)),
-    };
-
-    public static Waypoint[] turnToScale = new Waypoint[]{
-            new Waypoint(0.0, 0.0, Pathfinder.d2r(0.0)),
-            new Waypoint(1.05, -1.0, Pathfinder.d2r(-90.0)),
+            new Waypoint(5.2, 2.0, Pathfinder.d2r(90.0)),
+            new Waypoint(5.2, 4.0, Pathfinder.d2r(90.0)),
+            new Waypoint(6.5, 5.0, Pathfinder.d2r(0.0)),
     };
 
     public static Waypoint[] reverse_kTurnToSwitch1A = new Waypoint[]{

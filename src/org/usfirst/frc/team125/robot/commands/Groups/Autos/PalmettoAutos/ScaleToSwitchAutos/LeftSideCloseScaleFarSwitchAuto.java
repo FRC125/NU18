@@ -37,6 +37,7 @@ public class LeftSideCloseScaleFarSwitchAuto extends CommandGroup {
         addParallel(liftElevatorToScale);
         addSequential(driveToScale);
         addSequential(scoreCube);
+        addSequential(new WaitCommand(0.4));
         addParallel(bringElevatorToIntake);
         addSequential(driveToSwitchA);
         addParallel(intakeCube, 5);

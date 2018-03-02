@@ -29,12 +29,15 @@ public class RightSideCloseScaleCloseSwitchAuto extends CommandGroup {
     Command scoreCubeAgain = new ScoreCmdGrp();
 
     public RightSideCloseScaleCloseSwitchAuto() {
+        /*
         addSequential(intakeDown);
         addSequential(new WaitCommand(0.25));
         addSequential(secureCube);
+        */
         addParallel(liftElevatorToScale);
         addSequential(driveToScale);
         addSequential(scoreCube);
+        addSequential(new WaitCommand(0.4));
         addParallel(bringElevatorToIntake);
         addSequential(driveToSwitchA);
         addParallel(intakeCube, 3);

@@ -29,13 +29,15 @@ public class RightSideFarScaleFarSwitchAuto extends CommandGroup {
     Command scoreCubeAgain = new ScoreCmdGrp();
 
     public RightSideFarScaleFarSwitchAuto() {
+        /*
         addSequential(intakeDown);
         addSequential(new WaitCommand(0.25));
         addSequential(secureCube);
+        */
         addParallel(liftElevatorToScale);
         addSequential(driveToBeforeScale);
-        addSequential(new WaitCommand(0.1));
         addSequential(scoreCube);
+        addSequential(new WaitCommand(0.4));
         addParallel(bringElevatorToIntake);
         addSequential(driveToSwitchA);
         addSequential(new WaitCommand(0.1));

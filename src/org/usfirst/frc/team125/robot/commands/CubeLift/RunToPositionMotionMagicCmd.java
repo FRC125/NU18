@@ -31,6 +31,7 @@ public class RunToPositionMotionMagicCmd extends Command {
                 Robot.intake.intakePistonUp();
                 break;
             case ChinUp:
+                Robot.cubeLift.openGrabbers();
                 Robot.cubeLift.unpin();
                 Robot.intake.intakePistonDown();
                 break;
