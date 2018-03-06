@@ -14,6 +14,8 @@ import org.usfirst.frc.team125.robot.commands.Groups.Autos.PalmettoAutos.SwitchO
 import org.usfirst.frc.team125.robot.commands.Groups.Autos.PalmettoAutos.SwitchOnlyAutos.LeftSideFarSwitchAuto;
 import org.usfirst.frc.team125.robot.commands.Groups.Autos.PalmettoAutos.SwitchOnlyAutos.RightSideCloseSwitchAuto;
 import org.usfirst.frc.team125.robot.commands.Groups.Autos.PalmettoAutos.SwitchOnlyAutos.RightSideFarSwitchAuto;
+import org.usfirst.frc.team125.robot.commands.Groups.Autos.PalmettoAutos.TwoScaleAutos.LeftSideCloseTwoScaleAuto;
+import org.usfirst.frc.team125.robot.commands.Groups.Autos.PalmettoAutos.TwoScaleAutos.LeftSideFarTwoScaleAuto;
 import org.usfirst.frc.team125.robot.subsystems.*;
 
 public class Robot extends IterativeRobot {
@@ -36,6 +38,7 @@ public class Robot extends IterativeRobot {
     private enum Autos {
         SwitchOnly,
         ScaleToSwitch,
+        TwoScale,
         DoNothing,
     }
 
@@ -64,6 +67,10 @@ public class Robot extends IterativeRobot {
     Command rightSideCloseSwitchAuto = new RightSideCloseSwitchAuto();
     Command rightSideFarSwitchAuto = new RightSideFarSwitchAuto();
 
+    //Two Scale
+    Command leftTwoScaleClose = new LeftSideCloseTwoScaleAuto();
+    Command leftTwoScaleFar = new LeftSideFarTwoScaleAuto();
+
     @Override
     public void robotInit() {
         oi = new OI();
@@ -75,6 +82,7 @@ public class Robot extends IterativeRobot {
         sideSelector.addObject("Center", Sides.Center); // Right Side
         autoSelector.addDefault("Switch Only", Autos.SwitchOnly);
         autoSelector.addObject("Scale To Switch", Autos.ScaleToSwitch);
+        autoSelector.addObject("Two Scale", Autos.TwoScale);
         autoSelector.addObject("Do Nothing", Autos.DoNothing);
         SmartDashboard.putData("Side Selector", sideSelector);
         SmartDashboard.putData("Auto Selector", autoSelector);
@@ -94,9 +102,7 @@ public class Robot extends IterativeRobot {
     @Override
     public void autonomousInit() {
         this.drivetrain.disableRamping();
-        autoCommand = leftSideCloseScaleCloseSwitchAuto;
 
-        /*
         String gameDataTemp = DriverStation.getInstance().getGameSpecificMessage();
         if (gameDataTemp != null) {
             gameData = DriverStation.getInstance().getGameSpecificMessage().substring(0, 2);
@@ -114,6 +120,18 @@ public class Robot extends IterativeRobot {
                     break;
                 case "R":
                     autoCommand = centerRightAuto;
+                    break;
+                default:
+                    autoCommand = new WaitCommand(15);
+                    break;
+            }
+        } else if (autoSelector.getSelected().equals(Autos.TwoScale)) {
+            switch (gameData.substring(1, 2)) {
+                case "L":
+                    autoCommand = leftTwoScaleClose;
+                    break;
+                case "R":
+                    autoCommand = leftTwoScaleFar;
                     break;
                 default:
                     autoCommand = new WaitCommand(15);
@@ -197,7 +215,6 @@ public class Robot extends IterativeRobot {
                     break;
             }
         }
-        */
 
         autoCommand.start();
         SmartDashboard.putString("Chosen Auto", autoCommand.toString());

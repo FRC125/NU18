@@ -19,9 +19,11 @@ public class CenterRightAuto extends CommandGroup {
     Command scoreCube = new ScoreCmdGrp();
 
     public CenterRightAuto() {
+        /*
         addSequential(intakeDown);
         addSequential(new WaitCommand(0.25));
         addSequential(secureCube);
+        */
         addParallel(liftElevator);
         addSequential(driveToScale);
         addSequential(scoreCube);

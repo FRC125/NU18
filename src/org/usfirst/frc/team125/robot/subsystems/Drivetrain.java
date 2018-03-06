@@ -339,7 +339,7 @@ public class Drivetrain extends Subsystem {
         public static double last_gyro_error = 0.0;
 
         public static double path_angle_offset = 0.0;
-        public static final double max_velocity = 2.0; //4 is real
+        public static final double max_velocity = 2.2; //4 is real
         public static final double kv = 1.0 / max_velocity; // Calculated for test Drivetrain
         public static final double max_acceleration = 1.9; // Estimated # 3.8
         public static final double ka = 0.05; //0.015

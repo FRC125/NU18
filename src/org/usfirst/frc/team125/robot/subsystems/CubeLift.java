@@ -74,10 +74,10 @@ public class CubeLift extends Subsystem {
     public enum Positions {
         Intake(300),
         Driving(25000),
-        ScoreSwitch(50000),
+        ScoreSwitch(40000),
         ScoreScale(70000),
         ScoreScaleLow(60000),
-        ScoreScaleHigh(72000),
+        ScoreScaleHigh(75000),
         PreClimb(74000),
         Top(75001),
         ChinUp(40500),
@@ -132,7 +132,7 @@ public class CubeLift extends Subsystem {
     private static final boolean UNPUNCH_SET = false;
     private boolean puncherToggle = false;
 
-    private final int MOTION_MAGIC_TOLERANCE = 150;
+    private final int MOTION_MAGIC_TOLERANCE = 300;
     private static final double ELEVATOR_HI_POW = 1.0;
     private static final double ELEVATOR_LOW_POW = -ELEVATOR_HI_POW;
 

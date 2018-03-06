@@ -1,10 +1,8 @@
 package org.usfirst.frc.team125.robot.commands.Intake;
 
 import edu.wpi.first.wpilibj.command.Command;
-import edu.wpi.first.wpilibj.command.WaitCommand;
 import org.usfirst.frc.team125.robot.Robot;
-import org.usfirst.frc.team125.robot.commands.CubeLift.RunToPositionMotionMagicCmd;
-import org.usfirst.frc.team125.robot.commands.Groups.ClamAndLiftCmdGrp;
+import org.usfirst.frc.team125.robot.commands.Groups.ClampAndLiftCmdGrp;
 import org.usfirst.frc.team125.robot.subsystems.CubeLift;
 
 
@@ -25,7 +23,7 @@ public class IntakeCmd extends Command {
         if (Robot.cubeLift.getPosition() != CubeLift.Positions.Intake || Robot.cubeLift.getState() != CubeLift.LiftState.Stationary) {
             Robot.intake.stopIntake();
         } else if (Robot.intake.checkSmartIntakeTriggered()) {
-            Command smartIntakeTriggered = new ClamAndLiftCmdGrp();
+            Command smartIntakeTriggered = new ClampAndLiftCmdGrp();
             smartIntakeTriggered.start();
         } else {
             Robot.cubeLift.openGrabbers();
