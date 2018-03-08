@@ -33,7 +33,7 @@ public class IntakeCmd extends Command {
 
     @Override
     protected boolean isFinished() {
-        return false;
+        return Robot.intake.checkSmartIntakeTriggered();
     }
 
     @Override
