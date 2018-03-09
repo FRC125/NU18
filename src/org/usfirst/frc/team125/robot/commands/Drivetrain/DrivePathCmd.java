@@ -19,11 +19,11 @@ public class DrivePathCmd extends Command {
         this.path = path;
         setInterruptible(false);
         followers = Robot.drivetrain.pathSetup(path);
-        hashCode = String.valueOf(Robot.drivetrain.generateHashCode(path));
+        hashCode = String.valueOf(Robot.drivetrain.getHash());
     }
 
     protected void initialize() {
-        Robot.drivetrain.initLogging(hashCode);
+        //Robot.drivetrain.initLogging(hashCode);
         Robot.drivetrain.resetForPath();
         Robot.drivetrain.pathFollow(followers, false);
     }
@@ -38,7 +38,7 @@ public class DrivePathCmd extends Command {
 
     protected void end() {
         Robot.drivetrain.drive(0., 0.);
-        Robot.drivetrain.endLogging();
+        //Robot.drivetrain.endLogging();
     }
 
     protected void interrupted() {

@@ -1,5 +1,6 @@
 package org.usfirst.frc.team125.robot.subsystems;
 
+import com.ctre.phoenix.Logger;
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.FeedbackDevice;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
@@ -17,8 +18,12 @@ import jaci.pathfinder.followers.EncoderFollower;
 import jaci.pathfinder.modifiers.TankModifier;
 import org.usfirst.frc.team125.robot.RobotMap;
 import org.usfirst.frc.team125.robot.commands.Drivetrain.DriveArcadeCmd;
+import org.usfirst.frc.team125.robot.util.Logging;
 
 import java.io.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Vector;
 
 public class Drivetrain extends Subsystem {
 
@@ -34,6 +39,8 @@ public class Drivetrain extends Subsystem {
     private static final double LOW_POW = -HIGH_POW;
     private static final double RAMP_RATE = 0.25;
 
+    private double hash;
+
     AHRS gyro = new AHRS(I2C.Port.kMXP);
 
     //Timing
@@ -42,7 +49,7 @@ public class Drivetrain extends Subsystem {
     //Gyro logging for driving
     double lastHeadingError = 0.0;
 
-    private PrintWriter pathWriter;
+    private Logging drivetrainLogger = new Logging("/home/lvuser/DRIVETRAIN_LOG", new ArrayList<>(Arrays.asList("encLeft", "encRight")));
 
     public Drivetrain() {
         //Slave Control
@@ -208,12 +215,26 @@ public class Drivetrain extends Subsystem {
         this.gyro.reset();
     }
 
-    public double generateHashCode(Waypoint[] path) {
-        double hash = 1.0;
+    private double generateHashCode(Waypoint[] path) {
+        hash = 1.0;
         for(int i = 0; i < path.length; i ++) {
             hash =  ((path[i].x * 3) + (path[i].y * 7) + (path[i].angle * 11));
         }
         return (int)Math.abs(hash * 1000) * path.length;
+    }
+
+    public double getHash(){
+        return hash;
+    }
+
+    public void updateLogging(){
+        drivetrainLogger.write("encLeft", Double.toString(getEncoderDistanceMetersLeft()));
+        drivetrainLogger.write("encRight", Double.toString(getEncoderDistanceMetersRight()));
+        drivetrainLogger.updateLogging();
+    }
+
+    public void endLogging(){
+        drivetrainLogger.endLogging();
     }
 
     public EncoderFollower[] pathSetup(Waypoint[] path) {
@@ -247,6 +268,8 @@ public class Drivetrain extends Subsystem {
                 left, // 0
                 right, // 1
         };
+
+
     }
 
     public void resetForPath() {
@@ -307,22 +330,6 @@ public class Drivetrain extends Subsystem {
             SmartDashboard.putNumber("Angle offset w/ new path angle offset", angleDifference + DrivetrainProfiling.path_angle_offset);
         }
 
-        if(!left.isFinished() && !right.isFinished()) {
-
-            double leftSeg = left.getSegment().position;
-            double rightSeg = right.getSegment().position;
-
-            //Made Negative to undo the setInverted to the getEncoderDistanceMeters so it can be read properly.
-            double leftActual = -getEncoderDistanceMetersLeft();
-            double rightActual = -getEncoderDistanceMetersRight();
-
-            double leftError = leftActual - leftSeg;
-            double rightError = rightActual - rightSeg;
-
-            String line = String.format("%f,%f,%f,%f,%f,%f\n", leftSeg, rightSeg, leftActual, rightActual, leftError, rightError);
-            pathWriter.write(line);
-        }
-
         if (!reverse) {
             drive(l + turn, r - turn);
         } else {
@@ -334,35 +341,6 @@ public class Drivetrain extends Subsystem {
             DrivetrainProfiling.path_angle_offset = angleDifference;
         }
     }
-
-    public void initLogging(String hashCode){
-
-        String fileName = "/home/lvuser/" + Long.valueOf(System.currentTimeMillis()).toString();
-
-        File file = new File(fileName);
-
-        try {
-            file.createNewFile();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-        try {
-            this.pathWriter = new PrintWriter(new BufferedWriter(new FileWriter(fileName)));
-            //Write first line
-            //"LeftSegDist, RightSegDist, LeftDistActual, RightDistActual
-            String firstLine = String.format("HashCode: %f\n", hashCode);
-            pathWriter.write(firstLine);
-            pathWriter.write("LeftSegDist, RightSegDist, LeftDistActual, RightDistActual, LeftError, RightError\n");
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
-
-    public void endLogging(){
-        pathWriter.close();
-    }
-
 
     public void updateAccelDashboard() {
         SmartDashboard.putNumber("Accel X", gyro.getWorldLinearAccelX());
