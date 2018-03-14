@@ -25,6 +25,7 @@ public class IntakeCmd extends Command {
         } else if (Robot.intake.checkSmartIntakeTriggered()) {
             Command smartIntakeTriggered = new ClampAndLiftCmdGrp();
             smartIntakeTriggered.start();
+            Robot.intake.intake(); // TODO: TEST TEST TEST!!!
         } else {
             Robot.cubeLift.openGrabbers();
             Robot.intake.intake();

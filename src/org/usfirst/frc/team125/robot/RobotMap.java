@@ -40,6 +40,7 @@ public class RobotMap {
      */
     //Digital Input
     public static final int INTAKE_LIMIT_SWITCH_A = 0;
+    public static final int INTAKE_LIMIT_SWITCH_B = 1;
     //PWM
     public static final int BLINKIN = 0;
 }

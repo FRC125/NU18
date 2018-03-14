@@ -3,7 +3,6 @@ package org.usfirst.frc.team125.robot.subsystems;
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.IMotorController;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
-import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 import com.ctre.phoenix.motorcontrol.can.VictorSPX;
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
@@ -22,9 +21,11 @@ public class Intake extends Subsystem {
 
     private DoubleSolenoid intakeSolenoid = new DoubleSolenoid(RobotMap.INTAKE_RETRACT_FORWARD, RobotMap.INTAKE_RETRACT_REVERSE);
 
-    private DigitalInput smartIntake = new DigitalInput(RobotMap.INTAKE_LIMIT_SWITCH_A);
+    private DigitalInput smartIntakeA = new DigitalInput(RobotMap.INTAKE_LIMIT_SWITCH_A);
+    private DigitalInput smartIntakeB = new DigitalInput(RobotMap.INTAKE_LIMIT_SWITCH_B);
     private static final double minimumSmartIntakeTime = 0.2; // Is 2 seconds too long???
-    private DebouncedBoolean smartIntakeDebouncer = new DebouncedBoolean(minimumSmartIntakeTime);
+    private DebouncedBoolean smartIntakeDebouncerA = new DebouncedBoolean(minimumSmartIntakeTime);
+    private DebouncedBoolean smartIntakeDebouncerB = new DebouncedBoolean(minimumSmartIntakeTime);
 
     public static final double INTAKE_POWER_LEFT = 1.0;
     public static final double INTAKE_POWER_RIGHT = 1.0;
@@ -105,11 +106,15 @@ public class Intake extends Subsystem {
     }
 
     public boolean checkSmartIntakeTriggered() {
-        smartIntakeDebouncer.update(!smartIntake.get());
-        Robot.ledController.setSmartIntakeTriggered(smartIntakeDebouncer.get());
-        SmartDashboard.putBoolean("Smart intake", smartIntake.get());
-        SmartDashboard.putBoolean("Smart intake de-bouncer", smartIntakeDebouncer.get());
-        return smartIntakeDebouncer.get();
+        smartIntakeDebouncerA.update(!smartIntakeA.get());
+        smartIntakeDebouncerB.update(!smartIntakeB.get());
+        Robot.ledController.setSmartIntakeTriggered(smartIntakeDebouncerA.get() || smartIntakeDebouncerB.get());
+        SmartDashboard.putBoolean("Smart intake a", smartIntakeA.get());
+        SmartDashboard.putBoolean("Smart intake de-bouncer a", smartIntakeDebouncerA.get());
+        SmartDashboard.putBoolean("Smart intake b", smartIntakeB.get());
+        SmartDashboard.putBoolean("Smart intake de-bouncer b", smartIntakeDebouncerB.get());
+        return (smartIntakeDebouncerA.get() || smartIntakeDebouncerB.get())
+                || (!smartIntakeA.get() && !smartIntakeB.get());
     }
 
     public void intakePistonUp() {

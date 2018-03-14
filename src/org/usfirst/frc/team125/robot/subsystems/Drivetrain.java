@@ -41,6 +41,7 @@ public class Drivetrain extends Subsystem {
 
     //Gyro logging for driving
     double lastHeadingError = 0.0;
+    final double TURN_TO_ANGLE_TOLERANCE = 10.0;
 
     public Drivetrain() {
         //Slave Control
@@ -129,12 +130,13 @@ public class Drivetrain extends Subsystem {
 
     public boolean turnToAngle(double angle) {
         double error = angle - gyro.getAngle();
-        double turn = (DrivetrainProfiling.gp * error) + (DrivetrainProfiling.gd * (gyro.getRate()));
+        double turn = DrivetrainProfiling.gp * error + (DrivetrainProfiling.gd *
+                ((error - lastHeadingError) / DrivetrainProfiling.dt));
         this.leftDriveMain.set(ControlMode.PercentOutput, turn);
         this.rightDriveMain.set(ControlMode.PercentOutput, -turn);
         lastHeadingError = error;
         SmartDashboard.putNumber("turn to angle error", error);
-        return Math.abs(error) <= 0.5;
+        return Math.abs(error) <= TURN_TO_ANGLE_TOLERANCE;
     }
 
     public void resetLastHeadingError() {
@@ -252,6 +254,7 @@ public class Drivetrain extends Subsystem {
         resetEncoders();
         resetGyro();
     }
+
 
     public void resetPathAngleOffset() {
         DrivetrainProfiling.path_angle_offset = 0.0;

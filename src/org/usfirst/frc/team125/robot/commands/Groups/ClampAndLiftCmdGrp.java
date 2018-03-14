@@ -4,7 +4,6 @@ import edu.wpi.first.wpilibj.command.CommandGroup;
 import edu.wpi.first.wpilibj.command.WaitCommand;
 import org.usfirst.frc.team125.robot.commands.CubeLift.CloseGrabbersCmd;
 import org.usfirst.frc.team125.robot.commands.CubeLift.RunToPositionMotionMagicCmd;
-import org.usfirst.frc.team125.robot.commands.Intake.PulseIntakeCmd;
 import org.usfirst.frc.team125.robot.subsystems.CubeLift;
 
 public class ClampAndLiftCmdGrp extends CommandGroup {

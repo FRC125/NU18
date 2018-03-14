@@ -2,7 +2,6 @@ package org.usfirst.frc.team125.robot.commands.Intake;
 
 import edu.wpi.first.wpilibj.command.Command;
 import org.usfirst.frc.team125.robot.Robot;
-import org.usfirst.frc.team125.robot.subsystems.CubeLift;
 
 
 public class PulseIntakeCmd extends Command {
@@ -17,7 +16,7 @@ public class PulseIntakeCmd extends Command {
 
     @Override
     public void execute() {
-            Robot.intake.intake();
+        Robot.intake.intake();
     }
 
     @Override

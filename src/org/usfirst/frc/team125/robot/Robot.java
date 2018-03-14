@@ -4,9 +4,9 @@ import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
-import edu.wpi.first.wpilibj.command.WaitCommand;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import org.usfirst.frc.team125.robot.commands.Groups.Autos.GenericAuto;
 import org.usfirst.frc.team125.robot.commands.Groups.Autos.PalmettoAutos.CenterAutos.CenterLeftAuto;
 import org.usfirst.frc.team125.robot.commands.Groups.Autos.PalmettoAutos.CenterAutos.CenterRightAuto;
 import org.usfirst.frc.team125.robot.commands.Groups.Autos.PalmettoAutos.ScaleToSwitchAutos.*;
@@ -111,6 +111,7 @@ public class Robot extends IterativeRobot {
             gameData = "";
         }
 
+        /*
         if (autoSelector.getSelected().equals(Autos.DoNothing)) {
             autoCommand = new WaitCommand(15);
         } else if (sideSelector.getSelected().equals(Sides.Center)) {
@@ -215,7 +216,8 @@ public class Robot extends IterativeRobot {
                     break;
             }
         }
-
+        */
+        autoCommand = new GenericAuto();
         autoCommand.start();
         SmartDashboard.putString("Chosen Auto", autoCommand.toString());
     }

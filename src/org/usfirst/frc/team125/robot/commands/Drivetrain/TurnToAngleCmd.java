@@ -8,25 +8,27 @@ import org.usfirst.frc.team125.robot.Robot;
  */
 public class TurnToAngleCmd extends Command {
 
+    double angle;
+    boolean isFinished = false;
+
     public TurnToAngleCmd(double angle) {
         requires(Robot.drivetrain);
         this.angle = angle;
 
     }
 
-    double angle;
-
     protected void initialize() {
         Robot.drivetrain.enableBreakMode();
         Robot.drivetrain.resetGyro();
+        Robot.drivetrain.resetLastHeadingError();
     }
 
     protected void execute() {
-
+        isFinished = Robot.drivetrain.turnToAngle(angle);
     }
 
     protected boolean isFinished() {
-        return Robot.drivetrain.turnToAngle(angle);
+        return isFinished;
     }
 
     protected void end() {
