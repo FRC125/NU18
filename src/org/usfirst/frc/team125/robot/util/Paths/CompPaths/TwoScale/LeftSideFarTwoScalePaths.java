@@ -1,4 +1,4 @@
-package org.usfirst.frc.team125.robot.util.Paths.PalmettoPaths.TwoScale;
+package org.usfirst.frc.team125.robot.util.Paths.CompPaths.TwoScale;
 
 import jaci.pathfinder.Pathfinder;
 import jaci.pathfinder.Waypoint;

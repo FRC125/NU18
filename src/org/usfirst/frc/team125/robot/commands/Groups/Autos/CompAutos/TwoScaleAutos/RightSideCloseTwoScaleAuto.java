@@ -13,23 +13,24 @@ import org.usfirst.frc.team125.robot.commands.Intake.IntakeCmd;
 import org.usfirst.frc.team125.robot.commands.Intake.IntakeDownCmd;
 import org.usfirst.frc.team125.robot.subsystems.CubeLift;
 import org.usfirst.frc.team125.robot.util.Paths.CompPaths.TwoScale.LeftSideCloseTwoScalePaths;
+import org.usfirst.frc.team125.robot.util.Paths.CompPaths.TwoScale.RightSideCloseTwoScalePaths;
 
-public class LeftSideCloseTwoScaleAuto extends CommandGroup {
+public class RightSideCloseTwoScaleAuto extends CommandGroup {
     Command intakeDown = new IntakeDownCmd();
     Command secureCube = new SecureCubeCmdGrp();
     Command liftElevatorToScale = new AutoLiftCmdGrp(0.5, CubeLift.Positions.ScoreScale);
-    Command driveToScale = new DrivePathCmd(LeftSideCloseTwoScalePaths.toScale);
+    Command driveToScale = new DrivePathCmd(RightSideCloseTwoScalePaths.toScale);
     Command scoreCube = new ScoreCmdGrp();
     Command bringElevatorToIntake = new RunToPositionMotionMagicCmd(CubeLift.Positions.Intake);
-    Command driveToSwitchA = new DrivePathReverseCmd(LeftSideCloseTwoScalePaths.reverse_kTurnToSwitch1A);
+    Command driveToSwitchA = new DrivePathReverseCmd(RightSideCloseTwoScalePaths.reverse_kTurnToSwitch1A);
     Command intakeCube = new IntakeCmd();
-    Command driveToSwitchB = new DrivePathCmd(LeftSideCloseTwoScalePaths.kTurnToSwitch1B);
+    Command driveToSwitchB = new DrivePathCmd(RightSideCloseTwoScalePaths.kTurnToSwitch1B);
     Command liftElevatorToScaleAgain = new RunToPositionMotionMagicCmd(CubeLift.Positions.ScoreScale);
-    Command driveToScaleA = new DrivePathReverseCmd(LeftSideCloseTwoScalePaths.reverse_kTurnToScaleA);
-    Command driveToScaleB = new DrivePathCmd(LeftSideCloseTwoScalePaths.kTurnToScaleB);
+    Command driveToScaleA = new DrivePathReverseCmd(RightSideCloseTwoScalePaths.reverse_kTurnToScaleA);
+    Command driveToScaleB = new DrivePathCmd(RightSideCloseTwoScalePaths.kTurnToScaleB);
     Command scoreCubeAgain = new ScoreCmdGrp();
 
-    public LeftSideCloseTwoScaleAuto() {
+    public RightSideCloseTwoScaleAuto() {
         /*addSequential(intakeDown);
         addSequential(new WaitCommand(0.25));
         addSequential(secureCube);

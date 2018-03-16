@@ -3,14 +3,14 @@ package org.usfirst.frc.team125.robot.commands.CubeLift;
 import edu.wpi.first.wpilibj.command.Command;
 import org.usfirst.frc.team125.robot.Robot;
 
-public class ToggleElevatorSafetyCmd extends Command {
+public class ResetCubeLiftEncoderCmd extends Command {
 
-    public ToggleElevatorSafetyCmd() {
+    public ResetCubeLiftEncoderCmd() {
         requires(Robot.cubeLift);
     }
 
     protected void initialize() {
-        Robot.cubeLift.toggleElevatorSafety();
+        Robot.cubeLift.resetEncoders();
     }
 
     protected void execute() {

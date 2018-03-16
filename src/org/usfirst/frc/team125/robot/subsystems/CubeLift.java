@@ -103,6 +103,12 @@ public class CubeLift extends Subsystem {
         this.position = newPos;
     }
 
+    private boolean elevatorSafetyEnabled = true;
+
+    public void toggleElevatorSafety() {
+        elevatorSafetyEnabled = !elevatorSafetyEnabled;
+    }
+
     private class ElevatorSafety implements Runnable {
         int i = 0;
 
@@ -114,8 +120,11 @@ public class CubeLift extends Subsystem {
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
-                checkIfToppedOut();
-                checkIfZeroedOut();
+                if (elevatorSafetyEnabled) {
+                    checkIfToppedOut();
+                    checkIfZeroedOut();
+                }
+                SmartDashboard.putBoolean("Is elevator safety on?", elevatorSafetyEnabled);
                 SmartDashboard.putNumber("i counter", i);
                 i++;
             }

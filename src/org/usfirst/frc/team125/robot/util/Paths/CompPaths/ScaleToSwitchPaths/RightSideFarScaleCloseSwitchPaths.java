@@ -1,4 +1,4 @@
-package org.usfirst.frc.team125.robot.util.Paths.PalmettoPaths.ScaleToSwitchPaths;
+package org.usfirst.frc.team125.robot.util.Paths.CompPaths.ScaleToSwitchPaths;
 
 import jaci.pathfinder.Pathfinder;
 import jaci.pathfinder.Waypoint;

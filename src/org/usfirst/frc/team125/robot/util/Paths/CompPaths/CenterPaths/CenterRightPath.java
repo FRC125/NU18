@@ -1,4 +1,4 @@
-package org.usfirst.frc.team125.robot.util.Paths.PalmettoPaths.CenterPaths;
+package org.usfirst.frc.team125.robot.util.Paths.CompPaths.CenterPaths;
 
 import jaci.pathfinder.Pathfinder;
 import jaci.pathfinder.Waypoint;

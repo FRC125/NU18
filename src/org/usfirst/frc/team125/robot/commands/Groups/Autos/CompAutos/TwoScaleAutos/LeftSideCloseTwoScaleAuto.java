@@ -1,4 +1,4 @@
-package org.usfirst.frc.team125.robot.commands.Groups.Autos.PalmettoAutos.TwoScaleAutos;
+package org.usfirst.frc.team125.robot.commands.Groups.Autos.CompAutos.TwoScaleAutos;
 
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.CommandGroup;
@@ -12,7 +12,7 @@ import org.usfirst.frc.team125.robot.commands.Groups.SecureCubeCmdGrp;
 import org.usfirst.frc.team125.robot.commands.Intake.IntakeCmd;
 import org.usfirst.frc.team125.robot.commands.Intake.IntakeDownCmd;
 import org.usfirst.frc.team125.robot.subsystems.CubeLift;
-import org.usfirst.frc.team125.robot.util.Paths.PalmettoPaths.TwoScale.LeftSideCloseTwoScalePaths;
+import org.usfirst.frc.team125.robot.util.Paths.CompPaths.TwoScale.LeftSideCloseTwoScalePaths;
 
 public class LeftSideCloseTwoScaleAuto extends CommandGroup {
     Command intakeDown = new IntakeDownCmd();

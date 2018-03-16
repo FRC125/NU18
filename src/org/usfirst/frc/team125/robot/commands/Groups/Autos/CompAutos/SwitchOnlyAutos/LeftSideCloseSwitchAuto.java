@@ -1,4 +1,4 @@
-package org.usfirst.frc.team125.robot.commands.Groups.Autos.PalmettoAutos.SwitchOnlyAutos;
+package org.usfirst.frc.team125.robot.commands.Groups.Autos.CompAutos.SwitchOnlyAutos;
 
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.CommandGroup;
@@ -9,7 +9,7 @@ import org.usfirst.frc.team125.robot.commands.Groups.ScoreCmdGrp;
 import org.usfirst.frc.team125.robot.commands.Groups.SecureCubeCmdGrp;
 import org.usfirst.frc.team125.robot.commands.Intake.IntakeDownCmd;
 import org.usfirst.frc.team125.robot.subsystems.CubeLift;
-import org.usfirst.frc.team125.robot.util.Paths.PalmettoPaths.SwitchOnlyPaths.LeftSideCloseSwitchPaths;
+import org.usfirst.frc.team125.robot.util.Paths.CompPaths.SwitchOnlyPaths.LeftSideCloseSwitchPaths;
 
 public class LeftSideCloseSwitchAuto extends CommandGroup {
     Command intakeDown = new IntakeDownCmd();
@@ -21,11 +21,13 @@ public class LeftSideCloseSwitchAuto extends CommandGroup {
 
 
     public LeftSideCloseSwitchAuto() {
+        /*
         addSequential(intakeDown);
         addSequential(new WaitCommand(0.25));
         addSequential(secureCube);
-        addParallel(liftElevator);
+        */
         addSequential(driveToBeforeSwitch);
+        addParallel(liftElevator);
         addSequential(driveToSwitch);
         addSequential(scoreCube);
     }

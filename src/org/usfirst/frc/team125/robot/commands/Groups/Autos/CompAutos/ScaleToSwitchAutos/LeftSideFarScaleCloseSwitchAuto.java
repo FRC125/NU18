@@ -1,4 +1,4 @@
-package org.usfirst.frc.team125.robot.commands.Groups.Autos.PalmettoAutos.ScaleToSwitchAutos;
+package org.usfirst.frc.team125.robot.commands.Groups.Autos.CompAutos.ScaleToSwitchAutos;
 
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.CommandGroup;
@@ -12,7 +12,7 @@ import org.usfirst.frc.team125.robot.commands.Groups.SecureCubeCmdGrp;
 import org.usfirst.frc.team125.robot.commands.Intake.AutonomousIntakeCmd;
 import org.usfirst.frc.team125.robot.commands.Intake.IntakeDownCmd;
 import org.usfirst.frc.team125.robot.subsystems.CubeLift;
-import org.usfirst.frc.team125.robot.util.Paths.PalmettoPaths.ScaleToSwitchPaths.LeftSideFarScaleCloseSwitchPaths;
+import org.usfirst.frc.team125.robot.util.Paths.CompPaths.ScaleToSwitchPaths.LeftSideFarScaleCloseSwitchPaths;
 
 public class LeftSideFarScaleCloseSwitchAuto extends CommandGroup {
     Command intakeDown = new IntakeDownCmd();

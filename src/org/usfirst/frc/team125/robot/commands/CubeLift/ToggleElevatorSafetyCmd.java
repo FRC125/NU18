@@ -3,14 +3,14 @@ package org.usfirst.frc.team125.robot.commands.CubeLift;
 import edu.wpi.first.wpilibj.command.Command;
 import org.usfirst.frc.team125.robot.Robot;
 
-public class TogglePinCmd extends Command {
+public class ToggleElevatorSafetyCmd extends Command {
 
-    public TogglePinCmd() {
+    public ToggleElevatorSafetyCmd() {
         requires(Robot.cubeLift);
     }
 
     protected void initialize() {
-        Robot.cubeLift.togglePin();
+        Robot.cubeLift.toggleElevatorSafety();
     }
 
     protected void execute() {
