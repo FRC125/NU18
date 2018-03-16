@@ -18,7 +18,7 @@ public class LeftSideFarTwoScaleAuto extends CommandGroup {
     Command intakeDown = new IntakeDownCmd();
     Command secureCube = new SecureCubeCmdGrp();
     Command liftElevatorToScale = new AutoLiftCmdGrp(0.5, CubeLift.Positions.ScoreScale);
-    Command driveToScale = new DrivePathCmd(LeftSideFarTwoScalePaths.toBeforeScaleTurn);
+    Command driveToScale = new DrivePathCmd(LeftSideFarTwoScalePaths.toScale);
     Command scoreCube = new ScoreCmdGrp();
     Command bringElevatorToIntake = new RunToPositionMotionMagicCmd(CubeLift.Positions.Intake);
     Command driveToSwitchA = new DrivePathReverseCmd(LeftSideFarTwoScalePaths.reverse_kTurnToSwitch1A);
