@@ -12,6 +12,7 @@ import org.usfirst.frc.team125.robot.commands.DoubleLift.DropLiftCmd;
 import org.usfirst.frc.team125.robot.commands.DoubleLift.LiftLiftCmd;
 import org.usfirst.frc.team125.robot.commands.DoubleLift.ReleaseCarrierCmd;
 import org.usfirst.frc.team125.robot.commands.Groups.ChinUpCmdGrp;
+import org.usfirst.frc.team125.robot.commands.Groups.RunToPreClimbCmdGrp;
 import org.usfirst.frc.team125.robot.commands.Groups.ScoreCmdGrp;
 import org.usfirst.frc.team125.robot.commands.Groups.SecureCubeCmdGrp;
 import org.usfirst.frc.team125.robot.commands.Intake.*;
@@ -38,6 +39,7 @@ public class OI {
 
     /* Driver Control */
     public Button score = new JoystickButton(driverPad, JoystickMap.X);
+    public Button dropScore = new JoystickButton(driverPad, JoystickMap.LB);
     private Button intake = new JoystickButton(driverPad, JoystickMap.A);
     private Button outtake = new JoystickButton(driverPad, JoystickMap.B);
     private Button emergencyIntake = new JoystickButton(driverPad, JoystickMap.Y);
@@ -94,7 +96,7 @@ public class OI {
         runEleScale.whenPressed(new RunToPositionMotionMagicCmd(CubeLift.Positions.ScoreScale));
         runEleSwitch.whenPressed(new RunToPositionMotionMagicCmd(CubeLift.Positions.ScoreSwitch));
         runEleIntake.whenPressed(new RunToPositionMotionMagicCmd(CubeLift.Positions.Intake));
-        runElePreClimb.whenPressed(new RunToPositionMotionMagicCmd(CubeLift.Positions.PreClimb));
+        runElePreClimb.whenPressed(new RunToPreClimbCmdGrp());
         secureCube.whenPressed(new SecureCubeCmdGrp());
         toggleElevatorPin.whenPressed(new TogglePinCmd());
         toggleIntakePistonInOrOut.whenPressed(new ToggleIntakeSolenoidCmd());
@@ -105,10 +107,12 @@ public class OI {
         /* Driver Control */
         //Intake and Scoring
         intake.whileHeld(new IntakeCmd());
+        intake.whenReleased(new IntakeStopCmd());
         outtake.whileHeld(new OuttakeCmd());
-        outtake.whenPressed(new OpenGrabbersCmd());
+        //outtake.whenPressed(new OpenGrabbersCmd());
         score.whenPressed(new ScoreCmdGrp());
         score.whenReleased(new UnpunchCmd());
+        dropScore.whenPressed(new OpenGrabbersCmd());
         emergencyIntake.whileHeld(new PulseIntakeCmd());
         emergencyIntake.whenPressed(new OpenGrabbersCmd());
     }

@@ -8,9 +8,9 @@ public class LeftSideFarTwoScalePaths {
     public static Waypoint[] toScale = new Waypoint[]{
             new Waypoint(0.0, 0.0, Pathfinder.d2r(0.0)),
             new Waypoint(3.7, 0.0, Pathfinder.d2r(0.0)),
-            new Waypoint(4.9, -1.75, Pathfinder.d2r(-90.0)),
-            new Waypoint(4.9, -3.75, Pathfinder.d2r(-90.0)),
-            new Waypoint(6.5, -4.75, Pathfinder.d2r(0.0)),
+            new Waypoint(4.9, -1.95, Pathfinder.d2r(-90.0)),
+            new Waypoint(4.9, -3.95, Pathfinder.d2r(-90.0)),
+            new Waypoint(6.7, -4.95, Pathfinder.d2r(10.0)),
     };
     // 0.55m change from palmetto matches
 

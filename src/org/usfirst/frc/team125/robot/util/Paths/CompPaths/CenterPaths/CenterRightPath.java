@@ -17,12 +17,12 @@ public class CenterRightPath {
 
     public static Waypoint[] toCube = new Waypoint[]{
             new Waypoint(0.0, 0.0, Pathfinder.d2r(0.0)),
-            new Waypoint(1.75, 0.0, Pathfinder.d2r(0.0)),
+            new Waypoint(1.5, 0.0, Pathfinder.d2r(0.0)),
     };
 
     public static Waypoint[] reverse_backOffCube = new Waypoint[]{
             new Waypoint(0.0, 0.0, Pathfinder.d2r(0.0)),
-            new Waypoint(1.75, 0.0, Pathfinder.d2r(0.0)),
+            new Waypoint(1.5, 0.0, Pathfinder.d2r(0.0)),
     };
 
 }

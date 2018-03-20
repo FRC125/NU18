@@ -6,9 +6,9 @@ import org.usfirst.frc.team125.robot.commands.Groups.ClampAndLiftCmdGrp;
 import org.usfirst.frc.team125.robot.subsystems.CubeLift;
 
 
-public class IntakeCmd extends Command {
+public class AutoIntakeCmd extends Command {
 
-    public IntakeCmd() {
+    public AutoIntakeCmd() {
         requires(Robot.intake);
     }
 
@@ -20,9 +20,7 @@ public class IntakeCmd extends Command {
     @Override
     public void execute() {
         Robot.cubeLift.unpunch();
-        if (Robot.cubeLift.getPosition() != CubeLift.Positions.Intake || Robot.cubeLift.getState() != CubeLift.LiftState.Stationary) {
-            Robot.intake.stopIntake();
-        } else if (Robot.intake.checkSmartIntakeTriggered()) {
+        if (Robot.intake.checkSmartIntakeTriggered()) {
             Command smartIntakeTriggered = new ClampAndLiftCmdGrp();
             smartIntakeTriggered.start();
         } else {

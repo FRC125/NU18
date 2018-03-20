@@ -10,9 +10,6 @@ package org.usfirst.frc.team125.robot.commands.Intake;
 import edu.wpi.first.wpilibj.command.Command;
 import org.usfirst.frc.team125.robot.Robot;
 
-/**
- * An example command.  You can replace me with your own command.
- */
 public class OuttakeCmd extends Command {
 
     public OuttakeCmd() {
@@ -25,6 +22,7 @@ public class OuttakeCmd extends Command {
 
     @Override
     protected void execute() {
+        Robot.cubeLift.openGrabbers();
         Robot.intake.outtake();
     }
 

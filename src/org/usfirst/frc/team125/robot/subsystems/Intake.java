@@ -23,8 +23,8 @@ public class Intake extends Subsystem {
 
     private DigitalInput smartIntakeA = new DigitalInput(RobotMap.INTAKE_LIMIT_SWITCH_A);
     private DigitalInput smartIntakeB = new DigitalInput(RobotMap.INTAKE_LIMIT_SWITCH_B);
-    private static final double minimumSmartIntakeTime = 0.2; // Is 2 seconds too long???
-    private static final double minimumSmartIntakeTimeDouble = 0.1; // Is 2 seconds too long???
+    private static final double minimumSmartIntakeTime = 0.4; // Is 2 seconds too long???
+    private static final double minimumSmartIntakeTimeDouble = 0.2; // Is 2 seconds too long???
     private DebouncedBoolean smartIntakeDebouncerA = new DebouncedBoolean(minimumSmartIntakeTime);
     private DebouncedBoolean smartIntakeDebouncerB = new DebouncedBoolean(minimumSmartIntakeTime);
     private DebouncedBoolean smartIntakeDebouncerDouble = new DebouncedBoolean(minimumSmartIntakeTimeDouble);
@@ -88,8 +88,8 @@ public class Intake extends Subsystem {
     }
 
     public void stopIntake() {
-        this.intakeL.set(ControlMode.PercentOutput, 0);
-        this.intakeR.set(ControlMode.PercentOutput, 0);
+        this.intakeL.set(ControlMode.PercentOutput, 0.);
+        this.intakeR.set(ControlMode.PercentOutput, 0.);
     }
 
     public boolean passedCurrentLimit() {

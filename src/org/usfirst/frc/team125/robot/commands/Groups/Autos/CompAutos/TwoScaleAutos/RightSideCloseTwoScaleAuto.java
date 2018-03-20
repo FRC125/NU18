@@ -9,6 +9,7 @@ import org.usfirst.frc.team125.robot.commands.Drivetrain.DrivePathReverseCmd;
 import org.usfirst.frc.team125.robot.commands.Groups.AutoLiftCmdGrp;
 import org.usfirst.frc.team125.robot.commands.Groups.ScoreCmdGrp;
 import org.usfirst.frc.team125.robot.commands.Groups.SecureCubeCmdGrp;
+import org.usfirst.frc.team125.robot.commands.Intake.AutoIntakeCmd;
 import org.usfirst.frc.team125.robot.commands.Intake.IntakeCmd;
 import org.usfirst.frc.team125.robot.commands.Intake.IntakeDownCmd;
 import org.usfirst.frc.team125.robot.subsystems.CubeLift;
@@ -23,7 +24,7 @@ public class RightSideCloseTwoScaleAuto extends CommandGroup {
     Command scoreCube = new ScoreCmdGrp();
     Command bringElevatorToIntake = new RunToPositionMotionMagicCmd(CubeLift.Positions.Intake);
     Command driveToSwitchA = new DrivePathReverseCmd(RightSideCloseTwoScalePaths.reverse_kTurnToSwitch1A);
-    Command intakeCube = new IntakeCmd();
+    Command intakeCube = new AutoIntakeCmd();
     Command driveToSwitchB = new DrivePathCmd(RightSideCloseTwoScalePaths.kTurnToSwitch1B);
     Command liftElevatorToScaleAgain = new RunToPositionMotionMagicCmd(CubeLift.Positions.ScoreScale);
     Command driveToScaleA = new DrivePathReverseCmd(RightSideCloseTwoScalePaths.reverse_kTurnToScaleA);
@@ -39,8 +40,9 @@ public class RightSideCloseTwoScaleAuto extends CommandGroup {
         addSequential(driveToScale);
         addSequential(scoreCube);
         addSequential(new WaitCommand(0.4));
-        addParallel(bringElevatorToIntake);
-        addSequential(driveToSwitchA);
+        addParallel(driveToSwitchA);
+        addSequential(new WaitCommand(1));
+        addSequential(bringElevatorToIntake);
         addParallel(driveToSwitchB);
         addSequential(intakeCube);
         addParallel(liftElevatorToScaleAgain, 3);

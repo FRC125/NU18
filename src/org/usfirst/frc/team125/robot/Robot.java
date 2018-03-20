@@ -22,7 +22,6 @@ import org.usfirst.frc.team125.robot.commands.Groups.Autos.CompAutos.SwitchOnlyA
 import org.usfirst.frc.team125.robot.commands.Groups.Autos.CompAutos.TwoScaleAutos.LeftSideCloseTwoScaleAuto;
 import org.usfirst.frc.team125.robot.commands.Groups.Autos.CompAutos.TwoScaleAutos.LeftSideFarTwoScaleAuto;
 import org.usfirst.frc.team125.robot.commands.Groups.Autos.CompAutos.TwoScaleAutos.RightSideCloseTwoScaleAuto;
-import org.usfirst.frc.team125.robot.commands.Groups.Autos.GenericAuto;
 import org.usfirst.frc.team125.robot.subsystems.*;
 
 public class Robot extends IterativeRobot {
@@ -127,7 +126,6 @@ public class Robot extends IterativeRobot {
             gameData = "";
         }
 
-        /*
         if (autoSelector.getSelected().equals(Autos.DoNothing)) { // Do Nothing
             autoCommand = new WaitCommand(15);
         } else if (sideSelector.getSelected().equals(Sides.Center)) { // Center
@@ -194,7 +192,6 @@ public class Robot extends IterativeRobot {
         } else {
             autoCommand = new DriveStraightAuto();
         }
-        */
 
         /*
         else { // Scale Switch
@@ -277,7 +274,6 @@ public class Robot extends IterativeRobot {
         }
         */
 
-        autoCommand = new GenericAuto();
         autoCommand.start();
         SmartDashboard.putString("Chosen Auto", autoCommand.toString());
     }

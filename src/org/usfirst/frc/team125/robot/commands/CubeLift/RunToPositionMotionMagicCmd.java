@@ -26,7 +26,6 @@ public class RunToPositionMotionMagicCmd extends Command {
             case ScoreScale:
                 Robot.intake.intakePistonDown();
                 break;
-            case PreClimb:
             case ClimbingBar:
                 Robot.intake.intakePistonUp();
                 break;
