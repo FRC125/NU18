@@ -14,8 +14,6 @@ public class ClampAndLiftCmdGrp extends CommandGroup {
         /*addParallel(new CloseGrabbersCmd());
         addSequential(new PulseIntakeCmd(), 0.5);
         */
-        addSequential(new PulseIntakeCmd(), 0.5);
-        addSequential(new IntakeStopCmd());
         addSequential(new CloseGrabbersCmd());
         addSequential(new WaitCommand(0.34));
         addSequential(new RunToPositionMotionMagicCmd(CubeLift.Positions.Driving));

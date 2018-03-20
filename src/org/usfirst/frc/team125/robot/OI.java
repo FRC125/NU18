@@ -107,9 +107,8 @@ public class OI {
         /* Driver Control */
         //Intake and Scoring
         intake.whileHeld(new IntakeCmd());
-        intake.whenReleased(new IntakeStopCmd());
         outtake.whileHeld(new OuttakeCmd());
-        //outtake.whenPressed(new OpenGrabbersCmd());
+        outtake.whenPressed(new OpenGrabbersCmd());
         score.whenPressed(new ScoreCmdGrp());
         score.whenReleased(new UnpunchCmd());
         dropScore.whenPressed(new OpenGrabbersCmd());

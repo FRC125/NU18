@@ -36,7 +36,7 @@ public class AutoIntakeCmd extends Command {
 
     @Override
     protected void end() {
-        /*Robot.intake.stopIntake();*/
+        Robot.intake.stopIntake();
     }
 
     protected void interrupted() {
