@@ -22,7 +22,6 @@ public class OuttakeCmd extends Command {
 
     @Override
     protected void execute() {
-        Robot.cubeLift.openGrabbers();
         Robot.intake.outtake();
     }
 

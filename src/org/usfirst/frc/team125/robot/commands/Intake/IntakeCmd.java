@@ -19,6 +19,7 @@ public class IntakeCmd extends Command {
 
     @Override
     public void execute() {
+        System.out.println("exe");
         Robot.cubeLift.unpunch();
         if (Robot.cubeLift.getPosition() != CubeLift.Positions.Intake || Robot.cubeLift.getState() != CubeLift.LiftState.Stationary) {
             Robot.intake.stopIntake();
@@ -33,11 +34,13 @@ public class IntakeCmd extends Command {
 
     @Override
     protected boolean isFinished() {
+        System.out.println("finished");
         return Robot.intake.checkSmartIntakeTriggered();
     }
 
     @Override
     protected void end() {
+        System.out.println("end");
         Robot.intake.stopIntake();
     }
 
