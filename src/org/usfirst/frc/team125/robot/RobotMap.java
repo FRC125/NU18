@@ -20,6 +20,9 @@ public class RobotMap {
     //Intake
     public static final int INTAKE_RIGHT = 21;
     public static final int INTAKE_LEFT = 20;
+    //New Double Lift Motors
+    public static final int DOUBLE_LIFT_MAIN = 30;
+    public static final int DOUBLE_LIFT_SLAVE = 31;
 
     /*
     PCM Device

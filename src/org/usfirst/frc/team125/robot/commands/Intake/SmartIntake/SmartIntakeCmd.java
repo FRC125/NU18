@@ -1,14 +1,12 @@
-package org.usfirst.frc.team125.robot.commands.Intake;
+package org.usfirst.frc.team125.robot.commands.Intake.SmartIntake;
 
 import edu.wpi.first.wpilibj.command.Command;
 import org.usfirst.frc.team125.robot.Robot;
-import org.usfirst.frc.team125.robot.commands.Groups.ClampAndLiftCmdGrp;
-import org.usfirst.frc.team125.robot.subsystems.CubeLift;
 
 
-public class IntakeCmd extends Command {
+public class SmartIntakeCmd extends Command {
 
-    public IntakeCmd() {
+    public SmartIntakeCmd() {
         requires(Robot.intake);
     }
 
@@ -21,15 +19,12 @@ public class IntakeCmd extends Command {
     public void execute() {
         System.out.println("exe");
         Robot.cubeLift.unpunch();
-        if (Robot.cubeLift.getPosition() != CubeLift.Positions.Intake || Robot.cubeLift.getState() != CubeLift.LiftState.Stationary) {
+        /*if (Robot.cubeLift.getPosition() != CubeLift.Positions.Intake || Robot.cubeLift.getState() != CubeLift.LiftState.Stationary) {
             Robot.intake.stopIntake();
-        } else if (Robot.intake.checkSmartIntakeTriggered()) {
-            Command smartIntakeTriggered = new ClampAndLiftCmdGrp();
-            smartIntakeTriggered.start();
-        } else {
-            Robot.cubeLift.openGrabbers();
-            Robot.intake.intake();
-        }
+        } else { */
+        Robot.cubeLift.openGrabbers();
+        Robot.intake.intake();
+        //}
     }
 
     @Override

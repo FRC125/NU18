@@ -5,7 +5,6 @@ import edu.wpi.first.wpilibj.command.CommandGroup;
 import org.usfirst.frc.team125.robot.commands.Drivetrain.DrivePathCmd;
 import org.usfirst.frc.team125.robot.commands.Groups.SecureCubeCmdGrp;
 import org.usfirst.frc.team125.robot.commands.Intake.IntakeDownCmd;
-import org.usfirst.frc.team125.robot.util.Paths.CompPaths.CenterPaths.CenterLeftPath;
 import org.usfirst.frc.team125.robot.util.Paths.CompPaths.SituationalPaths.DriveStraightPaths;
 
 public class DriveStraightAuto extends CommandGroup {

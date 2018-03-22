@@ -11,10 +11,10 @@ import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import org.usfirst.frc.team125.robot.commands.CubeLift.ResetCubeLiftEncoderCmd;
 import org.usfirst.frc.team125.robot.commands.CubeLift.ToggleElevatorSafetyCmd;
-import org.usfirst.frc.team125.robot.commands.Groups.Autos.CompAutos.ScaleToSwitchAutos.RightSideCloseScaleFarSwitchAuto;
-import org.usfirst.frc.team125.robot.commands.Groups.Autos.CompAutos.SituationalAutos.DriveStraightAuto;
 import org.usfirst.frc.team125.robot.commands.Groups.Autos.CompAutos.CenterAutos.CenterLeftAuto;
 import org.usfirst.frc.team125.robot.commands.Groups.Autos.CompAutos.CenterAutos.CenterRightAuto;
+import org.usfirst.frc.team125.robot.commands.Groups.Autos.CompAutos.ScaleToSwitchAutos.RightSideCloseScaleFarSwitchAuto;
+import org.usfirst.frc.team125.robot.commands.Groups.Autos.CompAutos.SituationalAutos.DriveStraightAuto;
 import org.usfirst.frc.team125.robot.commands.Groups.Autos.CompAutos.SwitchOnlyAutos.LeftSideCloseSwitchAuto;
 import org.usfirst.frc.team125.robot.commands.Groups.Autos.CompAutos.SwitchOnlyAutos.LeftSideFarSwitchAuto;
 import org.usfirst.frc.team125.robot.commands.Groups.Autos.CompAutos.SwitchOnlyAutos.RightSideCloseSwitchAuto;
@@ -29,6 +29,7 @@ public class Robot extends IterativeRobot {
     public static Drivetrain drivetrain = new Drivetrain();
     public static Intake intake = new Intake();
     public static DoubleLift doubleLift = new DoubleLift();
+    public static MotoredDoubleLift motorDoubleLift = new MotoredDoubleLift();
     public static CubeLift cubeLift = new CubeLift();
     public static LEDController ledController = new LEDController();
     public static OI oi;
@@ -159,9 +160,9 @@ public class Robot extends IterativeRobot {
 
                 case "LL": //GOOD!
                     if (sideSelector.getSelected().equals(Sides.Left)) {
-                       autoCommand = leftTwoScaleCloseAuto;
+                        autoCommand = leftTwoScaleCloseAuto;
                     } else {
-                       autoCommand = driveStraightAuto;
+                        autoCommand = driveStraightAuto;
                     }
                     break;
 
@@ -177,7 +178,7 @@ public class Robot extends IterativeRobot {
                     autoCommand = new WaitCommand(15);
                     break;
             }
-        } else if(autoSelector.getSelected().equals(Autos.TwoScale)) { // Two Scale
+        } else if (autoSelector.getSelected().equals(Autos.TwoScale)) { // Two Scale
             switch (gameData.substring(1, 2)) {
                 case "L":
                     autoCommand = leftTwoScaleCloseAuto;

@@ -7,9 +7,9 @@ import org.usfirst.frc.team125.robot.commands.CubeLift.RunToPositionMotionMagicC
 import org.usfirst.frc.team125.robot.commands.Drivetrain.DrivePathCmd;
 import org.usfirst.frc.team125.robot.commands.Drivetrain.DrivePathReverseCmd;
 import org.usfirst.frc.team125.robot.commands.Groups.AutoLiftCmdGrp;
+import org.usfirst.frc.team125.robot.commands.Groups.IntakeCmdGrp;
 import org.usfirst.frc.team125.robot.commands.Groups.ScoreCmdGrp;
 import org.usfirst.frc.team125.robot.commands.Groups.SecureCubeCmdGrp;
-import org.usfirst.frc.team125.robot.commands.Intake.AutonomousIntakeCmd;
 import org.usfirst.frc.team125.robot.commands.Intake.IntakeDownCmd;
 import org.usfirst.frc.team125.robot.subsystems.CubeLift;
 import org.usfirst.frc.team125.robot.util.Paths.CompPaths.ScaleToSwitchPaths.RightSideCloseScaleFarSwitchPaths;
@@ -22,7 +22,7 @@ public class RightSideCloseScaleFarSwitchAuto extends CommandGroup {
     Command scoreCube = new ScoreCmdGrp();
     Command bringElevatorToIntake = new RunToPositionMotionMagicCmd(CubeLift.Positions.Intake);
     Command driveToSwitchA = new DrivePathReverseCmd(RightSideCloseScaleFarSwitchPaths.reverse_kTurnToSwitch1A);
-    Command intakeCube = new AutonomousIntakeCmd();
+    Command intakeCube = new IntakeCmdGrp();
     Command driveToSwitchB = new DrivePathCmd(RightSideCloseScaleFarSwitchPaths.kTurnToSwitch1B);
     Command secureCubeAgain = new SecureCubeCmdGrp();
     Command liftElevatorToSwitch = new RunToPositionMotionMagicCmd(CubeLift.Positions.ScoreSwitch);

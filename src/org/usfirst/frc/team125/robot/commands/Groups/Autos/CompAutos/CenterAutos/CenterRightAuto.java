@@ -7,10 +7,9 @@ import org.usfirst.frc.team125.robot.commands.CubeLift.RunToPositionMotionMagicC
 import org.usfirst.frc.team125.robot.commands.Drivetrain.DrivePathCmd;
 import org.usfirst.frc.team125.robot.commands.Drivetrain.DrivePathReverseCmd;
 import org.usfirst.frc.team125.robot.commands.Groups.AutoLiftCmdGrp;
+import org.usfirst.frc.team125.robot.commands.Groups.IntakeCmdGrp;
 import org.usfirst.frc.team125.robot.commands.Groups.ScoreCmdGrp;
 import org.usfirst.frc.team125.robot.commands.Groups.SecureCubeCmdGrp;
-import org.usfirst.frc.team125.robot.commands.Intake.AutoIntakeCmd;
-import org.usfirst.frc.team125.robot.commands.Intake.IntakeCmd;
 import org.usfirst.frc.team125.robot.commands.Intake.IntakeDownCmd;
 import org.usfirst.frc.team125.robot.subsystems.CubeLift;
 import org.usfirst.frc.team125.robot.util.Paths.CompPaths.CenterPaths.CenterRightPath;
@@ -24,7 +23,7 @@ public class CenterRightAuto extends CommandGroup {
     Command bringEleToIntake = new RunToPositionMotionMagicCmd(CubeLift.Positions.Intake);
     Command driveBackToLine = new DrivePathReverseCmd(CenterRightPath.reverse_goBack);
     Command driveToCube = new DrivePathCmd(CenterRightPath.toCube);
-    Command intakeCube = new AutoIntakeCmd();
+    Command intakeCube = new IntakeCmdGrp();
     Command backOffCube = new DrivePathReverseCmd(CenterRightPath.reverse_backOffCube);
     Command liftElevatorAgain = new RunToPositionMotionMagicCmd(CubeLift.Positions.ScoreSwitch);
     Command driveToSwitchAgain = new DrivePathCmd(CenterRightPath.toSwitch);

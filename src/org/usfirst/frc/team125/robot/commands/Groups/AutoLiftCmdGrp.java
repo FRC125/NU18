@@ -8,7 +8,7 @@ import org.usfirst.frc.team125.robot.subsystems.CubeLift;
 public class AutoLiftCmdGrp extends CommandGroup {
 
     public AutoLiftCmdGrp(double timeBuffer, CubeLift.Positions pos) {
-        addSequential(new RunToPositionMotionMagicCmd(CubeLift.Positions.Driving), 1.5);
+        addSequential(new RunToPositionMotionMagicCmd(CubeLift.Positions.ScoreSwitch), 1.5);
         addSequential(new WaitCommand(timeBuffer));
         addSequential(new RunToPositionMotionMagicCmd(pos), 3);
     }

@@ -8,14 +8,14 @@ import org.usfirst.frc.team125.robot.commands.CubeLift.OpenGrabbersCmd;
 import org.usfirst.frc.team125.robot.commands.CubeLift.RunToPositionMotionMagicCmd;
 import org.usfirst.frc.team125.robot.commands.CubeLift.TogglePinCmd;
 import org.usfirst.frc.team125.robot.commands.CubeLift.UnpunchCmd;
-import org.usfirst.frc.team125.robot.commands.DoubleLift.DropLiftCmd;
-import org.usfirst.frc.team125.robot.commands.DoubleLift.LiftLiftCmd;
 import org.usfirst.frc.team125.robot.commands.DoubleLift.ReleaseCarrierCmd;
-import org.usfirst.frc.team125.robot.commands.Groups.ChinUpCmdGrp;
-import org.usfirst.frc.team125.robot.commands.Groups.RunToPreClimbCmdGrp;
-import org.usfirst.frc.team125.robot.commands.Groups.ScoreCmdGrp;
-import org.usfirst.frc.team125.robot.commands.Groups.SecureCubeCmdGrp;
-import org.usfirst.frc.team125.robot.commands.Intake.*;
+import org.usfirst.frc.team125.robot.commands.Groups.*;
+import org.usfirst.frc.team125.robot.commands.Intake.IntakeDownCmd;
+import org.usfirst.frc.team125.robot.commands.Intake.SmartIntake.OuttakeCmd;
+import org.usfirst.frc.team125.robot.commands.Intake.SmartIntake.PulseIntakeCmd;
+import org.usfirst.frc.team125.robot.commands.Intake.SmartIntake.StopIntakeCmd;
+import org.usfirst.frc.team125.robot.commands.Intake.ToggleIntakeSolenoidCmd;
+import org.usfirst.frc.team125.robot.commands.MotoredDoubleLift.RepelLiftCmd;
 import org.usfirst.frc.team125.robot.subsystems.CubeLift;
 import org.usfirst.frc.team125.robot.util.JoystickMap;
 
@@ -72,7 +72,7 @@ public class OI {
             new IntakeDownCmd().start();
         }
         if (getOpRightTrigger() >= 0.5) {
-            new LiftLiftCmd().start();
+            //new LiftLiftCmd().start();
         }
     }
 
@@ -102,11 +102,12 @@ public class OI {
         toggleIntakePistonInOrOut.whenPressed(new ToggleIntakeSolenoidCmd());
         runEleClimb.whenPressed(new RunToPositionMotionMagicCmd(CubeLift.Positions.ClimbingBar));
         climb.whenPressed(new ChinUpCmdGrp());
-        dropLift.whenPressed(new DropLiftCmd());
+        dropLift.whileHeld(new RepelLiftCmd());
 
         /* Driver Control */
         //Intake and Scoring
-        intake.whileHeld(new IntakeCmd());
+        intake.whenPressed(new IntakeCmdGrp());
+        intake.whenReleased(new StopIntakeCmd());
         outtake.whileHeld(new OuttakeCmd());
         outtake.whenPressed(new OpenGrabbersCmd());
         score.whenPressed(new ScoreCmdGrp());

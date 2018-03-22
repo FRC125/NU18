@@ -1,11 +1,12 @@
-package org.usfirst.frc.team125.robot.commands.Intake;
+package org.usfirst.frc.team125.robot.commands.Intake.SmartIntake;
 
 import edu.wpi.first.wpilibj.command.Command;
 import org.usfirst.frc.team125.robot.Robot;
 
-public class IntakeStopCmd extends Command {
 
-    public IntakeStopCmd() {
+public class PulseIntakeCmd extends Command {
+
+    public PulseIntakeCmd() {
         requires(Robot.intake);
     }
 
@@ -15,7 +16,7 @@ public class IntakeStopCmd extends Command {
 
     @Override
     public void execute() {
-        Robot.intake.stopIntake();
+        Robot.intake.intake();
     }
 
     @Override
@@ -25,9 +26,11 @@ public class IntakeStopCmd extends Command {
 
     @Override
     protected void end() {
+        Robot.intake.stopIntake();
     }
 
     protected void interrupted() {
         end();
     }
+
 }
