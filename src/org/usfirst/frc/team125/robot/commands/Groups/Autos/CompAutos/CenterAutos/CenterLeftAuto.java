@@ -26,7 +26,7 @@ public class CenterLeftAuto extends CommandGroup {
     Command intakeCube = new IntakeCmdGrp();
     Command backOffCube = new DrivePathReverseCmd(CenterLeftPath.reverse_backOffCube);
     Command liftElevatorAgain = new RunToPositionMotionMagicCmd(CubeLift.Positions.ScoreSwitch);
-    Command driveToSwitchAgain = new DrivePathCmd(CenterLeftPath.toSwitch);
+    Command driveToSwitchAgain = new DrivePathCmd(CenterLeftPath.toSwitchAgain);
     Command scoreCubeAgain = new ScoreCmdGrp();
 
 
