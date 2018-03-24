@@ -45,8 +45,9 @@ public class LeftSideFarTwoScaleAuto extends CommandGroup {
         addSequential(intakeCube);
         addParallel(liftElevatorToScaleAgain, 3);
         addSequential(driveToScaleA);
-        addSequential(driveToScaleB);
+        /*addSequential(driveToScaleB);
         addSequential(scoreCubeAgain);
+        */
     }
 
 }

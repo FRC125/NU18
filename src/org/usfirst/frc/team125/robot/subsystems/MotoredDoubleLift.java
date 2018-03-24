@@ -15,6 +15,7 @@ public class MotoredDoubleLift extends Subsystem {
     private IMotorController doubleLiftSlave = new VictorSPX(RobotMap.DOUBLE_LIFT_SLAVE);
 
     public static final double DOUBLE_LIFT_POWER = 1.0;
+    public static final double DOUBLE_LIFT_POWER_REVERSE = 0.3;
 
     public MotoredDoubleLift() {
         this.doubleLiftSlave.follow(doubleLiftMain);
@@ -31,8 +32,8 @@ public class MotoredDoubleLift extends Subsystem {
         this.doubleLiftMain.setNeutralMode(NeutralMode.Brake);
         this.doubleLiftSlave.setNeutralMode(NeutralMode.Brake);
 
-        this.doubleLiftMain.setInverted(false);
-        this.doubleLiftSlave.setInverted(true);
+        this.doubleLiftMain.setInverted(true);
+        this.doubleLiftSlave.setInverted(false);
     }
 
     public void analogLift(double pow) {
@@ -44,7 +45,7 @@ public class MotoredDoubleLift extends Subsystem {
     }
 
     public void repel() {
-        doubleLiftMain.set(ControlMode.PercentOutput, -DOUBLE_LIFT_POWER);
+        doubleLiftMain.set(ControlMode.PercentOutput, -DOUBLE_LIFT_POWER_REVERSE);
     }
 
     public void stopDoubleLift() {

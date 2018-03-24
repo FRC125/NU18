@@ -45,6 +45,7 @@ public class Robot extends IterativeRobot {
     private enum Autos {
         SwitchOnly,
         ScaleToSwitch,
+        SwitchToScale,
         TwoScale,
         Situational,
         DoNothing,
@@ -130,17 +131,17 @@ public class Robot extends IterativeRobot {
         if (autoSelector.getSelected().equals(Autos.DoNothing)) { // Do Nothing
             autoCommand = new WaitCommand(15);
         } else if (sideSelector.getSelected().equals(Sides.Center)) { // Center
-            switch (gameData.substring(0, 1)) {
-                case "L":
-                    autoCommand = centerLeftAuto;
-                    break;
-                case "R":
-                    autoCommand = centerRightAuto;
-                    break;
-                default:
-                    autoCommand = new WaitCommand(15);
-                    break;
-            }
+                switch (gameData.substring(0, 1)) {
+                    case "L":
+                        autoCommand = centerLeftAuto;
+                        break;
+                    case "R":
+                        autoCommand = centerRightAuto;
+                        break;
+                    default:
+                        autoCommand = new WaitCommand(15);
+                        break;
+                }
         } else if (autoSelector.getSelected().equals(Autos.Situational)) { // Situational
             switch (gameData) {
                 case "LR": // GOOD!
@@ -184,7 +185,7 @@ public class Robot extends IterativeRobot {
                     autoCommand = leftTwoScaleCloseAuto;
                     break;
                 case "R":
-                    autoCommand = leftTwoScaleFarAuto;
+                    autoCommand = leftTwoScaleFarAuto; // TODO: MAKE IT RIGHT AGAIN
                     break;
                 default:
                     autoCommand = new WaitCommand(15);

@@ -11,6 +11,7 @@ import org.usfirst.frc.team125.robot.commands.Groups.IntakeCmdGrp;
 import org.usfirst.frc.team125.robot.commands.Groups.ScoreCmdGrp;
 import org.usfirst.frc.team125.robot.commands.Groups.SecureCubeCmdGrp;
 import org.usfirst.frc.team125.robot.commands.Intake.IntakeDownCmd;
+import org.usfirst.frc.team125.robot.commands.Intake.IntakeUpCmd;
 import org.usfirst.frc.team125.robot.subsystems.CubeLift;
 import org.usfirst.frc.team125.robot.util.Paths.CompPaths.CenterPaths.CenterLeftPath;
 
@@ -27,6 +28,7 @@ public class CenterLeftAuto extends CommandGroup {
     Command backOffCube = new DrivePathReverseCmd(CenterLeftPath.reverse_backOffCube);
     Command liftElevatorAgain = new RunToPositionMotionMagicCmd(CubeLift.Positions.ScoreSwitch);
     Command driveToSwitchAgain = new DrivePathCmd(CenterLeftPath.toSwitchAgain);
+    Command liftIntake = new IntakeUpCmd();
     Command scoreCubeAgain = new ScoreCmdGrp();
 
 
@@ -45,10 +47,12 @@ public class CenterLeftAuto extends CommandGroup {
         addSequential(bringEleToIntake);
         addParallel(driveToCube);
         addSequential(intakeCube);
-        addSequential(backOffCube);
         addParallel(liftElevatorAgain);
+        addSequential(backOffCube);
+        /*addParallel(liftIntake);
         addSequential(driveToSwitchAgain);
         addSequential(scoreCubeAgain);
+        */
     }
 
 

@@ -45,8 +45,9 @@ public class RightSideCloseTwoScaleAuto extends CommandGroup {
         addSequential(intakeCube);
         addParallel(liftElevatorToScaleAgain, 3);
         addSequential(driveToScaleA);
-        addSequential(driveToScaleB);
+        /*addSequential(driveToScaleB);
         addSequential(scoreCubeAgain);
+        */
     }
 
 }

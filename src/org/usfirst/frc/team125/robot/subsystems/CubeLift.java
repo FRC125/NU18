@@ -212,6 +212,7 @@ public class CubeLift extends Subsystem {
             configMotionMagic(CRUISE_VELOCITY, CRUISE_ACCELERATION);
         }
 
+        SmartDashboard.putBoolean("At intake position?", false);
         rightElevatorLeader.set(ControlMode.MotionMagic, pos.getPosition());
     }
 
@@ -221,6 +222,7 @@ public class CubeLift extends Subsystem {
                 state = LiftState.Stationary;
                 stopElevator();
                 position = pos;
+                SmartDashboard.putBoolean("At intake position?", true);
             }
         } else if (Math.abs(pos.getPosition() - getQuadraturePosition()) <= MOTION_MAGIC_TOLERANCE) {
             state = LiftState.Stationary;
