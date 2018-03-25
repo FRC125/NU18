@@ -77,7 +77,7 @@ public class CubeLift extends Subsystem {
         ScoreSwitch(40000),
         ScoreScale(70000),
         ScoreScaleLow(60000),
-        ScoreScaleHigh(75000),
+        ScoreScaleHigh(77000),
         PreClimb(74000),
         Top(77001),
         ChinUp(40500),
