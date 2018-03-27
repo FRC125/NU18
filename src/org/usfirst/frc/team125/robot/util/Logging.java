@@ -71,11 +71,10 @@ public class Logging {
 
     public void write(String key, String val){
         System.out.println(logEntries.size());
-
         for(String temp : logNames){
             if(temp.equals(key)){
                 int i = logNames.indexOf(temp);
-                logEntries.add(i, val);
+                logEntries.set(i, val);
             }
         }
     }
