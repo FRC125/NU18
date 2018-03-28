@@ -23,14 +23,20 @@ public class SmartIntakeCmd extends Command {
             Robot.intake.stopIntake();
         } else {*/
         Robot.cubeLift.openGrabbers();
-        Robot.intake.intake();
+        if (Robot.intake.checkRightSmartIntakeTriggered() && !Robot.intake.checkLeftSmartIntakeTriggered()){
+            Robot.intake.runIntakeL();
+        } else if (Robot.intake.checkLeftSmartIntakeTriggered() && !Robot.intake.checkLeftSmartIntakeTriggered()){
+            Robot.intake.runIntakeR();
+        } else {
+            Robot.intake.intake();
+        }
     }
     //}
 
     @Override
     protected boolean isFinished() {
         System.out.println("finished");
-        return Robot.intake.checkSmartIntakeTriggered();
+        return Robot.intake.checkLeftSmartIntakeTriggered() && Robot.intake.checkRightSmartIntakeTriggered();
     }
 
     @Override

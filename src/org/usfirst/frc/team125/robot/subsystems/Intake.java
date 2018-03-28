@@ -8,7 +8,6 @@ import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import org.usfirst.frc.team125.robot.Robot;
 import org.usfirst.frc.team125.robot.RobotMap;
 import org.usfirst.frc.team125.robot.util.CurrentReader;
 import org.usfirst.frc.team125.robot.util.DebouncedBoolean;
@@ -21,8 +20,8 @@ public class Intake extends Subsystem {
 
     private DoubleSolenoid intakeSolenoid = new DoubleSolenoid(RobotMap.INTAKE_RETRACT_FORWARD, RobotMap.INTAKE_RETRACT_REVERSE);
 
-    private DigitalInput smartIntakeA = new DigitalInput(RobotMap.INTAKE_LIMIT_SWITCH_A);
-    private DigitalInput smartIntakeB = new DigitalInput(RobotMap.INTAKE_LIMIT_SWITCH_B);
+    private DigitalInput smartIntakeR = new DigitalInput(RobotMap.INTAKE_LIMIT_SWITCH_A);
+    private DigitalInput smartIntakeL = new DigitalInput(RobotMap.INTAKE_LIMIT_SWITCH_B);
     private static final double minimumSmartIntakeTime = 0.4; // Is 2 seconds too long???
     private static final double minimumSmartIntakeTimeDouble = 0.2; // Is 2 seconds too long???
     private DebouncedBoolean smartIntakeDebouncerA = new DebouncedBoolean(minimumSmartIntakeTime);
@@ -49,7 +48,9 @@ public class Intake extends Subsystem {
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
-                checkSmartIntakeTriggered();
+                //checkSmartIntakeTriggered();
+                checkLeftSmartIntakeTriggered();
+                checkRightSmartIntakeTriggered();
                 SmartDashboard.putNumber("j counter", j);
                 j++;
             }
@@ -82,6 +83,16 @@ public class Intake extends Subsystem {
         this.intakeR.set(ControlMode.PercentOutput, INTAKE_POWER_RIGHT);
     }
 
+    public void runIntakeL() {
+        this.intakeL.set(ControlMode.PercentOutput, -INTAKE_POWER_LEFT);
+        this.intakeR.set(ControlMode.PercentOutput, 0.0);
+    }
+
+    public void runIntakeR(){
+        this.intakeL.set(ControlMode.PercentOutput, 0.0);
+        this.intakeR.set(ControlMode.PercentOutput, INTAKE_POWER_RIGHT);
+    }
+
     public void outtake() {
         this.intakeL.set(ControlMode.PercentOutput, INTAKE_POWER_LEFT);
         this.intakeR.set(ControlMode.PercentOutput, -INTAKE_POWER_RIGHT);
@@ -106,18 +117,19 @@ public class Intake extends Subsystem {
     public int currentCounterReset() {
         return this.intakeCurrentReader.currentCounter = 0;
     }
-
-    public boolean checkSmartIntakeTriggered() {
-        smartIntakeDebouncerA.update(!smartIntakeA.get());
-        smartIntakeDebouncerB.update(!smartIntakeB.get());
-        smartIntakeDebouncerDouble.update(!smartIntakeA.get() && !smartIntakeB.get());
-        Robot.ledController.setSmartIntakeTriggered(smartIntakeDebouncerA.get() || smartIntakeDebouncerB.get());
-        SmartDashboard.putBoolean("Smart intake a", smartIntakeA.get());
+    
+    public boolean checkLeftSmartIntakeTriggered(){
+        smartIntakeDebouncerA.update(!smartIntakeR.get());
+        SmartDashboard.putBoolean("Smart intake a", smartIntakeR.get());
         SmartDashboard.putBoolean("Smart intake de-bouncer a", smartIntakeDebouncerA.get());
-        SmartDashboard.putBoolean("Smart intake b", smartIntakeB.get());
+        return  smartIntakeDebouncerA.get();
+    }
+
+    public boolean checkRightSmartIntakeTriggered(){
+        smartIntakeDebouncerB.update(!smartIntakeL.get());
+        SmartDashboard.putBoolean("Smart intake b", smartIntakeL.get());
         SmartDashboard.putBoolean("Smart intake de-bouncer b", smartIntakeDebouncerB.get());
-        return (smartIntakeDebouncerA.get() || smartIntakeDebouncerB.get())
-                || (smartIntakeDebouncerDouble.get());
+        return smartIntakeDebouncerB.get();
     }
 
     public void intakePistonUp() {
