@@ -19,13 +19,22 @@ public class SmartIntakeCmd extends Command {
     public void execute() {
         System.out.println("exe");
         Robot.cubeLift.unpunch();
-        /*if (Robot.cubeLift.getPosition() != CubeLift.Positions.Intake || Robot.cubeLift.getState() != CubeLift.LiftState.Stationary) {
-            Robot.intake.stopIntake();
-        } else {*/
         Robot.cubeLift.openGrabbers();
-        Robot.intake.intake();
+        switch (Robot.intake.getSmartIntakeState()) {
+            case NotTriggered:
+            case BothTriggered:
+                Robot.intake.intake();
+                break;
+            case LeftTriggered:
+                Robot.intake.intakeRightSide();
+                break;
+            case RightTriggered:
+                Robot.intake.intakeLeftSide();
+                break;
+            default:
+                break;
+        }
     }
-    //}
 
     @Override
     protected boolean isFinished() {
@@ -43,4 +52,6 @@ public class SmartIntakeCmd extends Command {
         end();
     }
 
+    /*if (Robot.cubeLift.getPosition() != CubeLift.Positions.Intake || Robot.cubeLift.getState() != CubeLift.LiftState.Stationary) {
+            Robot.intake.stopIntake(); */
 }

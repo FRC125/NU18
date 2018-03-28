@@ -16,18 +16,25 @@ import org.usfirst.frc.team125.robot.util.DebouncedBoolean;
 public class Intake extends Subsystem {
 
     //Intake motors
-    private IMotorController intakeL = new VictorSPX(RobotMap.INTAKE_LEFT);
-    private IMotorController intakeR = new VictorSPX(RobotMap.INTAKE_RIGHT);
+    private IMotorController intakeLeft = new VictorSPX(RobotMap.INTAKE_LEFT);
+    private IMotorController intakeRight = new VictorSPX(RobotMap.INTAKE_RIGHT);
 
     private DoubleSolenoid intakeSolenoid = new DoubleSolenoid(RobotMap.INTAKE_RETRACT_FORWARD, RobotMap.INTAKE_RETRACT_REVERSE);
 
-    private DigitalInput smartIntakeA = new DigitalInput(RobotMap.INTAKE_LIMIT_SWITCH_A);
-    private DigitalInput smartIntakeB = new DigitalInput(RobotMap.INTAKE_LIMIT_SWITCH_B);
+    private DigitalInput smartIntakeLeft = new DigitalInput(RobotMap.INTAKE_LIMIT_SWITCH_LEFT);
+    private DigitalInput smartIntakeRight = new DigitalInput(RobotMap.INTAKE_LIMIT_SWITCH_RIGHT);
     private static final double minimumSmartIntakeTime = 0.4; // Is 2 seconds too long???
     private static final double minimumSmartIntakeTimeDouble = 0.2; // Is 2 seconds too long???
-    private DebouncedBoolean smartIntakeDebouncerA = new DebouncedBoolean(minimumSmartIntakeTime);
-    private DebouncedBoolean smartIntakeDebouncerB = new DebouncedBoolean(minimumSmartIntakeTime);
+    private DebouncedBoolean smartIntakeDebouncerLeft = new DebouncedBoolean(minimumSmartIntakeTime);
+    private DebouncedBoolean smartIntakeDebouncerRight = new DebouncedBoolean(minimumSmartIntakeTime);
     private DebouncedBoolean smartIntakeDebouncerDouble = new DebouncedBoolean(minimumSmartIntakeTimeDouble);
+
+    public enum SmartIntakeState {
+        LeftTriggered,
+        RightTriggered,
+        BothTriggered,
+        NotTriggered,
+    }
 
     public static final double INTAKE_POWER_LEFT = 1.0;
     public static final double INTAKE_POWER_RIGHT = 1.0;
@@ -60,36 +67,44 @@ public class Intake extends Subsystem {
         Thread thread = new Thread(new Intake.SmartIntakeUpdater());
         thread.start();
         //Left side
-        this.intakeL.configPeakOutputForward(INTAKE_POWER_LEFT, 0);
-        this.intakeL.configPeakOutputReverse(-INTAKE_POWER_LEFT, 0);
-        this.intakeL.configNominalOutputForward(0.0, 0);
-        this.intakeL.configNominalOutputReverse(0.0, 0);
+        this.intakeLeft.configPeakOutputForward(INTAKE_POWER_LEFT, 0);
+        this.intakeLeft.configPeakOutputReverse(-INTAKE_POWER_LEFT, 0);
+        this.intakeLeft.configNominalOutputForward(0.0, 0);
+        this.intakeLeft.configNominalOutputReverse(0.0, 0);
 
         //Right side
-        this.intakeR.configPeakOutputForward(INTAKE_POWER_RIGHT, 0);
-        this.intakeR.configPeakOutputReverse(-INTAKE_POWER_RIGHT, 0);
-        this.intakeR.configNominalOutputForward(0.0, 0);
-        this.intakeR.configNominalOutputReverse(0.0, 0);
+        this.intakeRight.configPeakOutputForward(INTAKE_POWER_RIGHT, 0);
+        this.intakeRight.configPeakOutputReverse(-INTAKE_POWER_RIGHT, 0);
+        this.intakeRight.configNominalOutputForward(0.0, 0);
+        this.intakeRight.configNominalOutputReverse(0.0, 0);
 
-        this.intakeL.setNeutralMode(NeutralMode.Coast);
-        this.intakeR.setNeutralMode(NeutralMode.Coast);
+        this.intakeLeft.setNeutralMode(NeutralMode.Coast);
+        this.intakeRight.setNeutralMode(NeutralMode.Coast);
 
         intakePistonUp(); // TODO: Check if this is right...
     }
 
     public void intake() {
-        this.intakeL.set(ControlMode.PercentOutput, -INTAKE_POWER_LEFT);
-        this.intakeR.set(ControlMode.PercentOutput, INTAKE_POWER_RIGHT);
+        this.intakeLeft.set(ControlMode.PercentOutput, -INTAKE_POWER_LEFT);
+        this.intakeRight.set(ControlMode.PercentOutput, INTAKE_POWER_RIGHT);
+    }
+
+    public void intakeLeftSide() {
+        this.intakeLeft.set(ControlMode.PercentOutput, -INTAKE_POWER_LEFT);
+    }
+
+    public void intakeRightSide() {
+        this.intakeRight.set(ControlMode.PercentOutput, INTAKE_POWER_RIGHT);
     }
 
     public void outtake() {
-        this.intakeL.set(ControlMode.PercentOutput, INTAKE_POWER_LEFT);
-        this.intakeR.set(ControlMode.PercentOutput, -INTAKE_POWER_RIGHT);
+        this.intakeLeft.set(ControlMode.PercentOutput, INTAKE_POWER_LEFT);
+        this.intakeRight.set(ControlMode.PercentOutput, -INTAKE_POWER_RIGHT);
     }
 
     public void stopIntake() {
-        this.intakeL.set(ControlMode.PercentOutput, 0.);
-        this.intakeR.set(ControlMode.PercentOutput, 0.);
+        this.intakeLeft.set(ControlMode.PercentOutput, 0.);
+        this.intakeRight.set(ControlMode.PercentOutput, 0.);
     }
 
     public boolean passedCurrentLimit() {
@@ -108,16 +123,28 @@ public class Intake extends Subsystem {
     }
 
     public boolean checkSmartIntakeTriggered() {
-        smartIntakeDebouncerA.update(!smartIntakeA.get());
-        smartIntakeDebouncerB.update(!smartIntakeB.get());
-        smartIntakeDebouncerDouble.update(!smartIntakeA.get() && !smartIntakeB.get());
-        Robot.ledController.setSmartIntakeTriggered(smartIntakeDebouncerA.get() || smartIntakeDebouncerB.get());
-        SmartDashboard.putBoolean("Smart intake a", smartIntakeA.get());
-        SmartDashboard.putBoolean("Smart intake de-bouncer a", smartIntakeDebouncerA.get());
-        SmartDashboard.putBoolean("Smart intake b", smartIntakeB.get());
-        SmartDashboard.putBoolean("Smart intake de-bouncer b", smartIntakeDebouncerB.get());
-        return (smartIntakeDebouncerA.get() || smartIntakeDebouncerB.get())
+        smartIntakeDebouncerLeft.update(!smartIntakeLeft.get());
+        smartIntakeDebouncerRight.update(!smartIntakeRight.get());
+        smartIntakeDebouncerDouble.update(!smartIntakeLeft.get() && !smartIntakeRight.get());
+        Robot.ledController.setSmartIntakeTriggered(smartIntakeDebouncerLeft.get() || smartIntakeDebouncerRight.get());
+        SmartDashboard.putBoolean("Smart intake a", smartIntakeLeft.get());
+        SmartDashboard.putBoolean("Smart intake de-bouncer a", smartIntakeDebouncerLeft.get());
+        SmartDashboard.putBoolean("Smart intake b", smartIntakeRight.get());
+        SmartDashboard.putBoolean("Smart intake de-bouncer b", smartIntakeDebouncerRight.get());
+        return (smartIntakeDebouncerLeft.get() || smartIntakeDebouncerRight.get())
                 || (smartIntakeDebouncerDouble.get());
+    }
+
+    public SmartIntakeState getSmartIntakeState() {
+        if(smartIntakeDebouncerDouble.get()) {
+            return SmartIntakeState.BothTriggered;
+        } else if (smartIntakeDebouncerLeft.get()) {
+            return SmartIntakeState.LeftTriggered;
+        } else if (smartIntakeDebouncerRight.get()) {
+            return SmartIntakeState.RightTriggered;
+        } else {
+            return SmartIntakeState.NotTriggered;
+        }
     }
 
     public void intakePistonUp() {
