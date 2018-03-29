@@ -349,6 +349,9 @@ public class Robot extends IterativeRobot {
         SmartDashboard.putNumber("Gyro rate", this.drivetrain.getGyroRate());
         SmartDashboard.putNumber("opPad POV", this.oi.opPad.getPOV());
         SmartDashboard.putString("Smart intake state", this.intake.getSmartIntakeState().toString());
+        SmartDashboard.putString("Ultra Smart intake state", this.intake.getUltraSmartIntakeState().toString());
+        SmartDashboard.putNumber("Ultra Smart intake left inches", this.intake.getUltraSmartIntakeLeftInches());
+        SmartDashboard.putNumber("Ultra Smart intake right inches", this.intake.getUltraSmartIntakeRightInches());
 
         //Commands
         SmartDashboard.putData("Toggle elevator safety", new ToggleElevatorSafetyCmd());

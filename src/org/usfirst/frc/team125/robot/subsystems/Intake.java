@@ -6,6 +6,7 @@ import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.can.VictorSPX;
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
+import edu.wpi.first.wpilibj.Ultrasonic;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import org.usfirst.frc.team125.robot.Robot;
@@ -21,13 +22,22 @@ public class Intake extends Subsystem {
 
     private DoubleSolenoid intakeSolenoid = new DoubleSolenoid(RobotMap.INTAKE_RETRACT_FORWARD, RobotMap.INTAKE_RETRACT_REVERSE);
 
-    private DigitalInput smartIntakeLeft = new DigitalInput(RobotMap.INTAKE_LIMIT_SWITCH_LEFT);
-    private DigitalInput smartIntakeRight = new DigitalInput(RobotMap.INTAKE_LIMIT_SWITCH_RIGHT);
     private static final double minimumSmartIntakeTime = 0.4; // Is 2 seconds too long???
     private static final double minimumSmartIntakeTimeDouble = 0.2; // Is 2 seconds too long???
+
+    private DigitalInput smartIntakeLeft = new DigitalInput(RobotMap.INTAKE_LIMIT_SWITCH_LEFT);
+    private DigitalInput smartIntakeRight = new DigitalInput(RobotMap.INTAKE_LIMIT_SWITCH_RIGHT);
     private DebouncedBoolean smartIntakeDebouncerLeft = new DebouncedBoolean(minimumSmartIntakeTime);
     private DebouncedBoolean smartIntakeDebouncerRight = new DebouncedBoolean(minimumSmartIntakeTime);
     private DebouncedBoolean smartIntakeDebouncerDouble = new DebouncedBoolean(minimumSmartIntakeTimeDouble);
+
+    private Ultrasonic ultraSmartIntakeLeft = new Ultrasonic(RobotMap.ULTRA_LEFT_TRIG, RobotMap.ULTRA_LEFT_ECHO);
+    private Ultrasonic ultraSmartIntakeRight = new Ultrasonic(RobotMap.ULTRA_RIGHT_TRIG, RobotMap.ULTRA_RIGHT_ECHO);
+    private DebouncedBoolean ultraSmartIntakeDebouncerLeft = new DebouncedBoolean(minimumSmartIntakeTime);
+    private DebouncedBoolean ultraSmartIntakeDebouncerRight = new DebouncedBoolean(minimumSmartIntakeTime);
+    private DebouncedBoolean ultraSmartIntakeDebouncerDouble = new DebouncedBoolean(minimumSmartIntakeTimeDouble);
+    public final double LEFT_DISTANCE_MIN = 5.0;
+    public final double RIGHT_DISTANCE_MIN = 5.0;
 
     public enum SmartIntakeState {
         LeftTriggered,
@@ -57,6 +67,7 @@ public class Intake extends Subsystem {
                     e.printStackTrace();
                 }
                 checkSmartIntakeTriggered();
+                checkUltraSmartIntakeTriggered();
                 SmartDashboard.putNumber("j counter", j);
                 j++;
             }
@@ -80,6 +91,9 @@ public class Intake extends Subsystem {
 
         this.intakeLeft.setNeutralMode(NeutralMode.Coast);
         this.intakeRight.setNeutralMode(NeutralMode.Coast);
+
+        ultraSmartIntakeLeft.setAutomaticMode(true);
+        ultraSmartIntakeRight.setAutomaticMode(true);
 
         intakePistonUp(); // TODO: Check if this is right...
     }
@@ -126,11 +140,11 @@ public class Intake extends Subsystem {
         smartIntakeDebouncerLeft.update(!smartIntakeLeft.get());
         smartIntakeDebouncerRight.update(!smartIntakeRight.get());
         smartIntakeDebouncerDouble.update(!smartIntakeLeft.get() && !smartIntakeRight.get());
-        Robot.ledController.setSmartIntakeTriggered(smartIntakeDebouncerLeft.get() || smartIntakeDebouncerRight.get());
-        SmartDashboard.putBoolean("Smart intake a", smartIntakeLeft.get());
-        SmartDashboard.putBoolean("Smart intake de-bouncer a", smartIntakeDebouncerLeft.get());
-        SmartDashboard.putBoolean("Smart intake b", smartIntakeRight.get());
-        SmartDashboard.putBoolean("Smart intake de-bouncer b", smartIntakeDebouncerRight.get());
+        //Robot.ledController.setSmartIntakeTriggered(smartIntakeDebouncerLeft.get() || smartIntakeDebouncerRight.get());
+        SmartDashboard.putBoolean("Smart intake left", smartIntakeLeft.get());
+        SmartDashboard.putBoolean("Smart intake de-bouncer left", smartIntakeDebouncerLeft.get());
+        SmartDashboard.putBoolean("Smart intake right", smartIntakeRight.get());
+        SmartDashboard.putBoolean("Smart intake de-bouncer right", smartIntakeDebouncerRight.get());
         return (smartIntakeDebouncerLeft.get() || smartIntakeDebouncerRight.get())
                 || (smartIntakeDebouncerDouble.get());
     }
@@ -141,6 +155,46 @@ public class Intake extends Subsystem {
         } else if (smartIntakeDebouncerLeft.get()) {
             return SmartIntakeState.LeftTriggered;
         } else if (smartIntakeDebouncerRight.get()) {
+            return SmartIntakeState.RightTriggered;
+        } else {
+            return SmartIntakeState.NotTriggered;
+        }
+    }
+
+    public double getUltraSmartIntakeLeftInches() {
+        return ultraSmartIntakeLeft.getRangeInches();
+    }
+
+    public double getUltraSmartIntakeRightInches() {
+        return ultraSmartIntakeRight.getRangeInches();
+    }
+    public boolean getUltraSmartIntakeLeftTriggered() {
+        return getUltraSmartIntakeLeftInches() <= LEFT_DISTANCE_MIN;
+    }
+
+    public boolean getUltraSmartIntakeRightTriggered() {
+        return getUltraSmartIntakeRightInches() <= RIGHT_DISTANCE_MIN;
+    }
+
+    public boolean checkUltraSmartIntakeTriggered() {
+        ultraSmartIntakeDebouncerLeft.update(getUltraSmartIntakeLeftTriggered());
+        ultraSmartIntakeDebouncerRight.update(getUltraSmartIntakeRightTriggered());
+        ultraSmartIntakeDebouncerDouble.update(getUltraSmartIntakeLeftTriggered() && getUltraSmartIntakeRightTriggered());
+        //Robot.ledController.setSmartIntakeTriggered(smartIntakeDebouncerLeft.get() || smartIntakeDebouncerRight.get());
+        SmartDashboard.putBoolean("Ultra Smart intake left", getUltraSmartIntakeLeftTriggered());
+        SmartDashboard.putBoolean("Ultra Smart intake de-bouncer left", ultraSmartIntakeDebouncerLeft.get());
+        SmartDashboard.putBoolean("Ultra Smart intake right", getUltraSmartIntakeRightTriggered());
+        SmartDashboard.putBoolean("Ultra Smart intake de-bouncer right", ultraSmartIntakeDebouncerRight.get());
+        return (ultraSmartIntakeDebouncerLeft.get() || ultraSmartIntakeDebouncerRight.get())
+                || (ultraSmartIntakeDebouncerDouble.get());
+    }
+
+    public SmartIntakeState getUltraSmartIntakeState() {
+        if(ultraSmartIntakeDebouncerDouble.get()) {
+            return SmartIntakeState.BothTriggered;
+        } else if (ultraSmartIntakeDebouncerLeft.get()) {
+            return SmartIntakeState.LeftTriggered;
+        } else if (ultraSmartIntakeDebouncerRight.get()) {
             return SmartIntakeState.RightTriggered;
         } else {
             return SmartIntakeState.NotTriggered;
