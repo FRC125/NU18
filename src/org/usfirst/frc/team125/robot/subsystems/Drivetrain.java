@@ -211,13 +211,12 @@ public class Drivetrain extends Subsystem {
     public double generateHashCode(Waypoint[] path) {
         double hash = 1.0;
         for (int i = 0; i < path.length; i++) {
-            hash = ((path[i].x * 3) + (path[i].y * 7) + (path[i].angle * 11));
+            hash = ((path[i].x * 3) + (path[i].y * 7) + (path[i].angle * 11) + (DrivetrainProfiling.kv * 21));
         }
         return (int) Math.abs(hash * 1000) * path.length;
     }
 
     public EncoderFollower[] pathSetup(Waypoint[] path) {
-
         EncoderFollower left = new EncoderFollower();
         EncoderFollower right = new EncoderFollower();
         Trajectory.Config cfg = new Trajectory.Config(Trajectory.FitMethod.HERMITE_QUINTIC, Trajectory.Config.SAMPLES_HIGH,
@@ -341,12 +340,47 @@ public class Drivetrain extends Subsystem {
         //Gyro logging for motion profiling
         public static double last_gyro_error = 0.0;
 
+        //Path to Path offset
         public static double path_angle_offset = 0.0;
-        public static final double max_velocity = 2.2; //4 is real
-        public static final double kv = 1.0 / max_velocity; // Calculated for test Drivetrain
-        public static final double max_acceleration = 1.9; // Estimated # 3.8
-        public static final double ka = 0.05; //0.015
-        public static final double max_jerk = 8.0; // 16.0
+
+        // Slow var
+        public static final double max_velocity_slow = 2.2; //4 is real TODO:CHANGE BACK TO 2.2
+        public static final double kv_slow = 1.0 / max_velocity_slow; // Calculated for test Drivetrain
+        public static final double max_acceleration_slow = 1.9; // Estimated # 3.8
+        public static final double ka_slow = 0.05; //0.015
+        public static final double max_jerk_slow = 8.0; // 16.0
+
+        // Fast var
+        public static final double max_velocity_fast = 4.0; //4 is real
+        public static final double kv_fast = 1.0 / max_velocity_fast; // Calculated for test Drivetrain
+        public static final double max_acceleration_fast = 5.7; // Estimated # 3.8
+        public static final double ka_fast = 0.05; //0.015
+        public static final double max_jerk_fast = 24.0; // 16.0
+
+        // The ones that change; SLOW BY DEFAULT
+        public static double max_velocity = max_velocity_slow; //4 is real
+        public static double kv = kv_slow; // Calculated for test Drivetrain
+        public static double max_acceleration = max_acceleration_slow; // Estimated # 3.8
+        public static double ka = ka_slow; //0.015
+        public static double max_jerk = max_jerk_slow; // 16.0
+
+        public static void setupPathVariables(boolean slow) {
+            if(slow) {
+                max_velocity = max_velocity_slow;
+                kv = kv_slow;
+                max_acceleration = max_acceleration_slow;
+                ka = ka_slow;
+                max_jerk = max_jerk_slow;
+            } else {
+                max_velocity = max_velocity_fast;
+                kv = kv_fast;
+                max_acceleration = max_acceleration_fast;
+                ka = ka_fast;
+                max_jerk = max_jerk_fast;
+            }
+        }
+
+        // Non Variable Constatns
         public static final double wheel_diameter = 0.125;
         public static final double wheel_base_width = 0.72;
         public static final int ticks_per_rev = 4096; // CTRE Mag Encoder

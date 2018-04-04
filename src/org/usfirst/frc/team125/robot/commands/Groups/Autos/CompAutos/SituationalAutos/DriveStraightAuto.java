@@ -10,7 +10,7 @@ import org.usfirst.frc.team125.robot.util.Paths.CompPaths.SituationalPaths.Drive
 public class DriveStraightAuto extends CommandGroup {
     Command intakeDown = new IntakeDownCmd();
     Command secureCube = new SecureCubeCmdGrp();
-    Command drivePastAutoLine = new DrivePathCmd(DriveStraightPaths.pastAutoLine);
+    Command drivePastAutoLine = new DrivePathCmd(DriveStraightPaths.pastAutoLine, true);
 
 
     public DriveStraightAuto() {

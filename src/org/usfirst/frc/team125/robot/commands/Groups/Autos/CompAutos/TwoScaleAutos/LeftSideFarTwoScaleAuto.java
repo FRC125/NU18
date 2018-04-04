@@ -18,15 +18,15 @@ public class LeftSideFarTwoScaleAuto extends CommandGroup {
     Command intakeDown = new IntakeDownCmd();
     Command secureCube = new SecureCubeCmdGrp();
     Command liftElevatorToScale = new AutoLiftCmdGrp(0.5, CubeLift.Positions.ScoreScale);
-    Command driveToScale = new DrivePathCmd(LeftSideFarTwoScalePaths.toScale);
+    Command driveToScale = new DrivePathCmd(LeftSideFarTwoScalePaths.toScale, true);
     Command scoreCube = new ScoreCmdGrp();
     Command bringElevatorToIntake = new RunToPositionMotionMagicCmd(CubeLift.Positions.Intake);
-    Command driveToSwitchA = new DrivePathReverseCmd(LeftSideFarTwoScalePaths.reverse_kTurnToSwitch1A);
+    Command driveToSwitchA = new DrivePathReverseCmd(LeftSideFarTwoScalePaths.reverse_kTurnToSwitch1A, true);
     Command intakeCube = new IntakeCmdGrp();
-    Command driveToSwitchB = new DrivePathCmd(LeftSideFarTwoScalePaths.kTurnToSwitch1B);
+    Command driveToSwitchB = new DrivePathCmd(LeftSideFarTwoScalePaths.kTurnToSwitch1B, true);
     Command liftElevatorToScaleAgain = new RunToPositionMotionMagicCmd(CubeLift.Positions.ScoreScale);
-    Command driveToScaleA = new DrivePathReverseCmd(LeftSideFarTwoScalePaths.reverse_kTurnToScaleA);
-    Command driveToScaleB = new DrivePathCmd(LeftSideFarTwoScalePaths.kTurnToScaleB);
+    Command driveToScaleA = new DrivePathReverseCmd(LeftSideFarTwoScalePaths.reverse_kTurnToScaleA, true);
+    Command driveToScaleB = new DrivePathCmd(LeftSideFarTwoScalePaths.kTurnToScaleB, true);
     Command scoreCubeAgain = new ScoreCmdGrp();
 
     public LeftSideFarTwoScaleAuto() {

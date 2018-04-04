@@ -20,7 +20,7 @@ public class SmartIntakeCmd extends Command {
         System.out.println("exe");
         Robot.cubeLift.unpunch();
         Robot.cubeLift.openGrabbers();
-        switch (Robot.intake.getSmartIntakeState()) {
+        /*switch (Robot.intake.getSmartIntakeState()) {
             case NotTriggered:
             case BothTriggered:
                 Robot.intake.intake();
@@ -34,6 +34,8 @@ public class SmartIntakeCmd extends Command {
             default:
                 break;
         }
+        */
+        Robot.intake.intake();
     }
 
     @Override

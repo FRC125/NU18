@@ -12,7 +12,9 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import org.usfirst.frc.team125.robot.commands.CubeLift.ResetCubeLiftEncoderCmd;
 import org.usfirst.frc.team125.robot.commands.CubeLift.ToggleElevatorSafetyCmd;
 import org.usfirst.frc.team125.robot.commands.Groups.Autos.CompAutos.CenterAutos.CenterLeftAuto;
+import org.usfirst.frc.team125.robot.commands.Groups.Autos.CompAutos.CenterAutos.CenterLeftFastAuto;
 import org.usfirst.frc.team125.robot.commands.Groups.Autos.CompAutos.CenterAutos.CenterRightAuto;
+import org.usfirst.frc.team125.robot.commands.Groups.Autos.CompAutos.CenterAutos.CenterRightFastAuto;
 import org.usfirst.frc.team125.robot.commands.Groups.Autos.CompAutos.ScaleToSwitchAutos.RightSideCloseScaleFarSwitchAuto;
 import org.usfirst.frc.team125.robot.commands.Groups.Autos.CompAutos.SituationalAutos.DriveStraightAuto;
 import org.usfirst.frc.team125.robot.commands.Groups.Autos.CompAutos.SwitchOnlyAutos.LeftSideCloseSwitchAuto;
@@ -23,9 +25,9 @@ import org.usfirst.frc.team125.robot.commands.Groups.Autos.CompAutos.SwitchToSca
 import org.usfirst.frc.team125.robot.commands.Groups.Autos.CompAutos.SwitchToScaleAutos.CenterLeftSwitchRightScaleAuto;
 import org.usfirst.frc.team125.robot.commands.Groups.Autos.CompAutos.SwitchToScaleAutos.CenterRightSwitchLeftScaleAuto;
 import org.usfirst.frc.team125.robot.commands.Groups.Autos.CompAutos.SwitchToScaleAutos.CenterRightSwitchRightScaleAuto;
-import org.usfirst.frc.team125.robot.commands.Groups.Autos.CompAutos.TwoScaleAutos.LeftSideCloseTwoScaleAuto;
-import org.usfirst.frc.team125.robot.commands.Groups.Autos.CompAutos.TwoScaleAutos.LeftSideFarTwoScaleAuto;
-import org.usfirst.frc.team125.robot.commands.Groups.Autos.CompAutos.TwoScaleAutos.RightSideCloseTwoScaleAuto;
+import org.usfirst.frc.team125.robot.commands.Groups.Autos.CompAutos.TwoScaleAutos.*;
+import org.usfirst.frc.team125.robot.commands.Groups.Autos.GenericAuto;
+import org.usfirst.frc.team125.robot.commands.Groups.Autos.GenericAuto2;
 import org.usfirst.frc.team125.robot.subsystems.*;
 
 public class Robot extends IterativeRobot {
@@ -63,8 +65,10 @@ public class Robot extends IterativeRobot {
     //Center Autos
     Command centerLeftAuto = new CenterLeftAuto();
     Command centerRightAuto = new CenterRightAuto();
+    Command centerLeftFastAuto = new CenterLeftFastAuto();
+    Command centerRightFastAuto = new CenterRightFastAuto();
 
-    //Scale To Switch Autos
+    /* Scale To Switch Autos
     Command leftSideCloseScaleCloseSwitchAuto = new org.usfirst.frc.team125.robot.commands.Groups.Autos.CompAutos.ScaleToSwitchAutos.LeftSideCloseScaleCloseSwitchAuto();
     Command leftSideCloseScaleFarSwitchAuto = new org.usfirst.frc.team125.robot.commands.Groups.Autos.CompAutos.ScaleToSwitchAutos.LeftSideCloseScaleFarSwitchAuto();
     Command leftSideFarScaleCloseSwitchAuto = new org.usfirst.frc.team125.robot.commands.Groups.Autos.CompAutos.ScaleToSwitchAutos.LeftSideFarScaleCloseSwitchAuto();
@@ -73,6 +77,7 @@ public class Robot extends IterativeRobot {
     Command rightSideCloseScaleFarSwitchAuto = new RightSideCloseScaleFarSwitchAuto();
     Command rightSideFarScaleCloseSwitchAuto = new org.usfirst.frc.team125.robot.commands.Groups.Autos.CompAutos.ScaleToSwitchAutos.RightSideFarScaleCloseSwitchAuto();
     Command rightSideFarScaleFarSwitchAuto = new org.usfirst.frc.team125.robot.commands.Groups.Autos.CompAutos.ScaleToSwitchAutos.RightSideFarScaleFarSwitchAuto();
+    */
 
     //Switch Only Autos
     Command leftSideCloseSwitchAuto = new LeftSideCloseSwitchAuto();
@@ -82,7 +87,12 @@ public class Robot extends IterativeRobot {
 
     //Two Scale
     Command leftTwoScaleCloseAuto = new LeftSideCloseTwoScaleAuto();
+    Command leftTwoScaleCloseSlowFastAuto = new LeftSideCloseTwoScaleSlowFastAuto();
+    Command leftTwoScaleCloseFastFastAuto = new LeftSideCloseTwoScaleFastFastAuto();
     Command leftTwoScaleFarAuto = new LeftSideFarTwoScaleAuto();
+    Command leftTwoScaleFarSlowFastAuto = new LeftSideFarTwoScaleSlowFastAuto();
+    Command leftTwoScaleFarFastFastAuto = new LeftSideFarTwoScaleFastFastAuto();
+
     Command rightTwoScaleCloseAuto = new RightSideCloseTwoScaleAuto();
 
     //Switch to Scale
@@ -93,6 +103,9 @@ public class Robot extends IterativeRobot {
 
     //Situational
     Command driveStraightAuto = new DriveStraightAuto();
+
+    //Generic
+    Command genericAuto = new GenericAuto2();
 
     @Override
     public void robotInit() {
@@ -216,7 +229,7 @@ public class Robot extends IterativeRobot {
                     autoCommand = leftTwoScaleCloseAuto;
                     break;
                 case "R":
-                    autoCommand = leftTwoScaleFarAuto; // TODO: MAKE IT RIGHT AGAIN
+                    autoCommand = leftTwoScaleFarAuto;
                     break;
                 default:
                     autoCommand = new WaitCommand(15);
@@ -306,7 +319,8 @@ public class Robot extends IterativeRobot {
             }
         }
         */
-
+        //TODO: REMOVE THIS LINE
+        //autoCommand = genericAuto;
         autoCommand.start();
         SmartDashboard.putString("Chosen Auto", autoCommand.toString());
     }

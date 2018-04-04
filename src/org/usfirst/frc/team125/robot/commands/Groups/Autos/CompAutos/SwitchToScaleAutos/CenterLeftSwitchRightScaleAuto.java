@@ -18,15 +18,15 @@ public class CenterLeftSwitchRightScaleAuto extends CommandGroup {
     Command intakeDown = new IntakeDownCmd();
     Command secureCube = new SecureCubeCmdGrp();
     Command liftElevator = new AutoLiftCmdGrp(0.1, CubeLift.Positions.ScoreSwitch);
-    Command driveToSwitch = new DrivePathCmd(CenterLeftSwitchRightScalePaths.toSwitch);
+    Command driveToSwitch = new DrivePathCmd(CenterLeftSwitchRightScalePaths.toSwitch, true);
     Command scoreCube = new ScoreCmdGrp();
     Command bringEleToIntake = new RunToPositionMotionMagicCmd(CubeLift.Positions.Intake);
-    Command driveBackToLine = new DrivePathReverseCmd(CenterLeftSwitchRightScalePaths.reverse_goBack);
-    Command driveToCube = new DrivePathCmd(CenterLeftSwitchRightScalePaths.toCube);
+    Command driveBackToLine = new DrivePathReverseCmd(CenterLeftSwitchRightScalePaths.reverse_goBack, true);
+    Command driveToCube = new DrivePathCmd(CenterLeftSwitchRightScalePaths.toCube, true);
     Command intakeCube = new IntakeCmdGrp();
-    Command backOffCube = new DrivePathReverseCmd(CenterLeftSwitchRightScalePaths.reverse_backOffCube);
+    Command backOffCube = new DrivePathReverseCmd(CenterLeftSwitchRightScalePaths.reverse_backOffCube, true);
     Command liftElevatorAgain = new RunToPositionMotionMagicCmd(CubeLift.Positions.ScoreSwitch);
-    Command driveToScale = new DrivePathCmd(CenterLeftSwitchRightScalePaths.toScale);
+    Command driveToScale = new DrivePathCmd(CenterLeftSwitchRightScalePaths.toScale, true);
 
 
     public CenterLeftSwitchRightScaleAuto() {

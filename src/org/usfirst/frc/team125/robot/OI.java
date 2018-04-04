@@ -76,8 +76,7 @@ public class OI {
         }
     }
 
-    public void checkPOV() {
-        switch (opPad.getPOV()) {
+    public void checkPOV() {        switch (opPad.getPOV()) {
             case 0:
                 new RunToPositionMotionMagicCmd(CubeLift.Positions.ScoreScaleHigh).start();
                 break;

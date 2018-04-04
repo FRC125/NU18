@@ -4,6 +4,7 @@ import edu.wpi.first.wpilibj.command.Command;
 import jaci.pathfinder.Waypoint;
 import jaci.pathfinder.followers.EncoderFollower;
 import org.usfirst.frc.team125.robot.Robot;
+import org.usfirst.frc.team125.robot.subsystems.Drivetrain;
 
 /**
  *
@@ -13,10 +14,11 @@ public class DrivePathReverseCmd extends Command {
     Waypoint[] path;
     EncoderFollower[] followers;
 
-    public DrivePathReverseCmd(Waypoint[] path) {
+    public DrivePathReverseCmd(Waypoint[] path, boolean slow) {
         requires(Robot.drivetrain);
         this.path = path;
         setInterruptible(false);
+        Drivetrain.DrivetrainProfiling.setupPathVariables(slow);
         followers = Robot.drivetrain.pathSetup(path);
     }
 

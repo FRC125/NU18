@@ -15,8 +15,8 @@ public class LeftSideFarSwitchAuto extends CommandGroup {
     Command intakeDown = new IntakeDownCmd();
     Command secureCube = new SecureCubeCmdGrp();
     Command liftElevator = new AutoLiftCmdGrp(0.75, CubeLift.Positions.ScoreSwitch);
-    Command driveToBeforeSwitch = new DrivePathCmd(LeftSideFarSwitchPaths.toBeforeSwitchTurn);
-    Command driveToSwitch = new DrivePathCmd(LeftSideFarSwitchPaths.turnToSwitch);
+    Command driveToBeforeSwitch = new DrivePathCmd(LeftSideFarSwitchPaths.toBeforeSwitchTurn, true);
+    Command driveToSwitch = new DrivePathCmd(LeftSideFarSwitchPaths.turnToSwitch, true);
     Command scoreCube = new ScoreCmdGrp();
 
 

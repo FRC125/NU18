@@ -12,23 +12,23 @@ import org.usfirst.frc.team125.robot.commands.Groups.ScoreCmdGrp;
 import org.usfirst.frc.team125.robot.commands.Groups.SecureCubeCmdGrp;
 import org.usfirst.frc.team125.robot.commands.Intake.IntakeDownCmd;
 import org.usfirst.frc.team125.robot.subsystems.CubeLift;
-import org.usfirst.frc.team125.robot.util.Paths.CompPaths.ScaleToSwitchPaths.LeftSideCloseScaleFarSwitchPaths;
+import org.usfirst.frc.team125.robot.util.Paths.CompPaths.ScaleToSwitchPaths.LeftSideFarScaleCloseSwitchPaths;
 
-public class LeftSideCloseScaleFarSwitchAuto extends CommandGroup {
+public class LeftSideFarScaleCloseSwitchFastAuto extends CommandGroup {
     Command intakeDown = new IntakeDownCmd();
     Command secureCube = new SecureCubeCmdGrp();
-    Command liftElevatorToScale = new AutoLiftCmdGrp(0.5, CubeLift.Positions.ScoreScale);
-    Command driveToScale = new DrivePathCmd(LeftSideCloseScaleFarSwitchPaths.toScale, true);
+    Command liftElevatorToScale = new AutoLiftCmdGrp(2.5, CubeLift.Positions.ScoreScale);
+    Command driveToScale = new DrivePathCmd(LeftSideFarScaleCloseSwitchPaths.toScale, false);
     Command scoreCube = new ScoreCmdGrp();
     Command bringElevatorToIntake = new RunToPositionMotionMagicCmd(CubeLift.Positions.Intake);
-    Command driveToSwitchA = new DrivePathReverseCmd(LeftSideCloseScaleFarSwitchPaths.reverse_kTurnToSwitch1A, true);
+    Command driveToSwitchA = new DrivePathReverseCmd(LeftSideFarScaleCloseSwitchPaths.reverse_kTurnToSwitch1A, false);
     Command intakeCube = new IntakeCmdGrp();
-    Command driveToSwitchB = new DrivePathCmd(LeftSideCloseScaleFarSwitchPaths.kTurnToSwitch1B, true);
+    Command driveToSwitchB = new DrivePathCmd(LeftSideFarScaleCloseSwitchPaths.kTurnToSwitch1B, false);
     Command secureCubeAgain = new SecureCubeCmdGrp();
     Command liftElevatorToSwitch = new RunToPositionMotionMagicCmd(CubeLift.Positions.ScoreSwitch);
     Command scoreCubeAgain = new ScoreCmdGrp();
 
-    public LeftSideCloseScaleFarSwitchAuto() {
+    public LeftSideFarScaleCloseSwitchFastAuto() {
         /*
         addSequential(intakeDown);
         addSequential(new WaitCommand(0.25));
@@ -40,6 +40,7 @@ public class LeftSideCloseScaleFarSwitchAuto extends CommandGroup {
         addSequential(new WaitCommand(0.4));
         addParallel(bringElevatorToIntake);
         addSequential(driveToSwitchA);
+        addSequential(new WaitCommand(1));
         addParallel(intakeCube, 5);
         addSequential(driveToSwitchB);
         addSequential(secureCubeAgain);

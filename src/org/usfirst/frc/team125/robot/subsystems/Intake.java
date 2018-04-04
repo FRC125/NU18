@@ -22,7 +22,7 @@ public class Intake extends Subsystem {
 
     private DoubleSolenoid intakeSolenoid = new DoubleSolenoid(RobotMap.INTAKE_RETRACT_FORWARD, RobotMap.INTAKE_RETRACT_REVERSE);
 
-    private static final double minimumSmartIntakeTime = 0.4; // Is 2 seconds too long???
+    private static final double minimumSmartIntakeTime = 0.2; // Is 2 seconds too long???
     private static final double minimumSmartIntakeTimeDouble = 0.2; // Is 2 seconds too long???
 
     private DigitalInput smartIntakeLeft = new DigitalInput(RobotMap.INTAKE_LIMIT_SWITCH_LEFT);
@@ -145,8 +145,7 @@ public class Intake extends Subsystem {
         SmartDashboard.putBoolean("Smart intake de-bouncer left", smartIntakeDebouncerLeft.get());
         SmartDashboard.putBoolean("Smart intake right", smartIntakeRight.get());
         SmartDashboard.putBoolean("Smart intake de-bouncer right", smartIntakeDebouncerRight.get());
-        return (smartIntakeDebouncerLeft.get() || smartIntakeDebouncerRight.get())
-                || (smartIntakeDebouncerDouble.get());
+        return smartIntakeDebouncerLeft.get();
     }
 
     public SmartIntakeState getSmartIntakeState() {

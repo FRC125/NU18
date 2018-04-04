@@ -19,15 +19,15 @@ public class CenterRightAuto extends CommandGroup {
     Command intakeDown = new IntakeDownCmd();
     Command secureCube = new SecureCubeCmdGrp();
     Command liftElevator = new AutoLiftCmdGrp(0.1, CubeLift.Positions.ScoreSwitch);
-    Command driveToSwitch = new DrivePathCmd(CenterRightPath.toSwitch);
+    Command driveToSwitch = new DrivePathCmd(CenterRightPath.toSwitch, true);
     Command scoreCube = new ScoreCmdGrp();
     Command bringEleToIntake = new RunToPositionMotionMagicCmd(CubeLift.Positions.Intake);
-    Command driveBackToLine = new DrivePathReverseCmd(CenterRightPath.reverse_goBack);
-    Command driveToCube = new DrivePathCmd(CenterRightPath.toCube);
+    Command driveBackToLine = new DrivePathReverseCmd(CenterRightPath.reverse_goBack, true);
+    Command driveToCube = new DrivePathCmd(CenterRightPath.toCube, true);
     Command intakeCube = new IntakeCmdGrp();
-    Command backOffCube = new DrivePathReverseCmd(CenterRightPath.reverse_backOffCube);
+    Command backOffCube = new DrivePathReverseCmd(CenterRightPath.reverse_backOffCube, true);
     Command liftElevatorAgain = new RunToPositionMotionMagicCmd(CubeLift.Positions.ScoreSwitch);
-    Command driveToSwitchAgain = new DrivePathCmd(CenterRightPath.toSwitchAgain);
+    Command driveToSwitchAgain = new DrivePathCmd(CenterRightPath.toSwitchAgain, true);
     Command liftIntake = new IntakeUpCmd();
     Command scoreCubeAgain = new ScoreCmdGrp();
 
@@ -48,10 +48,9 @@ public class CenterRightAuto extends CommandGroup {
         addSequential(intakeCube);
         addParallel(liftElevatorAgain);
         addSequential(backOffCube);
-        /*addParallel(liftIntake);
+        addParallel(liftIntake);
         addSequential(driveToSwitchAgain);
         addSequential(scoreCubeAgain);
-        */
     }
 
 }

@@ -14,8 +14,8 @@ public class RightSideCloseSwitchAuto extends CommandGroup {
     Command intakeDown = new IntakeDownCmd();
     Command secureCube = new SecureCubeCmdGrp();
     Command liftElevator = new AutoLiftCmdGrp(0.5, CubeLift.Positions.ScoreSwitch);
-    Command driveToBeforeSwitch = new DrivePathCmd(RightSideCloseSwitchPaths.toBeforeSwitchTurn);
-    Command driveToSwitch = new DrivePathCmd(RightSideCloseSwitchPaths.turnToSwitch);
+    Command driveToBeforeSwitch = new DrivePathCmd(RightSideCloseSwitchPaths.toBeforeSwitchTurn, true);
+    Command driveToSwitch = new DrivePathCmd(RightSideCloseSwitchPaths.turnToSwitch, true);
     Command scoreCube = new ScoreCmdGrp();
 
 

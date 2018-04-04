@@ -42,14 +42,14 @@ public class RobotMap {
     Other
      */
     //Digital Input
-    public static final int INTAKE_LIMIT_SWITCH_LEFT = 5;
-    public static final int INTAKE_LIMIT_SWITCH_RIGHT = 6;
+    public static final int INTAKE_LIMIT_SWITCH_LEFT = 0;
+    public static final int INTAKE_LIMIT_SWITCH_RIGHT = 1;
 
     //Ultrasonic
-    public static final int ULTRA_LEFT_ECHO = 1;
-    public static final int ULTRA_LEFT_TRIG = 2;
-    public static final int ULTRA_RIGHT_ECHO = 3;
-    public static final int ULTRA_RIGHT_TRIG = 4;
+    public static final int ULTRA_LEFT_ECHO = 2;
+    public static final int ULTRA_LEFT_TRIG = 3;
+    public static final int ULTRA_RIGHT_ECHO = 4;
+    public static final int ULTRA_RIGHT_TRIG = 5;
     //PWM
     public static final int BLINKIN = 0;
 }

@@ -18,12 +18,12 @@ public class RightSideCloseScaleFarSwitchAuto extends CommandGroup {
     Command intakeDown = new IntakeDownCmd();
     Command secureCube = new SecureCubeCmdGrp();
     Command liftElevatorToScale = new AutoLiftCmdGrp(0.5, CubeLift.Positions.ScoreScale);
-    Command driveToScale = new DrivePathCmd(RightSideCloseScaleFarSwitchPaths.toScale);
+    Command driveToScale = new DrivePathCmd(RightSideCloseScaleFarSwitchPaths.toScale, true);
     Command scoreCube = new ScoreCmdGrp();
     Command bringElevatorToIntake = new RunToPositionMotionMagicCmd(CubeLift.Positions.Intake);
-    Command driveToSwitchA = new DrivePathReverseCmd(RightSideCloseScaleFarSwitchPaths.reverse_kTurnToSwitch1A);
+    Command driveToSwitchA = new DrivePathReverseCmd(RightSideCloseScaleFarSwitchPaths.reverse_kTurnToSwitch1A, true);
     Command intakeCube = new IntakeCmdGrp();
-    Command driveToSwitchB = new DrivePathCmd(RightSideCloseScaleFarSwitchPaths.kTurnToSwitch1B);
+    Command driveToSwitchB = new DrivePathCmd(RightSideCloseScaleFarSwitchPaths.kTurnToSwitch1B, true);
     Command secureCubeAgain = new SecureCubeCmdGrp();
     Command liftElevatorToSwitch = new RunToPositionMotionMagicCmd(CubeLift.Positions.ScoreSwitch);
     Command scoreCubeAgain = new ScoreCmdGrp();
