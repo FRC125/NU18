@@ -13,6 +13,7 @@ public class GenericAuto2 extends CommandGroup {
     Command driveSwitchB = new DrivePathCmd(GenericPaths.kTurnToSwitch1BGeneric, runSlow);
     Command driveScaleA = new DrivePathReverseCmd(GenericPaths.reverse_kTurnToScaleAGeneric, runSlow);
     Command driveScaleB = new DrivePathCmd(GenericPaths.kTurnToScaleBGeneric, runSlow);
+
     public GenericAuto2() {
         addSequential(driveSwitchA);
         addSequential(driveSwitchB);

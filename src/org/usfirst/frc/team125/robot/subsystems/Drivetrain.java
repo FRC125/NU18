@@ -365,7 +365,7 @@ public class Drivetrain extends Subsystem {
         public static double max_jerk = max_jerk_slow; // 16.0
 
         public static void setupPathVariables(boolean slow) {
-            if(slow) {
+            if (slow) {
                 max_velocity = max_velocity_slow;
                 kv = kv_slow;
                 max_acceleration = max_acceleration_slow;

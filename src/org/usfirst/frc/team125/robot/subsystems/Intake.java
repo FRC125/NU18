@@ -9,7 +9,6 @@ import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.Ultrasonic;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import org.usfirst.frc.team125.robot.Robot;
 import org.usfirst.frc.team125.robot.RobotMap;
 import org.usfirst.frc.team125.robot.util.CurrentReader;
 import org.usfirst.frc.team125.robot.util.DebouncedBoolean;
@@ -149,7 +148,7 @@ public class Intake extends Subsystem {
     }
 
     public SmartIntakeState getSmartIntakeState() {
-        if(smartIntakeDebouncerDouble.get()) {
+        if (smartIntakeDebouncerDouble.get()) {
             return SmartIntakeState.BothTriggered;
         } else if (smartIntakeDebouncerLeft.get()) {
             return SmartIntakeState.LeftTriggered;
@@ -167,6 +166,7 @@ public class Intake extends Subsystem {
     public double getUltraSmartIntakeRightInches() {
         return ultraSmartIntakeRight.getRangeInches();
     }
+
     public boolean getUltraSmartIntakeLeftTriggered() {
         return getUltraSmartIntakeLeftInches() <= LEFT_DISTANCE_MIN;
     }
@@ -189,7 +189,7 @@ public class Intake extends Subsystem {
     }
 
     public SmartIntakeState getUltraSmartIntakeState() {
-        if(ultraSmartIntakeDebouncerDouble.get()) {
+        if (ultraSmartIntakeDebouncerDouble.get()) {
             return SmartIntakeState.BothTriggered;
         } else if (ultraSmartIntakeDebouncerLeft.get()) {
             return SmartIntakeState.LeftTriggered;

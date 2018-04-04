@@ -15,6 +15,7 @@ public class GenericAuto extends CommandGroup {
     Command driveToCubeGeneric = new DrivePathCmd(GenericPaths.toCubeGeneric, false);
     Command driveBackOffCubeGeneric = new DrivePathReverseCmd(GenericPaths.reverse_backOffCubeGeneric, false);
     Command driveToSwitchAgainGeneric = new DrivePathCmd(GenericPaths.toSwitchAgainGeneric, false);
+
     public GenericAuto() {
         addSequential(driveSwitchGeneric);
         addSequential(driveGoBackGeneric);

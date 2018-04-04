@@ -15,18 +15,13 @@ import org.usfirst.frc.team125.robot.commands.Groups.Autos.CompAutos.CenterAutos
 import org.usfirst.frc.team125.robot.commands.Groups.Autos.CompAutos.CenterAutos.CenterLeftFastAuto;
 import org.usfirst.frc.team125.robot.commands.Groups.Autos.CompAutos.CenterAutos.CenterRightAuto;
 import org.usfirst.frc.team125.robot.commands.Groups.Autos.CompAutos.CenterAutos.CenterRightFastAuto;
-import org.usfirst.frc.team125.robot.commands.Groups.Autos.CompAutos.ScaleToSwitchAutos.RightSideCloseScaleFarSwitchAuto;
 import org.usfirst.frc.team125.robot.commands.Groups.Autos.CompAutos.SituationalAutos.DriveStraightAuto;
 import org.usfirst.frc.team125.robot.commands.Groups.Autos.CompAutos.SwitchOnlyAutos.LeftSideCloseSwitchAuto;
 import org.usfirst.frc.team125.robot.commands.Groups.Autos.CompAutos.SwitchOnlyAutos.LeftSideFarSwitchAuto;
 import org.usfirst.frc.team125.robot.commands.Groups.Autos.CompAutos.SwitchOnlyAutos.RightSideCloseSwitchAuto;
 import org.usfirst.frc.team125.robot.commands.Groups.Autos.CompAutos.SwitchOnlyAutos.RightSideFarSwitchAuto;
-import org.usfirst.frc.team125.robot.commands.Groups.Autos.CompAutos.SwitchToScaleAutos.CenterLeftSwitchLeftScaleAuto;
-import org.usfirst.frc.team125.robot.commands.Groups.Autos.CompAutos.SwitchToScaleAutos.CenterLeftSwitchRightScaleAuto;
-import org.usfirst.frc.team125.robot.commands.Groups.Autos.CompAutos.SwitchToScaleAutos.CenterRightSwitchLeftScaleAuto;
-import org.usfirst.frc.team125.robot.commands.Groups.Autos.CompAutos.SwitchToScaleAutos.CenterRightSwitchRightScaleAuto;
+import org.usfirst.frc.team125.robot.commands.Groups.Autos.CompAutos.SwitchToScaleAutos.*;
 import org.usfirst.frc.team125.robot.commands.Groups.Autos.CompAutos.TwoScaleAutos.*;
-import org.usfirst.frc.team125.robot.commands.Groups.Autos.GenericAuto;
 import org.usfirst.frc.team125.robot.commands.Groups.Autos.GenericAuto2;
 import org.usfirst.frc.team125.robot.subsystems.*;
 
@@ -57,10 +52,23 @@ public class Robot extends IterativeRobot {
         DoNothing,
     }
 
+    private enum SwitchSettings {
+        Fast,
+        Normal,
+    }
+
+    private enum ScaleSettings {
+        SlowFast,
+        Fast,
+        Normal,
+    }
+
     String gameData;
 
     SendableChooser sideSelector;
     SendableChooser autoSelector;
+    SendableChooser switchSettingsSelector;
+    SendableChooser scaleSettingsSelector;
 
     //Center Autos
     Command centerLeftAuto = new CenterLeftAuto();
@@ -89,6 +97,7 @@ public class Robot extends IterativeRobot {
     Command leftTwoScaleCloseAuto = new LeftSideCloseTwoScaleAuto();
     Command leftTwoScaleCloseSlowFastAuto = new LeftSideCloseTwoScaleSlowFastAuto();
     Command leftTwoScaleCloseFastFastAuto = new LeftSideCloseTwoScaleFastFastAuto();
+
     Command leftTwoScaleFarAuto = new LeftSideFarTwoScaleAuto();
     Command leftTwoScaleFarSlowFastAuto = new LeftSideFarTwoScaleSlowFastAuto();
     Command leftTwoScaleFarFastFastAuto = new LeftSideFarTwoScaleFastFastAuto();
@@ -97,9 +106,16 @@ public class Robot extends IterativeRobot {
 
     //Switch to Scale
     Command centerLeftSwitchLeftScaleAuto = new CenterLeftSwitchLeftScaleAuto();
+    Command centerLeftSwitchLeftScaleFastAuto = new CenterLeftSwitchLeftScaleFastAuto();
+
     Command centerLeftSwitchRightScaleAuto = new CenterLeftSwitchRightScaleAuto();
+    Command centerLeftSwitchRightScaleFastAuto = new CenterLeftSwitchRightScaleFastAuto();
+
     Command centerRightSwitchLeftScaleAuto = new CenterRightSwitchLeftScaleAuto();
+    Command centerRightSwitchLeftScaleFastAuto = new CenterRightSwitchLeftScaleFastAuto();
+
     Command centerRightSwitchRightScaleAuto = new CenterRightSwitchRightScaleAuto();
+    Command centerRightSwitchRightScaleFastAuto = new CenterRightSwitchRightScaleFastAuto();
 
     //Situational
     Command driveStraightAuto = new DriveStraightAuto();
@@ -116,17 +132,31 @@ public class Robot extends IterativeRobot {
         drivetrain.timer.start();
         sideSelector = new SendableChooser();
         autoSelector = new SendableChooser();
+        switchSettingsSelector = new SendableChooser();
+        scaleSettingsSelector = new SendableChooser();
+
         sideSelector.addDefault("Left", Sides.Left); // Left Side
         sideSelector.addObject("Right", Sides.Right); // Right Side
         sideSelector.addObject("Center", Sides.Center); // Right Side
+
         autoSelector.addDefault("Switch Only", Autos.SwitchOnly);
         autoSelector.addObject("Scale To Switch", Autos.ScaleToSwitch);
         autoSelector.addObject("Switch To Scale", Autos.SwitchToScale);
         autoSelector.addObject("Two Scale", Autos.TwoScale);
         autoSelector.addObject("Situational", Autos.Situational);
         autoSelector.addObject("Do Nothing", Autos.DoNothing);
+
+        switchSettingsSelector.addDefault("Fast", SwitchSettings.Fast);
+        switchSettingsSelector.addObject("Normal", SwitchSettings.Normal);
+
+        scaleSettingsSelector.addDefault("Fast", ScaleSettings.Fast);
+        scaleSettingsSelector.addObject("Slow & Fast", ScaleSettings.SlowFast);
+        scaleSettingsSelector.addObject("Normal", ScaleSettings.Normal);
+
         SmartDashboard.putData("Side Selector", sideSelector);
         SmartDashboard.putData("Auto Selector", autoSelector);
+        SmartDashboard.putData("Switch Settings", switchSettingsSelector);
+        SmartDashboard.putData("Scale Settings", scaleSettingsSelector);
     }
 
     @Override
@@ -155,35 +185,69 @@ public class Robot extends IterativeRobot {
         if (autoSelector.getSelected().equals(Autos.DoNothing)) { // Do Nothing
             autoCommand = new WaitCommand(15);
         } else if (sideSelector.getSelected().equals(Sides.Center)) { // Center
-            if (autoSelector.getSelected().equals(Autos.SwitchToScale)) {
-                switch (gameData) {
-                    case "LR":
-                        autoCommand = centerLeftSwitchRightScaleAuto;
-                        break;
-                    case "RL":
-                        autoCommand = centerRightSwitchLeftScaleAuto;
-                        break;
-                    case "LL":
-                        autoCommand = centerLeftSwitchLeftScaleAuto;
-                        break;
-                    case "RR":
-                        autoCommand = centerRightSwitchRightScaleAuto;
-                        break;
-                    default:
-                        autoCommand = new WaitCommand(15);
-                        break;
+            if (switchSettingsSelector.getSelected().equals(SwitchSettings.Normal)) {
+                if (autoSelector.getSelected().equals(Autos.SwitchToScale)) {
+                    switch (gameData) {
+                        case "LR":
+                            autoCommand = centerLeftSwitchRightScaleAuto;
+                            break;
+                        case "RL":
+                            autoCommand = centerRightSwitchLeftScaleAuto;
+                            break;
+                        case "LL":
+                            autoCommand = centerLeftSwitchLeftScaleAuto;
+                            break;
+                        case "RR":
+                            autoCommand = centerRightSwitchRightScaleAuto;
+                            break;
+                        default:
+                            autoCommand = new WaitCommand(15);
+                            break;
+                    }
+                } else {
+                    switch (gameData.substring(0, 1)) {
+                        case "L":
+                            autoCommand = centerLeftAuto;
+                            break;
+                        case "R":
+                            autoCommand = centerRightAuto;
+                            break;
+                        default:
+                            autoCommand = new WaitCommand(15);
+                            break;
+                    }
                 }
             } else {
-                switch (gameData.substring(0, 1)) {
-                    case "L":
-                        autoCommand = centerLeftAuto;
-                        break;
-                    case "R":
-                        autoCommand = centerRightAuto;
-                        break;
-                    default:
-                        autoCommand = new WaitCommand(15);
-                        break;
+                if (autoSelector.getSelected().equals(Autos.SwitchToScale)) {
+                    switch (gameData) {
+                        case "LR":
+                            autoCommand = centerLeftSwitchRightScaleFastAuto;
+                            break;
+                        case "RL":
+                            autoCommand = centerRightSwitchLeftScaleFastAuto;
+                            break;
+                        case "LL":
+                            autoCommand = centerLeftSwitchLeftScaleFastAuto;
+                            break;
+                        case "RR":
+                            autoCommand = centerRightSwitchRightScaleFastAuto;
+                            break;
+                        default:
+                            autoCommand = new WaitCommand(15);
+                            break;
+                    }
+                } else {
+                    switch (gameData.substring(0, 1)) {
+                        case "L":
+                            autoCommand = centerLeftFastAuto;
+                            break;
+                        case "R":
+                            autoCommand = centerRightFastAuto;
+                            break;
+                        default:
+                            autoCommand = new WaitCommand(15);
+                            break;
+                    }
                 }
             }
         } else if (autoSelector.getSelected().equals(Autos.Situational)) { // Situational
@@ -224,16 +288,42 @@ public class Robot extends IterativeRobot {
                     break;
             }
         } else if (autoSelector.getSelected().equals(Autos.TwoScale)) { // Two Scale
-            switch (gameData.substring(1, 2)) {
-                case "L":
-                    autoCommand = leftTwoScaleCloseAuto;
-                    break;
-                case "R":
-                    autoCommand = leftTwoScaleFarAuto;
-                    break;
-                default:
-                    autoCommand = new WaitCommand(15);
-                    break;
+            if (scaleSettingsSelector.getSelected().equals(ScaleSettings.Normal)) {
+                switch (gameData.substring(1, 2)) {
+                    case "L":
+                        autoCommand = leftTwoScaleCloseAuto;
+                        break;
+                    case "R":
+                        autoCommand = leftTwoScaleFarAuto;
+                        break;
+                    default:
+                        autoCommand = new WaitCommand(15);
+                        break;
+                }
+            } else if (scaleSettingsSelector.getSelected().equals(ScaleSettings.Fast)) {
+                switch (gameData.substring(1, 2)) {
+                    case "L":
+                        autoCommand = leftTwoScaleCloseFastFastAuto;
+                        break;
+                    case "R":
+                        autoCommand = leftTwoScaleFarFastFastAuto;
+                        break;
+                    default:
+                        autoCommand = new WaitCommand(15);
+                        break;
+                }
+            } else {
+                switch (gameData.substring(1, 2)) {
+                    case "L":
+                        autoCommand = leftTwoScaleCloseSlowFastAuto;
+                        break;
+                    case "R":
+                        autoCommand = leftTwoScaleFarSlowFastAuto;
+                        break;
+                    default:
+                        autoCommand = new WaitCommand(15);
+                        break;
+                }
             }
         } else {
             autoCommand = new DriveStraightAuto();
