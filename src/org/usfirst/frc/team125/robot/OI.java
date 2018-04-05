@@ -4,10 +4,7 @@ import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.buttons.Button;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import org.usfirst.frc.team125.robot.commands.CubeLift.OpenGrabbersCmd;
-import org.usfirst.frc.team125.robot.commands.CubeLift.RunToPositionMotionMagicCmd;
-import org.usfirst.frc.team125.robot.commands.CubeLift.TogglePinCmd;
-import org.usfirst.frc.team125.robot.commands.CubeLift.UnpunchCmd;
+import org.usfirst.frc.team125.robot.commands.CubeLift.*;
 import org.usfirst.frc.team125.robot.commands.DoubleLift.ReleaseCarrierCmd;
 import org.usfirst.frc.team125.robot.commands.Groups.*;
 import org.usfirst.frc.team125.robot.commands.Intake.IntakeDownCmd;
@@ -40,9 +37,10 @@ public class OI {
     /* Driver Control */
     public Button score = new JoystickButton(driverPad, JoystickMap.X);
     public Button dropScore = new JoystickButton(driverPad, JoystickMap.LB);
-    private Button intake = new JoystickButton(driverPad, JoystickMap.A);
-    private Button outtake = new JoystickButton(driverPad, JoystickMap.B);
-    private Button emergencyIntake = new JoystickButton(driverPad, JoystickMap.Y);
+    public Button highStackScore = new JoystickButton(driverPad, JoystickMap.RB);
+    public Button intake = new JoystickButton(driverPad, JoystickMap.A);
+    public Button outtake = new JoystickButton(driverPad, JoystickMap.B);
+    public Button emergencyIntake = new JoystickButton(driverPad, JoystickMap.Y);
 
 
     private static final double STICK_DEADBAND = 0.05;
@@ -112,6 +110,8 @@ public class OI {
         outtake.whenPressed(new OpenGrabbersCmd());
         score.whenPressed(new ScoreCmdGrp());
         score.whenReleased(new UnpunchCmd());
+        highStackScore.whenPressed(new PunchCmd());
+        highStackScore.whenReleased(new UnpunchCmd());
         dropScore.whenPressed(new OpenGrabbersCmd());
         emergencyIntake.whileHeld(new PulseIntakeCmd());
         emergencyIntake.whenPressed(new OpenGrabbersCmd());
