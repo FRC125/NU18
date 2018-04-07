@@ -1,5 +1,6 @@
 package org.usfirst.frc.team125.robot;
 
+import com.ctre.phoenix.motorcontrol.NeutralMode;
 import edu.wpi.cscore.UsbCamera;
 import edu.wpi.first.wpilibj.CameraServer;
 import edu.wpi.first.wpilibj.DriverStation;
@@ -130,6 +131,7 @@ public class Robot extends IterativeRobot {
         camera.setResolution(480, 270);
         camera.setFPS(60);
         drivetrain.timer.start();
+        this.cubeLift.setNeutralMode(NeutralMode.Coast);
         sideSelector = new SendableChooser();
         autoSelector = new SendableChooser();
         switchSettingsSelector = new SendableChooser();
@@ -161,6 +163,7 @@ public class Robot extends IterativeRobot {
 
     @Override
     public void disabledInit() {
+        this.cubeLift.setNeutralMode(NeutralMode.Coast);
     }
 
     @Override
@@ -173,6 +176,7 @@ public class Robot extends IterativeRobot {
     @Override
     public void autonomousInit() {
         this.drivetrain.disableRamping();
+        this.cubeLift.setNeutralMode(NeutralMode.Brake);
 
         String gameDataTemp = DriverStation.getInstance().getGameSpecificMessage();
         if (gameDataTemp != null) {
@@ -423,6 +427,7 @@ public class Robot extends IterativeRobot {
 
     @Override
     public void teleopInit() {
+        this.cubeLift.setNeutralMode(NeutralMode.Brake);
         this.drivetrain.enableRamping();
     }
 

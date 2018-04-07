@@ -17,7 +17,7 @@ import org.usfirst.frc.team125.robot.util.Paths.CompPaths.TwoScale.LeftSideFarTw
 public class LeftSideFarTwoScaleSlowFastAuto extends CommandGroup {
     Command intakeDown = new IntakeDownCmd();
     Command secureCube = new SecureCubeCmdGrp();
-    Command liftElevatorToScale = new AutoLiftCmdGrp(0.5, CubeLift.Positions.ScoreScale);
+    Command liftElevatorToScale = new AutoLiftCmdGrp(1.5, CubeLift.Positions.ScoreScale);
     Command driveToScale = new DrivePathCmd(LeftSideFarTwoScalePaths.toScale, true);
     Command scoreCube = new ScoreCmdGrp();
     Command bringElevatorToIntake = new RunToPositionMotionMagicCmd(CubeLift.Positions.Intake);

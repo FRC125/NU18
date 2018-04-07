@@ -8,13 +8,12 @@ import org.usfirst.frc.team125.robot.util.Paths.GenericPaths;
 
 public class GenericAuto extends CommandGroup {
 
-    Command driveOne = new DrivePathReverseCmd(GenericPaths.pathOne, true);
-    Command driveTwo = new DrivePathCmd(GenericPaths.pathTwo, true);
-    Command driveSwitchGeneric = new DrivePathCmd(GenericPaths.toSwitchGeneric, false);
-    Command driveGoBackGeneric = new DrivePathReverseCmd(GenericPaths.reverse_goBackGeneric, false);
-    Command driveToCubeGeneric = new DrivePathCmd(GenericPaths.toCubeGeneric, false);
-    Command driveBackOffCubeGeneric = new DrivePathReverseCmd(GenericPaths.reverse_backOffCubeGeneric, false);
-    Command driveToSwitchAgainGeneric = new DrivePathCmd(GenericPaths.toSwitchAgainGeneric, false);
+    boolean runSlow = false;
+    Command driveSwitchGeneric = new DrivePathCmd(GenericPaths.toSwitchGeneric, runSlow);
+    Command driveGoBackGeneric = new DrivePathReverseCmd(GenericPaths.reverse_goBackGeneric, runSlow);
+    Command driveToCubeGeneric = new DrivePathCmd(GenericPaths.toCubeGeneric, runSlow);
+    Command driveBackOffCubeGeneric = new DrivePathReverseCmd(GenericPaths.reverse_backOffCubeGeneric, runSlow);
+    Command driveToSwitchAgainGeneric = new DrivePathCmd(GenericPaths.toSwitchAgainGeneric, runSlow);
 
     public GenericAuto() {
         addSequential(driveSwitchGeneric);
@@ -22,7 +21,6 @@ public class GenericAuto extends CommandGroup {
         addSequential(driveToCubeGeneric);
         addSequential(driveBackOffCubeGeneric);
         addSequential(driveToSwitchAgainGeneric);
-        //addSequential(driveTwo);
     }
 
 }

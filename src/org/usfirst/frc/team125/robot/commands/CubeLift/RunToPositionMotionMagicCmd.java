@@ -21,6 +21,7 @@ public class RunToPositionMotionMagicCmd extends Command {
         switch (position) {
             case Intake:
                 Robot.intake.intakePistonDown();
+                setInterruptible(false);
                 break;
             case ScoreSwitch:
             case ScoreScale:
@@ -32,6 +33,7 @@ public class RunToPositionMotionMagicCmd extends Command {
             case ChinUp:
                 Robot.cubeLift.openGrabbers();
                 Robot.intake.intakePistonDown();
+                setInterruptible(false);
                 break;
             default:
                 break;

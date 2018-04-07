@@ -80,7 +80,7 @@ public class CubeLift extends Subsystem {
         ScoreScaleHigh(77000),
         PreClimb(74000),
         Top(77001),
-        ChinUp(40500),
+        ChinUp(40500 - 1176 - 500),
         ClimbingBar(67500);
         private int position;
 
@@ -174,11 +174,7 @@ public class CubeLift extends Subsystem {
         resetEncoders();
         //this.rightElevatorLeader.setSelectedSensorPosition(rightElevatorLeader.getSensorCollection().getQuadraturePosition(), 0, 0);
 
-        //Neutral mode
-        this.rightElevatorLeader.setNeutralMode(NeutralMode.Brake);
-        this.rightElevatorSlave.setNeutralMode(NeutralMode.Brake);
-        this.leftElevatorSlaveA.setNeutralMode(NeutralMode.Brake);
-        this.leftElevatorSlaveB.setNeutralMode(NeutralMode.Brake);
+        setNeutralMode(NeutralMode.Brake);
 
         this.leftElevatorSlaveA.setInverted(true);
         this.leftElevatorSlaveB.setInverted(true);
@@ -196,6 +192,14 @@ public class CubeLift extends Subsystem {
 
     public void resetEncoders() {
         this.rightElevatorLeader.setSelectedSensorPosition(0, 0, 0);
+    }
+
+    public void setNeutralMode(NeutralMode mode) {
+        //Neutral mode
+        this.rightElevatorLeader.setNeutralMode(mode);
+        this.rightElevatorSlave.setNeutralMode(mode);
+        this.leftElevatorSlaveA.setNeutralMode(mode);
+        this.leftElevatorSlaveB.setNeutralMode(mode);
     }
 
     public int getQuadraturePosition() {

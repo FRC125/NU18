@@ -11,6 +11,6 @@ public class ChinUpCmdGrp extends CommandGroup {
     public ChinUpCmdGrp() {
         addParallel(new UnpinCmd());
         addSequential(new WaitCommand(0.5));
-        addSequential(new RunToPositionMotionMagicCmd(CubeLift.Positions.ChinUp), 4);
+        addSequential(new RunToPositionMotionMagicCmd(CubeLift.Positions.ChinUp), 2);
     }
 }
