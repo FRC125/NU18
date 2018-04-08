@@ -15,21 +15,21 @@ public class LeftSideCloseTwoScalePaths {
 
     public static Waypoint[] reverse_kTurnToSwitch1A = new Waypoint[]{
             new Waypoint(0.0, 0.0, Pathfinder.d2r(0.0)),
-            new Waypoint(0.72, 1.15, Pathfinder.d2r(-90.0)),
+            new Waypoint(0.95, 1.15, Pathfinder.d2r(-90.0)),
     };
 
     public static Waypoint[] kTurnToSwitch1B = new Waypoint[]{
             new Waypoint(0.0, 0.0, Pathfinder.d2r(0.0)),
-            new Waypoint(0.85, -0.68, Pathfinder.d2r(-30.0)),
+            new Waypoint(1.05, -0.68, Pathfinder.d2r(-30.0)),
     };
 
     public static Waypoint[] reverse_kTurnToScaleA = new Waypoint[]{
             new Waypoint(0.0, 0.0, Pathfinder.d2r(0.0)),
-            new Waypoint(0.85, 0.0, Pathfinder.d2r(-30.0)),
+            new Waypoint(1.05, 0.0, Pathfinder.d2r(-30.0)),
     };
 
     public static Waypoint[] kTurnToScaleB = new Waypoint[]{
             new Waypoint(0.0, 0.0, Pathfinder.d2r(0.0)),
-            new Waypoint(0.72, 1.4, Pathfinder.d2r(90.0)),
+            new Waypoint(0.72, 1.65, Pathfinder.d2r(90.0)),
     };
 }
