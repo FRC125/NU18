@@ -17,6 +17,7 @@ public class RunToPositionMotionMagicCmd extends Command {
     protected void initialize() {
         Robot.cubeLift.stopElevator();
         Robot.cubeLift.closeGrabbers();
+        Robot.cubeLift.unpunch();
         Robot.ledController.setRunningMotionMagic(true);
         switch (position) {
             case Intake:

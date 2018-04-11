@@ -6,20 +6,18 @@ import org.usfirst.frc.team125.robot.Robot;
 /**
  *
  */
-public class TurnToAngleCmd extends Command {
+public class CounterCWAngleTurnCmd extends Command {
 
     double angle;
     boolean isFinished = false;
 
-    public TurnToAngleCmd(double angle) {
+    public CounterCWAngleTurnCmd(double changeInAngle) {
         requires(Robot.drivetrain);
-        this.angle = angle;
-
+        this.angle = Robot.drivetrain.getAngle() + changeInAngle;
     }
 
     protected void initialize() {
         Robot.drivetrain.enableBreakMode();
-        Robot.drivetrain.resetGyro();
         Robot.drivetrain.resetLastHeadingError();
     }
 

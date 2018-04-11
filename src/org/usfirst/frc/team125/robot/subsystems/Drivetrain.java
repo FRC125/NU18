@@ -122,18 +122,17 @@ public class Drivetrain extends Subsystem {
     }
 
     public void driveHoldHeading(double throttle) {
-        double turn = (DrivetrainProfiling.gp * gyro.getAngle()) + (DrivetrainProfiling.gd * (gyro.getAngle() - lastHeadingError));
-        this.lastHeadingError = gyro.getAngle();
-        this.leftDriveMain.set(ControlMode.PercentOutput, throttle - turn);
-        this.rightDriveMain.set(ControlMode.PercentOutput, throttle + turn);
+        double turn = (DrivetrainProfiling.gp * getAngle()) + (DrivetrainProfiling.gd * (getAngle() - lastHeadingError));
+        this.lastHeadingError = getAngle();
+        this.leftDriveMain.set(ControlMode.PercentOutput, throttle + turn);
+        this.rightDriveMain.set(ControlMode.PercentOutput, throttle - turn);
     }
 
     public boolean turnToAngle(double angle) {
-        double error = angle - gyro.getAngle();
-        double turn = DrivetrainProfiling.gp * error + (DrivetrainProfiling.gd *
+        double error = angle - getAngle();
+        double turn = DrivetrainProfiling.tp * error + (DrivetrainProfiling.td *
                 ((error - lastHeadingError) / DrivetrainProfiling.dt));
-        this.leftDriveMain.set(ControlMode.PercentOutput, turn);
-        this.rightDriveMain.set(ControlMode.PercentOutput, -turn);
+        drive(turn, -turn);
         lastHeadingError = error;
         SmartDashboard.putNumber("turn to angle error", error);
         return Math.abs(error) <= TURN_TO_ANGLE_TOLERANCE;
@@ -334,7 +333,9 @@ public class Drivetrain extends Subsystem {
         public static double kp = 0.8; //1.2;
         public static double kd = 0.0;
         public static double gp = 0.0375; // 0.0375
+        public static double tp = 0.0375; // 0.0375
         public static double gd = 0.0; //0.0025
+        public static double td = 0.0; //0.0025
         public static double ki = 0.0;
 
         //Gyro logging for motion profiling
