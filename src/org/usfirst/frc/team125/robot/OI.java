@@ -96,7 +96,7 @@ public class OI {
         runEleIntake.whenPressed(new RunToPositionMotionMagicCmd(CubeLift.Positions.Intake));
         runElePreClimb.whenPressed(new RunToPreClimbCmdGrp());
         secureCube.whenPressed(new SecureCubeCmdGrp());
-        toggleElevatorPin.whenPressed(new TogglePinCmd());
+        //toggleElevatorPin.whenPressed(new TogglePinCmd());
         toggleIntakePistonInOrOut.whenPressed(new ToggleIntakeSolenoidCmd());
         runEleClimb.whenPressed(new RunToPositionMotionMagicCmd(CubeLift.Positions.ClimbingBar));
         climb.whenPressed(new ChinUpCmdGrp());
