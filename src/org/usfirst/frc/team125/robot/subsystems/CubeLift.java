@@ -80,7 +80,7 @@ public class CubeLift extends Subsystem {
         ScoreScaleHigh(77000),
         PreClimb(74000),
         Top(78500),
-        ChinUp(40000), // - 1176 - 250
+        ChinUp(40000 - 100), // - 1176 - 250
         ClimbingBar(67500);
         private int position;
 

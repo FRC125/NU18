@@ -17,6 +17,7 @@ import jaci.pathfinder.followers.EncoderFollower;
 import jaci.pathfinder.modifiers.TankModifier;
 import org.usfirst.frc.team125.robot.RobotMap;
 import org.usfirst.frc.team125.robot.commands.Drivetrain.DriveArcadeCmd;
+import org.usfirst.frc.team125.robot.util.DebouncedBoolean;
 
 import java.io.File;
 
@@ -42,6 +43,9 @@ public class Drivetrain extends Subsystem {
     //Gyro logging for driving
     double lastHeadingError = 0.0;
     final double TURN_TO_ANGLE_TOLERANCE = 10.0;
+    private static final double minimumTurnToAngleDebounce = 0.1; // Is 2 seconds too long???
+    private DebouncedBoolean turnToAngleDebouncer = new DebouncedBoolean(minimumTurnToAngleDebounce);
+
 
     public Drivetrain() {
         //Slave Control
@@ -135,11 +139,13 @@ public class Drivetrain extends Subsystem {
         drive(turn, -turn);
         lastHeadingError = error;
         SmartDashboard.putNumber("turn to angle error", error);
-        return Math.abs(error) <= TURN_TO_ANGLE_TOLERANCE;
+        turnToAngleDebouncer.update(Math.abs(error) <= TURN_TO_ANGLE_TOLERANCE);
+        return turnToAngleDebouncer.get();
     }
 
     public void resetLastHeadingError() {
         this.lastHeadingError = 0.0;
+        turnToAngleDebouncer.update(false);
     }
 
     public double getGyroRate() {

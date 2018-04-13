@@ -14,7 +14,7 @@ public class ElevatorDriveCmd extends Command {
     }
 
     protected void execute() {
-        Robot.cubeLift.directElevate(-Robot.oi.getOpLeftStickY() * 0.25);
+        Robot.cubeLift.directElevate(-Robot.oi.getOpLeftStickY() * 0.33);
     }
 
     protected boolean isFinished() {

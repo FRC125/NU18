@@ -23,7 +23,10 @@ import org.usfirst.frc.team125.robot.commands.Groups.Autos.CompAutos.SwitchOnlyA
 import org.usfirst.frc.team125.robot.commands.Groups.Autos.CompAutos.SwitchOnlyAutos.RightSideFarSwitchAuto;
 import org.usfirst.frc.team125.robot.commands.Groups.Autos.CompAutos.SwitchToScaleAutos.*;
 import org.usfirst.frc.team125.robot.commands.Groups.Autos.CompAutos.TwoScaleAutos.*;
+import org.usfirst.frc.team125.robot.commands.Groups.Autos.CompAutos.TwoScaleAutos.Special.LeftSideCloseTwoScaleFastFastSpecialAuto;
+import org.usfirst.frc.team125.robot.commands.Groups.Autos.CompAutos.TwoScaleAutos.Variable.LeftSideFarTwoScaleSlowFastVariableAuto;
 import org.usfirst.frc.team125.robot.commands.Groups.Autos.GenericAuto2;
+import org.usfirst.frc.team125.robot.commands.Groups.Autos.GenericAuto3;
 import org.usfirst.frc.team125.robot.subsystems.*;
 
 public class Robot extends IterativeRobot {
@@ -49,6 +52,8 @@ public class Robot extends IterativeRobot {
         ScaleToSwitch,
         SwitchToScale,
         TwoScale,
+        TwoScaleVariable,
+        TwoScaleSpecial,
         Situational,
         DoNothing,
     }
@@ -103,6 +108,10 @@ public class Robot extends IterativeRobot {
     Command leftTwoScaleFarSlowFastAuto = new LeftSideFarTwoScaleSlowFastAuto();
     Command leftTwoScaleFarFastFastAuto = new LeftSideFarTwoScaleFastFastAuto();
 
+    Command leftTwoScaleFarSlowFastVariableAuto = new LeftSideFarTwoScaleSlowFastVariableAuto();
+
+    Command leftTwoScaleCloseFastFastSpecialAuto = new LeftSideCloseTwoScaleFastFastSpecialAuto();
+
     Command rightTwoScaleCloseAuto = new RightSideCloseTwoScaleAuto();
 
     //Switch to Scale
@@ -122,7 +131,7 @@ public class Robot extends IterativeRobot {
     Command driveStraightAuto = new DriveStraightAuto();
 
     //Generic
-    Command genericAuto = new GenericAuto2();
+    Command genericAuto = new GenericAuto3();
 
     @Override
     public void robotInit() {
@@ -145,6 +154,8 @@ public class Robot extends IterativeRobot {
         autoSelector.addObject("Scale To Switch", Autos.ScaleToSwitch);
         autoSelector.addObject("Switch To Scale", Autos.SwitchToScale);
         autoSelector.addObject("Two Scale", Autos.TwoScale);
+        autoSelector.addObject("Two Scale Variable", Autos.TwoScaleVariable);
+        autoSelector.addObject("Two Scale Special", Autos.TwoScaleSpecial);
         autoSelector.addObject("Situational", Autos.Situational);
         autoSelector.addObject("Do Nothing", Autos.DoNothing);
 
@@ -319,7 +330,7 @@ public class Robot extends IterativeRobot {
             } else {
                 switch (gameData.substring(1, 2)) {
                     case "L":
-                        autoCommand = leftTwoScaleCloseSlowFastAuto;
+                        autoCommand = leftTwoScaleCloseFastFastAuto;
                         break;
                     case "R":
                         autoCommand = leftTwoScaleFarSlowFastAuto;
@@ -328,6 +339,31 @@ public class Robot extends IterativeRobot {
                         autoCommand = new WaitCommand(15);
                         break;
                 }
+            }
+        } else if(autoSelector.getSelected().equals(Autos.TwoScaleVariable)) {
+            switch (gameData.substring(1, 2)) {
+                case "L":
+                    autoCommand = leftTwoScaleCloseFastFastAuto;
+                    break;
+                case "R":
+                    autoCommand = leftTwoScaleFarSlowFastVariableAuto;
+                    break;
+                default:
+                    autoCommand = new WaitCommand(15);
+                    break;
+            }
+        }
+        else if(autoSelector.getSelected().equals(Autos.TwoScaleSpecial)) {
+            switch (gameData.substring(1, 2)) {
+                case "L":
+                    autoCommand = leftTwoScaleCloseFastFastSpecialAuto;
+                    break;
+                case "R":
+                    autoCommand = leftTwoScaleFarSlowFastAuto;
+                    break;
+                default:
+                    autoCommand = new WaitCommand(15);
+                    break;
             }
         } else {
             autoCommand = new DriveStraightAuto();
