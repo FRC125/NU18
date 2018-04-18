@@ -18,6 +18,7 @@ import jaci.pathfinder.modifiers.TankModifier;
 import org.usfirst.frc.team125.robot.RobotMap;
 import org.usfirst.frc.team125.robot.commands.Drivetrain.DriveArcadeCmd;
 import org.usfirst.frc.team125.robot.util.DebouncedBoolean;
+import org.usfirst.frc.team125.robot.util.WindowedError;
 
 import java.io.File;
 
@@ -42,9 +43,11 @@ public class Drivetrain extends Subsystem {
 
     //Gyro logging for driving
     double lastHeadingError = 0.0;
-    final double TURN_TO_ANGLE_TOLERANCE = 10.0;
-    private static final double minimumTurnToAngleDebounce = 0.1; // Is 2 seconds too long???
+    final double TURN_TO_ANGLE_TOLERANCE = 1.0;
+    private double totalAngleError = 0.;
+    private static final double minimumTurnToAngleDebounce = 0.2; // Is 2 seconds too long???
     private DebouncedBoolean turnToAngleDebouncer = new DebouncedBoolean(minimumTurnToAngleDebounce);
+    private WindowedError windowedError = new WindowedError(5);
 
 
     public Drivetrain() {
@@ -135,16 +138,22 @@ public class Drivetrain extends Subsystem {
     public boolean turnToAngle(double angle) {
         double error = angle - getAngle();
         double turn = DrivetrainProfiling.tp * error + (DrivetrainProfiling.td *
-                ((error - lastHeadingError) / DrivetrainProfiling.dt));
+                ((error - lastHeadingError) / DrivetrainProfiling.dt)) + (DrivetrainProfiling.ti * windowedError.getWindowedError());
         drive(turn, -turn);
         lastHeadingError = error;
+        windowedError.updateWindowedError(error);
         SmartDashboard.putNumber("turn to angle error", error);
+        SmartDashboard.putNumber("turnToAngle turn val", turn);
+        SmartDashboard.putNumber("window sum", windowedError.getWindowedError());
         turnToAngleDebouncer.update(Math.abs(error) <= TURN_TO_ANGLE_TOLERANCE);
+        totalAngleError += error;
         return turnToAngleDebouncer.get();
     }
 
-    public void resetLastHeadingError() {
+    public void resetForPointTurn() {
         this.lastHeadingError = 0.0;
+        this.totalAngleError = 0.0;
+        this.windowedError.resetWindow();
         turnToAngleDebouncer.update(false);
     }
 
@@ -339,10 +348,11 @@ public class Drivetrain extends Subsystem {
         public static double kp = 0.8; //1.2;
         public static double kd = 0.0;
         public static double gp = 0.0375; // 0.0375
-        public static double tp = 0.0375; // 0.0375
+        public static double tp = -0.1; // 0.0375
         public static double gd = 0.0; //0.0025
-        public static double td = 0.0; //0.0025
+        public static double td = -0.0045; //0.0025
         public static double ki = 0.0;
+        public static double ti = -0.001;
 
         //Gyro logging for motion profiling
         public static double last_gyro_error = 0.0;

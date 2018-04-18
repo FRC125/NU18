@@ -26,7 +26,7 @@ public class DriveArcadeWithHoldHeadingCmd extends Command {
     }
 
     protected void end() {
-        Robot.drivetrain.resetLastHeadingError();
+        Robot.drivetrain.resetForPointTurn();
     }
 
     protected void interrupted() {

@@ -450,7 +450,7 @@ public class Robot extends IterativeRobot {
         }
         */
         //TODO: REMOVE THIS LINE
-        //autoCommand = genericAuto;
+        autoCommand = genericAuto;
         autoCommand.start();
         SmartDashboard.putString("Chosen Auto", autoCommand.toString());
     }

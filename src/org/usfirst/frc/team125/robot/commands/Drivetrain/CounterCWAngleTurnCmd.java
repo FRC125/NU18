@@ -9,16 +9,18 @@ import org.usfirst.frc.team125.robot.Robot;
 public class CounterCWAngleTurnCmd extends Command {
 
     double angle;
+    double changeInAngle;
     boolean isFinished = false;
 
     public CounterCWAngleTurnCmd(double changeInAngle) {
         requires(Robot.drivetrain);
-        this.angle = Robot.drivetrain.getAngle() + changeInAngle;
+        this.changeInAngle = changeInAngle;
     }
 
     protected void initialize() {
+        this.angle = Robot.drivetrain.getAngle() + changeInAngle;
         Robot.drivetrain.enableBreakMode();
-        Robot.drivetrain.resetLastHeadingError();
+        Robot.drivetrain.resetForPointTurn();
     }
 
     protected void execute() {
@@ -30,7 +32,7 @@ public class CounterCWAngleTurnCmd extends Command {
     }
 
     protected void end() {
-        Robot.drivetrain.resetLastHeadingError();
+        Robot.drivetrain.resetForPointTurn();
         Robot.drivetrain.drive(0.0, 0.0);
     }
 
