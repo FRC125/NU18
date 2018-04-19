@@ -27,6 +27,8 @@ import org.usfirst.frc.team125.robot.commands.Groups.Autos.CompAutos.TwoScaleAut
 import org.usfirst.frc.team125.robot.commands.Groups.Autos.CompAutos.TwoScaleAutos.Variable.LeftSideFarTwoScaleSlowFastVariableAuto;
 import org.usfirst.frc.team125.robot.commands.Groups.Autos.GenericAuto2;
 import org.usfirst.frc.team125.robot.commands.Groups.Autos.GenericAuto3;
+import org.usfirst.frc.team125.robot.commands.Groups.Autos.GenericAuto4;
+import org.usfirst.frc.team125.robot.commands.Groups.Autos.GenericAuto5;
 import org.usfirst.frc.team125.robot.subsystems.*;
 
 public class Robot extends IterativeRobot {
@@ -131,7 +133,7 @@ public class Robot extends IterativeRobot {
     Command driveStraightAuto = new DriveStraightAuto();
 
     //Generic
-    Command genericAuto = new GenericAuto3();
+    Command genericAuto = new GenericAuto5();
 
     @Override
     public void robotInit() {

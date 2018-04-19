@@ -43,7 +43,7 @@ public class Drivetrain extends Subsystem {
 
     //Gyro logging for driving
     double lastHeadingError = 0.0;
-    final double TURN_TO_ANGLE_TOLERANCE = 1.0;
+    final double TURN_TO_ANGLE_TOLERANCE = 5.0;
     private double totalAngleError = 0.;
     private static final double minimumTurnToAngleDebounce = 0.2; // Is 2 seconds too long???
     private DebouncedBoolean turnToAngleDebouncer = new DebouncedBoolean(minimumTurnToAngleDebounce);
@@ -348,7 +348,7 @@ public class Drivetrain extends Subsystem {
         public static double kp = 0.8; //1.2;
         public static double kd = 0.0;
         public static double gp = 0.0375; // 0.0375
-        public static double tp = -0.1; // 0.0375
+        public static double tp = -0.06; // 0.0375
         public static double gd = 0.0; //0.0025
         public static double td = -0.0045; //0.0025
         public static double ki = 0.0;
