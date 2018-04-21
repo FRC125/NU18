@@ -8,7 +8,7 @@ import static org.usfirst.frc.team125.robot.util.Paths.AutoPathsConstants.DRIVET
 
 public class LeftSideCloseTwoScaleTurnInPlacePaths {
 
-    public static Waypoint[] toScale = new Waypoint[]{
+    public static Waypoint[] toScale = new Waypoint[] {
             new Waypoint(0.0, 0.0, Pathfinder.d2r(0.0)),
             new Waypoint((3.9784 - DRIVETRAIN_LENGTH), 0.0, Pathfinder.d2r(0.0)),
             new Waypoint(6.5, -0.9, Pathfinder.d2r(0.0)),
@@ -18,14 +18,14 @@ public class LeftSideCloseTwoScaleTurnInPlacePaths {
 
     public static Waypoint[] toSwitch = new Waypoint[]{
             new Waypoint(0.0, 0.0, Pathfinder.d2r(0.0)),
-            new Waypoint(2.6 - AutoPathsConstants.DRIVETRAIN_LENGTH, 0.0, Pathfinder.d2r(0.0)),
+            new Waypoint(1.8 - AutoPathsConstants.DRIVETRAIN_LENGTH, 0.0, Pathfinder.d2r(0.0)),
     };
 
-    public static final double turnToScale = -160;
+    public static final double turnToScale = -200;
 
     public static Waypoint[] toScaleAgain = new Waypoint[]{
             new Waypoint(0.0, 0.0, Pathfinder.d2r(0.0)),
-            new Waypoint(2.6 - AutoPathsConstants.DRIVETRAIN_LENGTH, 0.0, Pathfinder.d2r(0.0)),
+            new Waypoint(2.3 - AutoPathsConstants.DRIVETRAIN_LENGTH, 0.5, Pathfinder.d2r(-15.0)),
     };
 
 }

@@ -12,6 +12,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import org.usfirst.frc.team125.robot.commands.CubeLift.ResetCubeLiftEncoderCmd;
 import org.usfirst.frc.team125.robot.commands.CubeLift.ToggleElevatorSafetyCmd;
+import org.usfirst.frc.team125.robot.commands.Groups.Autos.*;
 import org.usfirst.frc.team125.robot.commands.Groups.Autos.CompAutos.CenterAutos.CenterLeftAuto;
 import org.usfirst.frc.team125.robot.commands.Groups.Autos.CompAutos.CenterAutos.CenterLeftFastAuto;
 import org.usfirst.frc.team125.robot.commands.Groups.Autos.CompAutos.CenterAutos.CenterRightAuto;
@@ -25,10 +26,6 @@ import org.usfirst.frc.team125.robot.commands.Groups.Autos.CompAutos.SwitchToSca
 import org.usfirst.frc.team125.robot.commands.Groups.Autos.CompAutos.TwoScaleAutos.*;
 import org.usfirst.frc.team125.robot.commands.Groups.Autos.CompAutos.TwoScaleAutos.Special.LeftSideCloseTwoScaleFastFastSpecialAuto;
 import org.usfirst.frc.team125.robot.commands.Groups.Autos.CompAutos.TwoScaleAutos.Variable.LeftSideFarTwoScaleSlowFastVariableAuto;
-import org.usfirst.frc.team125.robot.commands.Groups.Autos.GenericAuto2;
-import org.usfirst.frc.team125.robot.commands.Groups.Autos.GenericAuto3;
-import org.usfirst.frc.team125.robot.commands.Groups.Autos.GenericAuto4;
-import org.usfirst.frc.team125.robot.commands.Groups.Autos.GenericAuto5;
 import org.usfirst.frc.team125.robot.subsystems.*;
 
 public class Robot extends IterativeRobot {
@@ -133,7 +130,7 @@ public class Robot extends IterativeRobot {
     Command driveStraightAuto = new DriveStraightAuto();
 
     //Generic
-    Command genericAuto = new GenericAuto5();
+    Command genericAuto = new GenericAuto6();
 
     @Override
     public void robotInit() {

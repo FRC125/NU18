@@ -16,12 +16,13 @@ public class GenericAuto4 extends CommandGroup {
 
     public GenericAuto4() {
         addSequential(turnInPlace);
-        addSequential(new WaitCommand(2));
+        addSequential(new WaitCommand(0.25));
         addSequential(driveToSwitch);
-        addSequential(new WaitCommand(2));
+        /*
+        addSequential(new WaitCommand(0.8));
         addSequential(turnInPlace2);
-        addSequential(new WaitCommand(2));
         addSequential(driveToScaleAgain);
+        */
     }
 
 }
