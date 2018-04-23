@@ -21,11 +21,11 @@ public class LeftSideCloseTwoScaleTurnInPlacePaths {
             new Waypoint(2.6 - AutoPathsConstants.DRIVETRAIN_LENGTH, 0.0, Pathfinder.d2r(0.0)),
     };
 
-    public static final double turnToScale = -160;
+    public static final double turnToScale = -180;
 
     public static Waypoint[] toScaleAgain = new Waypoint[]{
             new Waypoint(0.0, 0.0, Pathfinder.d2r(0.0)),
-            new Waypoint(2.6 - AutoPathsConstants.DRIVETRAIN_LENGTH, 0.0, Pathfinder.d2r(0.0)),
+            new Waypoint(2.6 - AutoPathsConstants.DRIVETRAIN_LENGTH, 0.0, Pathfinder.d2r(-0.0)),
     };
 
 }

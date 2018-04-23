@@ -16,11 +16,11 @@ import org.usfirst.frc.team125.robot.subsystems.CubeLift;
 import org.usfirst.frc.team125.robot.util.Paths.CompPaths.TwoScale.LeftSideCloseTwoScalePaths;
 import org.usfirst.frc.team125.robot.util.Paths.CompPaths.TwoScale.TurnInPlacePaths.LeftSideCloseTwoScaleTurnInPlacePaths;
 
-public class LeftSideCloseTwoScaleTurnInPlaceSlowFastAuto extends CommandGroup {
+public class LeftSideCloseTwoScaleTurnInPlaceFastFastAuto extends CommandGroup {
     Command intakeDown = new IntakeDownCmd();
     Command secureCube = new SecureCubeCmdGrp();
     Command liftElevatorToScale = new AutoLiftCmdGrp(0.5, CubeLift.Positions.ScoreScale);
-    Command driveToScale = new DrivePathCmd(LeftSideCloseTwoScaleTurnInPlacePaths.toScale, true);
+    Command driveToScale = new DrivePathCmd(LeftSideCloseTwoScaleTurnInPlacePaths.toScale, false);
     Command scoreCube = new ScoreCmdGrp();
     Command turnTowardsSwitch = new CounterCWAngleTurnCmd(LeftSideCloseTwoScaleTurnInPlacePaths.turnToSwitch);
     Command bringElevatorToIntake = new RunToPositionMotionMagicCmd(CubeLift.Positions.Intake);
@@ -32,7 +32,7 @@ public class LeftSideCloseTwoScaleTurnInPlaceSlowFastAuto extends CommandGroup {
     Command scoreCubeAgain = new ScoreCmdGrp();
 
 
-    public LeftSideCloseTwoScaleTurnInPlaceSlowFastAuto() {
+    public LeftSideCloseTwoScaleTurnInPlaceFastFastAuto() {
         /*addSequential(intakeDown);
         addSequential(new WaitCommand(0.25));
         addSequential(secureCube);

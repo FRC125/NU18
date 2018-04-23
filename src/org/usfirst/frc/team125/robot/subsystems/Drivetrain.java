@@ -43,7 +43,7 @@ public class Drivetrain extends Subsystem {
 
     //Gyro logging for driving
     double lastHeadingError = 0.0;
-    final double TURN_TO_ANGLE_TOLERANCE = 5.0;
+    final double TURN_TO_ANGLE_TOLERANCE = 2.5;
     private double totalAngleError = 0.;
     private static final double minimumTurnToAngleDebounce = 0.2; // Is 2 seconds too long???
     private DebouncedBoolean turnToAngleDebouncer = new DebouncedBoolean(minimumTurnToAngleDebounce);
@@ -310,12 +310,15 @@ public class Drivetrain extends Subsystem {
         DrivetrainProfiling.last_gyro_error = angleDifference;
 
         if (left != null && !left.isFinished()) {
-            SmartDashboard.putNumber("Left diff", left.getSegment().x + this.getEncoderDistanceMetersLeft());
+            SmartDashboard.putNumber("Left diff", left.getSegment().x - this.getEncoderDistanceMetersLeft());
+            SmartDashboard.putNumber("Right diff", right.getSegment().x - this.getEncoderDistanceMetersRight());
             SmartDashboard.putNumber("Left set vel", left.getSegment().velocity);
             SmartDashboard.putNumber("Left set pos", left.getSegment().x);
+            SmartDashboard.putNumber("Left set pos not x but y", left.getSegment().y);
             SmartDashboard.putNumber("Left calc voltage", l);
             SmartDashboard.putNumber("Commanded seg heading", left.getHeading());
             SmartDashboard.putNumber("Left + turn", l + turn);
+            SmartDashboard.putNumber("Right - turn", r - turn);
             SmartDashboard.putNumber("Left seg acceleration", left.getSegment().acceleration);
             SmartDashboard.putNumber("Path angle offset", DrivetrainProfiling.path_angle_offset);
             SmartDashboard.putNumber("Angle offset w/ new path angle offset", angleDifference + DrivetrainProfiling.path_angle_offset);
@@ -348,11 +351,11 @@ public class Drivetrain extends Subsystem {
         public static double kp = 0.8; //1.2;
         public static double kd = 0.0;
         public static double gp = 0.0375; // 0.0375
-        public static double tp = -0.06; // 0.0375
+        public static double tp = -0.0425; // 0.0375
         public static double gd = 0.0; //0.0025
-        public static double td = -0.0045; //0.0025
+        public static double td = -0.0025; //0.0025
         public static double ki = 0.0;
-        public static double ti = -0.001;
+        public static double ti = -0.0001;
 
         //Gyro logging for motion profiling
         public static double last_gyro_error = 0.0;

@@ -13,7 +13,6 @@ public class GenericAuto5 extends CommandGroup {
 
     Command turnInPlace = new CounterCWAngleTurnCmd(LeftSideFarTwoScaleTurnInPlacePaths.turnToSwitch);
     Command driveToSwitch = new DrivePathCmd(LeftSideFarTwoScaleTurnInPlacePaths.toSwitch, false);
-    Command backOffSwitch = new DrivePathReverseCmd(LeftSideFarTwoScaleTurnInPlacePaths.backOffSwitch, false);
     Command turnInPlace2 = new CounterCWAngleTurnCmd(LeftSideFarTwoScaleTurnInPlacePaths.turnToScale);
     Command driveToScaleAgain = new DrivePathCmd(LeftSideFarTwoScaleTurnInPlacePaths.toScaleAgain,false);
 
@@ -22,7 +21,6 @@ public class GenericAuto5 extends CommandGroup {
         addSequential(new WaitCommand(0.25));
         addSequential(driveToSwitch);
         addSequential(new WaitCommand(0.8));
-        //addSequential(backOffSwitch);
         addSequential(turnInPlace2);
         addSequential(driveToScaleAgain);
     }

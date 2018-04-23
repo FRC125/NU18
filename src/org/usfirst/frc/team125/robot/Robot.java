@@ -24,11 +24,12 @@ import org.usfirst.frc.team125.robot.commands.Groups.Autos.CompAutos.SwitchOnlyA
 import org.usfirst.frc.team125.robot.commands.Groups.Autos.CompAutos.SwitchToScaleAutos.*;
 import org.usfirst.frc.team125.robot.commands.Groups.Autos.CompAutos.TwoScaleAutos.*;
 import org.usfirst.frc.team125.robot.commands.Groups.Autos.CompAutos.TwoScaleAutos.Special.LeftSideCloseTwoScaleFastFastSpecialAuto;
+import org.usfirst.frc.team125.robot.commands.Groups.Autos.CompAutos.TwoScaleAutos.TurnInPlaceAutos.LeftSideCloseTwoScaleTurnInPlaceFastFastAuto;
+import org.usfirst.frc.team125.robot.commands.Groups.Autos.CompAutos.TwoScaleAutos.TurnInPlaceAutos.LeftSideFarTwoScaleTurnInPlaceSlowFastAuto;
 import org.usfirst.frc.team125.robot.commands.Groups.Autos.CompAutos.TwoScaleAutos.Variable.LeftSideFarTwoScaleSlowFastVariableAuto;
-import org.usfirst.frc.team125.robot.commands.Groups.Autos.GenericAuto2;
 import org.usfirst.frc.team125.robot.commands.Groups.Autos.GenericAuto3;
-import org.usfirst.frc.team125.robot.commands.Groups.Autos.GenericAuto4;
 import org.usfirst.frc.team125.robot.commands.Groups.Autos.GenericAuto5;
+import org.usfirst.frc.team125.robot.commands.Groups.Autos.TurnInPlaceAuto;
 import org.usfirst.frc.team125.robot.subsystems.*;
 
 public class Robot extends IterativeRobot {
@@ -56,6 +57,7 @@ public class Robot extends IterativeRobot {
         TwoScale,
         TwoScaleVariable,
         TwoScaleSpecial,
+        TurnInPlaceTwoScale,
         Situational,
         DoNothing,
     }
@@ -116,6 +118,11 @@ public class Robot extends IterativeRobot {
 
     Command rightTwoScaleCloseAuto = new RightSideCloseTwoScaleAuto();
 
+    //Turn in Place
+    Command leftTwoScaleCloseTurnInPlaceAuto = new LeftSideCloseTwoScaleTurnInPlaceFastFastAuto();
+    Command leftTwoScaleFarTurnInPlaceAuto = new LeftSideFarTwoScaleTurnInPlaceSlowFastAuto();
+
+
     //Switch to Scale
     Command centerLeftSwitchLeftScaleAuto = new CenterLeftSwitchLeftScaleAuto();
     Command centerLeftSwitchLeftScaleFastAuto = new CenterLeftSwitchLeftScaleFastAuto();
@@ -130,10 +137,10 @@ public class Robot extends IterativeRobot {
     Command centerRightSwitchRightScaleFastAuto = new CenterRightSwitchRightScaleFastAuto();
 
     //Situational
-    Command driveStraightAuto = new DriveStraightAuto();
+    Command driveStraightAuto = new TurnInPlaceAuto();
 
     //Generic
-    Command genericAuto = new GenericAuto5();
+    Command genericAuto = new GenericAuto3();
 
     @Override
     public void robotInit() {
@@ -158,6 +165,7 @@ public class Robot extends IterativeRobot {
         autoSelector.addObject("Two Scale", Autos.TwoScale);
         autoSelector.addObject("Two Scale Variable", Autos.TwoScaleVariable);
         autoSelector.addObject("Two Scale Special", Autos.TwoScaleSpecial);
+        autoSelector.addObject("Turn In Place Two Scale", Autos.TurnInPlaceTwoScale);
         autoSelector.addObject("Situational", Autos.Situational);
         autoSelector.addObject("Do Nothing", Autos.DoNothing);
 
@@ -355,6 +363,19 @@ public class Robot extends IterativeRobot {
                     break;
             }
         }
+        else if(autoSelector.getSelected().equals(Autos.TurnInPlaceTwoScale)) {
+            switch (gameData.substring(1, 2)) {
+                case "L":
+                    autoCommand = leftTwoScaleCloseTurnInPlaceAuto;
+                    break;
+                case "R":
+                    autoCommand = leftTwoScaleFarTurnInPlaceAuto;
+                    break;
+                default:
+                    autoCommand = new WaitCommand(15);
+                    break;
+            }
+        }
         else if(autoSelector.getSelected().equals(Autos.TwoScaleSpecial)) {
             switch (gameData.substring(1, 2)) {
                 case "L":
@@ -452,7 +473,7 @@ public class Robot extends IterativeRobot {
         }
         */
         //TODO: REMOVE THIS LINE
-        autoCommand = genericAuto;
+        //autoCommand = genericAuto;
         autoCommand.start();
         SmartDashboard.putString("Chosen Auto", autoCommand.toString());
     }
