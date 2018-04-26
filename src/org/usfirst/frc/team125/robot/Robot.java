@@ -24,6 +24,7 @@ import org.usfirst.frc.team125.robot.commands.Groups.Autos.CompAutos.SwitchOnlyA
 import org.usfirst.frc.team125.robot.commands.Groups.Autos.CompAutos.SwitchToScaleAutos.*;
 import org.usfirst.frc.team125.robot.commands.Groups.Autos.CompAutos.TwoScaleAutos.*;
 import org.usfirst.frc.team125.robot.commands.Groups.Autos.CompAutos.TwoScaleAutos.Special.LeftSideCloseTwoScaleFastFastSpecialAuto;
+import org.usfirst.frc.team125.robot.commands.Groups.Autos.CompAutos.TwoScaleAutos.Special.LeftSideFarJustDriveSlowFastAuto;
 import org.usfirst.frc.team125.robot.commands.Groups.Autos.CompAutos.TwoScaleAutos.TurnInPlaceAutos.LeftSideCloseTwoScaleTurnInPlaceFastFastAuto;
 import org.usfirst.frc.team125.robot.commands.Groups.Autos.CompAutos.TwoScaleAutos.TurnInPlaceAutos.LeftSideFarTwoScaleTurnInPlaceSlowFastAuto;
 import org.usfirst.frc.team125.robot.commands.Groups.Autos.CompAutos.TwoScaleAutos.Variable.LeftSideFarTwoScaleSlowFastVariableAuto;
@@ -115,6 +116,8 @@ public class Robot extends IterativeRobot {
     Command leftTwoScaleFarSlowFastVariableAuto = new LeftSideFarTwoScaleSlowFastVariableAuto();
 
     Command leftTwoScaleCloseFastFastSpecialAuto = new LeftSideCloseTwoScaleFastFastSpecialAuto();
+
+    Command leftSideFarJustDriveSlowFastAuto = new LeftSideFarJustDriveSlowFastAuto();
 
     Command rightTwoScaleCloseAuto = new RightSideCloseTwoScaleAuto();
 
@@ -379,10 +382,10 @@ public class Robot extends IterativeRobot {
         else if(autoSelector.getSelected().equals(Autos.TwoScaleSpecial)) {
             switch (gameData.substring(1, 2)) {
                 case "L":
-                    autoCommand = leftTwoScaleCloseFastFastSpecialAuto;
+                    autoCommand = leftTwoScaleCloseFastFastAuto;
                     break;
                 case "R":
-                    autoCommand = leftTwoScaleFarSlowFastAuto;
+                    autoCommand = leftSideFarJustDriveSlowFastAuto;
                     break;
                 default:
                     autoCommand = new WaitCommand(15);
@@ -473,7 +476,7 @@ public class Robot extends IterativeRobot {
         }
         */
         //TODO: REMOVE THIS LINE
-        //autoCommand = genericAuto;
+        //autoCommand = leftTwoScaleCloseFastFastAuto;
         autoCommand.start();
         SmartDashboard.putString("Chosen Auto", autoCommand.toString());
     }

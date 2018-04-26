@@ -7,12 +7,12 @@ public class CenterRightPath {
 
     public static Waypoint[] toSwitch = new Waypoint[]{
             new Waypoint(0.0, 0.0, Pathfinder.d2r(0.0)),
-            new Waypoint(2.7, -0.9, Pathfinder.d2r(0.0)),
+            new Waypoint(2.8, -0.9, Pathfinder.d2r(0.0)),
     };
 
     public static Waypoint[] reverse_goBack = new Waypoint[]{
             new Waypoint(0.0, 0.0, Pathfinder.d2r(0.0)),
-            new Waypoint(2.0, 1.2, Pathfinder.d2r(0.0)),
+            new Waypoint(2.1, 1.2, Pathfinder.d2r(0.0)),
     };
 
     public static Waypoint[] toCube = new Waypoint[]{
@@ -22,12 +22,12 @@ public class CenterRightPath {
 
     public static Waypoint[] reverse_backOffCube = new Waypoint[]{
             new Waypoint(0.0, 0.0, Pathfinder.d2r(0.0)),
-            new Waypoint(0.5, 0.0, Pathfinder.d2r(0.0)),
+            new Waypoint(0.9, 0.0, Pathfinder.d2r(0.0)),
     };
 
     public static Waypoint[] toSwitchAgain = new Waypoint[]{
             new Waypoint(0.0, 0.0, Pathfinder.d2r(0.0)),
-            new Waypoint(1.85, -1.2, Pathfinder.d2r(0.0)),
+            new Waypoint(2.4, -1.2, Pathfinder.d2r(0.0)),
     };
 
     public static Waypoint[] backOffSwitch = new Waypoint[]{

@@ -32,8 +32,8 @@ public class MotoredDoubleLift extends Subsystem {
         this.doubleLiftMain.setNeutralMode(NeutralMode.Brake);
         this.doubleLiftSlave.setNeutralMode(NeutralMode.Brake);
 
-        this.doubleLiftMain.setInverted(true);
-        this.doubleLiftSlave.setInverted(false);
+        this.doubleLiftMain.setInverted(false);
+        this.doubleLiftSlave.setInverted(true);
     }
 
     public void analogLift(double pow) {

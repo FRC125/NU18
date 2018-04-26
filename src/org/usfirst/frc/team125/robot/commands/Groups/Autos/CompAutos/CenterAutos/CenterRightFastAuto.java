@@ -66,7 +66,7 @@ public class CenterRightFastAuto extends CommandGroup {
         addSequential(driveToSwitchAgain);
         addSequential(scoreCubeAgain);
 
-        //Third Cube
+        /*Third Cube
         addSequential(new WaitCommand(0.4));
         addSequential(backOffSwitch);
         addParallel(bringEleToIntakeAgain);
@@ -78,6 +78,7 @@ public class CenterRightFastAuto extends CommandGroup {
         addSequential(turnTowardsSwitch);
         addSequential(driveToSwitchAgainAgain);
         addSequential(scoreCubeAgainAgain);
+        */
     }
 
 }

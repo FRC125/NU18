@@ -66,8 +66,9 @@ public class OI {
 
     public void checkTriggers() {
         if (getOpLeftTrigger() >= 0.5) {
-            new ReleaseCarrierCmd().start();
-            new IntakeDownCmd().start();
+            new UnpinCmd().start();
+            //new ReleaseCarrierCmd().start();
+            //new IntakeDownCmd().start();
         }
         if (getOpRightTrigger() >= 0.5) {
             //new LiftLiftCmd().start();
@@ -98,8 +99,8 @@ public class OI {
         secureCube.whenPressed(new SecureCubeCmdGrp());
         //toggleElevatorPin.whenPressed(new TogglePinCmd());
         toggleIntakePistonInOrOut.whenPressed(new ToggleIntakeSolenoidCmd());
-        runEleClimb.whenPressed(new RunToPositionMotionMagicCmd(CubeLift.Positions.ClimbingBar));
-        climb.whenPressed(new ChinUpCmdGrp());
+        //runEleClimb.whenPressed(new RunToPositionMotionMagicCmd(CubeLift.Positions.ClimbingBar));
+        //climb.whenPressed(new ChinUpCmdGrp());
         dropLift.whileHeld(new RepelLiftCmd());
 
         /* Driver Control */
