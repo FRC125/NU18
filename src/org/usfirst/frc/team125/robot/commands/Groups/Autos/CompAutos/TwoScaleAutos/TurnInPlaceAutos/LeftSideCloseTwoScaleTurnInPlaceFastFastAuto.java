@@ -31,6 +31,12 @@ public class LeftSideCloseTwoScaleTurnInPlaceFastFastAuto extends CommandGroup {
     Command driveToScaleAgain = new DrivePathCmd(LeftSideCloseTwoScaleTurnInPlacePaths.toScaleAgain, false);
     Command scoreCubeAgain = new ScoreCmdGrp();
 
+    //Backups
+    Command driveBackOffScale = new DrivePathReverseCmd(LeftSideCloseTwoScaleTurnInPlacePaths.reverse_backUpFromScale, false);
+    Command driveBackOffSwitch = new DrivePathReverseCmd(LeftSideCloseTwoScaleTurnInPlacePaths.reverse_backUpFromSwitch, false);
+
+
+
 
     public LeftSideCloseTwoScaleTurnInPlaceFastFastAuto() {
         /*addSequential(intakeDown);
@@ -41,9 +47,9 @@ public class LeftSideCloseTwoScaleTurnInPlaceFastFastAuto extends CommandGroup {
         addSequential(driveToScale);
         addSequential(scoreCube);
         addSequential(new WaitCommand(0.4));
-        addSequential(turnTowardsSwitch);
         addParallel(bringElevatorToIntake);
-        addSequential(new WaitCommand(1));
+        addSequential(turnTowardsSwitch);
+        addSequential(new WaitCommand(0.5));
         addParallel(driveToSwitch);
         addSequential(intakeCube);
         addParallel(liftElevatorToScaleAgain);

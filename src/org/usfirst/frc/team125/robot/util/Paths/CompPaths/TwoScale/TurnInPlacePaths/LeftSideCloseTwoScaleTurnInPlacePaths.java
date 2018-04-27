@@ -14,18 +14,29 @@ public class LeftSideCloseTwoScaleTurnInPlacePaths {
             new Waypoint(6.5, -0.9, Pathfinder.d2r(0.0)),
     };
 
-    public static final double turnToSwitch = 200;
+    public static Waypoint[] reverse_backUpFromScale = new Waypoint[]{
+            new Waypoint(0.0, 0.0, Pathfinder.d2r(0.0)),
+            new Waypoint(0.5, 0.0, Pathfinder.d2r(0.0)),
+    };
+
+
+    public static final double turnToSwitch = 180;
 
     public static Waypoint[] toSwitch = new Waypoint[]{
             new Waypoint(0.0, 0.0, Pathfinder.d2r(0.0)),
-            new Waypoint(2.6 - AutoPathsConstants.DRIVETRAIN_LENGTH, 0.0, Pathfinder.d2r(0.0)),
+            new Waypoint(1.95 - AutoPathsConstants.DRIVETRAIN_LENGTH, 0.0, Pathfinder.d2r(0.0)),
+    };
+
+    public static Waypoint[] reverse_backUpFromSwitch = new Waypoint[]{
+            new Waypoint(0.0, 0.0, Pathfinder.d2r(0.0)),
+            new Waypoint(0.5, 0.0, Pathfinder.d2r(0.0)),
     };
 
     public static final double turnToScale = -180;
 
     public static Waypoint[] toScaleAgain = new Waypoint[]{
             new Waypoint(0.0, 0.0, Pathfinder.d2r(0.0)),
-            new Waypoint(2.6 - AutoPathsConstants.DRIVETRAIN_LENGTH, 0.0, Pathfinder.d2r(-0.0)),
+            new Waypoint(2.2 - AutoPathsConstants.DRIVETRAIN_LENGTH, 0.0, Pathfinder.d2r(-0.0)),
     };
 
 }

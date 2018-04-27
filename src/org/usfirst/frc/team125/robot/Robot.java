@@ -27,6 +27,7 @@ import org.usfirst.frc.team125.robot.commands.Groups.Autos.CompAutos.TwoScaleAut
 import org.usfirst.frc.team125.robot.commands.Groups.Autos.CompAutos.TwoScaleAutos.Special.LeftSideFarJustDriveSlowFastAuto;
 import org.usfirst.frc.team125.robot.commands.Groups.Autos.CompAutos.TwoScaleAutos.TurnInPlaceAutos.LeftSideCloseTwoScaleTurnInPlaceFastFastAuto;
 import org.usfirst.frc.team125.robot.commands.Groups.Autos.CompAutos.TwoScaleAutos.TurnInPlaceAutos.LeftSideFarTwoScaleTurnInPlaceSlowFastAuto;
+import org.usfirst.frc.team125.robot.commands.Groups.Autos.CompAutos.TwoScaleAutos.Variable.LeftSideCloseNullScoreFastFastAuto;
 import org.usfirst.frc.team125.robot.commands.Groups.Autos.CompAutos.TwoScaleAutos.Variable.LeftSideFarTwoScaleSlowFastVariableAuto;
 import org.usfirst.frc.team125.robot.commands.Groups.Autos.GenericAuto3;
 import org.usfirst.frc.team125.robot.commands.Groups.Autos.GenericAuto5;
@@ -118,6 +119,8 @@ public class Robot extends IterativeRobot {
     Command leftTwoScaleCloseFastFastSpecialAuto = new LeftSideCloseTwoScaleFastFastSpecialAuto();
 
     Command leftSideFarJustDriveSlowFastAuto = new LeftSideFarJustDriveSlowFastAuto();
+
+    Command leftSideCloseNullScoreAuto = new LeftSideCloseNullScoreFastFastAuto();
 
     Command rightTwoScaleCloseAuto = new RightSideCloseTwoScaleAuto();
 
@@ -356,10 +359,10 @@ public class Robot extends IterativeRobot {
         } else if(autoSelector.getSelected().equals(Autos.TwoScaleVariable)) {
             switch (gameData.substring(1, 2)) {
                 case "L":
-                    autoCommand = leftTwoScaleCloseFastFastAuto;
+                    autoCommand = leftTwoScaleCloseTurnInPlaceAuto;
                     break;
                 case "R":
-                    autoCommand = leftTwoScaleFarSlowFastVariableAuto;
+                    autoCommand = leftSideFarJustDriveSlowFastAuto;
                     break;
                 default:
                     autoCommand = new WaitCommand(15);
@@ -382,7 +385,7 @@ public class Robot extends IterativeRobot {
         else if(autoSelector.getSelected().equals(Autos.TwoScaleSpecial)) {
             switch (gameData.substring(1, 2)) {
                 case "L":
-                    autoCommand = leftTwoScaleCloseFastFastAuto;
+                    autoCommand = leftTwoScaleCloseTurnInPlaceAuto;
                     break;
                 case "R":
                     autoCommand = leftSideFarJustDriveSlowFastAuto;

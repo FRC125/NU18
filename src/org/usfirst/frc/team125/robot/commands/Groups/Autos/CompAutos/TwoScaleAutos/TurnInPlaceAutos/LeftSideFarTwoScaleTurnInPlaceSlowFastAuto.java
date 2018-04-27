@@ -6,6 +6,7 @@ import edu.wpi.first.wpilibj.command.WaitCommand;
 import org.usfirst.frc.team125.robot.commands.CubeLift.RunToPositionMotionMagicCmd;
 import org.usfirst.frc.team125.robot.commands.Drivetrain.CounterCWAngleTurnCmd;
 import org.usfirst.frc.team125.robot.commands.Drivetrain.DrivePathCmd;
+import org.usfirst.frc.team125.robot.commands.Drivetrain.DrivePathReverseCmd;
 import org.usfirst.frc.team125.robot.commands.Groups.AutoLiftCmdGrp;
 import org.usfirst.frc.team125.robot.commands.Groups.IntakeCmdGrp;
 import org.usfirst.frc.team125.robot.commands.Groups.ScoreCmdGrp;
@@ -30,6 +31,10 @@ public class LeftSideFarTwoScaleTurnInPlaceSlowFastAuto extends CommandGroup {
     Command driveToScaleAgain = new DrivePathCmd(LeftSideFarTwoScaleTurnInPlacePaths.toScaleAgain, false);
     Command scoreCubeAgain = new ScoreCmdGrp();
 
+    //Backups
+    Command driveBackOffScale = new DrivePathReverseCmd(LeftSideFarTwoScaleTurnInPlacePaths.reverse_backUpFromScale, false);
+    Command driveBackOffSwitch = new DrivePathReverseCmd(LeftSideFarTwoScaleTurnInPlacePaths.reverse_backUpFromSwitch, false);
+
 
     public LeftSideFarTwoScaleTurnInPlaceSlowFastAuto() {
         /*addSequential(intakeDown);
@@ -40,9 +45,9 @@ public class LeftSideFarTwoScaleTurnInPlaceSlowFastAuto extends CommandGroup {
         addSequential(driveToScale);
         addSequential(scoreCube);
         addSequential(new WaitCommand(0.4));
-        addSequential(turnTowardsSwitch);
         addParallel(bringElevatorToIntake);
-        addSequential(new WaitCommand(1));
+        addSequential(turnTowardsSwitch);
+        addSequential(new WaitCommand(0.5));
         addParallel(driveToSwitch);
         addSequential(intakeCube);
         addParallel(liftElevatorToScaleAgain);
