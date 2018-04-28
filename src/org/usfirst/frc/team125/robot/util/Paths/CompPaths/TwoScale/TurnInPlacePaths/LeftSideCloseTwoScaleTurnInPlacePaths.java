@@ -24,7 +24,7 @@ public class LeftSideCloseTwoScaleTurnInPlacePaths {
 
     public static Waypoint[] toSwitch = new Waypoint[]{
             new Waypoint(0.0, 0.0, Pathfinder.d2r(0.0)),
-            new Waypoint(1.95 - AutoPathsConstants.DRIVETRAIN_LENGTH, 0.0, Pathfinder.d2r(0.0)),
+            new Waypoint(2.0 - AutoPathsConstants.DRIVETRAIN_LENGTH, 0.0, Pathfinder.d2r(0.0)),
     };
 
     public static Waypoint[] reverse_backUpFromSwitch = new Waypoint[]{
